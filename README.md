@@ -1,6 +1,6 @@
 # Aircraft-Aeroelastic-Control-Benchmark
 
-**This project is  _under construction_** 
+**This repository is _under construction_** 
 
 This comprehensive benchmark allows to couple a MATLAB
 control framework to the SHARPy nonlinear aeroelastic
