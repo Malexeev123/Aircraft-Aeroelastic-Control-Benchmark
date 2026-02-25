@@ -1,0 +1,5 @@
+[parameters]
+pazy_model_ROM = 40
+[sim_info]
+case = pazy_modal
+path_to_data = /home/maxal/Research/TestBenchPazy/output/pazy_modal

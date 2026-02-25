@@ -1,0 +1,673 @@
+% %% coupled_openloop_sim.m  — drop-in, uses your architecture
+% clear; clc; close all;
+% 
+% cfg = nominalConfig;
+% cfg.sim.storeSens = false;
+% 
+% % --- models -------------------------------------------------------------
+% aero = AeroFlex.aero.AeroROM(cfg);
+% beam = AeroFlex.beam.BeamModel(cfg);
+% base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
+% 
+% % rigid parameters/EOM
+% rgParam     = RigidBody.methods.paramsRigid_PazyUAV();
+% rigidPlant  = RigidBody.methods.EOM(cfg, rgParam);
+% 
+% % --- trim (your coupled routine) ---------------------------------------
+% if cfg.trim.do
+%     trim = RigidBody.methods.CoupledTrim.TrimRBwFlex(cfg,beam,aero,base);
+% else
+%     error('Enable cfg.trim.do to compute trim first.');
+% end
+% %%
+% % --- flexible plant wrappers -------------------------------------------
+% cfg.ctrl.Ts      = 0.0025;
+% sim       = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% FlexPlant = AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
+% idx       = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
+% 
+% % --- initial states -----------------------------------------------------
+% % Rigid: initialize with trimmed orientation, forward U_inf
+% eul_trim   = trim.states(end-2:end);         % [phi;theta;psi]
+% q0         = eul2quat(eul_trim.');
+% xRigid     = [ q0.' ; cfg.flight.U_inf; 0; 0 ; 0; 0; 0 ; 0; 0; 0 ];
+% 
+% % Flex: start at trimmed state and keep ROM deflections at trim
+% xFlex = trim.states;
+% u_ctrl = trim.deltaDeg * pi/180;             % controller inputs in rad
+% 
+% % Thrust: ONLY into rigid EOM (fuselage prop assumption)
+% T = trim.thrust;                             
+% uExt.uB = [T;0;0];
+% 
+% % Gust profile
+% gust_profile = aero.gust_input;
+% 
+% % --- loop setup ---------------------------------------------------------
+% dt   = cfg.sim.dt;
+% Nt   = round(cfg.sim.t_end/dt);
+% time = (0:Nt-1)*dt;
+% 
+% % Logs
+% xRigid_log = zeros(numel(xRigid), Nt);
+% eul_log    = zeros(3,Nt);
+% clamp6_log = zeros(6,Nt);
+% 
+% % --- main simulation ----------------------------------------------------
+% for k = 1:Nt
+%     t = time(k);
+% 
+%     % Gust & wing control (open-loop hold at trim)
+%     g_k = gust_profile( max(1, min(numel(gust_profile), round(t/dt)+1)) ); %#ok<NASGU>
+%     u_k = u_ctrl;
+% 
+%     % 1) Advance FLEXIBLE ROM one step (keep its chi consistent with rigid)
+%     %    SimRunner uses IMEX/ROMIntegrator internally
+%     % xFlex = AeroFlex.sim.PlantRunTime.step( u_k, 0.0, "ROM");  % 0.0 => no gust for now
+%     cfg.trim.thrust = beam.red.phi1_sA.'*[trim.thrust; 0; 0;0;0;0];
+% 
+%     plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, xFlex); 
+%     xFlex = plant.step(u_ctrl, g_k, "ROM");
+%     % enforce ROM attitude = rigid attitude (body drives wing)
+%     eul_rigid = quat2eul(xRigid(1:4).');
+%     xFlex(idx.chi) = eul_rigid(:);
+% 
+%     % 2) Compute wing root resultant from ROM (action on wing)
+%     xNp       = AeroFlex.sim.nonlinear_terms(xFlex, FlexPlant.parConst, idx);
+%     xFlex_dot = xNp + FlexPlant.L*xFlex;
+%     mRes      = beam.Pr * xFlex_dot(idx.q1);                 % modal -> 6
+%     clamp6    = beam.red.phi1_sA * mRes;                     % [Fx;Fy;Fz;Mx;My;Mz] on WING
+%     % force & moment on fuselage/body is opposite:
+%     Fwing = -clamp6(1:3);
+%     Mwing = -clamp6(4:6);
+% 
+%     % 3) Tail/fin aerodynamics (simple small-angle models)
+%     u = xRigid(5); w = xRigid(7);
+%     % V = max(0.1, sqrt(u^2 + xRigid(6)^2 + w^2));             % body airspeed magnitude
+%     V = sqrt(u^2 + xRigid(6)^2 + w^2);             % body airspeed magnitude
+%     alpha_tail = atan2(w, u);                                % AoA for tail
+%     [F_tail, M_tail] = tailAeroForceMoment(V, alpha_tail, 0, cfg);
+%     [F_fin , M_fin ] = finAeroForceMoment (V, 0, 0, cfg);
+%     % thrust & weight in body axes
+%     % uExt.uB = [trim.thrust; 0; 0];     % thrust along +X body
+%     % Wb = [0; 0; cfg.rigidEOMset.mass*9.807];   % +Z down
+%     % 4) Compose loads to rigid and integrate
+%     uExt.F = Fwing + F_tail + F_fin;
+%     uExt.M = Mwing + M_tail + M_fin;
+% 
+%     [xRigid,~] = rigidPlant.step(xRigid, uExt, dt);
+% 
+%     % 5) Write the rigid attitude back to ROM for the next step
+%     xFlex(idx.chi) = quat2eul(xRigid(1:4).');
+% 
+%     % 6) Logs
+%     xRigid_log(:,k) = xRigid;
+%     eul_log(:,k)    = quat2eul(xRigid(1:4).').';
+%     clamp6_log(:,k) = clamp6;
+% end
+% 
+% % --- plots --------------------------------------------------------------
+% figure(1); clf
+% subplot(3,1,1), plot(time,rad2deg(eul_log(2,:))), grid on, ylabel('\theta [deg]'), title('Rigid-body Euler angles (ZYX)')
+% subplot(3,1,2), plot(time,rad2deg(eul_log(1,:))), grid on, ylabel('\phi [deg]')
+% subplot(3,1,3), plot(time,rad2deg(eul_log(3,:))), grid on, ylabel('\psi [deg]'), xlabel('t [s]')
+% 
+% figure(2); clf
+% subplot(2,1,1), plot(time, xRigid_log(5:7,:).'), grid on, ylabel('V_b [m/s]'), legend('u','v','w');ylim([-100 100]);title('Rigid translational velocity')
+% subplot(2,1,2), plot(time, xRigid_log(8:10,:).'), grid on, ylabel('\omega_b [rad/s]');ylim([-100 100]);legend('p','q','r')
+% 
+% figure(3); clf
+% plot(time, xRigid_log(11:13,:).'), grid on, ylabel('Position [m]'), legend('x','y','z');ylim([-100 100]); title('Rigid position'), xlabel('t [s]')
+% 
+% figure(4); clf
+% plot(time, clamp6_log(1:3,:).'), grid on, ylabel('Clamp Forces [N]'), legend('Fx','Fy','Fz'), title('Wing root resultant (mirrored)')
+% 
+% figure(5); clf
+% plot(time, clamp6_log(4:6,:).'), grid on, ylabel('Clamp Moments [N·m]'), legend('Mx','My','Mz'), title('Wing root resultant (mirrored)')
+% 
+% % ---------- local aero helpers (same style you had) --------------------
+% function [F_tail, M_tail] = tailAeroForceMoment(U, alpha, delta_e, cfg)
+%     rho = 1.225; S_t = 0.035; l_t = 0.6; CL_a = 4.4; i_t = 0.0;
+%     q   = 0.5*rho*U^2;
+%     CLt = CL_a*(alpha - i_t - delta_e);
+%     Lt  = q*S_t*CLt;                      % +Z down; lift up => negative Z
+%     CD0 = 0.01; e=0.8; AR = 4.0;
+%     Dt  = q*S_t*(CD0 + CLt^2/(pi*e*AR));
+%     F_tail = [-Dt; 0; -Lt];
+%     M_tail = [0; +Lt*l_t; 0];
+% end
+% function [F_fin, M_fin] = finAeroForceMoment(~,~,~,~), F_fin=[0;0;0]; M_fin=[0;0;0]; end
+
+clear; clc; close all;
+
+% -------------------- Configuration & models ---------------------------
+cfg = nominalConfig;
+% cfg = GLAConfig(cfg);
+cfg.ctrl.Ts      = 0.0025;
+
+cfg.sim.storeSens = false;            % no sensitivities for open-loop
+cfg.NetworkPath = 1;
+
+% Core subsystems (existing architecture)
+aero  = AeroFlex.aero.AeroROM(cfg);
+beam  = AeroFlex.beam.BeamModel(cfg);
+base  = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
+rgPrm = RigidBody.methods.paramsRigid_PazyUAV();
+rigid = RigidBody.methods.EOM(cfg, rgPrm);
+cfg.rigidEOMset = rigid;              % make available to helpers
+aoaRef = cfg.flight.aoa_deg*pi/180;
+
+idx   = AeroFlex.core.buildIndexStruct(beam.Nm, aero.Na);
+% beam.Sigma = -ones(size(beam.Sigma)); % Temp Dampings
+
+% -------------------- Trim (your coupled trim) -------------------------
+if cfg.trim.do
+    trim = RigidBody.methods.CoupledTrim.TrimRBwFlex(cfg, beam, aero, base);
+else
+    error('This script assumes you start from a trimmed state (cfg.trim.do = true).');
+end
+
+%% -------------------- Simulation helpers -------------------------------
+% Consistent ROM RHS (uses same inputs as the integrator)
+% cfg.trim = trim;
+flex_rhs = @(xFlex,u_ctrl,gust, thrust) flexRHS_dot(xFlex,u_ctrl,gust, thrust,cfg,beam,aero,base,idx);
+% Mirror single-wing clamp to both wings
+mirrorClamp = @(Clamp6L) diag([1,-1,1,-1,1,-1]) * Clamp6L + Clamp6L;
+
+% Optional visualization of FEM + rigid parts
+plotFEM = AeroFlex.core.plotDOFSandActiveNodes(beam, aero, rgPrm);
+plotFEM.showWingAndRigidBody;
+
+% -------------------- Initialize states --------------------------------
+% Flexible: start at trim
+xFlex = trim.states;                        % ROM state at trim
+u_ctrl = zeros(4,1);                        % control deflection [δL; δR; δ̇L; δ̇R]
+if isfield(trim,'deltaDeg')
+    % u_ctrl(1:2) = deg2rad(trim.deltaDeg(1:2));  % radians
+    u_ctrl(1:2) = trim.deltaDeg(1:2);  % radians
+end
+u_ctrl(3:4) = 0;                            % no rates in open-loop
+
+% Rigid: use trimmed orientation; speed aligned with +X body
+% eul0  = xFlex(end-2:end);                   % [phi theta psi] from ROM
+eul0  = xFlex(end-2:end)+ [0;aoaRef;0];                   % [phi theta psi] from ROM
+% eul0(2)  = deg2rad(trim.alphaDeg);                   % [phi theta psi] from ROM
+q0    = eul2quat(eul0.');
+xRB   = [ q0.'; cfg.flight.U_inf; 0; 0; 0; 0; 0; 0; 0; 0 ];
+uExt  = struct('uB',[trim.thrust;0;0], 'F',zeros(3,1), 'M',zeros(3,1));
+
+% Gust input (your AeroROM supplies it)
+gust_profile = aero.gust_input;
+
+% -------------------- Time discretization ------------------------------
+dt   = cfg.sim.dt;                          % use ROM integrator dt
+Nt   = round(cfg.sim.t_end/dt);
+time = (0:Nt)*dt;
+
+% -------------------- Logs ---------------------------------------------
+xFlexHist = zeros(numel(xFlex), Nt+1); xFlexHist(:,1) = xFlex;
+xRBHist   = zeros(numel(xRB)  , Nt+1); xRBHist(:,1)   = xRB;
+uHist     = zeros(4, Nt);               % deflections (constant here)
+gustHist  = zeros(1, Nt);
+ClampHist = zeros(6, Nt);               % mirrored clamp at the root (body axes)
+tailHist  = zeros(6, Nt);               % [F;M] tail+fin
+
+% -------------------- Main loop (open-loop gust) -----------------------
+for k = 1:Nt
+    t_k = (k-1)*dt;
+
+    % 1) Gust at this step
+    g_k = gust_profile( min(1+round(t_k/cfg.sim.dt), length(gust_profile)) );
+    g_k = 0; % No Gust
+    gustHist(k) = g_k;
+
+    % 2) Step the flexible ROM one IMEX step using PlantRunTime
+    
+    % cfg.trim.thrust = beam.red.phi1_sA.'*[uExt.uB;0;0;0];
+    plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, xFlex); 
+    xFlex = plant.step(u_ctrl, g_k, "ROM");
+    xFlexHist(:,k+1) = xFlex;
+
+    % 3) Clamp loads from flexible ROM (use SAME inputs to evaluate RHS)
+    xdot      = flex_rhs(xFlex, u_ctrl, g_k, uExt.uB);
+    q1dot     = xdot(idx.q1);
+    mAtA      = beam.Pr * q1dot;                 % modal reaction at A-section
+    % mAtA      =  q1dot;                 % modal reaction at A-section
+    Clamp6_L  = beam.red.phi1_sA * mAtA;         % 6×1 clamp resultant (single wing)
+    % Clamp6    = mirrorClamp(Clamp6_L);           % represent both wings
+    Clamp6  = beam.red.phi1_sA * mAtA;         % 6×1 clamp resultant (single wing)
+    % Temp
+    % Clamp6(5) = 0;  % This works somewhat rn
+    % Clamp6(4) = 0;  % This works somewhat rn
+    % Clamp6 = - Clamp6;
+
+    ClampHist(:,k) = Clamp6;
+
+    % 4) Simple tail/fin aerodynamics from rigid AoA
+    u = xRB(5); v = xRB(6); w = xRB(7);
+    % Vmag   = max(1e-3, sqrt(u^2+v^2+w^2));
+    Vmag   = sqrt(u^2+v^2+w^2);
+    % Body Z is down; positive alpha (nose-up) ~ -w/u for small angles
+    % alphaR = -atan2(w, max(1e-3,u));
+    alphaR = -atan2(w, u);
+    [F_tail, M_tail] = tailAeroForceMoment(Vmag, alphaR, 0, cfg);
+    [F_fin , M_fin ] = finAeroForceMoment (Vmag, 0      , 0, cfg);
+    FtM_tailfin = [F_tail+F_fin; M_tail+M_fin];
+    tailHist(:,k) = FtM_tailfin;
+
+    % 5) Build rigid-body external resultant (do NOT add weight here)
+    uExt.F = Clamp6(1:3) + F_tail + F_fin;
+    uExt.M = Clamp6(4:6) + M_tail + M_fin;
+
+    % 6) Advance rigid body one step
+    xRB = rigid.step(xRB, uExt, dt);
+    % Normalize quaternion to prevent drift
+    xRB(1:4) = xRB(1:4)/norm(xRB(1:4));
+    xRBHist(:,k+1) = xRB;
+
+    % 7) (Optional) keep u_ctrl constant; log it
+    uHist(:,k) = u_ctrl;
+end
+
+% -------------------- Plots --------------------------------------------
+qRB = xRBHist(1:4,:).'; eulRB = quat2eul(qRB);      % ZYX
+figure(1); clf
+subplot(3,1,1); plot(time, rad2deg(eulRB(:,2)),'LineWidth',1.2); grid on
+ylabel('\theta [deg]'); title('Rigid-body Euler angles (ZYX)')
+subplot(3,1,2); plot(time, rad2deg(eulRB(:,1)),'LineWidth',1.2); grid on
+ylabel('\phi [deg]');
+subplot(3,1,3); plot(time, rad2deg(eulRB(:,3)),'LineWidth',1.2); grid on
+ylabel('\psi [deg]'); xlabel('t [s]');
+
+figure(2); clf
+subplot(2,1,1);
+plot(time, xRBHist(5:7,:),'LineWidth',1.2); grid on
+ylabel('V_b [m/s]'); legend('u','v','w'); ylim([-100 100]);title('Rigid translational velocity')
+subplot(2,1,2);
+plot(time, xRBHist(8:10,:),'LineWidth',1.2); grid on
+ylabel('\omega_b [rad/s]'); ylim([-100 100]);legend('p','q','r');
+
+figure(3); clf
+plot(time, xRBHist(11:13,:),'LineWidth',1.2); grid on
+ylabel('Position [m]'); legend('x','y','z');ylim([-100 100]); title('Rigid position'); xlabel('t [s]');
+
+figure(4); clf
+plot(time(1:end-1), ClampHist(1:3,:),'LineWidth',1.2); grid on
+ylabel('Clamp Forces [N]'); legend('Fx','Fy','Fz'); title('Wing root resultant (mirrored)')
+
+figure(5); clf
+plot(time(1:end-1), ClampHist(4:6,:),'LineWidth',1.2); grid on
+ylabel('Clamp Moments [N·m]'); legend('Mx','My','Mz'); title('Wing root resultant (mirrored)'); xlabel('t [s]');
+
+% ------------- Local helpers (self-contained, no undefined calls) -------------
+function xdot = flexRHS_dot(xFlex,u_ctrl,gust,T,cfg,beam,aero,base,idx)
+    % Evaluate ROM RHS with the SAME inputs used during integration.
+    % cfg.trim.thrust = beam.red.phi1_sA.'*[T;0;0;0];
+    RP = AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);   % consistent parConst+L
+    pc = RP.parConst;
+    pc.u_ctrl = u_ctrl;
+    pc.gust   = gust;
+    xdot = AeroFlex.sim.nonlinear_terms(xFlex, pc, idx) + RP.L*xFlex;
+end
+
+function [F_tail, M_tail] = tailAeroForceMoment(U, alpha, delta_e, cfg)
+    % Small-angle, rigid tail model (replace later with your H-tail ROM if needed)
+    rho = 1.225;     S_t = 0.035;  l_t = 0.6;  CL_a = 4.4;   % per rad
+    i_t = 0.0;       q = 0.5*rho*U^2;
+    CLt = CL_a*(alpha - i_t - delta_e);
+    Lt  = q*S_t*CLt;                   % +Z down, so lift up is -Z
+    % crude drag just to keep signs reasonable (optional)
+    CD0 = 0.01; e = 0.8; AR = 4.0; CD = CD0 + CLt^2/(pi*e*AR);
+    Dt  = q*S_t*CD;
+    F_tail = [-Dt; 0; -Lt];
+    M_tail = [0;  Lt*l_t; 0];          % nose-up (+My) when tail lifts up
+end
+
+function [F_fin, M_fin] = finAeroForceMoment(U, beta, rudder, cfg)
+    % Placeholder (kept zero). Add weathercock stability later if desired.
+    F_fin = [0;0;0]; M_fin = [0;0;0];
+end
+
+
+% % clear ; clc;
+% % close all;
+% % % Will add comments later
+% % cfg = nominalConfig;
+% % cfg.sim.storeSens = true;           % true if also want ∂x/∂x0
+% % cfg.NetworkPath = 1;
+% % 
+% % aero = AeroFlex.aero.AeroROM(cfg);
+% % beam = AeroFlex.beam.BeamModel(cfg);
+% % rgParam = RigidBody.methods.paramsRigid_PazyUAV();
+% % base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
+% % rigidPlant = RigidBody.methods.EOM(cfg, rgParam);
+% % R6EoM = RigidBody.methods.EOM(cfg, rgParam);
+% % cfg.rigidEOMset = rigidPlant;
+% % 
+% % idx = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
+% % 
+% % % Plot Wing FEM and Rigid
+% % plotFEM = AeroFlex.core.plotDOFSandActiveNodes(beam, aero, rgParam);
+% % % plotFEM.showWingWithChord;
+% % plotFEM.showWingAndRigidBody;
+% % % plotFEM.plotPazySystem;
+% % % plotFEM.plotNodes3D_V2; 
+% % % plotFEM.plotNodes3D;
+% % 
+% % % beam.Sigma = -eye(size(beam.Sigma)); % Temp Dampings
+% % 
+% % if cfg.trim.do
+% %     % trim = AeroFlex.sim.trimAircraft(cfg,beam,aero,base);
+% %     trim = RigidBody.methods.CoupledTrim.TrimRBwFlex(cfg,beam,aero,base);
+% % end
+% % %% State Derivatives at sA
+% % sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% % 
+% % FlexPlant = AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
+% % xNp = AeroFlex.sim.nonlinear_terms(trim.states,FlexPlant.parConst,idx);
+% % xFlex_dot = xNp + FlexPlant.L*trim.states;
+% % mForces_Sa = beam.Pr*xFlex_dot(idx.q1);
+% % Forces_Sa = beam.red.phi1_sA*mForces_Sa;
+% % 
+% % uExt.F = Forces_Sa(1:3); 
+% % uExt.M = Forces_Sa(4:6); 
+% % 
+% % %% Control & Estimation 
+% % cfg = GLAConfig(cfg);
+% % cfg.ny = cfg.ctrl.n_surf*cfg.ctrl.var_per;
+% % cfg.nw = 1;
+% % cfg.trim.states = trim.states;
+% % % Temp
+% % cfg.trim.Uinpt = zeros(4,1);
+% % cfg.xL = sim.cfg.xL;
+% % cfg.xU = sim.cfg.xU;
+% % % cfg.xL = -inf;  
+% % % cfg.xU = inf;
+% % % --- handles -----------------------------------------------------------
+% % cfg.modelHandle     = @(cfg,beam,aero,base) ...
+% %                       AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
+% % cfg.sensorHandle    = @(beam,cfg) AeroFlex.sensor.WingVelSensor(beam,cfg);
+% % cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHEv2(cfg,beam,aero,base);
+% % % cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHEv3(cfg,beam,aero,base);
+% % cfg.controllerHandle= @(cfg)      AeroFlex.ctrl.nMPC(cfg,beam,aero,base);
+% % 
+% % % --- instantiate -------------------------------------------------------
+% % plant = AeroFlex.sim.PlantRunTime(cfg,beam,aero,base,trim.states);
+% % est   = cfg.estimatorHandle(cfg);
+% % ctrl  = cfg.controllerHandle(cfg);
+% % 
+% % % ---- 4. MAIN LOOP -----------------------------------------------------
+% % Nt = round(cfg.sim.t_end/cfg.ctrl.Ts);
+% % % u_prev = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+% % u_prev = trim.deltaDeg;
+% % gust_profile = aero.gust_input;
+% % % gust_profile = -1*aero.gust_input;
+% % trueGust = zeros(1,Nt);
+% % estGust  = zeros(1,Nt);
+% % % estTip = zeros(length(x0),Nt);
+% % % XHist = zeros(length(x0), Nt);
+% % wHorizon = zeros(cfg.ctrl.Ne, Nt);
+% % uHorizon =  zeros(cfg.ctrl.Nc*cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
+% % Uhist = zeros(4,Nt);
+% % %
+% % % uExt.F = zeros(3,1); 
+% % % uExt.F = [0;0;-10]; % negative Z in up direction
+% % % uExt.M = zeros(3,1); 
+% % % uExt.uB = zeros(3,1);
+% %     % x = [ q0 q1 q2 q3  u v w  p q r xx xy xz]'    (4 + 3 + 3+3)
+% %     %        quat      vel     ang-vel position
+% % % uExt.uB = [0;0;0];
+% % uExt.uB = [trim.thrust;0;0];
+% % FlexPlant.parConst.u_ctrl = trim.deltaDeg;
+% % % quat_init = base.xi_bar(1,:);
+% % eul_init = trim.states(end-2:end);
+% % quat_init = eul2quat(eul_init.');
+% % x = [quat_init.'; ...           %1;0;0;0;
+% %     cfg.flight.U_inf;0;0; ... 
+% %     0;0;0; ...
+% %     0;0;0];
+% % dt =cfg.ctrl.Ts ;
+% % % dt =cfg.sim.dt ;
+% % % Ts = 10;
+% % time = 0:dt:cfg.sim.t_end;
+% % 
+% % xhist = zeros(length(x),length(time));
+% % eulHist = zeros(3,length(time));
+% % rHist = zeros(3,length(time));
+% % x_nFlex = trim.states;
+% % xFlexHist = zeros(length(x_nFlex), length(time));
+% % for i = 1:Nt
+% % 
+% %     [z_k, t_k] = plant.readSensors(cfg,  zeros(cfg.ny,Nt));      % 1) get measurement
+% %     g_k = gust_profile( round(t_k/cfg.sim.dt)+1 ); % Real gust
+% %     % g_k = 0;
+% % 
+% %     u_k = u_prev;
+% % 
+% %     Vx= x(5);
+% %     % Vx= x(6);
+% % 
+% %     x_nFlex =  plant.step(u_k,g_k,"ROM"); 
+% %     xFlexHist(:, i)= x_nFlex;
+% % 
+% %     xNp = AeroFlex.sim.nonlinear_terms(x_nFlex,FlexPlant.parConst,idx);
+% %     xFlex_dot = xNp + FlexPlant.L*x_nFlex;
+% %     mForces_Sa = beam.Pr*xFlex_dot(idx.q1);
+% %     % mForces_Sa = xFlex_dot(idx.q1);
+% %     Forces_Sa = beam.red.phi1_sA*mForces_Sa;
+% %     % Forces_Sa = beam.red.phi1_sA*(mForces_Sa+cfg.rigid.a*cfg.flight.b_ref^2*sim.parConst.forces_0);
+% %     alpha = quat2eul(x(1:4).');
+% %     delta_e = 0;
+% %     [F_tail, M_tail] = tailAeroForceMoment(Vx, alpha(2), delta_e, cfg);
+% %     [F_fin,  M_fin ] = finAeroForceMoment (Vx, 0.0  , 0.0 , cfg);    % set to zeros if unused
+% % 
+% %     aeroForcesRig = RigidBody.methods.rigidAeroDyn(alpha(2), delta_e, cfg);
+% % 
+% % 
+% %     % uExt.F = Forces_Sa(1:3); 
+% %     % uExt.M = Forces_Sa(4:6);
+% %     q_inf = 0.5*cfg.flight.rho*cfg.flight.U_inf^2;
+% %     % 
+% %     % uExt.F = q_inf*cfg.flight.b_ref^2*Forces_Sa(1:3)+aeroForcesRig.F_tail+aeroForcesRig.F_fin; 
+% %     % uExt.M = q_inf*cfg.flight.b_ref^2*Forces_Sa(4:6)+aeroForcesRig.M_tail+aeroForcesRig.M_fin; 
+% %     uExt.F = Forces_Sa(1:3)+F_tail+F_fin; 
+% %     uExt.M = Forces_Sa(4:6)+M_tail+M_fin; 
+% %     x(1:4) = eul2quat(x_nFlex(idx.chi).');
+% % 
+% % 
+% %     %%
+% % 
+% % 
+% %     x_n = rigidPlant.step(x,uExt,dt);
+% %     xhist(:,i+1) = x_n;
+% %     x = x_n;
+% % 
+% % 
+% %     q= x(1:4).';
+% %     eul = quat2eul(q);
+% %     eulHist(:, i+1) = eul.';
+% %     rHist(:,i+1) = x(11:13);
+% % end
+% % 
+% % %% Plots
+% % % ------------------ Euler -------------------------------
+% % figure(1); clf
+% % subplot(3,1,1); plot(time,rad2deg(eulHist(1,:)));  grid on
+% % ylabel('\theta  [deg]'); title('Rigid–body pitch response')
+% % 
+% % subplot(3,1,2); plot(time,rad2deg(eulHist(2,:)));  grid on
+% % ylabel('\phi  [deg]');
+% % 
+% % subplot(3,1,3); plot(time,rad2deg(eulHist(3,:)));  grid on
+% % ylabel('\psi  [deg]'); xlabel('t  [s]');
+% % % --------------------- Velocities ------------------------------
+% % 
+% % figure(2); clf
+% % subplot(2,1,1); plot(time,xhist(5,:));  hold on;
+% % plot(time,xhist(6,:)); plot(time,xhist(7,:)); hold off; grid on
+% % ylabel('Vel.  [m/s]'); ylim([-100 100]) ;
+% % title('Rigid–body velocity response'); legend('Vx', ...
+% %     'Vy', 'Vz')
+% % 
+% % subplot(2,1,2); plot(time,xhist(8,:));  hold on;
+% % plot(time,xhist(9,:)); plot(time,xhist(10,:)); hold off; grid on
+% % ylabel('Angular Vel  [rad/s]'); title('Rigid–body angular velocity response')
+% % legend('Wx', 'Wy', 'Wz')
+% % 
+% % % --------------------- Position (r) ------------------------------
+% % figure(3); clf
+% % plot(time,xhist(11,:)); hold on;
+% % plot(time,xhist(12,:)); plot(time,xhist(13,:)); hold off; grid on;
+% % ylabel('Position  [m]'); ylim([-100 100]);
+% % title('Rigid–body position response'); legend('rx', ...
+% %     'ry', 'rz')
+% % 
+% % %% Plot orientation angles
+% % figure;
+% % plot(time(1:end-1), rad2deg(xFlexHist(end-2:end,1:end-1)));
+% % 
+% % title('Euler Angles');
+% % xlabel('Time [s]');
+% % ylabel('Angle [deg]');
+% % legend('Roll', 'Pitch', 'Yaw');
+% % 
+% % 
+% % function [F_tail, M_tail] = tailAeroForceMoment(U, alpha, delta_e, cfg)
+% % % Simple linear tail model around small angles                   % tail on body axis (no vertical offset)
+% % rho = 1.225;       % air density (kg/m^3) at sea level
+% % S_t = 0.035;       % tail planform area (m^2)
+% % % l_t = -0.6;         % tail moment arm (m, distance aft of CG)
+% % l_t = 0.6;         % tail moment arm (m, distance aft of CG)
+% % a_t = 4.4;         % tail lift curve slope (per radian)
+% % eta = 0.95;        % elevator effectiveness factor (0 < eta <= 1)
+% % cfg.tail.CD0       = 0.01;                    % zero-lift drag
+% % cfg.tail.e         = 0.8;                     % Oswald efficiency for tail
+% % % rho = cfg.flight.rho;
+% % % S_t = cfg.tail.area;   
+% % % CL_a = cfg.tail.CL_alpha;  % per rad
+% % CL_a = a_t;  % per rad
+% % % l_t = cfg.tail.arm;    
+% % % i_t  = cfg.tail.incidence*pi/180;
+% % i_t  = .01*pi/180;
+% % q   = 0.5*rho*U^2;
+% % CLt = CL_a*(alpha - i_t - delta_e);
+% % 
+% % 
+% % CD_tail = cfg.tail.CD0 + (CLt^2)/(pi * cfg.tail.e * 4);  % simple induced drag, AR~4 (placeholder)
+% % D_tail = q*S_t * CD_tail;
+% % 
+% % Lt  = q*S_t*CLt;                 % +Z (down) convention: lift up => negative Z
+% % % F_tail = [0; 0; -Lt];
+% % F_tail = [-D_tail; 0; -Lt];
+% % M_tail = [0; +Lt*l_t; 0];        % nose-up (+My) when tail lift up
+% % end
+% % 
+% % function [F_fin, M_fin] = finAeroForceMoment(U, beta, rudder, cfg)
+% % % Set to zeros unless you need yaw trim; placeholder included for completeness
+% % F_fin = [0; 0; 0]; M_fin = [0; 0; 0];
+% % end
+% % 
+% % %%
+% % % % [L, blk] = AeroFlex.core.assemble_L_matrix(cfg, beam, aero, base);
+% % % cfg.sim.storeSens = false;           % true if also want ∂x/∂x0
+% % % cfg.trim.do = false;
+% % % % cfg.fJac = AeroFlex.sim.buildNonlinearJacobian(beam.Gamma1,beam.Gamma2,base.Gamma_g,base.Gamma_xi, idx);
+% % % 
+% % % sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% % % 
+% % % x0 = trim.states;   % trim initialization
+% % % 
+% % % [t, x, log, sensEq] = sim.run(x0, cfg.sim.t_end, cfg.sim.storeSens);   % no gust, no control
+% % % %%
+% % % 
+% % % uContinuity = zeros(1, Nt);
+% % % wContinuity = zeros(1, Nt);
+% % % uCost = zeros(1, Nt);
+% % % wCost = zeros(1, Nt);
+% % % 
+% % % x_n = x0;
+% % % for i = 1:Nt
+% % %     % [z_k, t_k] = plant.readSensors();      % 1) get measurement
+% % % 
+% % %     [z_k, t_k] = plant.readSensors(cfg,  log.y);      % 1) get measurement
+% % %     g_k = gust_profile( round(t_k/cfg.sim.dt)+1 ); % Real gust
+% % % 
+% % %     % [xhat,what, info] = est.estimate(z_k,u_prev,t_k);  % 2) observer
+% % %     % w_dist = what(2);
+% % %     % w_dist = what(4);
+% % %     % w_dist = what(end);
+% % %     %%
+% % %     w_dist = g_k;   % Temp for tuning controller sending actual Gust
+% % %     what = repmat(w_dist, cfg.ctrl.Ne,1);
+% % %     xhat = x_n;
+% % %     %%
+% % %     % [u_k,Uinfo] = ctrl.computeControl( xhat , w_dist , u_prev , t_k);
+% % %     u_k = u_prev;
+% % %     % g_k = gust_profile( round(t_k/cfg.sim.dt)+1 );
+% % %     fprintf('Actual gust: %4.2f \n', g_k);
+% % %     fprintf('Completion = %4.2f \n', i/Nt*100);
+% % % 
+% % % 
+% % %     % g_k = gust_profile(t_k);                         % 3) true gust
+% % %     % what = g_k;
+% % % 
+% % %     x_n =  plant.step(u_k,g_k,"ROM");             % 4) propagate plant
+% % %     % XHist(:, k) = x_n;
+% % %     trueGust(i) = g_k;
+% % %     % estGust(k)  = what(end);   % newest slot
+% % %     % wHorizon(:,k) = what;
+% % %     estTip(:, i) = xhat;
+% % %     u_prev = u_k;
+% % %     Uhist(:,i) = u_k;
+% % %     uHorizon(:,i) = Uinfo.uHorizon(:);
+% % % 
+% % %     uContinuity(:,i) = Uinfo.continuity;
+% % %     uCost(:,i) = Uinfo.cost;
+% % %     % 
+% % %     % wCost(:,k) = info.cost;
+% % %     % wContinuity(:,k) = info.continuity;
+% % % 
+% % % 
+% % % end
+% % % %%
+% % % log.U = Uhist;
+% % % log.xhat = estTip;    
+% % % log.wHorizon = wHorizon;  
+% % % log.uHorizon = uHorizon;
+% % % % %% ---- 5. PLOT ----------------------------------------------------------
+% % % % tAxis = (0:Nt-1)*cfg.ctrl.Ts;
+% % % % plot(tAxis,trueGust,'k--',tAxis,estGust,'b','LineWidth',1.4), grid on
+% % % % legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+% % % % title('MHE demo – ROM truth vs observer estimate')
+% % % function [F_tail, M_tail] = tailAeroForceMoment(V, alpha, delta_e)
+% % %     % tailAeroForceMoment - Compute horizontal tail aerodynamic force and moment.
+% % %     % 
+% % %     % Inputs:
+% % %     %   V       - Airspeed (m/s)
+% % %     %   alpha   - Angle of attack at tail (radians)
+% % %     %   delta_e - Elevator deflection (radians, positive = trailing-edge DOWN)
+% % %     %
+% % %     % Outputs:
+% % %     %   F_tail  - 3x1 force vector [Fx; Fy; Fz] from tail in body frame (N)
+% % %     %   M_tail  - 3x1 moment vector [Mx; My; Mz] from tail about CG in body frame (N·m)
+% % %     %
+% % %     % This function models the tail lift and pitching moment for pitch stability.
+% % %     % Assumes small angles (linear lift), no tail stall, and no wing downwash.
+% % %     % The tail is independent of any flexible wing control surfaces.
+% % %     %
+% % %     % Define constants (tail parameters and air density)
+% % %     rho = 1.225;       % air density (kg/m^3) at sea level
+% % %     S_t = 0.035;       % tail planform area (m^2)
+% % %     l_t = 0.6;         % tail moment arm (m, distance aft of CG)
+% % %     a_t = 4.4;         % tail lift curve slope (per radian)
+% % %     eta = 0.95;        % elevator effectiveness factor (0 < eta <= 1)
+% % %     % Compute dynamic pressure
+% % %     q = 0.5 * rho * V^2;
+% % %     % Compute tail lift force (positive = upward)
+% % %     L_tail = q * S_t * a_t * (alpha + eta * delta_e);
+% % %     % Tail force in body frame (assuming +Z axis is downward)
+% % %     F_tail = [0; 0; -L_tail];
+% % %     % Tail moment about CG in body frame (assuming +My is nose-up)
+% % %     % M_tail = [0; -L_tail * l_t; 0];
+% % %     M_tail = [-L_tail * l_t;0; 0];
+% % % end

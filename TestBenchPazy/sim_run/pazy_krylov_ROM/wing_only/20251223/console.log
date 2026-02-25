@@ -1,0 +1,189 @@
+=== sim_run started 2025-12-23 16:42:01 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 16:42:21 (status: OK) ===
+=== sim_run started 2025-12-23 16:51:54 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 16:52:12 (status: OK) ===
+=== sim_run started 2025-12-23 16:54:41 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 16:54:59 (status: OK) ===
+=== sim_run started 2025-12-23 16:56:26 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 16:56:46 (status: OK) ===
+=== sim_run started 2025-12-23 16:58:11 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 16:58:31 (status: OK) ===
+=== sim_run started 2025-12-23 17:00:12 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 17:00:33 (status: OK) ===
+=== sim_run started 2025-12-23 17:09:06 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run started 2025-12-23 17:59:04 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 190)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 191)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 192)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 199)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 226)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 233)
+In sim_run (line 506)
+Warning: Conversion from double to datatype H5T_NATIVE_DOUBLE may clamp some values.
+> In H5D.write (line 100)
+In h5write (line 176)
+In sim_run (line 525)
+=== sim_run started 2025-12-23 18:01:03 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 190)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 191)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 192)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 199)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 226)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 233)
+In sim_run (line 506)
+Warning: Conversion from double to datatype H5T_NATIVE_DOUBLE may clamp some values.
+> In H5D.write (line 100)
+In h5write (line 176)
+In sim_run (line 525)
+=== sim_run started 2025-12-23 18:03:03 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 190)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 191)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 192)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 199)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 226)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 233)
+In sim_run (line 506)
+Warning: Conversion from double to datatype H5T_NATIVE_DOUBLE may clamp some values.
+> In H5D.write (line 100)
+In h5write (line 176)
+In sim_run (line 525)
+=== sim_run started 2025-12-23 18:17:08 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 190)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 191)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 192)
+In sim_run (line 506)
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 199)
+In sim_run (line 506)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 226)
+In sim_run (line 506)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Imaginary parts of complex X and/or Y arguments ignored.
+> In AeroFlex.sim.postProcess (line 233)
+In sim_run (line 506)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Conversion from double to datatype H5T_NATIVE_DOUBLE may clamp some values.
+> In H5D.write (line 100)
+In h5write (line 176)
+In sim_run (line 525)
+=== sim_run started 2025-12-23 18:19:17 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 18:19:39 (status: OK) ===
+=== sim_run started 2025-12-23 18:21:29 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:21:48 (status: OK) ===
+=== sim_run started 2025-12-23 18:24:27 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:24:46 (status: OK) ===
+=== sim_run started 2025-12-23 18:26:50 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 18:27:10 (status: OK) ===
+=== sim_run started 2025-12-23 18:28:47 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:29:09 (status: OK) ===
+=== sim_run started 2025-12-23 18:30:14 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 18:30:36 (status: OK) ===
+=== sim_run started 2025-12-23 18:32:20 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:32:43 (status: OK) ===
+=== sim_run started 2025-12-23 18:34:22 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:34:44 (status: OK) ===
+=== sim_run started 2025-12-23 18:36:23 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:36:41 (status: OK) ===
+=== sim_run started 2025-12-23 18:38:05 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+=== sim_run finished 2025-12-23 18:38:22 (status: OK) ===
+=== sim_run started 2025-12-23 18:40:25 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 18:40:54 (status: OK) ===
+=== sim_run started 2025-12-23 18:43:16 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251223
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251223
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-12-23 18:43:42 (status: OK) ===

@@ -1,0 +1,10 @@
+26-Nov-25 00:53:16-INFO-SHARPy Error Log
+26-Nov-25 00:53:16-ERROR-Exception occurred
+Traceback (most recent call last):
+  File "/home/maxal/.local/lib/python3.10/site-packages/sharpy/sharpy_main.py", line 142, in main
+    data = solvers[solver_name].run(solvers=solvers)
+  File "/home/maxal/.local/lib/python3.10/site-packages/sharpy/solvers/nonlineardynamic.py", line 73, in run
+    xbeamlib.xbeam_solv_couplednlndyn(self.data.structure, self.settings)
+  File "/home/maxal/.local/lib/python3.10/site-packages/sharpy/structure/utils/xbeamlib.py", line 445, in xbeam_solv_couplednlndyn
+    raise Exception('couplednlndyn did not converge')
+Exception: couplednlndyn did not converge

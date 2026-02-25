@@ -1,0 +1,784 @@
+=== sim_init started at 2025-12-21 17:28:28 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 5425)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:29:08 (status: OK) ===
+=== sim_init started at 2025-12-21 17:35:13 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 9389)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+#1  |Trim Force Res|=24.1053
+FMwing
+    0.2939
+   -0.0222
+  195.3566
+ -778.5509
+ -118.8181
+    7.8972
+
+#2  |Trim Force Res|=17.9079
+FMwing
+    0.2516
+   -0.0171
+  144.8636
+ -668.4551
+ -160.6277
+    6.6683
+
+#3  |Trim Force Res|=9.48532
+FMwing
+   -0.0303
+    0.0106
+  -76.8740
+  320.4520
+    4.8822
+   -1.7969
+
+#4  |Trim Force Res|=11.3541
+FMwing
+    0.0586
+   -0.0080
+   92.3855
+  -34.0892
+  203.5041
+    2.9540
+
+=== sim_init started at 2025-12-21 17:40:58 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 12374)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:41:37 (status: OK) ===
+=== sim_init started at 2025-12-21 17:43:14 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 14693)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:43:58 (status: OK) ===
+=== sim_init started at 2025-12-21 17:45:31 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 16829)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:46:12 (status: OK) ===
+=== sim_init started at 2025-12-21 17:47:32 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 19215)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+#1  |Trim Force Res|=11.554
+FMwing
+   -0.1753
+   -0.0017
+   -5.7926
+  582.0390
+  635.6983
+   -3.8650
+
+#2  |Trim Force Res|=10.1435
+FMwing
+    0.1409
+    0.0019
+    4.1245
+ -492.1069
+ -550.6297
+    3.2479
+
+=== sim_init started at 2025-12-21 17:50:35 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 21281)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:51:20 (status: OK) ===
+=== sim_init started at 2025-12-21 17:51:26 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 22169)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:52:12 (status: OK) ===
+=== sim_init started at 2025-12-21 17:54:43 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 24777)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 17:55:38 (status: OK) ===
+=== sim_init started at 2025-12-21 18:08:16 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 30189)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 18:11:08 (status: OK) ===
+=== sim_init started at 2025-12-21 18:20:45 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 35059)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 18:21:27 (status: OK) ===
+=== sim_init started at 2025-12-21 18:22:15 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 36917)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 18:22:56 (status: OK) ===
+=== sim_init started at 2025-12-21 18:24:47 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 39421)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 18:25:27 (status: OK) ===
+=== sim_init started at 2025-12-21 18:26:35 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251221
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 41321)
+    30
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=30.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000833333
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000833333
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+>>> Building gamma1,gamma2 from oriented cross-sections + compliance...
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.981 rad/s
+starting Structure Test
+Linear Structure Test Done
+    45
+
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Initial AOA = 1 degrees
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+starting Structure-Base Test
+    64    21
+
+          21        5001
+
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1640)
+In sim_init (line 744)
+Warning: Ignoring extra legend entries.
+> In legend>process_inputs (line 575)
+In legend>make_legend (line 294)
+In legend (line 245)
+In sim_init>run_struct_and_base_test (line 1652)
+In sim_init (line 744)
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-12-21 18:27:15 (status: OK) ===

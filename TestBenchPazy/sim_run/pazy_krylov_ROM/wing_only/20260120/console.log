@@ -1,0 +1,303 @@
+=== sim_run started 2026-01-20 15:16:52 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    50    51    52
+
+=== sim_run finished 2026-01-20 15:17:14 (status: OK) ===
+=== sim_run started 2026-01-20 15:20:30 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    50    51    52
+
+=== sim_run finished 2026-01-20 15:20:49 (status: OK) ===
+=== sim_run started 2026-01-20 15:23:52 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:24:07 (status: OK) ===
+=== sim_run started 2026-01-20 15:26:35 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2026-01-20 15:26:57 (status: OK) ===
+=== sim_run started 2026-01-20 15:28:33 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:28:55 (status: OK) ===
+=== sim_run started 2026-01-20 15:30:05 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:30:26 (status: OK) ===
+=== sim_run started 2026-01-20 15:32:38 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    50    51    52
+
+=== sim_run finished 2026-01-20 15:33:01 (status: OK) ===
+=== sim_run started 2026-01-20 15:34:40 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:35:02 (status: OK) ===
+=== sim_run started 2026-01-20 15:37:13 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:37:32 (status: OK) ===
+=== sim_run started 2026-01-20 15:39:07 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2026-01-20 15:39:29 (status: OK) ===
+=== sim_run started 2026-01-20 15:40:55 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:41:18 (status: OK) ===
+=== sim_run started 2026-01-20 15:43:37 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:43:55 (status: OK) ===
+=== sim_run started 2026-01-20 15:50:25 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260120
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260120
+
+Nnode =
+
+  int64
+
+   16
+
+
+NdofPerNode =
+
+  int64
+
+   6
+
+
+selTip =
+
+    57    58    59
+
+=== sim_run finished 2026-01-20 15:50:44 (status: OK) ===

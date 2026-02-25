@@ -1,0 +1,1716 @@
+=== sim_init started at 2025-11-11 20:49:21 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 39361)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.975 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 20:49:55 (status: OK) ===
+=== sim_init started at 2025-11-11 21:05:35 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 45070)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 326)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 256)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 21:08:23 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 47297)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 326)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 256)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 21:09:17 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 48469)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 326)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 256)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 21:10:32 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 49923)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.964 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 21:11:05 (status: OK) ===
+=== sim_init started at 2025-11-11 21:14:19 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 52217)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=55.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000454545
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000454545
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000454545
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 326)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 256)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 21:25:58 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 56127)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.964 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 21:26:33 (status: OK) ===
+=== sim_init started at 2025-11-11 21:43:30 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 62054)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.975 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 21:44:14 (status: OK) ===
+=== sim_init started at 2025-11-11 22:03:31 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 68687)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:04:09 (status: OK) ===
+=== sim_init started at 2025-11-11 22:24:08 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 76271)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 326)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 256)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 22:25:57 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 77739)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:26:38 (status: OK) ===
+=== sim_init started at 2025-11-11 22:28:55 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 80201)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:29:31 (status: OK) ===
+=== sim_init started at 2025-11-11 22:33:07 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 82729)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:33:43 (status: OK) ===
+=== sim_init started at 2025-11-11 22:35:50 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 84768)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for SimRunner runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:36:26 (status: OK) ===
+=== sim_init started at 2025-11-11 22:38:00 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 86227)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:38:35 (status: OK) ===
+=== sim_init started at 2025-11-11 22:41:19 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 88304)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:41:52 (status: OK) ===
+=== sim_init started at 2025-11-11 22:50:48 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 92896)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:51:23 (status: OK) ===
+=== sim_init started at 2025-11-11 22:56:10 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 95963)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+     1
+
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 22:56:44 (status: OK) ===
+=== sim_init started at 2025-11-11 22:58:00 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 97300)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "aoa_deg".
+Unrecognized field name "aoa_deg".
+
+Error in sim_init (line 197)
+cfg.flight.aoa_deg = cfg.aoa_deg;
+                     ^^^^^^^^^^^
+=== sim_init started at 2025-11-11 22:58:36 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 98155)
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "aoa_deg".
+Unrecognized field name "aoa_deg".
+
+Error in sim_init (line 198)
+cfg.flight.aoa_deg = cfg.aoa_deg;
+                     ^^^^^^^^^^^
+=== sim_init started at 2025-11-11 22:58:56 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 98595)
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "aoa_deg".
+Unrecognized field name "aoa_deg".
+
+Error in sim_init (line 198)
+cfg.flight.aoa_deg = cfg.aoa_deg;
+                     ^^^^^^^^^^^
+=== sim_init started at 2025-11-11 22:59:32 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 99269)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "aoa_deg".
+Unrecognized field name "aoa_deg".
+
+Error in sim_init (line 200)
+cfg.flight.aoa_deg = cfg.aoa_deg;
+                     ^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:00:25 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 100191)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "aoa_deg".
+Unrecognized field name "aoa_deg".
+
+Error in sim_init (line 201)
+cfg.flight.aoa_deg = cfg.aoa_deg;
+                     ^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:00:43 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 100794)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Input must be single or double.
+Error using deg2rad (line 13)
+Input must be single or double.
+
+Error in AeroFlex.beam.compute_pazy_redtest (line 45)
+    aoa_s = deg2rad(aoa)*ones(nPts, 1);
+            ^^^^^^^^^^^^
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 263)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:01:40 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 102047)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+
+[sim_init] ERROR: Unrecognized field name "flight".
+Unrecognized field name "flight".
+
+Error in sim_init (line 202)
+disp(cfg.flight.aoa_deg)
+     ^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:02:50 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 103163)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Input must be single or double.
+Error using deg2rad (line 13)
+Input must be single or double.
+
+Error in AeroFlex.beam.compute_pazy_redtest (line 45)
+    aoa_s = deg2rad(aoa)*ones(nPts, 1);
+            ^^^^^^^^^^^^
+Error in AeroFlex.beam.runRedtestWrapper (line 37)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 264)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:04:22 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 104557)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+   3
+
+next wing
+
+[sim_init] ERROR: Input must be single or double.
+Error using deg2rad (line 13)
+Input must be single or double.
+
+Error in AeroFlex.beam.compute_pazy_redtest (line 45)
+    aoa_s = deg2rad(aoa)*ones(nPts, 1);
+            ^^^^^^^^^^^^
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 264)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:05:26 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 106108)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+   3
+
+
+[sim_init] ERROR: Input must be single or double.
+Error using deg2rad (line 13)
+Input must be single or double.
+
+Error in AeroFlex.beam.compute_pazy_redtest (line 46)
+    aoa_s = deg2rad(aoa)*ones(nPts, 1);
+            ^^^^^^^^^^^^
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 264)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:06:29 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 107682)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 264)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:07:20 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 108852)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 264)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:08:08 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 110103)
+    {'num_aero_states'     }
+    {'num_modes'           }
+    {'u_inf'               }
+    {'simulation_time'     }
+    {'gust_length'         }
+    {'gust_intensity'      }
+    {'num_control_surfaces'}
+    {'n_nodes'             }
+    {'control_input_start' }
+    {'gust_input_start'    }
+    {'aoa_deg'             }
+
+    {'flight' }
+    {'sim'    }
+    {'Nm'     }
+    {'Na'     }
+    {'gust'   }
+    {'ctrl'   }
+    {'n_nodes'}
+
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+   3
+
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+
+[sim_init] ERROR: Input must be single or double.
+Error using deg2rad (line 13)
+Input must be single or double.
+
+Error in AeroFlex.core.solve_baseline_quaternion_xi (line 75)
+    aoa_s = deg2rad(aoa)*ones(nPts, 1);
+            ^^^^^^^^^^^^
+Error in AeroFlex.core.build_xi_coupling (line 52)
+        AeroFlex.core.solve_baseline_quaternion_xi( ...
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 279)
+base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:09:25 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 111496)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+     3
+
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 23:09:58 (status: OK) ===
+=== sim_init started at 2025-11-11 23:11:06 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 113236)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=35.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000714286
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000714286
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.967 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+     3
+
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 23:11:40 (status: OK) ===
+=== sim_init started at 2025-11-11 23:45:23 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 124944)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:46:31 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 126175)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:47:29 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 127464)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.946 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+     4
+
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 23:48:03 (status: OK) ===
+=== sim_init started at 2025-11-11 23:49:29 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 129257)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+All done.
+[sim_init] BeamModel OK: nDofs=102, nFlex=96, Nm=20, first ω=29.946 rad/s
+[sim_init] Building BASE (ξ-coupling)...
+[build_xi_coupling] Nm=20 | size(φξ)=64x21 | Dχ=20x3 | Bχ=80x3
+[sim_init] BASE OK: φξ 64x21, Dχ 20x3, Bχ 80x3
+Beginning steady-state (trim) for case: wingOnly
+     4
+
+[trim] wingOnly: |x0|=144, aoa=NaN deg
+Generating run files for PlantROM runner and assembling L matrix
+=== sim_init finished at 2025-11-11 23:50:05 (status: OK) ===
+=== sim_init started at 2025-11-11 23:51:47 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 131139)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:52:21 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 132330)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:53:25 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 133737)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:54:01 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 134836)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:54:47 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 135976)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:55:16 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 136954)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:55:50 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 137944)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:56:17 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 139001)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_init started at 2025-11-11 23:56:55 ===
+Run folder : /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+Case       : pazy_krylov_ROM
+Body-case  : wingOnly
+MATLAB     : 25.2.0.3042426 (R2025b) Update 1 (PID 140011)
+[sim_init] Loaded SHARPy simulation_parameters.mat
+---- cfg summary ----
+Nm=20, Na=80
+dt=0.000625 s, t_end=1.000 s
+U_inf=40.000 m/s, rho=1.225 kg/m^3, b_ref=0.0500 m
+gust: L=10.000 sec, I=0.0200
+ctrl.n_surf=2
+---------------------
+[sim_init] Building AeroROM from SHARPy savedata...
+[AeroDiscToCont] ROM_dsc: n=80, m=45, p=20, Ts=0.000625
+[AeroDiscToCont] CT: 0 A-entries differ beyond 1e-10.
+[AeroROM] Built: n=80, m=45, p=20, Ts=0.000625
+[sim_init] AeroROM OK: n=80, m=45, p=20, Ts=0.000625
+[sim_init] Building BeamModel from SHARPy cases/savedata...
+[BeamModel] Using K/M from: beam_modal_analysis (Kglobal.dat, Mglobal.dat)
+next wing
+
+[sim_init] ERROR: Alpha 1 diagonal is not Identity
+Error using AeroFlex.beam.compute_pazy_redtest (line 327)
+Alpha 1 diagonal is not Identity
+
+Error in AeroFlex.beam.runRedtestWrapper (line 38)
+[ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_pazy_redtest( ...
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel/buildModalSet (line 184)
+                red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.beam.BeamModel (line 104)
+            obj = obj.buildModalSet(cfg);
+                  ^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_init (line 265)
+beam = AeroFlex.beam.BeamModel(cfg);
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

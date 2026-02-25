@@ -1,0 +1,50 @@
+--------------------------------------------------------------------------------
+            ######  ##     ##    ###    ########  ########  ##    ##
+           ##    ## ##     ##   ## ##   ##     ## ##     ##  ##  ##
+           ##       ##     ##  ##   ##  ##     ## ##     ##   ####
+            ######  ######### ##     ## ########  ########     ##
+                 ## ##     ## ######### ##   ##   ##           ##
+           ##    ## ##     ## ##     ## ##    ##  ##           ##
+            ######  ##     ## ##     ## ##     ## ##           ##
+--------------------------------------------------------------------------------
+Aeroelastics Lab, Aeronautics Department.
+    Copyright (c), Imperial College London.
+    All rights reserved.
+    License available at https://github.com/imperialcollegelondon/sharpy
+Running SHARPy from /home/maxal/Research
+SHARPy being run is in /home/maxal/.local/lib/python3.10/site-packages
+SHARPy output folder set
+	./output//pazy_struct_response/
+Generating an instance of BeamLoader
+Variable for_pos has no assigned value in the settings file.
+    will default to the value: [0.0, 0, 0]
+Generating an instance of NonLinearStatic
+Variable abs_threshold has no assigned value in the settings file.
+    will default to the value: 1e-13
+Variable newmark_damp has no assigned value in the settings file.
+    will default to the value: 0.0001
+Variable gravity_dir has no assigned value in the settings file.
+    will default to the value: [0.0, 0.0, 1.0]
+Variable relaxation_factor has no assigned value in the settings file.
+    will default to the value: 0.3
+Variable dt has no assigned value in the settings file.
+    will default to the value: 0.01
+Variable num_steps has no assigned value in the settings file.
+    will default to the value: 500
+Variable initial_position has no assigned value in the settings file.
+    will default to the value: [0. 0. 0.]
+Variable initial_velocity has no assigned value in the settings file.
+    will default to the value: [0. 0. 0. 0. 0. 0.]
+Generating an instance of NonLinearDynamic
+Variable abs_threshold has no assigned value in the settings file.
+    will default to the value: 1e-13
+Variable newmark_damp has no assigned value in the settings file.
+    will default to the value: 0.0001
+Variable gravity_dir has no assigned value in the settings file.
+    will default to the value: [0, 0, 1]
+Variable relaxation_factor has no assigned value in the settings file.
+    will default to the value: 0.3
+Running non linear dynamic solver with RB...
+
+--- 0.8117825984954834 seconds ---
+Exception raised, writing error log in /home/maxal/Research/TestBenchPazy/output/pazy_struct_response/error.log

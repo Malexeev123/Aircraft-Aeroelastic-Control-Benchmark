@@ -1,0 +1,234 @@
+=== sim_run started 2025-11-11 20:50:02 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run started 2025-11-11 20:50:38 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 20:51:18 (status: OK) ===
+=== sim_run started 2025-11-11 21:11:36 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run started 2025-11-11 21:11:53 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 21:12:28 (status: OK) ===
+=== sim_run started 2025-11-11 21:26:33 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 21:27:14 (status: OK) ===
+=== sim_run started 2025-11-11 21:44:15 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 21:44:59 (status: OK) ===
+=== sim_run started 2025-11-11 22:04:09 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:04:47 (status: OK) ===
+=== sim_run started 2025-11-11 22:17:43 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:18:14 (status: OK) ===
+=== sim_run started 2025-11-11 22:26:38 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:27:17 (status: OK) ===
+=== sim_run started 2025-11-11 22:27:58 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:28:31 (status: OK) ===
+=== sim_run started 2025-11-11 22:29:31 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: The following error was caught while executing 'onCleanup' class destructor:
+Error using matlab.graphics.axis.decorator.NumericRuler/set
+Invalid or deleted object.
+
+Error in matlab.graphics.internal.export.Exporter/resetRulers
+
+Error in matlab.graphics.internal.export.Exporter>@()obj.resetRulers(rulers,origRulerValues,hasLimitsModeProp,origLimitsModeValues)
+
+Error in onCleanup/delete (line 29)
+            obj.task();
+            ^^^^^^^^^^
+Error in matlab.graphics.internal.export.Exporter/generateExportedOutput
+
+Error in matlab.graphics.internal.export.Exporter/process
+
+Error in matlab.graphics.internal.export.exportTo
+
+Error in exportgraphics
+
+Error in AeroFlex.sim.postProcess>local_export_fig (line 266)
+    exportgraphics(fh, png, 'Resolution', 300);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.sim.postProcess>@(fh,base)local_export_fig(fh,fullfile(plots_dir,base)) (line 27)
+save_plot = @(fh, base) local_export_fig(fh, fullfile(plots_dir, base));
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.sim.postProcess (line 191)
+    save_plot(fh, 'modal_qs');
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_run (line 506)
+    out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning: The following error was caught while executing 'onCleanup' class destructor:
+Error using matlab.graphics.internal.export.Exporter.errorIfFigureNotValid
+Unable to print, export, or copy the contents of the figure because the figure is invalid or has been closed.
+
+Error in matlab.graphics.internal.export.Exporter/postExportCleanup
+
+Error in matlab.graphics.internal.export.Exporter>@()obj.postExportCleanup(pj)
+
+Error in onCleanup/delete (line 29)
+            obj.task();
+            ^^^^^^^^^^
+Error in matlab.graphics.internal.export.Exporter/process
+
+Error in matlab.graphics.internal.export.exportTo
+
+Error in exportgraphics
+
+Error in AeroFlex.sim.postProcess>local_export_fig (line 266)
+    exportgraphics(fh, png, 'Resolution', 300);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.sim.postProcess>@(fh,base)local_export_fig(fh,fullfile(plots_dir,base)) (line 27)
+save_plot = @(fh, base) local_export_fig(fh, fullfile(plots_dir, base));
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in AeroFlex.sim.postProcess (line 191)
+    save_plot(fh, 'modal_qs');
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_run (line 506)
+    out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_run started 2025-11-11 22:30:52 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+=== sim_run finished 2025-11-11 22:31:27 (status: OK) ===
+=== sim_run started 2025-11-11 22:33:43 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Setup gust length = 1601, H5 gust length = 1401. SimRunner will use its setup gust.
+> In sim_run (line 327)
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:34:23 (status: OK) ===
+=== sim_run started 2025-11-11 22:36:27 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+[sim_run] ERROR: Index exceeds the number of array elements. Index must not exceed 1401.
+Index exceeds the number of array elements. Index must not exceed 1401.
+
+Error in AeroFlex.sim.SimRunner/run (line 246)
+                    gk = obj.parConst.gust_input(k);      % “true” gust
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in sim_run (line 370)
+                    [t, x, log, sensEq] = simObj.run(x0, Ssim.sim_config.cfg.sim.t_end, u_ctrl, cfg.sim.storeSens);
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=== sim_run started 2025-11-11 22:38:35 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+[sim_run] ERROR: Unrecognized field name "Ts".
+Unrecognized field name "Ts".
+
+Error in AeroFlex.sim.PlantRunTime/step (line 25)
+                    Nint = round(obj.cfg.ctrl.Ts / obj.cfg.sim.dt);
+                                 ^^^^^^^^^^^^^^^
+Error in sim_run (line 392)
+                        x(:,k+1) = plant.step(uk, gk, "ROM");
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:39:00 (status: ERROR) ===
+=== sim_run started 2025-11-11 22:41:52 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:42:17 (status: OK) ===
+=== sim_run started 2025-11-11 22:48:10 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+=== sim_run finished 2025-11-11 22:48:29 (status: OK) ===
+=== sim_run started 2025-11-11 22:49:50 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:50:08 (status: OK) ===
+=== sim_run started 2025-11-11 22:51:24 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 22:51:50 (status: OK) ===
+=== sim_run started 2025-11-11 23:10:02 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 23:10:28 (status: OK) ===
+=== sim_run started 2025-11-11 23:11:40 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 23:12:06 (status: OK) ===
+=== sim_run started 2025-11-11 23:48:04 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 23:48:33 (status: OK) ===
+=== sim_run started 2025-11-11 23:50:05 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 23:50:31 (status: OK) ===
+=== sim_run started 2025-11-11 23:58:04 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251111
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20251111
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+Warning: Exported image displays axes toolbar. To remove axes toolbar from image, export again.
+=== sim_run finished 2025-11-11 23:58:36 (status: OK) ===

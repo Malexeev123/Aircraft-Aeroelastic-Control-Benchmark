@@ -1,0 +1,16 @@
+=== sim_run started 2026-01-09 16:19:28 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260109
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260109
+=== sim_run finished 2026-01-09 16:19:58 (status: OK) ===
+=== sim_run started 2026-01-09 16:26:50 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260109
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260109
+=== sim_run finished 2026-01-09 16:27:18 (status: OK) ===
+=== sim_run started 2026-01-09 16:29:15 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260109
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260109
+=== sim_run finished 2026-01-09 16:29:36 (status: OK) ===
+=== sim_run started 2026-01-09 16:30:39 ===
+setup_dir: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20260109
+run_dir  : /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260109
+=== sim_run finished 2026-01-09 16:31:04 (status: OK) ===

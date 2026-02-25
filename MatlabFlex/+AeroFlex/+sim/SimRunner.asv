@@ -1,0 +1,498 @@
+classdef SimRunner
+    properties
+        cfg, beam, aero, base
+        L                       % linear operator
+        Lfac, Ufac, piv                 % LU factors of (I-γΔt L)   (implicit solve)
+        sens                    % sensitivity matrix S (optional)
+        controller              % (optional)
+        estimator
+        sensor
+
+        idx
+        parConst
+        useRateProjection logical = false
+        Pz   % projector for q1 (Nm×Nm)
+        Pz_q2
+        Pz_qGam
+
+        log, buff, cache_file
+        debug      logical = false          % master switch, true, false
+        dbg        struct       
+        openLoop_sensor 
+    end
+
+    % properties (Constant, Hidden)
+    %     gamma = (2 - sqrt(2))/2;
+    %     delta = -2*sqrt(2)/3;
+    % end
+    % 
+    methods
+        function obj = SimRunner(cfg, beam, aero, base, trim, controller)
+            
+            if  exist('trim', 'var')
+                xTrim  = trim.states;                 %  n × 1
+                % margin = 1.60;                            % 30 % either side
+                margin = 10;                            % 30 % either side
+                % cfg.xL = (1 - margin) .* xTrim;
+                % cfg.xU = (1 + margin) .* xTrim;
+
+                % absFloor = 1e-1;  
+                absFloor = 1;  
+
+                delta   = max(abs(margin .* xTrim) , absFloor);   % n×1 non‑negative
+                cfg.xL      = xTrim - delta;
+                cfg.xU      = xTrim + delta;
+                % absMargin = [1e-3;   1e-2; …];   % vector of per‑state minima
+                % cfg.xL = xTrim - max( abs(margin*xTrim) , absMargin );
+                % cfg.xU = xTrim + max( abs(margin*xTrim) , absMargin );
+            end
+
+            if nargin<6 && strcmp(cfg.case, 'openLoop')
+                controller = []; estimator  =[];
+            else
+                % estimator  = cfg.estimatorHandle(cfg);
+                % controller = cfg.controllerHandle(cfg);            
+            end
+            obj.cfg  = cfg;  obj.beam = beam;  obj.aero = aero;  obj.base = base;
+            % obj.controller = controller; obj.estimator = estimator;
+            [obj.L,~] = AeroFlex.core.assemble_L_matrix(cfg,beam,aero,base);
+
+            % --- IMEX DIRK(2,3,2) coefficients (Kennedy–Carpenter 2003) ----
+
+            gamma = (2 - sqrt(2))/2;
+            % delta = -2*sqrt(2)/3;
+
+            I   = speye(size(obj.L));
+            A  = I - gamma*cfg.sim.dt*obj.L;
+            [obj.Lfac, obj.Ufac, obj.piv] = lu(A,'vector');
+            
+            obj.idx = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
+            
+            % forces0 = beam.eta_e + aero.DataMatrix.forces_aero_beam_dof;
+            forces0 = beam.eta_e + aero.DataMatrix.forces_aero_beam_dof;
+            % forces0 = aero.DataMatrix.forces_aero_beam_dof;
+            % forces0 = beam.eta_e;
+             %── build constant parameter sub‑struct -----------------------
+            obj.parConst = struct( ...
+                'Gamma1',   beam.Gamma1, ...
+                'Gamma2',   beam.Gamma2, ...
+                'Gamma_g',  base.Gamma_g, ...
+                'Gamma_xi', base.Gamma_xi, ...
+                'forces_0', forces0, ...   % steady aero load Nm×1
+                'scaleAero', cfg.flight.a*cfg.flight.t_inf, ...
+                't_inf', cfg.flight.t_inf, ...
+                'scaleA', cfg.flight.a, ...
+                'gustSet', cfg.gust, ...
+                'Bw', aero.forceMap.Bw, ...
+                'Dw', aero.forceMap.Dw, ...
+                'Bdel',  aero.forceMap.B_delta, ...
+                'Ddel',  aero.forceMap.D_delta, ...
+                'Bddel', aero.forceMap.B_ddelta, ...
+                'Dddel', aero.forceMap.D_ddelta, ...
+                'gust_input', aero.gust_input, ...
+                'dt', cfg.sim.dt, ...
+                'Na', aero.Na, ...
+                'SwTest', cfg.SwTest, ...
+                'N_Thrust', cfg.trim.thrust);
+
+            ctrlSurfDefs = size(obj.parConst.Bdel,2) + size(obj.parConst.Bddel,2);
+            obj.sensor = AeroFlex.sensor.WingVelSensor(beam, cfg);
+            obj.cfg.ny = size(obj.sensor.PhiY,1);
+            obj.cfg.nu = ctrlSurfDefs;
+            obj.cfg.nw = size(obj.parConst.Bw,2);
+            
+            if  exist('trim', 'var')
+                obj.log.x(:,1) = trim.states;
+                obj.log.y(:,1) = trim.sensor.y(:, end);
+                trim.w_r = zeros(size(aero.gust_input));
+                obj.cfg.ref = trim;
+
+
+            else
+                obj.log.x(:,1) = zeros(size(I,1), 1);
+                obj.log.y(:,1) = zeros(size(obj.sensor.PhiY,1), 1);
+                obj.cfg.ref = [];
+
+            end
+            obj.cache_file = fullfile(obj.cfg.paths.cache, obj.cfg.case_name);
+
+        % -------------- 1.  SENSOR / DIMENSIONS ----------------------------
+            obj.sensor    = AeroFlex.sensor.WingVelSensor(beam,cfg);
+            cfg.ny        = size(obj.sensor.PhiY,1);
+            cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                          + size(aero.forceMap.B_ddelta,2);
+            cfg.nw        = size(aero.forceMap.Bw,2);
+
+        % -------------- 2.  RING-BUFFER PREALLOC ---------------------------
+        % keep exactly   Nbuf = max(Nc,Ne)+1   time–slots
+            % if ~strcmpi(cfg.case,'openLoop')
+
+            Nbuf          = max(cfg.ctrl.Nc , cfg.ctrl.Ne) + 1;
+            obj.buff = struct(...
+                'X' , zeros(size(obj.L,1)        , Nbuf), ... % states
+                'U' , zeros(cfg.nu               , Nbuf), ... % controls
+                'Y' , zeros(cfg.ny               , Nbuf), ... % outputs
+                'S' , zeros(size(obj.L,1),size(obj.L,1)+1+cfg.nu,Nbuf), ... % STM (optional)
+                't' , zeros(1                     , Nbuf), ...
+                'sensorMat', obj.sensor.PhiY , ...
+                'valid', 0);%, ...
+                % 'testSw', zeros(size(obj.L,1), 1        , Nbuf));                                    % samples inside buffer
+            % end
+            obj.buff.idx   = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
+            obj.cfg.buff = obj.buff;
+    % -------------- 3.  CONTROLLER / ESTIMATOR HANDLES -----------------
+            if ~strcmpi(cfg.case,'openLoop')
+                obj.cfg.maxSam = 1;
+                obj.estimator  = cfg.estimatorHandle(obj.cfg);
+                obj.controller = cfg.controllerHandle(obj.cfg);
+
+                openL_log = load(fullfile(obj.cache_file, 'log'),'log');           % Using openloop sensor log as reference for tuning
+                obj.openLoop_sensor =  openL_log;
+            end
+            obj.useRateProjection = cfg.trim.useRateProjection;
+            obj.Pz   = beam.Pz;
+            % obj.Pz_q2   = beam.Pz_phi2;
+            obj.Pz_q2   = eye(cfg.Nm,cfg.Nm);
+            % obj.Pz_qGam = aero.DataMatrix.aeroPzT;
+            obj.Pz_qGam = eye(cfg.Na,cfg.Na);
+            obj.ParConstobj.useRateProjection
+        end   % constructor
+%───────────────────────────────────────────────────────────────────────────
+        % function [t,X,log,S] = run(obj,x0,tEnd,storeSens)
+        function [t,X,log,S] = run(obj,x0,tEnd,u_ctrl, storeSens)
+        % ------------------------------------------------------------------
+            if nargin<5, storeSens = false; end
+            cfg   = obj.cfg;      dt   = cfg.sim.dt;
+            Nt    = round(tEnd/dt)+1;
+            t     = 0:dt:tEnd;
+
+            X     = zeros(numel(x0),Nt);   X(:,1) = x0;
+            S     = [];                    % optional
+            if storeSens
+                S0 = [eye(numel(x0)) , zeros(numel(x0),1+cfg.nu)];
+                S  = zeros(size(S0,1),size(S0,2),Nt); S(:,:,1)=S0;
+                obj.buff.S(:,:,1)=S0;
+            end
+        % ---------- logger skeleton ---------------------------------------
+            obj.log.t    = t;
+            obj.log.x    = zeros(numel(x0),Nt);
+            obj.log.y    = zeros(cfg.ny     ,Nt);
+            obj.log.U    = zeros(cfg.nu     ,Nt);
+            obj.log.x(:,1)=x0;
+
+        % ---------- helper handles ----------------------------------------
+            gamma = (2-sqrt(2))/2;  delta = -2*sqrt(2)/3;
+            Nx    = size(obj.L,1);
+            if ~strcmpi(cfg.case,'openLoop')
+
+                Nint  = max(1,round(cfg.ctrl.Ts/dt));   % samples per Ts
+            end
+            kSam  = 0;                              % sample-pointer
+            uPrev = zeros(cfg.nu,1);
+            what = [0;0];
+            % debug = true;                          % ← toggle verbose hooks
+            if obj.debug            % pre-allocate ring trace once
+                maxSam = ceil(tEnd/cfg.ctrl.Ts)+1;
+                obj.cfg.maxSam = maxSam; cfg.maxSam = maxSam;
+                obj.dbg = struct('samIdx', zeros(1,maxSam), ...
+                                'tSam', zeros(1,maxSam), ...
+                                'innov', zeros(cfg.ny ,maxSam), ...
+                                'eState', zeros(5 ,maxSam), ...
+                                'contRes', zeros(1,maxSam), ...
+                                'cost', zeros(1,maxSam), ...
+                                'wHorizon', zeros(cfg.ctrl.Ne,maxSam));
+                % obj.dbg.samIdx   = zeros(1,maxSam);          % absolute k of each sample
+                % obj.dbg.tSam     = zeros(1,maxSam);          % sample times
+                % obj.dbg.innov    = zeros(cfg.ny ,maxSam);    % y−Ĉx̂
+                % obj.dbg.eState   = zeros(5       ,maxSam);   % few key states errors
+                % obj.dbg.contRes  = zeros(1,maxSam);          % continuity residual
+                % obj.dbg.cost     = zeros(1,maxSam);          % final cost reported by MHE
+                samCnt = 0;                                  % running pointer
+            end
+            
+        % ******************************************************************
+        %                         MAIN TIME LOOP
+        % ******************************************************************
+            for k = 1:Nt-1
+                x_n    = X(:,k);
+                time_k = t(k);
+
+                % ---------- synthetic measurement -------------------------
+                if strcmpi(cfg.case,'openLoop') | obj.cfg.forceRealSense
+                    % yk = obj.sensor.measure(x_n(obj.idx.q1));           % v_y at sensor positions
+                    zk = obj.sensor.measure(x_n(obj.buff.idx.q1));
+                else
+                    zk = obj.openLoop_sensor.log.y(:,k);
+                end
+            
+                %%
+                % zk_temp = load('sensorLog.mat');
+                % zk = zk_temp.log.y(:,k+1); 
+                % zk = zk_temp.log.y(:,k);
+                %%
+                obj.log.y(:,k) = zk;
+
+                % ---------- Gust & control input preparation --------------
+                if strcmpi(cfg.case,'openLoop') | obj.cfg.forceRealGust
+                    % yk = obj.sensor.measure(x_n(obj.idx.q1));           % v_y at sensor positions
+                    gk = obj.parConst.gust_input(k);      % “true” gust
+                else
+                    % gk = what(1);
+                    % gk = what(2);
+                    % gk = what(end-1);
+                    gk = what(end);
+                end
+                %%
+                if obj.parConst.SwTest ~=0 
+                    gk = obj.parConst.SwTest;
+                end
+                
+                %%
+                obj.parConst.gust = gk;
+                obj.parConst.u_ctrl = u_ctrl;
+                % obj.log.wTrue(:,k) = gk;    
+                obj.log.wTrue(:,k) = obj.parConst.gust_input(k);   
+                % disp('true gust'); disp(obj.parConst.gust_input(k));
+
+                if storeSens, Sn = S(:,:,k); end
+
+                % ---------- IMEX–DIRK integrator --------------------------
+                % stage 1: explicit N
+                k1N = obj.Nonlinear(x_n,obj.idx,obj.parConst)*dt;
+                % project the stage increment for q1
+                k1N = obj.projectStage(k1N);
+
+                if storeSens
+                    [Nq1,Nu1]=AeroFlex.sim.nonlinearJacobian(x_n,obj.idx,obj.parConst);
+                    j1N = dt*(Nq1*Sn + Nu1);
+                     if obj.useRateProjection
+                        j1N(obj.idx.q1,:) = obj.Pz * j1N(obj.idx.q1,:);
+                        j1N(obj.idx.q2,:) = obj.Pz_q2 * j1N(obj.idx.q2,:);
+                        % j1N(obj.idx.qGam,:) = obj.Pz_qGam * j1N(obj.idx.qGam,:);
+
+                     end
+                    rhsS = obj.L*(Sn + gamma*j1N)*dt;
+                    j1L  = obj.solveImplicit(rhsS);
+                    j1L = obj.projectSense(j1L);
+
+                    S1   = Sn + gamma*(j1L+j1N);
+                end
+                % implicit solve for k1L
+                k1L = obj.solveImplicit(obj.L*(x_n+gamma*k1N)*dt);
+                k1L = obj.projectStage(k1L);       
+
+                y1  = x_n + gamma*(k1L+k1N);
+
+                % stage 2
+                k2N = obj.Nonlinear(y1,obj.idx,obj.parConst)*dt;
+                k2N = obj.projectStage(k2N);        
+
+                if storeSens
+                    [Nq2,Nu2] = AeroFlex.sim.nonlinearJacobian(y1,obj.idx,obj.parConst);
+                    j2N = dt*(Nq2*S1+Nu2);
+                    if obj.useRateProjection
+                        j2N(obj.idx.q1,:) = obj.Pz * j2N(obj.idx.q1,:);
+                        j2N(obj.idx.q2,:) = obj.Pz_q2 * j2N(obj.idx.q2,:);
+                        % j2N(obj.idx.qGam,:) = obj.Pz_qGam * j2N(obj.idx.qGam,:);
+                    end
+                    rhsS = obj.L*(Sn+(1-gamma)*j1L+delta*j1N+(1-delta)*j2N)*dt;
+                    j2L  = obj.solveImplicit(rhsS);
+                    j2L = obj.projectSense(j2L);    
+
+                    S2   = Sn+(1-gamma)*j1L+gamma*j2L+delta*j1N+(1-delta)*j2N;
+                end
+                k2L = obj.solveImplicit(obj.L*(x_n+(1-gamma)*k1L+delta*k1N+(1-delta)*k2N)*dt);
+                k2L = obj.projectStage(k2L);        
+
+                % stage 3
+                y2  = x_n+(1-gamma)*k1L+gamma*k2L+delta*k1N+(1-delta)*k2N;
+                k3N = obj.Nonlinear(y2,obj.idx,obj.parConst)*dt;
+                k3N = obj.projectStage(k3N);        % << NEW
+
+                if storeSens
+                    [Nq3,Nu3]=AeroFlex.sim.nonlinearJacobian(y2,obj.idx,obj.parConst);
+                    j3N = dt*(Nq3*S2+Nu3);
+                     if obj.useRateProjection
+                        j3N(obj.idx.q1,:) = obj.Pz * j3N(obj.idx.q1,:);
+                        j3N(obj.idx.q2,:) = obj.Pz_q2 * j3N(obj.idx.q2,:);
+                        % j3N(obj.idx.qGam,:) = obj.Pz_qGam * j3N(obj.idx.qGam,:);
+
+                     end
+                    S_np1 = Sn +(1-gamma)*(j1L+j2N)+gamma*(j2L+j3N);
+                    S(:,:,k+1) = S_np1;
+                    obj.buff.S(:,:,k+1) = S_np1;
+                end
+                x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
+
+                % ---------- ring-buffer push every sample -----------------
+                kBuf = mod(k-1, size(obj.buff.X,2)) + 1;
+                obj.buff.X(:,kBuf) = x_n;
+                % obj.buff.X(:,kBuf) = x_np1;
+                obj.buff.Y(:,kBuf) = zk;
+                obj.buff.U(:,kBuf) = uPrev;
+                obj.buff.t(kBuf)   = time_k;
+                obj.buff.valid     = min(obj.buff.valid+1, size(obj.buff.X,2));
+                % obj.buff.testSw(:,:,kBuf) = Nu3(:,length(x_n)+1);
+                % ---------- raise Ts-events -------------------------------
+                if ~strcmpi(cfg.case,'openLoop') && mod(k,Nint)==0
+                    if kSam == 0
+                        obj.cfg.buff = obj.buff;
+                        obj.estimator  = cfg.estimatorHandle(obj.cfg);
+                        obj.controller = cfg.controllerHandle(obj.cfg);
+                    end
+                    kSam = kSam+1;              % sample counter (monotone!)
+                    % 1) make the chronological window of length Ne
+                    idxWin = obj.windowIdx(kBuf  , cfg.ctrl.Ne, size(obj.buff.X,2));
+                    samBuff = obj.buff;                     % *view* on original
+                    samBuff.idxWrap = @(s) idxWin(1-s);     % redefine wrap
+                    samBuff.valid   = cfg.ctrl.Ne+1;
+                    % 2) estimation
+                    % [xhat,what,info] = obj.estimator.estimate(zk,uPrev,time_k,samBuff);
+                    [xhat,what, info] = obj.estimator.estimate(zk,uPrev,time_k, obj.buff);
+                    % disp('xhat'); disp(norm(xhat));
+                    % 3) control
+                    % uCmd         = obj.controller.computeControl(xhat,time_k,samBuff);
+                    uCmd         =    obj.parConst.u_ctrl;
+                    uPrev        = uCmd;
+                    obj.buff.U(:,kBuf) = uCmd;  % keep buffer consistent
+                    % obj.log.U(:,k)     = uCmd;  % log at full resolution
+                    % obj.log.xhat(:,k)  = xhat;
+                    % obj.log.wEst(:,k)  = what(end);
+                    obj.log.U(:,kSam)     = uCmd;  % log at full resolution
+                    obj.log.xhat(:,kSam)  = xhat;
+                    % obj.log.wEst(:,kSam)  = what(end);
+                    obj.log.wEst(:,kSam)  = what(1);
+                    % obj.log.wEst(:,kSam)  = what(end-1);
+                    % obj.log.wEst(:,kSam)  = what(1);
+                    if obj.debug
+                        fprintf('k=%d  ‖x̂−x‖=%.2e,  ŵ=%.2e\n',k,...
+                               norm(xhat-x_n), what(end));
+                        fprintf('k=%d  ‖x̂−x‖=%.2e,  ŵ=%.2e\n',k,...
+                               norm(xhat-obj.openLoop_sensor.log.x(:,k+1)), what(1));
+                        samCnt = samCnt+1;
+                        obj.dbg.samIdx(samCnt) = k;
+                        obj.dbg.tSam  (samCnt) = time_k;
+                        obj.dbg.innov (:,samCnt)= zk - obj.sensor.measure(xhat(obj.buff.idx.q1));
+                        obj.dbg.eState(:,samCnt)= xhat([1 2 3 4 5]) - x_n([1 2 3 4 5]); % pick 5 key states
+                        obj.dbg.contRes(samCnt)= info.continuity;   % value you already print
+                        obj.dbg.cost    (samCnt)= info.cost;
+                        % if obj.debug && mod(obj.callCnt,10)==0
+                        %    fprintf('‖C∂x‖=%.2e  ‖Sw‖=%.2e\n',norm(Cfull,'fro'),norm(Sw,'fro'));
+                        % end
+
+                        % fprintf('k=%3d  ŵ_now=%+.3f … ŵ_oldest=%+.3f\n',...
+                        %     k, obj.log.wEst(:,end), obj.log.wEst(:,1));
+                         obj.dbg.wHorizon (:,samCnt) = info.wRefPrev;
+
+                    end
+                end
+
+                % ---------- save & continue loop --------------------------
+                X(:,k+1)         = x_np1;
+                obj.log.x(:,k+1) = x_np1;
+            end
+            if obj.debug
+                % trim unused tail
+                fn = fieldnames(obj.dbg);
+                for f = 1:numel(fn), obj.dbg.(fn{f}) = obj.dbg.(fn{f})(: , 1:samCnt); end
+            
+                figure('Name','MHE debug'), tiledlayout(2,2,"padding","compact")
+                nexttile, plot(obj.dbg.tSam, vecnorm(obj.dbg.innov)), grid on
+                          title('innovation ‖y−Ĉx̂‖')
+            
+                nexttile, plot(obj.dbg.tSam, obj.dbg.contRes,'.-'), grid on
+                          title('continuity residual')
+            
+                nexttile, plot(obj.dbg.tSam, obj.dbg.cost,'.-'), grid on
+                          title('MHE final cost')
+            
+                nexttile, plot(obj.dbg.tSam, obj.dbg.eState'), grid on
+                          title('state-error components'), legend('q_1','q_2','…')
+                figure;
+                plot(obj.dbg.tSam, obj.dbg.wHorizon), grid on, title('wHorizon'), legend
+            end
+                
+
+            log = obj.log;
+
+            if strcmpi(cfg.case,'openLoop') & ~cfg.trim.do
+                logfile = fullfile(obj.cache_file, 'log');
+                save(logfile, "log")
+            end
+        end
+%───────────────────────────────────────────────────────────────────────────
+        function idx = windowIdx(obj, kNow,Ne,Nbuf)
+        % Return indices   [k-Ne … k]   in chronological order
+            idx = mod(kNow-1 - (Ne:-1:0), Nbuf) + 1;
+        end
+%───────────────────────────────────────────────────────────────────────────
+        function y = solveImplicit(obj,rhs)
+            z      = rhs(obj.piv,:);     % P*rhs
+            z      = obj.Lfac \ z;
+            y      = obj.Ufac \ z;
+        end
+
+        function f = Nonlinear(obj ,x, idx, parNL)
+            % Wrapper around fast vectorised intrinsic‑beam nonlinear terms.
+            % Nm  = obj.beam.Nm;     Na2 = obj.cfg.Na;
+            f   = AeroFlex.sim.nonlinear_terms(x, parNL, idx);
+            % f = f/obj.cfg.sim.dt;   % convert to derivative form
+        end
+
+        function J = NJacobian(obj,x, idx, parNL)
+            % h  = 1e-6*max(1,norm(x)); n = numel(x); fx = obj.Nonlinear(x); J = zeros(n);
+            % for i = 1:n
+            %     xp = x; xp(i) = xp(i)+h; J(:,i) = (obj.Nonlinear(xp)-fx)/h;
+            % end
+            %NJACOBIAN Finite‑difference Jacobian of Nonlinear() –
+            % expensive but only used when sensitivities are requested.
+            h  = 1e-6; n = numel(x);
+            fx = obj.Nonlinear(x, idx, parNL);
+            J  = zeros(n);
+            for i = 1:n
+                xp     = x; xp(i) = xp(i)+h;
+                J(:,i) = (obj.Nonlinear(xp, idx, parNL) - fx)/h;
+            end
+        end
+        % function enableRateProjection(obj, Pz)
+        %     obj.useRateProjection = true;
+        %     obj.Pz   = Pz;
+        %     % obj.idx  = idx;       % store, we already keep idx, but ensure present
+        % 
+        % end
+        % function disableRateProjection(obj)
+        %     obj.useRateProjection = false;
+        %     % obj.Pz = []; 
+        % end
+        function v = projectStage(obj, v)
+            if ~obj.useRateProjection, return, end
+            % Project q1 increment
+            q1 = obj.idx.q1;
+            v(q1) = obj.Pz * v(q1);
+            % Optional: project q2 (modal velocities)
+            % if ~isempty(obj.Pz_q2) && isfield(obj.idx,'q2') && ~isempty(obj.idx.q2)
+                % q2 = obj.idx.q2;
+                % % v(q2) = obj.Pz_q2 * v(q2);
+                % qG = obj.idx.qGam;
+                % v(qG) = obj.Pz_qGam * v(qG);
+            % end
+        end
+        function v = projectSense(obj, v)
+            if ~obj.useRateProjection, return, end
+            % Project q1 increment
+            q1 = obj.idx.q1;
+            v(q1,:) = obj.Pz * v(q1,:);
+            % Optional: project q2 (modal velocities)
+            % if ~isempty(obj.Pz_q2) && isfield(obj.idx,'q2') && ~isempty(obj.idx.q2)
+            % q2 = obj.idx.q2;
+            % v(q2,:) = obj.Pz_q2 * v(q2,:);
+            % qG = obj.idx.qGam;
+            % v(qG,:) = obj.Pz_qGam * v(qG,:);
+            % end
+        end
+        % function gust_k = gustSignal(k, gust)
+        %     gust_k = gust(k);
+        % end
+        
+    end
+end

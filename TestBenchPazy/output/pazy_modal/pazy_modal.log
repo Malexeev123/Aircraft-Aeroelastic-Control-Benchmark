@@ -1,0 +1,189 @@
+--------------------------------------------------------------------------------
+            ######  ##     ##    ###    ########  ########  ##    ##
+           ##    ## ##     ##   ## ##   ##     ## ##     ##  ##  ##
+           ##       ##     ##  ##   ##  ##     ## ##     ##   ####
+            ######  ######### ##     ## ########  ########     ##
+                 ## ##     ## ######### ##   ##   ##           ##
+           ##    ## ##     ## ##     ## ##    ##  ##           ##
+            ######  ##     ## ##     ## ##     ## ##           ##
+--------------------------------------------------------------------------------
+Aeroelastics Lab, Aeronautics Department.
+    Copyright (c), Imperial College London.
+    All rights reserved.
+    License available at https://github.com/imperialcollegelondon/sharpy
+Running SHARPy from /home/maxal/Research
+SHARPy being run is in /home/maxal/.local/lib/python3.10/site-packages
+SHARPy output folder set
+	./output//pazy_modal/
+Generating an instance of BeamLoader
+Variable for_pos has no assigned value in the settings file.
+    will default to the value: [0.0, 0, 0]
+Generating an instance of AerogridLoader
+Variable initial_align has no assigned value in the settings file.
+    will default to the value: True
+Variable freestream_dir has no assigned value in the settings file.
+    will default to the value: [1.0, 0.0, 0.0]
+Variable control_surface_deflection has no assigned value in the settings file.
+    will default to the value: []
+Variable control_surface_deflection_generator_settings has no assigned value in the settings file.
+    will default to the value: {}
+Variable dx1 has no assigned value in the settings file.
+    will default to the value: -1.0
+Variable ndx1 has no assigned value in the settings file.
+    will default to the value: 1
+Variable r has no assigned value in the settings file.
+    will default to the value: 1.0
+Variable dxmax has no assigned value in the settings file.
+    will default to the value: -1.0
+The aerodynamic grid contains 2 surfaces
+  Surface 0, M=4, N=8
+     Wake 0, M=40, N=8
+  Surface 1, M=4, N=8
+     Wake 1, M=40, N=8
+  In total: 64 bound panels
+  In total: 640 wake panels
+  Total number of panels = 704
+Generating an instance of StaticCoupled
+Variable correct_forces_method has no assigned value in the settings file.
+    will default to the value: 
+Variable correct_forces_settings has no assigned value in the settings file.
+    will default to the value: {}
+Variable runtime_generators has no assigned value in the settings file.
+    will default to the value: {}
+Variable nonlifting_body_interactions has no assigned value in the settings file.
+    will default to the value: False
+Generating an instance of NonLinearStatic
+Variable abs_threshold has no assigned value in the settings file.
+    will default to the value: 1e-13
+Variable newmark_damp has no assigned value in the settings file.
+    will default to the value: 0.0001
+Variable gravity_dir has no assigned value in the settings file.
+    will default to the value: [0.0, 0.0, 1.0]
+Variable relaxation_factor has no assigned value in the settings file.
+    will default to the value: 0.3
+Variable dt has no assigned value in the settings file.
+    will default to the value: 0.01
+Variable num_steps has no assigned value in the settings file.
+    will default to the value: 500
+Variable initial_position has no assigned value in the settings file.
+    will default to the value: [0. 0. 0.]
+Variable initial_velocity has no assigned value in the settings file.
+    will default to the value: [0. 0. 0. 0. 0. 0.]
+Generating an instance of NoAero
+Variable update_grid has no assigned value in the settings file.
+    will default to the value: True
+
+
+
+|=====|=====|============|==========|==========|==========|==========|==========|==========|
+|iter |step | log10(res) |    Fx    |    Fy    |    Fz    |    Mx    |    My    |    Mz    |
+|=====|=====|============|==========|==========|==========|==========|==========|==========|
+|  0  |  0  |  0.00000   |  0.0442  | -0.0000  | -1.2645  |  0.0000  |  0.0007  |  0.0000  |
+|  1  |  0  | -11.32796  |  0.0442  | -0.0000  | -1.2645  |  0.0000  |  0.0007  |  0.0000  |
+|  0  |  1  |  0.00000   |  0.0883  | -0.0000  | -2.5290  |  0.0000  |  0.0014  |  0.0000  |
+|  1  |  1  | -11.15736  |  0.0883  |  0.0000  | -2.5290  |  0.0000  |  0.0014  |  0.0000  |
+|  0  |  2  |  0.00000   |  0.1325  | -0.0000  | -3.7936  |  0.0000  |  0.0019  |  0.0000  |
+|  1  |  2  | -11.03557  |  0.1325  | -0.0000  | -3.7936  |  0.0000  |  0.0019  |  0.0000  |
+|  0  |  3  |  0.00000   |  0.1766  | -0.0000  | -5.0581  |  0.0000  |  0.0023  |  0.0000  |
+|  1  |  3  | -10.94094  |  0.1766  | -0.0000  | -5.0581  |  0.0000  |  0.0023  |  0.0000  |
+|  0  |  4  |  0.00000   |  0.2208  | -0.0000  | -6.3226  |  0.0000  |  0.0025  |  0.0000  |
+|  1  |  4  | -10.86372  |  0.2208  |  0.0000  | -6.3226  |  0.0000  |  0.0025  |  0.0000  |
+Generating an instance of WriteVariablesTime
+Variable delimiter has no assigned value in the settings file.
+    will default to the value:  
+Variable FoR_variables has no assigned value in the settings file.
+    will default to the value: ['']
+Variable FoR_number has no assigned value in the settings file.
+    will default to the value: [0]
+Variable nonlifting_nodes_variables has no assigned value in the settings file.
+    will default to the value: ['']
+Variable nonlifting_nodes_im has no assigned value in the settings file.
+    will default to the value: [0]
+Variable nonlifting_nodes_in has no assigned value in the settings file.
+    will default to the value: [0]
+Variable nonlifting_nodes_isurf has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_panels_variables has no assigned value in the settings file.
+    will default to the value: ['']
+Variable aero_panels_isurf has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_panels_im has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_panels_in has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_nodes_variables has no assigned value in the settings file.
+    will default to the value: ['']
+Variable aero_nodes_isurf has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_nodes_im has no assigned value in the settings file.
+    will default to the value: [0]
+Variable aero_nodes_in has no assigned value in the settings file.
+    will default to the value: [0]
+Variable vel_field_variables has no assigned value in the settings file.
+    will default to the value: []
+Variable vel_field_points has no assigned value in the settings file.
+    will default to the value: [0. 0. 0.]
+Generating an instance of Modal
+Variable save_data has no assigned value in the settings file.
+    will default to the value: True
+Variable delta_curved has no assigned value in the settings file.
+    will default to the value: 0.01
+Variable max_rotation_deg has no assigned value in the settings file.
+    will default to the value: 15.0
+Variable max_displacement has no assigned value in the settings file.
+    will default to the value: 0.15
+Variable use_custom_timestep has no assigned value in the settings file.
+    will default to the value: -1
+Variable rigid_modes_ppal_axes has no assigned value in the settings file.
+    will default to the value: False
+Variable rigid_modes_cg has no assigned value in the settings file.
+    will default to the value: False
+Structural eigenvalues
+
+
+
+|==============|==============|==============|==============|==============|==============|==============|
+|     mode     |  eval_real   |  eval_imag   | freq_n (Hz)  | freq_d (Hz)  |   damping    |  period (s)  |
+|==============|==============|==============|==============|==============|==============|==============|
+|      0       |   0.000000   |  29.991483   |   4.773293   |   4.773293   |  -0.000000   |   0.209499   |
+|      1       |   0.000000   |  29.991497   |   4.773295   |   4.773295   |  -0.000000   |   0.209499   |
+|      2       |   0.000000   |  189.417776  |  30.146775   |  30.146775   |  -0.000000   |   0.033171   |
+|      3       |   0.000000   |  189.418058  |  30.146820   |  30.146820   |  -0.000000   |   0.033171   |
+|      4       |   0.000000   |  263.274487  |  41.901436   |  41.901436   |  -0.000000   |   0.023866   |
+|      5       |   0.000000   |  263.274564  |  41.901448   |  41.901448   |  -0.000000   |   0.023866   |
+|      6       |   0.000000   |  537.690405  |  85.576086   |  85.576086   |  -0.000000   |   0.011686   |
+|      7       |   0.000000   |  537.692257  |  85.576381   |  85.576381   |  -0.000000   |   0.011685   |
+|      8       |   0.000000   |  696.058033  |  110.781077  |  110.781077  |  -0.000000   |   0.009027   |
+|      9       |   0.000000   |  696.058989  |  110.781229  |  110.781229  |  -0.000000   |   0.009027   |
+|      10      |   0.000000   | 1018.871421  |  162.158423  |  162.158423  |  -0.000000   |   0.006167   |
+|      11      |   0.000000   | 1018.878304  |  162.159519  |  162.159519  |  -0.000000   |   0.006167   |
+|      12      |   0.000000   | 1098.451972  |  174.824061  |  174.824061  |  -0.000000   |   0.005720   |
+|      13      |   0.000000   | 1098.453514  |  174.824307  |  174.824307  |  -0.000000   |   0.005720   |
+|      14      |   0.000000   | 1839.005774  |  292.686859  |  292.686859  |  -0.000000   |   0.003417   |
+|      15      |   0.000000   | 1839.014308  |  292.688217  |  292.688217  |  -0.000000   |   0.003417   |
+|      16      |   0.000000   | 1908.680662  |  303.775962  |  303.775962  |  -0.000000   |   0.003292   |
+|      17      |   0.000000   | 1908.683264  |  303.776376  |  303.776376  |  -0.000000   |   0.003292   |
+|      18      |   0.000000   | 2728.989490  |  434.332167  |  434.332167  |  -0.000000   |   0.002302   |
+|      19      |   0.000000   | 2728.990698  |  434.332359  |  434.332359  |  -0.000000   |   0.002302   |
+Generating an instance of SaveData
+Variable save_aero has no assigned value in the settings file.
+    will default to the value: True
+Variable save_nonlifting has no assigned value in the settings file.
+    will default to the value: False
+Variable save_struct has no assigned value in the settings file.
+    will default to the value: True
+Variable save_linear has no assigned value in the settings file.
+    will default to the value: False
+Variable save_linear_uvlm has no assigned value in the settings file.
+    will default to the value: False
+Variable save_wake has no assigned value in the settings file.
+    will default to the value: True
+Variable compress_float has no assigned value in the settings file.
+    will default to the value: False
+Variable format has no assigned value in the settings file.
+    will default to the value: h5
+Variable stride has no assigned value in the settings file.
+    will default to the value: 1
+Could not locate a reduced order model to save
+FINISHED - Elapsed time = 2.2934136 seconds
+FINISHED - CPU process time = 3.8824526 seconds

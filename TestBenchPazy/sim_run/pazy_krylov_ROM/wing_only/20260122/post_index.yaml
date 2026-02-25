@@ -1,0 +1,9 @@
+post:
+  mat:   /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260122/for_matlab/for_matlab/post_out.mat
+  h5:    /home/maxal/Research/TestBenchPazy/sim_run/pazy_krylov_ROM/wing_only/20260122/for_sharpy/for_sharpy/post.h5
+  csv:
+    time:    post/time.csv
+    tip_xyz: post/tip_xyz_m.csv
+    tip_z%:  post/tip_z_norm_pct.csv
+    angles:  post/angles_deg.csv
+    energy:  post/energies.csv
