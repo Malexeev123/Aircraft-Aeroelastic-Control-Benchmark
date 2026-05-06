@@ -21,11 +21,12 @@ classdef (Abstract) ControllerBase < handle
         prevU  double
         limits double
         cfg
+        trim
     end
 
     methods
-        function obj = ControllerBase(cfg)
-            arguments, cfg struct, end
+        function obj = ControllerBase(cfg, trim)
+            arguments, cfg struct, trim struct, end
             obj.cfg    = cfg;
             obj.prevU  = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
             if isfield(cfg,'limits'), obj.limits = cfg.limits; end

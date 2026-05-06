@@ -46,10 +46,10 @@ classdef nMHEv2 < AeroFlex.ctrl.EstimatorBase
 %======================================================================
 methods
 %----------------------------------------------------------------------
-function obj = nMHEv2(cfg,beam,aero,base)
+function obj = nMHEv2(cfg,beam,aero,base, trim)
 % Constructor
 %----------------------------------------------------------------------
-    obj@AeroFlex.ctrl.EstimatorBase(cfg);
+    obj@AeroFlex.ctrl.EstimatorBase(cfg, trim);
 
     % -------- 1. basic numbers ---------------------------------------
     obj.dt   = cfg.sim.dt;
@@ -67,6 +67,18 @@ function obj = nMHEv2(cfg,beam,aero,base)
 
     % -------- 2. weights / bounds ------------------------------------
     obj.Qe = cfg.Qe;     obj.Pe = cfg.Pe;     obj.Re = cfg.Re;
+    xTrim  = trim.states;                 %  n × 1
+    % margin = 1.60;                            % 30 % either side
+    margin = 10;                            % 30 % either side
+    % cfg.xL = (1 - margin) .* xTrim;
+    % cfg.xU = (1 + margin) .* xTrim;
+
+    % absFloor = 1e-1;  
+    absFloor = 1;  
+
+    delta   = max(abs(margin .* xTrim) , absFloor);   % n×1 non‑negative
+    cfg.xL      = xTrim - delta;
+    cfg.xU      = xTrim + delta;
     obj.xL = cfg.xL;     obj.xU = cfg.xU;
     obj.wL = cfg.wL;     obj.wU = cfg.wU;
 
@@ -91,7 +103,7 @@ function obj = nMHEv2(cfg,beam,aero,base)
     obj.k     = 0;
 
     % -------- 5. initial guess ---------------------------------------
-    xTrim           = cfg.trim.states;        % equilibrium state
+    xTrim           = trim.states;        % equilibrium state
     obj.xhat        = xTrim;
     obj.Xhist(:,:)  = repmat(xTrim,1,obj.Ne+1);
     obj.Whist(:,:)  = 0;                      % zero-gust history

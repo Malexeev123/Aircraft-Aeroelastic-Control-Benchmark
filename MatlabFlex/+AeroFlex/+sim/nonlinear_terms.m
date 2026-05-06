@@ -86,21 +86,10 @@ GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'));
 N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
 
 % ---------- aerodynamic linear forces  -----------------------------------
-% N_force = par.gustSet.a*par.gustSet.t_inf  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = par.scaleA  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = 0.5*par.scaleA  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .5*par.scaleAero  * par.forces_0; % Current Correct
-% N_force = .45*par.scaleAero  * par.forces_0; % Current Correct
-% N_force = .465*par.scaleAero  * par.forces_0; % Current Correct
-% N_force = .475*par.scaleAero  * par.forces_0; % Current Correct
-% N_force = par.scaleAero  * par.forces_0; % Current Correct
-% N_force = .5*par.scaleA  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = 1/(par.scaleA)  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .435*par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .4082*par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
+
 % N_force =  par.forces_0;  % Nm × 1  (time‑invariant in open loop)
 
+% N_force = 1 *par.forces_0; % Current Correct
 N_force = par.Fscale *par.forces_0; % Current Correct
 
 % ---------- assemble -----------------------------------------------------
@@ -122,6 +111,7 @@ if isfield(par,'gust') && ~isempty(par.gust)
     % NgD = par.gustSet.a*par.gustSet.t_inf * par.Dw * g; % non‑circulatory part
     % NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
     NgD = par.Fscale * par.Dw * g; % non‑circulatory part
+    % NgD = par.Dw * g; % non‑circulatory part
     
     % NgD =  par.Dw * g; % non‑circulatory part
     N_terms(idx.qGam) = N_terms(idx.qGam) + NgB;  % Γ̇ input

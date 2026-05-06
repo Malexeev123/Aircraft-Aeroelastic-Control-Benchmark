@@ -82,6 +82,7 @@ classdef PazyUAV < handle
             af_coords = af_coords * obj.chord;
             
             % Decide on which spanwise stations to draw chord lines and airfoil patches
+            % We'll include: wing root (center), mid-span of each half, and each tip.
             stations = [];  % indices of wingNodes to draw cross-sections at
             if ~isempty(centerInd)
                 stations(end+1) = centerInd;
@@ -110,7 +111,17 @@ classdef PazyUAV < handle
             for ii = 1:length(stations)
                 idx = stations(ii);
                 pos = nodes(idx, :);  % quarter-chord position at this station
-               % For straight wing, we can directly use global axes for X and Z.
+                % Determine orientation for this station (assuming no wing twist for initial geometry).
+                % We align airfoil such that chord line is parallel to global X axis and thickness direction parallel to global Z.
+                % If needed, incorporate twist by rotating about the local span axis here.
+                % For the Pazy wing (straight, no initial twist), no rotation is applied.
+                
+                % Compute global coordinates of the airfoil outline at this station
+                % The local coordinate axes at this station:
+                %   Local X' (chord) -> align with global X
+                %   Local Z' (thickness) -> align with global Z
+                %   Local Y' (spanwise out of airfoil plane) -> align with wing span direction (approximately global Y)
+                % For straight wing, we can directly use global axes for X and Z.
                 Xcoords = pos(1) + af_coords(1,:);   % add quarter-chord X position
                 Zcoords = pos(3) + af_coords(2,:);   % add vertical position (Z)
                 % Y coordinates: all the airfoil points have the same spanwise coordinate as the node

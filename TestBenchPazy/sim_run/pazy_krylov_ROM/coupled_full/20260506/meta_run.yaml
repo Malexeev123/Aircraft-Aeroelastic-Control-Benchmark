@@ -1,0 +1,6 @@
+case_name: pazy_krylov_ROM
+body_case: coupled_full
+setup_dir: \\wsl.localhost\ubuntu\home\maxal\Research\TestBenchPazy\sim_setup\pazy_krylov_ROM\coupled_full\20260506
+created:   2026-05-06
+sim_case:  openloop
+runner:    plantrom

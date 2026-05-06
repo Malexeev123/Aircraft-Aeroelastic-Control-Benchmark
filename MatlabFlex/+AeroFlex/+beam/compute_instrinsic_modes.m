@@ -268,7 +268,7 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
     end
 
     %%
-    error('Rotation Time')
+    % error('Rotation Time')
 
 %% Psi 1 Calc --> covert cont. (Can skip since dirac delta aka if s==si node then Psi(s) == Psi_si otherwise Psi == 0
 for j = 1: Nm
@@ -361,8 +361,8 @@ phi0_corrected = zeros(size(phi0));
              fem, keepDofs, phi1_discrete, phi2_discrete, Mred, Kred, nModes, ...
              r_mid, chain, elemChainL, Psi1_discrete, psi2_discrete, phi1_half);
 % disp(size(alpha1_sc)); 
-disp(alpha1_sc); 
-disp(alpha2_sc); 
+% disp(alpha1_sc); 
+% disp(alpha2_sc); 
 
 % error('pausing here')
 % for i = 1:Nm
@@ -376,7 +376,7 @@ disp(alpha2_sc);
         
         % Norm Phi 0 here
         phi0_corrected(:,j) = phi0(:,j)/sqrt(alpha1_sc(j));
-        % phi0_corrected(:,j) = w0(j)*phi0(:,j)/sqrt(alpha1_sc(j));
+        phi0_corrected(:,j) = w0(j)*phi0(:,j)/sqrt(alpha1_sc(j));
     end
 % end
 % disp('size(phi1_corrected)');
@@ -394,9 +394,9 @@ psi2_discrete = real(psi2_corrected);
 phi0 = phi0_corrected;
 
 
-disp(phi0);
-disp(phi1_discrete);
-disp(phi2_discrete);
+% disp(phi0);
+% disp(phi1_discrete);
+% disp(phi2_discrete);
 % % New Attempt:
 % % --- recompute raw alphas once ---
 % [alpha1_new, alpha2_new] = intrinsicAlphaNormalization( ...
@@ -1347,16 +1347,16 @@ for j=1:numModes
     fKAll(:,j) = Kred*phi0_global(:,j);
 end
 fKAll1 = fKAll;
-disp('Ka fKAll');
-disp(size(fKAll));
+% disp('Ka fKAll');
+% disp(size(fKAll));
 for j=1:numModes
     fKAll(:,j) = w0(j)*Mred*phi0_global(:,j);
 end
-disp('Ma fKAll');
-
-disp(size(fKAll));
-
-disp(norm(fKAll1-fKAll));
+% disp('Ma fKAll');
+% 
+% disp(size(fKAll));
+% 
+% disp(norm(fKAll1-fKAll));
 
 
 nChain = length(chain)

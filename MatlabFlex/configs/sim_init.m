@@ -141,8 +141,10 @@ if ~exist(sharpy_output_linear,'dir')
 end
 
 % Save a copy next to the other MATLAB bundles (and at run root for convenience)
-save(fullfile(paths.for_matlab,'roots.mat'),'roots','-v7.3');
-save(fullfile(paths.run_dir,'roots.mat'),'roots','-v7.3');
+% save(fullfile(paths.for_matlab,'roots.mat'),'roots','-v7.3');
+save(fullfile(paths.for_matlab,'roots.mat'),'roots');
+% save(fullfile(paths.run_dir,'roots.mat'),'roots','-v7.3');
+save(fullfile(paths.run_dir,'roots.mat'),'roots');
 
 %% ===== Console log capture (start) =======================================
 % One log per run; captures ALL Command Window output (fprintf, warnings, errors).
@@ -193,7 +195,7 @@ if exist(sharpy_param_mat, 'file')
     cfg_loaded = map_sharpy_sim_params_to_cfg(S);
     cfg_loaded.flight.aoa_deg = double(S.aoa_deg);
     cfg_loaded.flight.U_inf = S.u_inf;
-    disp(cfg_loaded.flight.U_inf);
+    % disp(cfg_loaded.flight.U_inf);
     % disp(fieldnames(cfg_loaded))
     fprintf('[sim_init] Loaded SHARPy simulation_parameters.mat\n');
     copyfile(sharpy_param_mat, fullfile(paths.from_sharpy, 'simulation_parameters.mat'));
@@ -217,9 +219,10 @@ validate_cfg(cfg);
 if debug, show_cfg_summary(cfg); end
 
 
-cfg.flight.b_ref = 0.05;  % [m] reference semi‑chord (0.1 / 2)
+    cfg.flight.b_ref = 0.05;  % [m] reference semi‑chord (0.1 / 2)
     % cfg.flight.b_ref = 0.1;  % [m] reference chord 
     % cfg.flight.b_ref = .55/2;  % [m] reference semi‑chord (0.1 / 4)
+    % cfg.flight.b_ref = .55;  % [m] reference semi‑chord (0.1 / 4)
     % cfg.flight.aoa_deg = 1; % in degrees
     % cfg.flight.S_ref = cfg.struct.L *cfg.flight.b_ref; % [m^2] Since it is rectangular b*c
 
@@ -232,11 +235,11 @@ cfg.flight.t_inf = cfg.flight.b_ref/cfg.flight.U_inf;
 % cfg.flight.t_inf = 2*cfg.flight.b_ref/cfg.flight.U_inf;
 % % 
 cfg.force_map.scale =  cfg.flight.a;
-disp(cfg.flight.a);
+% disp(cfg.flight.a);
 cfg.t_map =  cfg.flight.t_inf;
 
 % cfg.force_map.scale =  1;
-cfg.t_map =  1;
+% cfg.t_map =  1;
 
 % cfg.flight.a = 1/cfg.flight.a;
 % cfg.flight.t_inf =1/cfg.flight.t_inf;
@@ -270,7 +273,8 @@ q_inf = 0.5 * cfg.flight.rho * cfg.flight.U_inf^2;
     % disp(q_inf);
 cfg.flight.aeroscale = q_inf*cfg.flight.b_ref^2; 
 cfg.flight.t_scale = cfg.flight.b_ref/cfg.flight.U_inf; 
-% cfg.flight.Fscale = 1; 
+% cfg.flight.t_scale = 1;
+cfg.flight.Fscale = 1; 
 % cfg.flight.Fscale = sqrt(cfg.ctrl.Ts/(cfg.flight.aeroscale*cfg.flight.t_scale)); 
 % cfg.flight.Fscale = 1/(cfg.flight.aeroscale); 
 cfg.flight.Fscale = (cfg.flight.aeroscale); 
@@ -281,7 +285,7 @@ n = size(aero.ROM_dsc.A,1); m = size(aero.ROM_dsc.B,2); p = size(aero.ROM_dsc.C,
 fprintf('[sim_init] AeroROM OK: n=%d, m=%d, p=%d, Ts=%.6g\n', n, m, p, aero.ROM_dsc.Ts);
 % disp(fieldnames(aero))
 % Persist a small bundle for MATLAB-side inspection/reuse
-save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero', '-v7.3');
+save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero');
 cfg.Ts = aero.ROM_dsc.Ts;
 % Plot a minimal aero-only impulse check to verify stability
 if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'debugPlots') && cfg.plotOpts.debugPlots
@@ -325,7 +329,7 @@ fprintf('[sim_init] BeamModel OK: nDofs=%d, nFlex=%d, Nm=%d, first ω=%.3f rad/s
 % beam.Gamma2 = zeros(beam.Nm, beam.Nm,beam.Nm);
 
 % Persist for MATLAB-side use
-save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam', '-v7.3');
+save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam');
 % S = load(fullfile(paths.for_matlab,'beam_bundle.mat'),'beam'); B=S.beam;
 % fprintf('Beam φ0 size = %dx%d, Ω(1)=%.3f rad/s\n', size(B.phi0,1), size(B.phi0,2), B.Omega(1,1));
 % disp(fieldnames(S.beam))
@@ -423,7 +427,7 @@ fprintf('[sim_init] Building BASE (ξ-coupling)...\n');
 base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
 
 % Save alongside the others (for MATLAB-side inspection/reuse)
-save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base', '-v7.3');
+save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base');
 
 % Quick diagnostics
 fprintf('[sim_init] BASE OK: φξ %dx%d, Dχ %dx%d, Bχ %dx%d\n', ...
@@ -704,13 +708,13 @@ run_settings.x0 = sim_config.x0;
 % Save L-matrix if available (guarded)
 try
     [L, blk] = AeroFlex.core.assemble_L_matrix(cfg, beam, aero, base);
-    save(fullfile(paths.for_matlab,'L_bundle.mat'),'L','blk','-v7.3');
+    save(fullfile(paths.for_matlab,'L_bundle.mat'),'L','blk');
 catch ME
     warning('[sim_init] assemble_L_matrix skipped: %s', ME.message);
 end
 
 % Save runner settings alongside other for_matlab artifacts
-save(fullfile(paths.for_matlab,'run_settings.mat'),'run_settings','-v7.3');
+save(fullfile(paths.for_matlab,'run_settings.mat'),'run_settings');
 
 
 %% ------------------------------------------------------------
@@ -943,7 +947,7 @@ function cfg = ensure_nominal_extras(cfg)
     end
     if ~isfield(cfg.trim,'do'),         cfg.trim.do        = true;     end
     if ~isfield(cfg.trim,'tolSteady'),  cfg.trim.tolSteady = 1e-6;     end
-    if ~isfield(cfg.trim,'tolNewton'),  cfg.trim.tolNewton = 3.75e-5;  end
+    if ~isfield(cfg.trim,'tolNewton'),  cfg.trim.tolNewton = 1e-4;     end
     if ~isfield(cfg.trim,'alphaDeg'),   cfg.trim.alphaDeg  = 0;        end
     if ~isfield(cfg.trim,'deltaDeg'),   cfg.trim.deltaDeg  = 0;        end
     if ~isfield(cfg.trim,'itersInt'),   cfg.trim.itersInt  = 10000;    end
@@ -1208,7 +1212,7 @@ if row_phi0_tipz==0
     row_phi0_tipz = nearest_flexible_z(beam.keepDofs); % fallback
 end
 %% Test eigvect
-disp(row_phi0_tipz);
+% disp(row_phi0_tipz);
 % phi0_tst = load("eigenvectors.dat");
 % disp(size(phi0_tst));
 % phi0z = phi0_tst(row_phi0_tipz, :);         % 1 x Nm
@@ -1286,18 +1290,7 @@ function dx = rhs_linear(t, x, Om, Sig, eta_fun)
 Nm = size(Om,1);
 q1 = x(1:Nm);
 q2 = x(Nm+1:end);
-% disp('q1'); disp(q1);
-% disp('q2'); disp(q2);
-% disp('Sig'); disp(Sig);
-% disp('Sig'); disp(Sig);
-% disp('eta_fun'); disp(eta_fun);
-% disp('Om'); disp(Om);
-% disp(size(Sig));
-% disp(size(eta_fun));
-% disp('eta_fun');
-% disp(eta_fun);
-% disp(size(Om));
-% disp(q1);
+
 % dx1 = Om*q2 + Sig*q1 + eta_fun(0);     % Σ is used as diagonal (modal) damping
 dx1 = Om*q2 + Sig*q1 + eta_fun(t);     % Σ is used as diagonal (modal) damping
 dx2 = -Om*q1;
@@ -1386,7 +1379,7 @@ qxi_0 = S.trim(2*Nm+1:3*Nm+1);
 
 quat_ini = base.phi_xi_modes*qxi_0;
 qxi_oned = zeros(size(qxi_0)); qxi_oned(1) = 1;
-quat_ini_oned = base.phi_xi_modes*qxi_oned
+quat_ini_oned = base.phi_xi_modes*qxi_oned;
 qxi_0  = qxi_oned;
 % qxi_0 =qxi_oned;
 % disp(norm(qxi_0))
@@ -1458,8 +1451,8 @@ phi0z = beam.phi0(row_phi0_tipz, :);         % 1 x Nm
 if ~isempty(xn)
     z_tip_nl  = (phi0z * q0_nl).';
 end
-disp(size(base.phi_xi_modes));
-disp(size(qxi_nl));
+% disp(size(base.phi_xi_modes));
+% disp(size(qxi_nl));
 node_quat = tip;
 % node_quat = tip-1;
 quat_dof = double((node_quat - 1)*4) + (1:4);

@@ -54,7 +54,7 @@ trim.chi0 = chi;
 beam.phi1, beam.Nm, beam.Mglobal, rad2deg(alpha),beam.phi0);
 base.Gamma_xi = Gamma_xi_iter;
 base.Gamma_g = Gamma_g_iter;
-disp(xi_bar_trim);
+% disp(xi_bar_trim);
 
 x   = [q1;q2;qxi;qg;chi];
 sensEq = [eye(size(x)), zeros(size(x,1),1+cfg.ctrl.n_surf*cfg.ctrl.var_per)];

@@ -1,6 +1,6 @@
-function cfg = GLAConfig(cfg)
-cfg          = nominalConfig;          % inherit old fields
-cfg.case     = 'GLA';                  % activates closed‑loop
+% function cfg = GLAConfig(cfg)
+% cfg          = nominalConfig;          % inherit old fields
+cfg.ctrl.case     = 'GLA';                  % activates closed‑loop
 cfg.ctrl.Ts      = 0.0025;
 % cfg.ctrl.Ts      = 0.025;
 
@@ -115,4 +115,4 @@ cfg.sim.storeSens = true;
 cfg.sensorHandle    = @(beam,cfg) AeroFlex.sensor.WingVelSensor(beam,cfg);
 cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHE(cfg);
 cfg.controllerHandle= @(cfg)      AeroFlex.ctrl.nMPC(cfg);
-end
+% end

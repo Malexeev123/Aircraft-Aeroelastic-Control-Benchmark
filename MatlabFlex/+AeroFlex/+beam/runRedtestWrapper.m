@@ -49,7 +49,7 @@ chain = AeroFlex.core.buildChainFrom3NodeElements(fem);
 % [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] = AeroFlex.beam.compute_modal( ...
 %       fem, aero, phi0, Mred, Kred, Nm, aoa, chain, w0, debugPlot, cfg.struct.rigid_body_modes, cfg.NetworkPath);
 %% Test
- phi1_sA_load = load("eigenvectors_rigid.dat");   
+ % phi1_sA_load = load("eigenvectors_rigid.dat");   
  % phi1_sA = phi1_sA_load(97:102,:);
             %%
 

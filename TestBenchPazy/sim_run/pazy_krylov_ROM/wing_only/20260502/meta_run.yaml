@@ -1,0 +1,6 @@
+case_name: pazy_krylov_ROM
+body_case: wing_only
+setup_dir: \\wsl.localhost\ubuntu\home\maxal\Research\TestBenchPazy\sim_setup\pazy_krylov_ROM\wing_only\20260502
+created:   2026-05-02
+sim_case:  openloop
+runner:    plantrom

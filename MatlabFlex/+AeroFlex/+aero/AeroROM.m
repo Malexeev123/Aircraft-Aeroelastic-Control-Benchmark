@@ -125,6 +125,8 @@ classdef AeroROM
                 % obj.gust_input = 0.525 * gust(:,2);
                 % obj.gust_input = 0.515 * gust(:,2);
                 % obj.gust_input = 0.5 * gust(:,2);
+                % obj.gust_input =  10*gust(:,2);
+                % obj.gust_input =  5*gust(:,2);
                 obj.gust_input =  gust(:,2);
             else
                 obj.gust_input = zeros(round(cfg.sim.t_end/cfg.sim.dt),1);

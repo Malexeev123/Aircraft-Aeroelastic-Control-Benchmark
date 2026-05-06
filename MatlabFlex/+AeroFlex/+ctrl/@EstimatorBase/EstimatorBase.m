@@ -27,16 +27,17 @@ classdef (Abstract) EstimatorBase < handle
         yhat   double        
         what   double
         cfg             % arbitrary struct with user parameters
+        trim
     end
 
     methods
-        function obj = EstimatorBase(cfg)
-            arguments, cfg struct, end
+        function obj = EstimatorBase(cfg, trim)
+            arguments, cfg struct, trim struct, end
             obj.cfg = cfg;
         if isfield(cfg,'x0')
             obj.xhat = cfg.x0;
-        elseif isfield(cfg,'trim')
-            obj.xhat = cfg.trim.states;   % <<— new fallback
+        elseif isfield(trim,'states')
+            obj.xhat = trim.states;   % <<— new fallback
         else
             obj.xhat = zeros( cfg.nx ,1);
         end            

@@ -51,8 +51,8 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
     %==================================================================
     methods
     %------------------------------------------------------------------
-    function obj = nMPC(cfg,beam,aero,base)
-        obj@AeroFlex.ctrl.ControllerBase(cfg);
+    function obj = nMPC(cfg,beam,aero,base, trim)
+        obj@AeroFlex.ctrl.ControllerBase(cfg, trim);
     
         % basic numbers ------------------------------------------------
         obj.dt  = cfg.sim.dt;
@@ -66,7 +66,19 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
     
         % weights / boxes ----------------------------------------------
         obj.Qc = cfg.Qc; obj.Rc = cfg.Rc; obj.Pc = cfg.Pc;
-        obj.xL = cfg.xL; obj.xU = cfg.xU;
+        xTrim  = trim.states;                 %  n × 1
+        % margin = 1.60;                            % 30 % either side
+        margin = 10;                            % 30 % either side
+        % cfg.xL = (1 - margin) .* xTrim;
+        % cfg.xU = (1 + margin) .* xTrim;
+    
+        % absFloor = 1e-1;  
+        absFloor = 1;  
+    
+        delta   = max(abs(margin .* xTrim) , absFloor);   % n×1 non‑negative
+        cfg.xL      = xTrim - delta;
+        cfg.xU      = xTrim + delta;
+        % obj.xL = cfg.xL; obj.xU = cfg.xU;
         obj.uL = cfg.uL; obj.uU = cfg.uU;
         obj.wL = cfg.wL; obj.wU = cfg.wU;
         obj.urL = cfg.urateL; obj.urU = cfg.urateU;
@@ -77,7 +89,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         obj.Whist = zeros(obj.nw,obj.Nc);        % will stay ≡0 after Nc/2
     
         % initial state / guess ----------------------------------------
-        xTrim        = cfg.trim.states;
+        xTrim        = trim.states;
         obj.xTrim = xTrim;
         obj.uTrim        = cfg.trim.Uinpt;
         obj.Xhist(:) = repmat(xTrim,1,obj.Nc+1);

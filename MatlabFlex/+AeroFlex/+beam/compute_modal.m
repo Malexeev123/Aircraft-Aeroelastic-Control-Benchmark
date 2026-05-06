@@ -286,7 +286,7 @@ end
 
 %%
 phiRed = reshape(Phi0_node, size(Phi0_node,1)* size(Phi0_node,2), []);
-disp((Phi0_node))
+% disp((Phi0_node))
 writematrix(phiRed,'phiRed.dat','Delimiter','tab')
 % writematrix(phi0_keep,'phi0_keep.dat','Delimiter','tab')
 % writematrix(Phi1_keep,'Phi1_keep.dat','Delimiter','tab')
@@ -377,11 +377,11 @@ alpha2 = diag(Alpha2);
 %     end
 %     alpha2(kMode) = acc;
 % end
-disp('alpha1')
-disp(alpha1)
-
-disp('alpha2')
-disp(alpha2)
+% disp('alpha1')
+% disp(alpha1)
+% 
+% disp('alpha2')
+% disp(alpha2)
 
 % Safety: ensure positive scalars (common if sign conventions are correct)
 % If you see negatives here, you have a sign/frame inconsistency upstream.

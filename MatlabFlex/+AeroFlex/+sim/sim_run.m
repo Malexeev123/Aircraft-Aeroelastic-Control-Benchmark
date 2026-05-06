@@ -463,7 +463,7 @@ end
 % ------------------- Save run bundle -------------------
 try
     save(fullfile(paths.for_matlab,'run_bundle.mat'), ...
-         'results','cfg','aero','beam','base','trim','idx','run_settings','-v7.3');
+         'results','cfg','aero','beam','base','trim','idx','run_settings');
 catch ME
     warning('[sim_run] Could not save run_bundle: %s', ME.message);
 end

@@ -89,13 +89,13 @@ x2_hat  = beam.phi2 * q2_hat;
 Xi_full      = base.phi_xi_modes * qxi;
 Xi_hat_full  = base.phi_xi_modes * qxi_hat;
 
-Nnode       = beam.fem.num_node - 1        % legacy
-NdofPerNode = beam.nFlex / Nnode
+Nnode       = beam.fem.num_node - 1;        % legacy
+NdofPerNode = beam.nFlex / Nnode;
 % selTip legacy choice (unchanged); true tip kept as comment
-% selTipWhat = double((Nnode-1)*NdofPerNode) + (1:3);
-% selTip = double((Nnode-1)*NdofPerNode) + (1:3);
-selTip = double((Nnode/2-1)*(NdofPerNode+1)) + (1:3)
+% selTip = double((Nnode-1)*NdofPerNode) + (1:3)
+% selTip = double((Nnode/2-1)*(NdofPerNode+1)) + (1:3)
 % selTip = double((Nnode/2)*(NdofPerNode+1)) + (1:3);
+selTip = double((Nnode/2+1)*(NdofPerNode+1)) + (1:3);
 
 cellT   = repmat({eye(7,6)},1,Nnode);
 % cellT   = repmat({eye(6,6)},1,Nnode);
@@ -123,9 +123,9 @@ for k = 1:Nt
         %     AeroFlex.core.T_phi_quat(quatAll(n,:)), ...
         %     zeros(3,3) );
     end
-    if k<2
-    % disp((Tcache));
-    end
+    % if k<2
+    % % disp((Tcache));
+    % end
     x0A = Tcache * x0(:,k);
     % x0A = x0(:,k);
     x1A = Tcache * x1(:,k);
@@ -134,7 +134,14 @@ for k = 1:Nt
     TipA(k,:)    = x0A(selTip).';
     vel_tip(k,:) = x1A(selTip).';
     quatTipT(k,:) = x0A(selTip(end)+(1:4));
-    eulTipT(k,:) = quat2eul(quatTipT(k,:));
+    % quatTipT(k,:) = x0(selTip(end)+(1:4));
+    eulTipSel = quat2eul(quatTipT(k,:));
+    for b= 1:length(eulTipSel)
+        if eulTipSel(b) < -pi/2
+            eulTipSel(b) = eulTipSel(b)+ 2*pi;
+        end
+    end
+    eulTipT(k,:) = eulTipSel;
 
     x0A_sim(:,k) = x0A;
     if mod(k, ctrN) == 0
@@ -226,7 +233,7 @@ if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'wingTip') && cfg.plotOpts.wi
     save_plot(fh, 'wingtip_heave');
 end
 
-figure; plot(t, eulTipT)
+% figure; plot(t, eulTipT); title('Test');
 % ------------------------ energies (legacy math + plots) -----------------
 Tkin = 0.5*sum(q1.^2, 1);       % 1 x Nt
 Vpot = 0.5*sum(q2.^2, 1);       % 1 x Nt
@@ -309,11 +316,11 @@ if ~isfolder("timeseries"), mkdir("timeseries"), end
 
 node_xyz_H = zeros(size(length(t),3));
 coords_hist_time = cell(1, Nnode+1);
-disp(coords);
+% disp(coords);
 for k = 1:Nnode
     idx_xyz = double((k -1)*NdofPerNode )+(1:3);
     node_xyz_H = x0(idx_xyz,:).';
-    disp(node_xyz_H(1:3,1:3))
+    % disp(node_xyz_H(1:3,1:3))
     % idx_xyzQuat = (k -1)*(NdofPerNode+1) +(1:NdofPerNode +1);
     % node_xyzQuat_hist{k}=x0A(idx_xyzQuat,:).';
     % for l = 1:length(t)
@@ -321,7 +328,7 @@ for k = 1:Nnode
     % end
     coords_hist_time{k} = coords(k+1,:)+node_xyz_H;
     % if l<20
-        disp(coords_hist_time{k}(1:3,1:3))
+        % disp(coords_hist_time{k}(1:3,1:3))
 
     T = table(coords_hist_time{k}(:,1), coords_hist_time{k}(:,2), coords_hist_time{k}(:,3), t(:),...
               'VariableNames', {'x','y','z','time'});

@@ -61,8 +61,8 @@ function cfg = nominalConfig
     % cfg.trim.tolSteady  = 5e-6;      % e.g. 1e‑7
     % cfg.trim.tolSteady  = 1e-5;      % e.g. 1e‑7
     % cfg.trim.tolNewton  = 1e-6;      % e.g. 1e‑6
-    % cfg.trim.tolNewton  = 1e-5;      % e.g. 1e‑6
-    cfg.trim.tolNewton  = 3.75e-5;      % e.g. 1e‑6
+    cfg.trim.tolNewton  = 1e-4;      % e.g. 1e‑6
+    % cfg.trim.tolNewton  = 3.75e-5;      % e.g. 1e‑6
     % cfg.trim.tolNewton  = 3e-6;      % e.g. 1e‑6
     % cfg.trim.alphaDeg  = 2; % Initial guess
     % cfg.trim.alphaDeg  = cfg.flight.aoa_deg;
@@ -95,7 +95,8 @@ function cfg = nominalConfig
     % cfg.control     = struct();        % unused
     % ---------- DEBUG / VERBOSITY ------------------------------------------
     cfg.debug.level  =1;     % 0 = silent, 3 = verbose + plots
-    cfg.debug.plt_scale = .55/2;
+    % cfg.debug.plt_scale = .55/2;
+    cfg.debug.plt_scale = 1.1/2;
     cfg.debug.trim = 1;
     % % ---------- PROJECT PATHS ----------------------------------------------
     % %  root  : folder that contains this configs/ sub‑folder

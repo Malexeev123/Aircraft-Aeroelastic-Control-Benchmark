@@ -171,7 +171,7 @@ function [phi_xi_modes, Gamma_xi_mat, Gamma_g_3D, phi_omega, xi_bar_array] =solv
             A_xi(i,j) = integrate_phi_xi_dot( phi_xi_modes(:,i), phi_xi_modes(:,j), sVals, beamSegments);
         end
     end
-    writematrix(A_xi,'A_xi.dat');
+    % writematrix(A_xi,'A_xi.dat');
 
     % disp('Matrix A_xi from eq. (3.53):');
     % disp(A_xi);
@@ -235,8 +235,8 @@ function [phi_xi_modes, Gamma_xi_mat, Gamma_g_3D, phi_omega, xi_bar_array] =solv
         Gamma_xi_cell{l} = Gamma_xi_mat(:,:,l);
 
         % disp(num2str(l))
-        writematrix(Gamma_xi_mat(:,:,l),"Gamma_xi_mat"+ int2str(l)+".dat");
-        writematrix(Gamma_xi(:,:,l),"UOmeg_xi_mat"+ int2str(l)+".dat");
+        % writematrix(Gamma_xi_mat(:,:,l),"Gamma_xi_mat"+ int2str(l)+".dat");
+        % writematrix(Gamma_xi(:,:,l),"UOmeg_xi_mat"+ int2str(l)+".dat");
         
     end
     % writematrix(Gamma_xi_mat,'Gamma_xi_mat.dat');

@@ -356,7 +356,7 @@ end
 % ------------------- RUN DISPATCH ----------------------------------------
 results = struct(); hadError = false; MEout = [];
 
-try
+% try
     switch sim_case
 
         % ================= OPENLOOP =================
@@ -421,18 +421,29 @@ try
                     [t, x, log, sensEq] = simObj.run(x0, Ssim.sim_config.cfg.sim.t_end, cfg.sim.storeSens);
 
                 case 'plantrom'
-                    % Full loop: Plant + Estimator + Controller (like your example)
+                    % Full loop: Plant + Estimator + Controller 
+                    GLAConfig;
                     modelFcn      = str2func(run_settings.modelFcn);
                     sensorFcn     = str2func(run_settings.sensorFcn);
                     estimatorFcn  = str2func(run_settings.estimatorFcn);
                     controllerFcn = str2func(run_settings.controllerFcn);
+                    cfg.sim.storeSens = true;           % true if also want ∂x/∂x0
+                    cfg.trim.useRateProjection = false;
+                    cfg.trim.Uinpt = zeros(4,1);
 
                     % Instantiate
-                    rom    = modelFcn(cfg, beam, aero, base);                     
-                    sensor = sensorFcn(beam, cfg);                                
+                    rom    = modelFcn(cfg, beam, aero, base);    
+                    cfg.modelHandle = @(cfg, beam, aero, base) modelFcn(cfg, beam, aero, base);
+                    % -------------- 1.  SENSOR / DIMENSIONS ----------------------------
+                    sensor = sensorFcn(beam, cfg);    
+                    cfg.ny        = size(sensor.PhiY,1);
+                    cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                                  + size(aero.forceMap.B_ddelta,2);
+                    cfg.nw        = size(aero.forceMap.Bw,2);
+                    
                     plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0);
-                    est    = estimatorFcn(cfg);
-                    ctrl   = controllerFcn(cfg);
+                    est    = estimatorFcn(cfg, beam, aero, base, trim);
+                    ctrl   = controllerFcn(cfg, beam, aero, base, trim);
 
                     % Time grid
                     Ts = run_settings.ctrl_Ts;
@@ -494,11 +505,11 @@ try
     results.log    = assignIfExists('log',    struct());
     results.sensEq = assignIfExists('sensEq', []);
 
-catch ME
-    hadError = true; MEout = ME;
-    fprintf(2,'[sim_run] ERROR: %s\n', ME.message);
-    fprintf(2,'%s\n', getReport(ME,'extended','hyperlinks','off'));
-end
+% catch ME
+%     hadError = true; MEout = ME;
+%     fprintf(2,'[sim_run] ERROR: %s\n', ME.message);
+%     fprintf(2,'%s\n', getReport(ME,'extended','hyperlinks','off'));
+% end
 base.chi0 = trim.chi0;
 %% ------------------------------------------------------------
 % Post-processing (tip deflection, angles, energies, modal series)
@@ -553,7 +564,7 @@ sh_py_dir = paths.for_sharpy;                          if ~exist(sh_py_dir,'dir'
 fm_dir    = paths.for_matlab;                          if ~exist(fm_dir,'dir'),    mkdir(fm_dir);    end
 
 % 1) MAT bundle for MATLAB analysis
-save(fullfile(fm_dir,'post_out.mat'), 'out','-v7.3');
+save(fullfile(fm_dir,'post_out.mat'), 'out');
 
 % 2) CSVs (time, tip, angles [deg], energies)
 writematrix(out.t,                       fullfile(post_dir,'time.csv'));
@@ -618,7 +629,7 @@ fprintf(fid, '    energy:  %s\n', fullfile('post','energies.csv'));
 % ------------------- Save run bundle -------------------
 try
     save(fullfile(paths.for_matlab,'run_bundle.mat'), ...
-         'results','cfg','aero','beam','base','trim','idx','run_settings','-v7.3');
+         'results','cfg','aero','beam','base','trim','idx','run_settings');
 catch ME
     warning('[sim_run] Could not save run_bundle: %s', ME.message);
 end

@@ -1,0 +1,11 @@
+=== sim_run started 2026-05-06 01:42:27 ===
+setup_dir: \\wsl.localhost\ubuntu\home\maxal\Research\TestBenchPazy\sim_setup\pazy_krylov_ROM\coupled_full\20260506
+run_dir  : \home\maxal\Research\TestBenchPazy\sim_run\pazy_krylov_ROM\coupled_full\20260506
+=== sim_run finished 2026-05-06 01:42:41 (status: OK) ===
+=== sim_run started 2026-05-06 02:02:45 ===
+setup_dir: \\wsl.localhost\ubuntu\home\maxal\Research\TestBenchPazy\sim_setup\pazy_krylov_ROM\coupled_full\20260506
+run_dir  : \home\maxal\Research\TestBenchPazy\sim_run\pazy_krylov_ROM\coupled_full\20260506
+[Warning: Unable to obtain a change notification handle for \\wsl.localhost\ubuntu\home\maxal\Research.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('sim_run', '\\wsl.localhost\ubuntu\home\maxal\Research\MatlabFlex\tests\sim_run.m', 524)" style="font-weight:bold">sim_run</a> (<a href="matlab: opentoline('\\wsl.localhost\ubuntu\home\maxal\Research\MatlabFlex\tests\sim_run.m',524,0)">line 524</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Run_Benchmark_Test', '\\wsl.localhost\ubuntu\home\maxal\Research\Run_Benchmark_Test.m', 26)" style="font-weight:bold">Run_Benchmark_Test</a> (<a href="matlab: opentoline('\\wsl.localhost\ubuntu\home\maxal\Research\Run_Benchmark_Test.m',26,0)">line 26</a>)] 
+=== sim_run finished 2026-05-06 02:03:01 (status: OK) ===

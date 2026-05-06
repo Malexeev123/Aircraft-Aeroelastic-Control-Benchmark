@@ -1,0 +1,239 @@
+clear; close all; clc;
+% clear all;
+
+% Will add commen  ts later
+cfg = nominalConfig;
+%%
+% cfg.NetworkPath = 1;
+% if NetworkPath 
+%     % addpath("\\malexeev\users")
+% end
+%%
+cfg.sim.storeSens = false;           % true if also want ∂x/∂x0
+
+aero = AeroFlex.aero.AeroROM(cfg);
+beam = AeroFlex.beam.BeamModel(cfg);
+
+% beam.Sigma = -10*ones(size(beam.Sigma)); % Temp Dampings
+% beam.Sigma = -ones(size(beam.Sigm = permute(G2,[3 2 1]);a)); % Temp Dampings
+base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
+
+if cfg.trim.do
+    % after BeamModel & AeroROM exist
+    trim = AeroFlex.sim.trimAircraft(cfg,beam,aero,base);
+end
+%% First Doing OpenLoop Case to get sensor dat for tuning of Estimator
+
+idx = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
+% [L, blk] = AeroFlex.core.assemble_L_matrix(cfg, beam, aero, base);
+cfg.sim.storeSens = false;           % true if also want ∂x/∂x0
+cfg.trim.do = false;
+% cfg.fJac = AeroFlex.sim.buildNonlinearJacobian(beam.Gamma1,beam.Gamma2,base.Gamma_g,base.Gamma_xi, idx);
+
+sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+
+x0 = trim.states;   % trim initialization
+
+[t, x, log, sensEq] = sim.run(x0, cfg.sim.t_end, cfg.sim.storeSens);   % no gust, no control
+%% Control & Estimation 
+cfg = GLAConfig(cfg);
+cfg.ny = size(log.y,1);
+cfg.nw = 1;
+cfg.trim.states = trim.states;
+% Temp
+cfg.trim.Uinpt = zeros(4,1);
+cfg.xL = sim.cfg.xL;
+cfg.xU = sim.cfg.xU;
+% cfg.xL = -inf;  
+% cfg.xU = inf;
+% --- handles -----------------------------------------------------------
+cfg.modelHandle     = @(cfg,beam,aero,base) ...
+                      AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
+cfg.sensorHandle    = @(beam,cfg) AeroFlex.sensor.WingVelSensor(beam,cfg);
+cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHEv2(cfg,beam,aero,base);
+% cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHEv3(cfg,beam,aero,base);
+cfg.controllerHandle= @(cfg)      AeroFlex.ctrl.nMPC(cfg,beam,aero,base);
+
+% --- instantiate -------------------------------------------------------
+plant = AeroFlex.sim.PlantRunTime(cfg,beam,aero,base,trim.states);
+est   = cfg.estimatorHandle(cfg);
+ctrl  = cfg.controllerHandle(cfg);
+
+% ---- 4. MAIN LOOP -----------------------------------------------------
+Nt = round(cfg.sim.t_end/cfg.ctrl.Ts);
+u_prev = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+gust_profile = aero.gust_input;
+% gust_profile = -1*aero.gust_input;
+trueGust = zeros(1,Nt);
+estGust  = zeros(1,Nt);
+estTip = zeros(length(x0),Nt);
+XHist = zeros(length(x0), Nt);
+wHorizon = zeros(cfg.ctrl.Ne, Nt);
+uHorizon =  zeros(cfg.ctrl.Nc*cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
+Uhist = zeros(4,Nt);
+
+uContinuity = zeros(1, Nt);
+wContinuity = zeros(1, Nt);
+uCost = zeros(1, Nt);
+wCost = zeros(1, Nt);
+
+x_n = x0;
+for k = 1:Nt
+    % [z_k, t_k] = plant.readSensors();      % 1) get measurement
+
+    [z_k, t_k] = plant.readSensors(cfg,  log.y);      % 1) get measurement
+    g_k = gust_profile( round(t_k/cfg.sim.dt)+1 ); % Real gust
+
+    % [xhat,what, info] = est.estimate(z_k,u_prev,t_k);  % 2) observer
+    % u_k  = ctrl.computeControl(xhat,t_k);          % 3) MPC
+    % w_dist = what(2);
+    % w_dist = what(4);
+    % w_dist = what(end);
+    %%
+    w_dist = g_k;   % Temp for tuning controller sending actual Gust
+    what = repmat(w_dist, cfg.ctrl.Ne,1);
+    xhat = x_n;
+    %%
+    [u_k,Uinfo] = ctrl.computeControl( xhat , w_dist , u_prev , t_k);
+    % u_k = u_prev;
+    % g_k = gust_profile( round(t_k/cfg.sim.dt)+1 );
+    fprintf('Actual gust: %4.2f \n', g_k);
+    fprintf('Completion = %4.2f \n', k/Nt*100);
+
+    
+    % g_k = gust_profile(t_k);                         % 3) true gust
+    % what = g_k;
+
+    x_n =  plant.step(u_k,g_k,"ROM");             % 4) propagate plant
+    % XHist(:, k) = x_n;
+    trueGust(k) = g_k;
+    estGust(k)  = what(end);   % newest slot
+    wHorizon(:,k) = what;
+    estTip(:, k) = xhat;
+    u_prev = u_k;
+    Uhist(:,k) = u_k;
+    uHorizon(:,k) = Uinfo.uHorizon(:);
+
+    uContinuity(:,k) = Uinfo.continuity;
+    uCost(:,k) = Uinfo.cost;
+    % 
+    % wCost(:,k) = info.cost;
+    % wContinuity(:,k) = info.continuity;
+
+
+end
+%%
+log.U = Uhist;
+log.xhat = estTip;    
+log.wHorizon = wHorizon;  
+log.uHorizon = uHorizon;
+%% ---- 5. PLOT ----------------------------------------------------------
+tAxis = (0:Nt-1)*cfg.ctrl.Ts;
+plot(tAxis,trueGust,'k--',tAxis,estGust,'b','LineWidth',1.4), grid on
+legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+title('MHE demo – ROM truth vs observer estimate')
+
+%% CASE CONTROLLER 
+% cfg = GLAConfig(cfg);
+% 
+% % [L, blk] = AeroFlex.core.assemble_L_matrix(cfg, beam, aero, base);
+% 
+% % cfg.SwTest = 1e-3;   % For testing the gradient of gust profile
+% sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% sim.debug = true;       % debug plots and trackers
+% 
+% 
+% x0 = trim.states;
+% % %% Sw test to be ran only once
+% % cfg.SwTest = 1e-3;   % For testing the gradient of gust profile
+% % sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% % sim.debug = false;       % debug plots and trackers
+% % [t1, x1, log1, sensEq1] = sim.run(x0, cfg.sim.dt, cfg.sim.storeSens);   % no gust, no control
+% % 
+% % 
+% % cfg.SwTest = -1e-3;   % For testing the gradient of gust profile
+% % sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% % sim.debug = false;       % debug plots and trackers
+% % [t2, x2, log2, sensEq2] = sim.run(x0, cfg.sim.dt, cfg.sim.storeSens);   % no gust, no control
+% % 
+% % Sw_num = (x1(:,end) - x2(:,end))/(2*1e-3);
+% % 
+% % 
+% % cfg.SwTest = 0; 
+% % sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base, trim);
+% % sim.debug = false;       % debug plots and trackers
+% % [~, x_test, log_test, sensEq_test] = sim.run(x0, cfg.sim.dt, cfg.sim.storeSens);   % no gust, no control
+% % Sw_buf = sensEq_test(:,length(x0)+1,end);
+% % fprintf('‖Sw_true‖ %.2e   ‖Sw_num‖ %.2e   rel.err %.2e\n',...
+% %             norm(Sw_buf), norm(Sw_num), ...
+% %             norm(Sw_buf-Sw_num)/norm(Sw_num));
+% % %%
+% 
+% [t, x, log, sensEq] = sim.run(x0, cfg.sim.t_end, cfg.sim.storeSens);   % no gust, no control
+% % [t, x, log, sensEq] = sim.run(x0, cfg.ctrl.Ts, cfg.sim.storeSens);   % no gust, no control
+%%
+out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, log);
+time = 0:cfg.sim.dt:cfg.sim.t_end;
+
+%% Control Plots
+time_ctrl = linspace(0, cfg.sim.t_end, size(log.xhat,2));
+
+delta_init = 0;
+figure; 
+subplot(2,1,1);
+plot(time_ctrl, (log.U(1,1:length(time_ctrl)))*180/pi);
+hold on;
+plot(time_ctrl, (log.U(2,1:length(time_ctrl)))*180/pi);
+title('Control Deflection Log'); xlabel('Time'); ylabel('deg ');
+legend({'left wing','right wing'})
+hold off
+
+subplot(2,1,2);
+plot(time_ctrl, (log.U(3,1:length(time_ctrl)))*180/pi);
+hold on;
+plot(time_ctrl, (log.U(4,1:length(time_ctrl)))*180/pi);
+title('Control Rate Log'); 
+xlabel('Time'); ylabel('deg/s ');
+legend({'left wing','right wing'})
+hold off
+
+%% wEst vs wReal
+time_ctrl = linspace(0, cfg.sim.t_end, size(log.xhat,2));
+
+figure;
+plot(time_ctrl, log.wHorizon); 
+hold on;
+plot(t, [log.wTrue, 0]); 
+title('Gust Estimated Vs Real'); 
+xlabel('Time'); ylabel('gust ');
+legend({'Estimated','True'})
+hold off;
+
+
+%% Plot orientation angles
+% figure;
+% plot(time, rad2deg(x(end-2:end,:)));
+% 
+% title('Euler Angles');
+% xlabel('Time [s]');
+% ylabel('Angle [deg]');
+% legend('Roll', 'Pitch', 'Yaw');
+
+
+% plot(t, x(1,:)), grid on
+% xlabel('time [s]'), ylabel('q_1')
+% % title('Open‑loop free decay – mode 1')
+% 
+% figure
+% plot(time_ctrl , log.wTrue      , 'k--' , 'DisplayName','true gust')
+% hold on
+% plot(time_ctrl , log.wEst       , 'r-'  , 'DisplayName','estimated')
+% xlabel('time [s]'), ylabel('w_g [m/s]')
+% legend, grid on
+
+% figure
+% plot(log.t , log.x      , 'k--' , 'DisplayName','true state')
+% hold on
+% plot(log.t , log.xhat       , 'r-'  , 'DisplayName','estimated')
+% xlabel('time [s]'), ylabel('w_g [m/s]')
+% legend, grid on

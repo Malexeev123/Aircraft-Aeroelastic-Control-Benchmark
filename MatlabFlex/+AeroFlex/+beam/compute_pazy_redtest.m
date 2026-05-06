@@ -132,8 +132,8 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
         for i = 1: activePts
             idx_R = double((i-1)*3)+(1:3);
             idx_0 = double((i-1)*6)+(1:6);
-            R_i3 = Rlocal0(idx_R,:);
-            % R_i3 = Rglobal0(idx_R,:);
+            % R_i3 = Rlocal0(idx_R,:);
+            R_i3 = Rglobal0(idx_R,:);
 
             R_i6 = blkdiag(R_i3,R_i3);
             if Nm ==20
@@ -211,7 +211,7 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
 
             
         end
-        disp('chain_s');disp(chain_s);
+        % disp('chain_s');disp(chain_s);
         nChain = length(chain_s);
         elemLen = zeros(1, nChain-1);
         if sIdx ~=chain_id
@@ -229,7 +229,7 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
             elemChainL(i, sIdx) = - elemLen(i);
             end
         end
-        disp(elemChainL)
+        % disp(elemChainL)
         % E Matrix
         % Eall =zeros(fem.num_elem*6, 6);
         % % e1 = [1; 0; 0];
@@ -264,8 +264,8 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
             % disp(E6_loc)
             E6_glb = R6 * E6_loc * R6.';                     % rotate into GLOBAL
             rowi = double((i-1)*6) + (1:6);
-            Eall(rowi,:) = E6_glb;
-            % Eall(rowi,:) = E6_loc;
+            % Eall(rowi,:) = E6_glb;
+            Eall(rowi,:) = E6_loc;
         
             
         
@@ -287,38 +287,16 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
 
 %% Psi 1 Calc --> covert cont. (Can skip since dirac delta aka if s==si node then Psi(s) == Psi_si otherwise Psi == 0
 for j = 1: Nm
-    if NetworkPath
       Psi1_discrete(:,j) = Mred*phi1_discrete(:, j); % This one for Comp
         % Psi1_discrete(:,j) = blkdiag(RotPsiGlob,RotPsiGlob)*Mred*phi1_discrete(:, j); % This one for Comp
         % Psi1_discrete(:,j) = blkdiag(RotPsiLoc,RotPsiLoc)*Mred*phi1_discrete(:, j); % This one for laptop
-
-    else
-        % Psi1_discrete(:,j) = blkdiag(RotPsiLoc,RotPsiLoc)*Mred*phi1_discrete(:, j); % This one for laptop
-        Psi1_discrete(:,j) = Mred*phi1_discrete(:, j); % This one for Comp
-        % Psi1_discrete(:,j) = blkdiag(RotPsiGlob,RotPsiGlob)*Mred*phi1_discrete(:, j); % This one for Comp
-
-    end
 end
 
 %% Test of M conversion
 elemLen_sub1 = elemChainL(:,1);
 elemLen_sub2 = elemChainL(:,2);
 elemChainL = [elemLen_sub1;elemLen_sub2];
-% M_norm = zeros(size(Mred));
-% K_norm = zeros(size(Kred));
-% for o = 1:length(chain)-2
-%     dos = double((o-1)*6)+(1:6);
-%     for p = 1:ndofs
-% 
-%         M_norm(dos, dos) = M_norm(dos, dos) + Mred(dos,p);
-%         K_norm(dos, dos) = K_norm(dos, dos) + Kred(dos,p);
-%     end
-% end
-% 
-% [Vi,Di] = eigs(K_norm,M_norm,Nm,'SM');
-% wi   = sqrt(diag(Di)); 
-% lam1 = diag(Di);
-%%
+
 
 [alpha1_new, alpha2_new] = intrinsicAlphaNormalization( ...
              fem, keepDofs, phi1_discrete, phi2_discrete, Mred, Kred, nModes, ...
@@ -376,8 +354,8 @@ phi0_corrected = zeros(size(phi0));
              fem, keepDofs, phi1_discrete, phi2_discrete, Mred, Kred, nModes, ...
              r_mid, chain, elemChainL, Psi1_discrete, psi2_discrete, phi1_half);
 % disp(size(alpha1_sc)); 
-disp(alpha1_sc); 
-disp(alpha2_sc); 
+% disp(alpha1_sc); 
+% disp(alpha2_sc); 
 
 % error('pausing here')
 % for i = 1:Nm
@@ -390,29 +368,25 @@ disp(alpha2_sc);
         psi2_corrected(:,j) = psi2_discrete(:,j)/sqrt(alpha2_sc(j));
         
         % Norm Phi 0 here
-        % phi0_corrected(:,j) = phi0(:,j)/sqrt(alpha1_sc(j));
         phi0_corrected(:,j) = w0(j)*phi0(:,j)/sqrt(alpha1_sc(j));
-        % phi0_corrected(:,j) = sqrt(w0(j))*phi0(:,j)/sqrt(alpha1_sc(j));
     end
 % end
-% disp('size(phi1_corrected)');
-% 
-% disp(size(phi1_corrected));
+
 
 
 phi1_half = phi1_half_corrected;
 % phi2_discrete= (phi2_corrected);
 % writematrix(phi2_corrected,'phi2_corrected.dat','Delimiter','tab');
 % disp(conj(phi2_corrected))
-phi2_discrete= real(phi2_corrected);
-% phi2_discrete= (phi2_corrected)
+% phi2_discrete= real(phi2_corrected);
+phi2_discrete= (phi2_corrected);
 % writematrix(phi1_corrected,'phi1_corrected.dat','Delimiter','tab');
 
 phi1_discrete = phi1_corrected;
 Psi1_discrete = psi1_corrected;
-psi2_discrete = real(psi2_corrected);
-% psi2_discrete = (psi2_corrected);
-% phi0 = phi0_corrected;
+% psi2_discrete = real(psi2_corrected);
+psi2_discrete = (psi2_corrected);
+phi0 = phi0_corrected;
 
 % 
 % disp(phi0);
@@ -1088,7 +1062,7 @@ for e = 1 : ne
           % disp(phi1_loc([leftI,rightI], j));
           sgrsgrs = norm(phi1_loc([leftI,rightI], j)- phi1_global([leftI,rightI], j));
           if sgrsgrs ~= 0
-            disp('not like us')
+            % disp('not like us')
           end
        end
     end
@@ -1274,7 +1248,7 @@ function [alpha1, alpha2] = intrinsicAlphaNormalizationScalar( ...
     fem, keepDofs, phi1_loc, phi2_loc, Mred, Kred, nModes, r_mid, chain, ...
     elemChainL, Psi1_discrete, psi2_discrete, phi1_half)
 
-% We'll build alpha1, alpha2 => [nModes x nModes]
+% build alpha1, alpha2 => [nModes x nModes]
 
 % elemLen_sub1 = elemLen(:,1);
 % elemLen_sub2 = elemLen(:,2);
@@ -1284,7 +1258,7 @@ function [alpha1, alpha2] = intrinsicAlphaNormalizationScalar( ...
 Nm = size(phi1_loc, 2);             % number of modes
 Nn = length(chain);           % number of nodes
 Ne = Nn - 1;                    % number of elements
-disp(chain)
+% disp(chain)
 Cred = Kred\eye(size(Kred));
 
 alpha1 = zeros(Nm, 1);
@@ -1380,11 +1354,11 @@ fKAll = zeros(ndof,numModes);
 %     fKAll(:,j) = Kred*phi0_global(:,j);
 % end
 for j=1:numModes
-    fKAll(:,j) = -w0(j)^2*Mred*phi0_global(:,j);
-    % fKAll(:,j) = w0(j)^2*Mred*phi0_global(:,j);
+    % fKAll(:,j) = -w0(j)^2*Mred*phi0_global(:,j);
+    fKAll(:,j) = w0(j)^2*Mred*phi0_global(:,j);
 end
-disp('size(fKAll)');
-disp(size(fKAll));
+% disp('size(fKAll)');
+% disp(size(fKAll));
 
 % I think you use phi0 not phi1 to calc the psi2, opposed to reference
 phi1_discrete = phi0_global;
@@ -1458,7 +1432,7 @@ for i=1:(nChain-1)
 
 
             end
-            % forceSum_g = -forceSum_g;
+            forceSum_g = -forceSum_g;
         end
 
         % phi2_global_sub = -forceSum_g; 
@@ -1479,8 +1453,8 @@ for i=1:(nChain-1)
             kappa_sub(1) = (fem.structural_twist(1,i)) / elem_s;
         end
         E6_i = L1_operator([1;0;0; kappa_sub]);   % [e1; kappa_sub]
-        % Emat(rowIdx,:) = E6_i;
-        Emat(rowIdx,:) = R6_i;
+        Emat(rowIdx,:) = E6_i;
+        % Emat(rowIdx,:) = R6_i;
         if isempty(idx_l) 
             phi1_i = zeros(6,1);
             phi1_i_plus = phi1_discrete(idx_l2,j);
@@ -1768,7 +1742,7 @@ function activeDofs = defineActiveDofs_pazyWing(fem, dofBC)
 %                 after condensation. (All others are 'omitted' or slaved.)
     % disp(fem)
     activeDofs = [];
-    disp(fem)
+    % disp(fem)
     dofPerNode = 6;
 
     for n = 1 : fem.num_node

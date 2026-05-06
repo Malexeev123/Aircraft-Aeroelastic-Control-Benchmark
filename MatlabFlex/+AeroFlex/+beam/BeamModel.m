@@ -174,10 +174,25 @@ classdef BeamModel
             % pick Nm
             w  = w_all(1:obj.Nm);
             Vr = V(:,   1:obj.Nm);
+            
+            % Vr((length(Vr)/2+1:end),:) = -Vr((length(Vr)/2+1:end),:);
 
+            % negCount = 0;
+            % for k = 1:size(Vr,2)
+            %     [~,imax] = max(abs(Vr(:,k)));
+            %     if Vr(imax,k) < 0
+            %         % disp('to neg')
+            %          negCount = negCount+1;
+            %          % Vr(:,k) = -Vr(:,k);
+            %         % Vmass(:,k) = -Vmass(:,k);
+            %     end
+            % end
+            % if negCount > size(Vr,2)/2
+            Vr= -Vr;
+            % end
             % 2.D) mass-normalise φ0 (column-wise)
             Mred = Vr.' * M * Vr;
-            Mred = 0.5*(Mred + Mred.');  % numerical symmetry
+            % Mred = 0.5*(Mred + Mred.');  % numerical symmetry
             
             
             % obj.Kglobal = K;
@@ -224,13 +239,14 @@ classdef BeamModel
             %     Vmass= -Vmass;
             % end
 
-
+            % Other wing
+            % Vmass((length(Vmass)/2+1:end),:) = -Vmass((length(Vmass)/2+1:end),:);
             
 
-            % [~,idMax] = max(abs(Vmass))
+            % [~,idMax] = max(abs(Vmass));
             % if Vmass(idMax) < 0
             %     disp('Neg')
-            %     Vmass = -Vmass;
+                % Vmass = -Vmass;
             % end
 
 
@@ -264,7 +280,8 @@ classdef BeamModel
             % Vkeep(halfN,:) = -Vkeep(halfN,:);
 
             obj.phi0 = Vkeep;
-       
+            % obj.Kglobal = K;
+            % obj.Mglobal = Mred;
             % 2.F) Reduced-order geometric tensors & higher derivatives
             if isempty(obj.Gamma1) || isempty(obj.Gamma2) || isempty(obj.phi1) || isempty(obj.phi2)
                 red = AeroFlex.beam.runRedtestWrapper(obj.fem, obj.aero, obj.phi0, obj.Nm, cfg, obj);
@@ -296,6 +313,9 @@ classdef BeamModel
             obj.Pz_phi2 = Zva2/(Zva2.'*Zva2) * Zva2.';
             Zvr2    = orth(red.phi2_sA.');
             obj.Pr_phi2 = Zvr2/(Zvr2.'*Zvr2) * Zvr2.';
+
+
+ 
         end
 
         %% ----------------------- utility ------------------------------

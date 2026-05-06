@@ -5,8 +5,8 @@ function chain = buildChainFrom3NodeElements(fem)
 %        e=2 => [nNext, nX,  nY],  etc.
 %   and extracts the chain of end-nodes in ascending order.
 
-    ne = fem.num_elem      % e.g. 8
-    C  = fem.connectivities    % [8 x 3], each row => [cur, mid, next]
+    ne = fem.num_elem;      % e.g. 8
+    C  = fem.connectivities;    % [8 x 3], each row => [cur, mid, next]
     
     % Start from row 1 => first col is clamp
     node1 = C(1,1);  % e.g. clamp
