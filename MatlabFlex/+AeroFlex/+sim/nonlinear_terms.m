@@ -82,8 +82,10 @@ Gxiq1 = squeeze(pagemtimes(par.Gamma_xi, 'none', q_xi, 'none'));
 N_qxi =  (Gxiq1(:,:,1) * q1);
 
 % ---------- Γ2^T q1  (Eq 9b) ----------------------------------------------
-GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'));
-N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
+% GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'))
+% N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
+GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q2, 'none'));
+N_GT =  GT(:,:,1)*q1;     % note: transpose on first arg
 
 % ---------- aerodynamic linear forces  -----------------------------------
 

@@ -357,6 +357,7 @@ end
 results = struct(); hadError = false; MEout = [];
 
 % try
+
     switch sim_case
 
         % ================= OPENLOOP =================
@@ -423,6 +424,27 @@ results = struct(); hadError = false; MEout = [];
                 case 'plantrom'
                     % Full loop: Plant + Estimator + Controller 
                     GLAConfig;
+                    % bodyCase = lower(string(cfg.sim.bodyCase));
+
+                    switch body_case
+                        case "wingOnly"
+                            useRigidBody = false;
+                            useOuterLQR  = false;
+                    
+                        case "coupledfull"
+                            useRigidBody = true;
+                            useOuterLQR  = true;
+                    
+                        otherwise
+                            error('Unknown cfg.sim.bodyCase = "%s".', body_case);
+                    end
+
+                    outerCtrl = [];
+                    if useOuterLQR
+                        % outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                        outerCtrl = [];
+                    end
+
                     modelFcn      = str2func(run_settings.modelFcn);
                     sensorFcn     = str2func(run_settings.sensorFcn);
                     estimatorFcn  = str2func(run_settings.estimatorFcn);
@@ -455,26 +477,248 @@ results = struct(); hadError = false; MEout = [];
                     Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
                     wHorizon  = zeros(run_settings.Ne, Nt);
                     trueGust  = zeros(1, Nt);
-
+                    
                     xk = x0; u_prev = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+                    %======================================================================
+                    % Runtime / closed-loop diagnostic setup
+                    %======================================================================
+                    simWallTimer = tic;
+                    
+                    % Main integration setup. Rename these if your variables differ.
+                    dtSim     = cfg.sim.dt;
+                    TsCtrl    = cfg.ctrl.Ts;
+                    ctrlEvery = max(1, round(TsCtrl/dtSim)); % controller update interval in sim steps
+                    
+                    % Print every N controller calls.
+                    diagPrintPeriod_s = 2*Ts;   % 
+                    % diagPrintPeriod_s = 0.05;   % 
+                    diagPrintEvery    = max(1, round(diagPrintPeriod_s/TsCtrl));
+                    
+                    % Preallocate controller-step diagnostics.
+                    NctrlMax = ceil(Nt/ctrlEvery) + 5;
+                    
+                    diag = struct();
+                    
+                    diag.iCtrl        = 0;
+                    diag.tCtrl        = nan(1,NctrlMax);
+                    
+                    diag.mheTime      = nan(1,NctrlMax);
+                    diag.mpcTime      = nan(1,NctrlMax);
+                    diag.totalCtrlTime= nan(1,NctrlMax);
+                    
+                    diag.mheCost      = nan(1,NctrlMax);
+                    diag.mpcCost      = nan(1,NctrlMax);
+                    
+                    diag.mheCont      = nan(1,NctrlMax);
+                    diag.mpcCont      = nan(1,NctrlMax);
+                    
+                    diag.mheFlag      = nan(1,NctrlMax);
+                    diag.mpcFlag      = nan(1,NctrlMax);
+                    
+                    diag.wInf         = nan(1,NctrlMax);
+                    diag.uInf         = nan(1,NctrlMax);
+                    diag.duInf        = nan(1,NctrlMax);
+                    diag.xErrInf      = nan(1,NctrlMax);
+                    
+                    diag.nMHEFail     = 0;
+                    diag.nMPCFail     = 0;
+                    
+                    % Store previous command for rate/change diagnostics.
+                    uDiagPrev = zeros(cfg.nu,1);
+                    if isprop(mpc,'uPrev') && ~isempty(mpc.uPrev)
+                        uDiagPrev = mpc.uPrev(:);
+                    elseif exist('u_prev','var') && ~isempty(u_prev)
+                        uDiagPrev = u_prev(:);
+                    end
+                    
+                    fprintf('\n');
+                    fprintf('======================================================================\n');
+                    fprintf(' SIMULATION START\n');
+                    fprintf('======================================================================\n');
+                    fprintf('  Nt              : %d samples\n', Nt);
+                    fprintf('  dtSim           : %.6g s\n', dtSim);
+                    fprintf('  TsCtrl          : %.6g s\n', TsCtrl);
+                    fprintf('  ctrlEvery       : %d sim steps/control update\n', ctrlEvery);
+                    fprintf('  MHE horizon Ne  : %d slots, tau_e = %.6g s\n', cfg.ctrl.Ne, cfg.ctrl.Ne*TsCtrl);
+                    fprintf('  MPC horizon Nc  : %d slots, tau_c = %.6g s\n', cfg.ctrl.Nc, cfg.ctrl.Nc*TsCtrl);
+                    fprintf('  nx, nu, nw      : %d, %d, %d\n', length(trim.states), cfg.nu, cfg.nw);
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf(['  %7s | %9s | %9s | %7s | %8s | %8s | %8s | %8s | %7s | %8s | %8s | %8s\n'], ...
+                            'Prog[%]', 't_sim[s]', 'wall', 'RTx', ...
+                            'MHE[ms]', 'MPC[ms]', 'MHEceq', 'MPCceq', ...
+                            'flags', '|w|inf', '|u|inf', '|du|inf');
+                    fprintf('----------------------------------------------------------------------\n');
+
                     for k = 1:Nt
                         % Measurements (your PlantRunTime API returns z_k, t_k)
-                        [z_k, t_k] = plant.readSensors(cfg, []);   
-
+                        io = AeroFlex.sim.readPlantIO_case(plant, cfg, Ssim, body_case);
+                        
+                        t_k = io.t;
+                        z_k = io.yWing;       % wing sensors for nMHE
+                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only                        
                         % True gust from prepared profile
                         gk = gust_series( min(round(t_k/cfg.sim.dt)+1, numel(gust_series)) );
                         trueGust(k) = gk;
+                        
+                        % ==============================================================
+                        % 2. Outer rigid-body controller
+                        % ==============================================================
+                        switch body_case
+                            case "wingOnly"
+                                u_outer = zeros(cfg.nu,1);
+                    
+                            case "coupledfull"
+                                if isempty(outerCtrl)
+                                   %LQR object .
+                                    u_outer = zeros(cfg.nu,1);
+                                else
+                                    % u_outer = outerCtrl.compute(yRB, io.ref, t_k);
+                                    u_outer = outerCtrl.computeControl(yRB, t_k);
+                                end
+                        end
+
+                        %======================================================================
+                        % Control / estimation update
+                        %======================================================================
+                        % if mod(k-1,ctrlEvery) == 0
+                        
+                        diag.iCtrl = diag.iCtrl + 1;
+                        iCtrl = diag.iCtrl;
+                    
+                        tCtrlTimer = tic;
+                    
+                        %--------------------------------------------------------------
+                        % 1. nMHE solve
+                        %--------------------------------------------------------------
+                        mheTimer = tic;
 
                         % Estimate
-                        [xhat, what, ~] = est.estimate(z_k, u_prev, t_k);
+                        [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                        mheSolveTime = toc(mheTimer);
+                        if Ehe.exitflag >= 0
+                            wMPC = what(end-cfg.nw+1:end);   % newest/current disturbance estimate
+                        else
+                            wMPC = zeros(cfg.nw,1);          %  hold previous disturbance estimate
+                        end
+                        % estGust(k) = what(2);
+                        wMPC = what(2);
 
-                        % Control
-                        [uk, Uinfo] = ctrl.computeControl(xhat, gk, u_prev, t_k); %#ok<ASGLU>
-                        u_prev = uk;
+                         %--------------------------------------------------------------
+                        % 2. nMPC solve
+                        %--------------------------------------------------------------
+                        mpcTimer = tic;
+                        % [uk, Uinfo] = ctrl.computeControl(xhat, wMPC, u_prev, t_k); %
+                        [u_inner, Uinfo] = ctrl.computeControl(xhat, gk, u_prev, t_k); %
+                        uk = u_inner;
+                        % uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+                        % u_prev = uk;
+                        u_cmd = uk;
 
-                        % Propagate plant
-                        xk = plant.step(uk, gk, "ROM");
+                        mpcSolveTime = toc(mpcTimer);
 
+                        totalCtrlTime = toc(tCtrlTimer);
+
+                        %--------------------------------------------------------------
+                        % 3. Store diagnostics
+                        %--------------------------------------------------------------
+                        diag.tCtrl(iCtrl)         = t_k;
+                        diag.mheTime(iCtrl)       = mheSolveTime;
+                        diag.mpcTime(iCtrl)       = mpcSolveTime;
+                        diag.totalCtrlTime(iCtrl) = totalCtrlTime;
+                    
+                        diag.mheCost(iCtrl)       = safeField(Ehe,'cost',nan);
+                        diag.mpcCost(iCtrl)       = safeField(Uinfo,'cost',nan);
+                    
+                        diag.mheCont(iCtrl)       = safeField(Ehe,'continuity',nan);
+                        diag.mpcCont(iCtrl)       = safeField(Uinfo,'continuity',nan);
+                    
+                        diag.mheFlag(iCtrl)       = safeField(Ehe,'exitflag',safeField(Ehe,'flag',nan));
+                        diag.mpcFlag(iCtrl)       = safeField(Uinfo,'exitflag',safeField(Uinfo,'flag',nan));
+                    
+                        diag.wInf(iCtrl)          = norm(wMPC,inf);
+                        diag.uInf(iCtrl)          = norm(u_cmd(1:2),inf);
+                        % diag.duInf(iCtrl)         = norm(u_cmd(:)-uDiagPrev(:),inf);
+                        diag.duInf(iCtrl)         = norm(u_cmd(2:4),inf);
+                    
+                        if isprop(trim,'states') && ~isempty(trim.states)
+                            diag.xErrInf(iCtrl) = norm(xhat(:)-trim.states(:),inf);
+                        else
+                            diag.xErrInf(iCtrl) = norm(xhat(:),inf);
+                        end
+                    
+                        % Failure counters.
+                        if ~(diag.mheFlag(iCtrl) > 0)
+                            diag.nMHEFail = diag.nMHEFail + 1;
+                        end
+                    
+                        if ~(diag.mpcFlag(iCtrl) > 0)
+                            diag.nMPCFail = diag.nMPCFail + 1;
+                        end
+
+                        %--------------------------------------------------------------
+                        % 4. Runtime progress print
+                        %--------------------------------------------------------------
+                        isPrintStep = mod(iCtrl,diagPrintEvery) == 0;
+                        isLastStep  = k == Nt;
+                    
+                        if isPrintStep || isLastStep
+                            elapsedWall = toc(simWallTimer);
+                    
+                            progressFrac = max(k/Nt,eps);
+                            etaWall = elapsedWall*(1/progressFrac - 1);
+                    
+                            if elapsedWall > 0
+                                rtFactor = t_k/elapsedWall;
+                            else
+                                rtFactor = nan;
+                            end
+                    
+                            flagStr = sprintf('%+d/%+d', round(diag.mheFlag(iCtrl)), round(diag.mpcFlag(iCtrl)));
+                    
+                            fprintf(['  %7.2f | %9.4f | %9s | %7.2f | %8.2f | %8.2f | %8.1e | %8.1e | %7s | %8.2e | %8.2e | %8.2e'], ...
+                                    100*progressFrac, ...
+                                    t_k, ...
+                                    fmtDuration(elapsedWall), ...
+                                    rtFactor, ...
+                                    1e3*mheSolveTime, ...
+                                    1e3*mpcSolveTime, ...
+                                    diag.mheCont(iCtrl), ...
+                                    diag.mpcCont(iCtrl), ...
+                                    flagStr, ...
+                                    diag.wInf(iCtrl), ...
+                                    diag.uInf(iCtrl), ...
+                                    diag.duInf(iCtrl));
+                    
+                            fprintf('   ETA %s\n', fmtDuration(etaWall));
+                        end
+                    
+                        %--------------------------------------------------------------
+                        % 5. Update previous command bookkeeping
+                        %--------------------------------------------------------------
+                        uDiagPrev = u_cmd(:);
+                        u_prev    = u_cmd(:);   
+                        
+
+                        % ==============================================================
+                        % 5. Command fusion / saturation
+                        % ==============================================================
+                        switch body_case
+                            case "wingOnly"
+                                u_cmd = saturateControl(u_inner, cfg);
+                    
+                            case "coupledfull"
+                                u_cmd = fuseInnerOuterCommands(u_outer, u_inner, cfg);
+                                u_cmd = saturateControl(u_cmd, cfg);
+                        end
+
+                        % ==============================================================
+                        % 6. Propagate plant
+                        % ==============================================================
+                        % xk = plant.step(uk, gk, "ROM");
+                        xk = stepPlant_case(plant, cfg, body_case, u_cmd, gk);
+
+                        % figure;
+                        % plot(estGust);
                         % Log
                         xhat_hist(:,k) = xhat;
                         Uhist(:,k)     = uk;
@@ -486,7 +730,77 @@ results = struct(); hadError = false; MEout = [];
                     % Pack outputs to match open-loop fields
                     x = []; sensEq = [];
                     log = struct('xhat',xhat_hist,'U',Uhist,'wHorizon',wHorizon,'wTrue',trueGust);
+                    %======================================================================
+                    % Final diagnostic summary
+                    %======================================================================
+                    elapsedTotal = toc(simWallTimer);
+                    
+                    idxValid = 1:diag.iCtrl;
+                    
+                    mheTime_ms = 1e3*diag.mheTime(idxValid);
+                    mpcTime_ms = 1e3*diag.mpcTime(idxValid);
+                    totTime_ms = 1e3*diag.totalCtrlTime(idxValid);
+                    
+                    mheCont = diag.mheCont(idxValid);
+                    mpcCont = diag.mpcCont(idxValid);
+                    
+                    mheFlag = diag.mheFlag(idxValid);
+                    mpcFlag = diag.mpcFlag(idxValid);
+                    
+                    fprintf('\n');
+                    fprintf('======================================================================\n');
+                    fprintf(' SIMULATION COMPLETE\n');
+                    fprintf('======================================================================\n');
+                    fprintf('  Simulated duration      : %.6g s\n', tVec(end));
+                    fprintf('  Wall-clock duration     : %s\n', fmtDuration(elapsedTotal));
+                    fprintf('  Average real-time factor: %.3f x\n', tVec(end)/max(elapsedTotal,eps));
+                    fprintf('  Controller calls        : %d\n', diag.iCtrl);
+                    fprintf('----------------------------------------------------------------------\n');
+                    
+                    fprintf('  nMHE success rate       : %6.2f %%  (%d fail / %d total)\n', ...
+                            100*mean(mheFlag > 0,'omitnan'), diag.nMHEFail, diag.iCtrl);
+                    
+                    fprintf('  nMPC success rate       : %6.2f %%  (%d fail / %d total)\n', ...
+                            100*mean(mpcFlag > 0,'omitnan'), diag.nMPCFail, diag.iCtrl);
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  nMHE solve time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(mheTime_ms,'omitnan'), localPercentile(mheTime_ms,95), max(mheTime_ms,[],'omitnan'));
+                    
+                    fprintf('  nMPC solve time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(mpcTime_ms,'omitnan'), localPercentile(mpcTime_ms,95), max(mpcTime_ms,[],'omitnan'));
+                    
+                    fprintf('  Total ctrl time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(totTime_ms,'omitnan'), localPercentile(totTime_ms,95), max(totTime_ms,[],'omitnan'));
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  nMHE continuity norm    : mean %8.2e | p95 %8.2e | max %8.2e\n', ...
+                            mean(mheCont,'omitnan'), localPercentile(mheCont,95), max(mheCont,[],'omitnan'));
+                    
+                    fprintf('  nMPC continuity norm    : mean %8.2e | p95 %8.2e | max %8.2e\n', ...
+                            mean(mpcCont,'omitnan'), localPercentile(mpcCont,95), max(mpcCont,[],'omitnan'));
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  |wHat|_inf              : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.wInf(idxValid),'omitnan'), max(diag.wInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |u|_inf                 : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.uInf(idxValid),'omitnan'), max(diag.uInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |du|_inf per ctrl step  : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.duInf(idxValid),'omitnan'), max(diag.duInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |xhat-xTrim|_inf        : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.xErrInf(idxValid),'omitnan'), max(diag.xErrInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('======================================================================\n\n');
+                    %% ---- 5. PLOT ----------------------------------------------------------
+                    tAxis = (0:Nt-1)*cfg.ctrl.Ts;
+                    figure; plot(tAxis,trueGust,'k--',tAxis,estGust,'b','LineWidth',1.4), grid on
+                    legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+                    title('MHE demo – ROM truth vs observer estimate')
 
+                    
                 otherwise
                     error('Unknown runner="%s".', runner);
             end
@@ -795,3 +1109,185 @@ function setup_dir = find_latest_setup(sim_setup_root, case_name, body_case_dir)
 end
 
 function out = ternary(cond, a, b), if cond, out=a; else, out=b; end, end
+function val = safeField(S,fieldName,defaultVal)
+%SAFEFIELD Safely read a field from a struct.
+    if isstruct(S) && isfield(S,fieldName) && ~isempty(S.(fieldName))
+        val = S.(fieldName);
+    else
+        val = defaultVal;
+    end
+
+    if numel(val) > 1
+        val = val(1);
+    end
+end
+
+function str = fmtDuration(sec)
+%FMTDURATION Format seconds as hh:mm:ss.s.
+    if ~isfinite(sec) || sec < 0
+        str = '--:--:--';
+        return
+    end
+
+    h = floor(sec/3600);
+    m = floor((sec - 3600*h)/60);
+    s = sec - 3600*h - 60*m;
+
+    if h > 0
+        str = sprintf('%02d:%02d:%04.1f',h,m,s);
+    else
+        str = sprintf('%02d:%04.1f',m,s);
+    end
+end
+
+function p = localPercentile(x,pct)
+%LOCALPERCENTILE Percentile without requiring Statistics Toolbox.
+    x = x(:);
+    x = x(isfinite(x));
+
+    if isempty(x)
+        p = nan;
+        return
+    end
+
+    x = sort(x);
+
+    if numel(x) == 1
+        p = x;
+        return
+    end
+
+    q = pct/100;
+    pos = 1 + q*(numel(x)-1);
+
+    lo = floor(pos);
+    hi = ceil(pos);
+
+    if lo == hi
+        p = x(lo);
+    else
+        alpha = pos - lo;
+        p = (1-alpha)*x(lo) + alpha*x(hi);
+    end
+end
+
+%% Coupling functions
+
+function xk = stepPlant_case(plant, cfg, bodyCase, u_cmd, gk)
+%STEPPLANT_CASE Unified plant propagation interface.
+
+    switch lower(string(bodyCase))
+
+        case "wingonly"
+            % Existing flexible-wing-only ROM propagation.
+            xk = plant.step(u_cmd, gk, "ROM");
+
+        case "coupledfull"
+            % Preferred future API:
+            %
+              xk = plant.stepCoupled(u_cmd, gk);
+            %
+            % Internally this should:
+            %   1. propagate flexible wing ROM,
+            %   2. compute Clamp6 = [Fwing; Mwing],
+            %   3. compute tail/fin/thrust/weight terms,
+            %   4. sum forces/moments,
+            %   5. propagate rigid-body 6-DoF state,
+            %   6. update local wing flight condition for next step.
+            %
+            % Temporary fallback:
+            % warningOnce('stepPlant_case:coupledFallback', ...
+            %     ['fully_coupled requested, but stepCoupled is not wired. ', ...
+            %      'Using plant.step(...,"ROM") fallback.']);
+            % xk = plant.step(u_cmd, gk, "ROM");
+
+        otherwise
+            error('Unknown bodyCase = "%s".', bodyCase);
+    end
+end
+
+function u = fuseInnerOuterCommands(u_outer, u_inner, cfg)
+%FUSEINNEROUTERCOMMANDS Complementary command fusion.
+%
+% Placeholder implementation:
+%   u = u_outer + u_inner
+%
+% Future implementation:
+%   u = F_L(z) u_outer + F_H(z) u_inner
+%
+% where F_L is low-pass and F_H is high-pass/complementary.
+
+    u_outer = u_outer(:);
+    u_inner = u_inner(:);
+
+    if numel(u_outer) ~= numel(u_inner)
+        error('Command dimension mismatch: outer has %d, inner has %d.', ...
+              numel(u_outer), numel(u_inner));
+    end
+
+    if isfield(cfg.ctrl,'useComplementaryFilter') && cfg.ctrl.useComplementaryFilter
+        % TODO: replace with persistent discrete filters.
+        % For now, direct sum.
+        u = u_outer + u_inner;
+    else
+        u = u_outer + u_inner;
+    end
+end
+
+function uSat = saturateControl(u, cfg)
+%SATURATECONTROL Apply actuator deflection/rate limits.
+
+    u = u(:);
+
+    nSurf  = cfg.ctrl.n_surf;
+    varPer = cfg.ctrl.var_per;
+
+    if varPer == 1
+        uL = expandBound(cfg.uL,nSurf);
+        uU = expandBound(cfg.uU,nSurf);
+
+    elseif varPer == 2
+        % Assumed ordering:
+        %   u = [delta_1; ...; delta_n; rate_1; ...; rate_n]
+        defL  = expandBound(cfg.uL,nSurf);
+        defU  = expandBound(cfg.uU,nSurf);
+        rateL = expandBound(cfg.urateL,nSurf);
+        rateU = expandBound(cfg.urateU,nSurf);
+
+        uL = [defL; rateL];
+        uU = [defU; rateU];
+
+    else
+        error('Unsupported cfg.ctrl.var_per = %d.', varPer);
+    end
+
+    if numel(u) ~= numel(uL)
+        error('Control length mismatch: numel(u)=%d, expected %d.', ...
+              numel(u), numel(uL));
+    end
+
+    uSat = min(max(u,uL),uU);
+end
+
+function b = expandBound(b,n)
+%EXPANDBOUND Expand scalar bound to n-vector.
+    b = b(:);
+    if isscalar(b)
+        b = repmat(b,n,1);
+    elseif numel(b) ~= n
+        error('Bound must be scalar or length %d.', n);
+    end
+end
+
+function warningOnce(id,msg)
+%WARNINGONCE Print a warning only once.
+    persistent issued
+    if isempty(issued)
+        issued = containers.Map();
+    end
+
+    if ~isKey(issued,id)
+        warning(id,'%s',msg);
+        issued(id) = true;
+    end
+end

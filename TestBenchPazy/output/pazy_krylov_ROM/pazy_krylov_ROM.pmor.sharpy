@@ -1,5 +1,5 @@
 [parameters]
-pazy_model_ROM = 25
+pazy_model_ROM = 35
 [sim_info]
 case = pazy_krylov_ROM
 path_to_data = /home/maxal/Research/TestBenchPazy/output/pazy_krylov_ROM

@@ -35,6 +35,7 @@ classdef nMHEv2 < AeroFlex.ctrl.EstimatorBase
         z0  double
         H   double
         solverOpts
+        firstFullSolve
         % ---- outputs
         % xhat double
         % what double
@@ -84,17 +85,19 @@ function obj = nMHEv2(cfg,beam,aero,base, trim)
 
     % -------- 3. optimiser options -----------------------------------
     obj.solverOpts = optimoptions('fmincon',...
-        'Algorithm','interior-point',...     % interior-point
+        'Algorithm','interior-point',...     % interior-point | sqp
         'SpecifyObjectiveGradient',true,...
         'SpecifyConstraintGradient',true,...
         'HessianApproximation','lbfgs',...
-        'Display','off',...
-        'FiniteDifferenceStepSize',1e-8,...
-        'OptimalityTolerance',1e-5,...
-        'StepTolerance',1e-8);
+        'Display','none',...
+        'OptimalityTolerance',1e-4, ...
+        'StepTolerance',1e-7, ...
+        'ConstraintTolerance',1e-6);
 
     % obj.solverOpts.FiniteDifferenceType ='central';
     % obj.solverOpts.CheckGradients = true;
+            % 'FiniteDifferenceStepSize',1e-8,...
+
     % -------- 4. rolling buffers  ------------------------------------
     obj.Xhist = zeros(obj.nx,obj.Ne+1);
     obj.Uhist = zeros(obj.nu,obj.Ne);
@@ -111,13 +114,17 @@ function obj = nMHEv2(cfg,beam,aero,base, trim)
 
     idx   = obj.buildIndexMaps();
     obj.z0           = zeros((obj.Ne+1)*obj.nx + obj.Ne*obj.nw,1);
-    % obj.z0(idx.x{1}) = xTrim;                 % arrival state
+    for j = 1:obj.Ne+1
+        obj.z0(idx.x{j}) = xTrim;
+    end
+    % obj.z0(idx.x{:}) = xTrim;                 % arrival state
     % obj.z0(idx.x{end}) = xTrim;                 % arrival state
     obj.H            = speye(numel(obj.z0));  % LBFGS initial Hessian
 
     % initial STM (∂x/∂x0  and  ∂x/∂w) – identity / zeros
     obj.Sprev = [eye(obj.nx) , zeros(obj.nx,obj.nw+obj.nu)];
     obj.dbg = struct('t', [], 'W', [], 'cont', 0);
+    obj.firstFullSolve = true;
 end
 %----------------------------------------------------------------------
 function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
@@ -129,30 +136,38 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
         % obj.xlast = obj.Xhist(:,1);
 
     end
-    % ---- 1. roll the local buffers ----------------------------------
-    if obj.k >= obj.Ne
-        obj.Xhist(:,1:end-1) = obj.Xhist(:,2:end);
-        obj.Yhist(:,1:end-1) = obj.Yhist(:,2:end);
-        obj.Whist(:,1:end-1) = obj.Whist(:,2:end);
-        obj.Uhist(:,1:end-1) = obj.Uhist(:,2:end);
-    else
-        obj.k = obj.k + 1;
-    end
+    % ---- 1. roll/append histories every call ----------------------------
+    obj.Xhist(:,1:end-1) = obj.Xhist(:,2:end);
+    obj.Yhist(:,1:end-1) = obj.Yhist(:,2:end);
+    obj.Whist(:,1:end-1) = obj.Whist(:,2:end);
+    obj.Uhist(:,1:end-1) = obj.Uhist(:,2:end);
+    
     obj.Yhist(:,end) = z_k;
     obj.Uhist(:,end) = u_prev;
-    idx = obj.buildIndexMaps();
-
-    % ---- 2. until horizon is full, just output copy of last estimate
+    
+    obj.k = min(obj.k + 1, obj.Ne);
+    
+    % ---- 2. until horizon is sufficiently populated ---------------------
     if obj.k < obj.Ne
         obj.Xhist(:,end) = obj.xhat;
+    
         xhat = obj.xhat;
         what = obj.what;
-        info = struct('cost',0,'continuity',0,'exitflag',0,...
-                      'wHorizon',zeros(obj.Ne,1));
+        idx = obj.buildIndexMaps();
+
         obj.z0(idx.x{obj.k}) = xhat;
+        info = struct( ...
+            'cost',0, ...
+            'continuity',0, ...
+            'exitflag',0, ...
+            'wHorizon',zeros(obj.Ne,obj.nw));
     
         return
     end
+
+    idx = obj.buildIndexMaps();
+    % 
+    obj.z0(idx.x{obj.k}) = obj.xhat;
 
     % % current arrival state -------------------------
     % obj.z0(idx.x{1}) = obj.xhat;
@@ -170,8 +185,17 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
     % obj.Sprev = S_tmp;      
 
     % initial disturbance guess ---------------------
-    obj.z0([idx.w{:}]) = 0;            % => keep the same dimension
-
+    % obj.z0([idx.w{:}]) = 0;            % => keep the same dimension
+    if obj.firstFullSolve
+        obj.z0([idx.w{:}]) = 0;
+        obj.firstFullSolve = false;
+    else
+        % Keep shifted disturbance guess.
+        % Optionally:
+        obj.z0(idx.w{end}) = obj.z0(idx.w{end-1});  % hold-last
+        % or
+        % obj.z0(idx.w{end}) = zeros(obj.nw,1);     % only new slot zero
+    end
     % ---- 4. assemble NLP & solve ------------------------------------
     nlp = obj.assembleWindow();
     [p,fval,exitflag] = fmincon(nlp.cost,obj.z0,...
@@ -179,16 +203,29 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
                                 nlp.nonl,obj.solverOpts);
 
     % ---- 5. post-process solution -----------------------------------
-    obj.z0  = obj.shiftGuess(p);          % warm start for next call
+    % obj.z0  = obj.shiftGuess(p);          % warm start for next call
+    % % obj.xhat = p(idx.x{end});
     % obj.xhat = p(idx.x{end});
-    obj.xhat = p(idx.x{end});
-    obj.what = p([idx.w{:}]);
-    % obj.xlast = obj.xhat;
+    % obj.what = p([idx.w{:}]);
+    % % obj.xlast = obj.xhat;
+    % obj.xlast = p(idx.x{1});
+
+
+    % obj.Xhist(:,end) = obj.xhat;
+    % obj.Whist(:,end) = obj.what(end-obj.nw+1:end);
+    Xsol = reshape(p([idx.x{:}]), obj.nx, obj.Ne+1);
+    Wsol = reshape(p([idx.w{:}]), obj.nw, obj.Ne);
+    
+    obj.Xhist = Xsol;
+    obj.Whist = Wsol;
+    
+    obj.xhat = Xsol(:,end);
+    obj.what = Wsol(:);
     obj.xlast = p(idx.x{1});
 
+    obj.z0 = obj.shiftGuess(p);
 
-    obj.Xhist(:,end) = obj.xhat;
-    obj.Whist(:,end) = obj.what(end-obj.nw+1:end);
+
     obj.Sprev        = nlp.getSTM();
 
     xhat = obj.xhat;   
@@ -277,14 +314,14 @@ end  % public methods
 
         % ---------------------- CONTINUITY ------------------------------
         function [c,ceq,gradc,gradceq] = nonlFun(z)
-            if obj.method == "single"
-                c=[];ceq=[];gradc=[];gradceq=[];return
-            end
+            % if obj.method == "single"
+            %     c=[];ceq=[];gradc=[];gradceq=[];return
+            % end
 
 
-            ceq     = zeros(nx*N,1);
+            ceq     = zeros(nx*(N),1);
             % gradceq = zeros(numel(z),nx*N);
-            gradceq = zeros(nx*N, numel(z));
+            gradceq = zeros(nx*(N), numel(z));
             
 
             X = reshape(z(1:(N+1)*nx),nx,N+1);
@@ -294,29 +331,36 @@ end  % public methods
             % S = obj.Sprev;           % <-- STM that ended the *previous* RT call  = I at k=0 only
             % ceq(1:nx,:) = obj.xhat - X(:, 1);
             % gradceq(1:nx, 1:nx) = -S(1:nx, 1:nx);
-            ceqArrival       = X(:,1) - obj.xlast;         % (nx×1)
+            % ceqArrival       = obj.xlast - X(:,1) ;         % (nx×1)
+            % ceqArrival       = X(:,1) - obj.xlast;         % (nx×1)
+            % ceq(1:nx) = ceqArrival;
+            % gradceq(1:nx, 1:nx) = eye(nx,nx);
 
             Ulocal = obj.Uhist(:,1:obj.Ne);      % exactly Ne columns
             % Ulocal = obj.Uhist(:,1:obj.Ne+1);      % exactly Ne columns
             % subplot(211), stairs(obj.Uhist(1,:)), title('Uhist after shift')
             % subplot(212), stairs(W), title('W decision order')
             row0 = 0;
+            % row0 = row0 + nx;
+
             Nend = N-1;
             % Nend = N-2;
             % Nend = N-3;
+            S = [eye(nx) , zeros(nx,nw+obj.nu)];
+
             for k = 0:Nend
                 idx_xk   = k*nx     + (1:nx);
                 idx_xkp1 = (k+1)*nx + (1:nx);
                 idx_wk   = (N+1)*nx + k*nw + (1:nw);
                 idx_wkp1   = (N+1)*nx + (k+1)*nw + (1:nw);
-
+                % disp(k+1)
                 x = X(:,k+1);
 
                 % x_n = x;
                 wk = W(:,k+1);
                 % uk = obj.Uhist(:,k+1);
                 uk = Ulocal(:,k+1);
-
+                % S = S_last;
                 S = [eye(nx) , zeros(nx,nw+obj.nu)];
                 for m = 1:Nsub
                     [x,S] = obj.model.step(x,uk,wk,S,true);
@@ -330,17 +374,21 @@ end  % public methods
                 % disp(rows(1));
                 % ceq(rows) = X(:,k+1) - x;
                 ceq(rows) = X(:,k+2) - x_end;
+                % ceq(rows) = x_end - X(:,k+2) ;
+                % ceq(rows) = X(:,k+1) - x_end;
                 % ceq(rows) = X(:,k+2) - S*[x_n ; wk; uk];
                 % ceq(rows) = X(:,k+2) - S_end*[x_end; wk; uk]-x_end;
                 % ceq(rows) = X(:,k+2) - S_end*[x_n; wk; uk]-x_end;
 
 
                 gradceq(rows, idx_xkp1) =  eye(nx);     % d/dx_{k+1}
+                % gradceq(rows, idx_xk) = -Sx; % d/dx_k
+                % gradceq(rows, idx_wk) = -Sw;
                 gradceq(rows, idx_xk) = -Sx; % d/dx_k
                 gradceq(rows, idx_wk) = -Sw;
                
                 row0 = row0 + nx;
-                % S_last = S_end;                 
+                S_last = S_end;                 
                 % S_last = S;                    
             end
             % ceq = [ceqArrival ; ceq];

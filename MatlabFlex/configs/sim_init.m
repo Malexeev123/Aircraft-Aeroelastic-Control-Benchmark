@@ -697,7 +697,7 @@ if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'Ts') && ~isempty(cfg.ctrl.Ts)
 else
     run_settings.ctrl_Ts = cfg.sim.dt;  % fallback
 end
-
+GLAConfig;
 % Number of control/estimation horizon steps if applicable
 run_settings.Nc = getOr(cfg.ctrl,'Nc', 6);
 run_settings.Ne = getOr(cfg.ctrl,'Ne', 6);

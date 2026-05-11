@@ -1,5 +1,0 @@
-case_name: pazy_krylov_ROM
-linss_path: /home/maxal/Research/TestBenchPazy/sim_setup/pazy_krylov_ROM/wing_only/20251224/from_sharpy/pazy_krylov_ROM.linss.h5
-created: 2025-12-24
-body_case: wing_only
-note: Open-loop export. Fill deflection later for closed-loop HIL.

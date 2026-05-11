@@ -109,10 +109,10 @@ m    = size(par.Bw,2) + ctrlIdx1 + ctrlIdx2;                             % # inp
 %     mult = G1(:,:,i)* q1;
 %     termB2 = [termB2, mult];
 % end
-%%
+%% Editing 5/10/26
 % % Γ₁  (20×20×20) ---------------------------------------------
-termA = gammaContract( permute(G1,[1 3 2]), q1 );  % Σ_l q1(l) Γ^l_{ik} Actual
-termB = gammaContract( G1 , q1 );                  % Σ_j q1(j) Γ^k_{ij}
+termB = gammaContract( permute(G1,[1 3 2]), q1 );  % Σ_j q1(j) Γ^k_{ij}
+termA = gammaContract( G1 , q1 );                  % Σ_l q1(l) Γ^l_{ik} Actual
 
 % Nq11  = -(termA + termB);
 Nq11  = -termA - termB;
@@ -130,8 +130,8 @@ Nq11  = -termA - termB;
 %     termD2 = [termD2, mult];
 % end
 
-termC = gammaContract( permute(G2,[1 3 2]), q2 ); % Actual
-termD = gammaContract( G2 , q2 );
+termD = gammaContract( permute(G2,[1 3 2]), q2 ); 
+termC = gammaContract( G2 , q2 ); % Actual
 
 % Nq12  = -(termC + termD);
 Nq12  = - termC - termD;
@@ -192,17 +192,37 @@ Nq33 = termI;
 %     mult = (G2(:,:,i).')* q1;
 %     termH2 = [termH2, mult];
 % end
-
 G2T2 = permute(G2,[2 3 1]);                    % (k , j , l) → (i , l , k)
-termG = gammaContract( G2T2 , q2 );            % Nm × Nm   (i rows)
+% termG = gammaContract( G2T2 , q2 );            % Nm × Nm   (i rows)
+termG = squeeze(pagemtimes(G2, 'transpose', q2, 'none'));
+
 % ----- termH :  Σ_j q1(j) Γ₂^{Tj}_{ik}  ---------------------------
-termH = gammaContract( pagetranspose(G2) , q1 );
+% termH = gammaContract( pagetranspose(G2) , q1 );
+termH = gammaContract( permute(pagetranspose(G2), [1 3 2]) , q1 );
+% termH =  gammaContract( G2T2 , q1 );
+% termH = squeeze(pagemtimes(permute(G2,[1 3 2]), 'transpose', q1, 'none'));
+% termH = squeeze(pagemtimes(permute(pagetranspose(G2),[1 3 2]), 'none', q1, 'none'));
+% termH = squeeze(pagemtimes(G2, 'transpose', q1, 'none'));
+% termH = squeeze(pagemtimes(G2T2, 'none', q1, 'none'));
+
 % ----- assemble block --------------------------------------------
 Nq21 = termG ;                    % Nm × Nm
 Nq22 = termH ;                    % Nm × Nm
 % Nq21 = termG2 ;                    % Nm × Nm
 % Nq22 = termH2 ; 
 % ---------- Assemble structural Jacobian -----------------------------
+
+%% Editing 5/10/26 New
+
+% % % Γ₁  (20×20×20) ---------------------------------------------
+% termA = gammaContract( permute(G1,[1 3 2]), q1 );  % Σ_l q1(l) Γ^l_{ik} Actual
+% termB = gammaContract( G1 , q1 );                  % Σ_j q1(j) Γ^k_{ij}
+% 
+% % Nq11  = -(termA + termB);
+% Nq11  = -termA - termB;
+% % Nq11  = -termA2 - termB2;
+
+%%
 NqS = zeros(numel(x_n),numel(x_n) );                  % structural part
 
 % rows 1:Nm
@@ -228,7 +248,8 @@ Nq = NqS;
 Nu = zeros(nx, nx+m);
 % Nu(:,1) = Bdelta;      % flap‑rate
 % Nu(:,2) = Bgust;       % gust
-Nu(idx.q1, nx+1) = par.gustSet.a*par.gustSet.t_inf * par.Dw;
+% Nu(idx.q1, nx+1) = par.gustSet.a*par.gustSet.t_inf * par.Dw;
+Nu(idx.q1, nx+1) = par.Fscale * par.Dw;
 Nu(idx.qGam, nx+1) = par.Bw;
 
 Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.gustSet.a*par.Ddel;

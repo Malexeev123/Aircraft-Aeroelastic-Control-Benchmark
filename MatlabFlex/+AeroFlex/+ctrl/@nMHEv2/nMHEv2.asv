@@ -35,6 +35,7 @@ classdef nMHEv2 < AeroFlex.ctrl.EstimatorBase
         z0  double
         H   double
         solverOpts
+        firstFullSolve
         % ---- outputs
         % xhat double
         % what double
@@ -46,10 +47,10 @@ classdef nMHEv2 < AeroFlex.ctrl.EstimatorBase
 %======================================================================
 methods
 %----------------------------------------------------------------------
-function obj = nMHEv2(cfg,beam,aero,base)
+function obj = nMHEv2(cfg,beam,aero,base, trim)
 % Constructor
 %----------------------------------------------------------------------
-    obj@AeroFlex.ctrl.EstimatorBase(cfg);
+    obj@AeroFlex.ctrl.EstimatorBase(cfg, trim);
 
     % -------- 1. basic numbers ---------------------------------------
     obj.dt   = cfg.sim.dt;
@@ -67,6 +68,18 @@ function obj = nMHEv2(cfg,beam,aero,base)
 
     % -------- 2. weights / bounds ------------------------------------
     obj.Qe = cfg.Qe;     obj.Pe = cfg.Pe;     obj.Re = cfg.Re;
+    xTrim  = trim.states;                 %  n × 1
+    % margin = 1.60;                            % 30 % either side
+    margin = 10;                            % 30 % either side
+    % cfg.xL = (1 - margin) .* xTrim;
+    % cfg.xU = (1 + margin) .* xTrim;
+
+    % absFloor = 1e-1;  
+    absFloor = 1;  
+
+    delta   = max(abs(margin .* xTrim) , absFloor);   % n×1 non‑negative
+    cfg.xL      = xTrim - delta;
+    cfg.xU      = xTrim + delta;
     obj.xL = cfg.xL;     obj.xU = cfg.xU;
     obj.wL = cfg.wL;     obj.wU = cfg.wU;
 
@@ -91,7 +104,7 @@ function obj = nMHEv2(cfg,beam,aero,base)
     obj.k     = 0;
 
     % -------- 5. initial guess ---------------------------------------
-    xTrim           = cfg.trim.states;        % equilibrium state
+    xTrim           = trim.states;        % equilibrium state
     obj.xhat        = xTrim;
     obj.Xhist(:,:)  = repmat(xTrim,1,obj.Ne+1);
     obj.Whist(:,:)  = 0;                      % zero-gust history
@@ -99,13 +112,17 @@ function obj = nMHEv2(cfg,beam,aero,base)
 
     idx   = obj.buildIndexMaps();
     obj.z0           = zeros((obj.Ne+1)*obj.nx + obj.Ne*obj.nw,1);
-    % obj.z0(idx.x{1}) = xTrim;                 % arrival state
+    for j = 1:obj.Ne+1
+        obj.z0(idx.x{j}) = xTrim;
+    end
+    % obj.z0(idx.x{:}) = xTrim;                 % arrival state
     % obj.z0(idx.x{end}) = xTrim;                 % arrival state
     obj.H            = speye(numel(obj.z0));  % LBFGS initial Hessian
 
     % initial STM (∂x/∂x0  and  ∂x/∂w) – identity / zeros
     obj.Sprev = [eye(obj.nx) , zeros(obj.nx,obj.nw+obj.nu)];
     obj.dbg = struct('t', [], 'W', [], 'cont', 0);
+    obk
 end
 %----------------------------------------------------------------------
 function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
@@ -158,8 +175,16 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
     % obj.Sprev = S_tmp;      
 
     % initial disturbance guess ---------------------
-    obj.z0([idx.w{:}]) = 0;            % => keep the same dimension
-
+    % obj.z0([idx.w{:}]) = 0;            % => keep the same dimension
+    if firstFullSolve
+        obj.z0([idx.w{:}]) = 0;
+    else
+        % Keep shifted disturbance guess.
+        % Optionally:
+        obj.z0(idx.w{end}) = obj.z0(idx.w{end-1});  % hold-last
+        % or
+        % obj.z0(idx.w{end}) = zeros(obj.nw,1);     % only new slot zero
+    end
     % ---- 4. assemble NLP & solve ------------------------------------
     nlp = obj.assembleWindow();
     [p,fval,exitflag] = fmincon(nlp.cost,obj.z0,...
@@ -232,7 +257,8 @@ end  % public methods
 
         % -------------------------- COST ---------------------------------
         function [J,gradJ] = costFun(p)
-            J = 0;  gradJ = zeros(numel(p),1);
+            J = 0;  
+            gradJ = zeros(numel(p),1);
 
             % arrival penalty --------------------------------------------
             arrivalX   = obj.Xhist(:,  end-obj.Ne);   % <— oldest kept sample
@@ -269,9 +295,9 @@ end  % public methods
             end
 
 
-            ceq     = zeros(nx*N,1);
+            ceq     = zeros(nx*(N+1),1);
             % gradceq = zeros(numel(z),nx*N);
-            gradceq = zeros(nx*N, numel(z));
+            gradceq = zeros(nx*(N+1), numel(z));
             
 
             X = reshape(z(1:(N+1)*nx),nx,N+1);
@@ -281,43 +307,36 @@ end  % public methods
             % S = obj.Sprev;           % <-- STM that ended the *previous* RT call  = I at k=0 only
             % ceq(1:nx,:) = obj.xhat - X(:, 1);
             % gradceq(1:nx, 1:nx) = -S(1:nx, 1:nx);
+            % ceqArrival       = obj.xlast - X(:,1) ;         % (nx×1)
             ceqArrival       = X(:,1) - obj.xlast;         % (nx×1)
+            ceq(1:nx) = ceqArrival;
+            gradceq(1:nx, 1:nx) = eye(nx,nx);
 
             Ulocal = obj.Uhist(:,1:obj.Ne);      % exactly Ne columns
             % Ulocal = obj.Uhist(:,1:obj.Ne+1);      % exactly Ne columns
-            subplot(211), stairs(obj.Uhist(1,:)), title('Uhist after shift')
-            subplot(212), stairs(W), title('W decision order')
+            % subplot(211), stairs(obj.Uhist(1,:)), title('Uhist after shift')
+            % subplot(212), stairs(W), title('W decision order')
             row0 = 0;
+            row0 = row0 + nx;
+
             Nend = N-1;
             % Nend = N-2;
             % Nend = N-3;
+            S = [eye(nx) , zeros(nx,nw+obj.nu)];
+
             for k = 0:Nend
-            % for k = 0:N-3
-            % for k = 1:N-3
-            % for k = 0:N-2
-            % for k = 1:N-1
-            % for k = N-1 :-1:1
                 idx_xk   = k*nx     + (1:nx);
                 idx_xkp1 = (k+1)*nx + (1:nx);
                 idx_wk   = (N+1)*nx + k*nw + (1:nw);
                 idx_wkp1   = (N+1)*nx + (k+1)*nw + (1:nw);
-                % if k == 0 
-                %     x = obj.xlast;
-                %     % S = [eye(nx) , zeros(nx,nw+obj.nu)];
-                % 
-                % else
-                %     x = X(:,k+1);
-                %     % x = X(:,k);
-                %     % S = S_last;                       
-                % 
-                % end
+                % disp(k+1)
                 x = X(:,k+1);
 
                 % x_n = x;
                 wk = W(:,k+1);
                 % uk = obj.Uhist(:,k+1);
                 uk = Ulocal(:,k+1);
-
+                % S = S_last;
                 S = [eye(nx) , zeros(nx,nw+obj.nu)];
                 for m = 1:Nsub
                     [x,S] = obj.model.step(x,uk,wk,S,true);
@@ -331,12 +350,16 @@ end  % public methods
                 % disp(rows(1));
                 % ceq(rows) = X(:,k+1) - x;
                 ceq(rows) = X(:,k+2) - x_end;
+                % ceq(rows) = x_end - X(:,k+2) ;
+                % ceq(rows) = X(:,k+1) - x_end;
                 % ceq(rows) = X(:,k+2) - S*[x_n ; wk; uk];
                 % ceq(rows) = X(:,k+2) - S_end*[x_end; wk; uk]-x_end;
                 % ceq(rows) = X(:,k+2) - S_end*[x_n; wk; uk]-x_end;
 
 
                 gradceq(rows, idx_xkp1) =  eye(nx);     % d/dx_{k+1}
+                % gradceq(rows, idx_xk) = -Sx; % d/dx_k
+                % gradceq(rows, idx_wk) = -Sw;
                 gradceq(rows, idx_xk) = -Sx; % d/dx_k
                 gradceq(rows, idx_wk) = -Sw;
                
@@ -344,11 +367,22 @@ end  % public methods
                 S_last = S_end;                 
                 % S_last = S;                    
             end
-            ceq = [ceqArrival ; ceq];
-            gArrive = [eye(nx), zeros(nx, numel(z)-nx)];
-            gradceq = [gArrive ; gradceq];
+            % ceq = [ceqArrival ; ceq];
+            % gArrive = [eye(nx), zeros(nx, numel(z)-nx)];
+            % gradceq = [gArrive ; gradceq];
             c=[]; gradc=[];
             gradceq = gradceq.';
+
+
+            % % --- inequality:  |Δw_k| ≤ dWmax ------------------
+            % dW  = diff([obj.Whist(:,1) , W],1,2);           % w₀-w_{-1} … w_N-w_{N-1}
+            % c   = abs(dW)' - obj.wU;                         % vectorised (N×1)
+            % gradc = zeros(nw*N , length(z));               % build once
+            % 
+            % for k = 1:N
+            %     signk = sign(dW(k));            % ±1
+            %     gradc(k, idx.w{k}) =  signk;    % ∂/∂w_k
+            % end
         end
 
         % return STM for next warm-start
@@ -385,8 +419,8 @@ end  % public methods
         end
         figure(2001),clf,hold on
         for s=1:obj.Ne, stairs(obj.dbg.t,obj.dbg.W(:,s)); end
-        hold off,grid on,xlabel('t [s]'),ylabel('w'),title('horizon slots'), legend
-    
+        hold off,grid on,xlabel('t [s]'),ylabel('w'),title('horizon slots'), legend; %drawnow
+        
         figure(2004),clf, hold on,plot(obj.dbg.t,obj.dbg.cont(2:end)); hold off;grid on
         xlabel('t [s]'); ylabel('|continuity|'); title('MHE feasibility'), legend
     end

@@ -1,7 +1,8 @@
 % function cfg = GLAConfig(cfg)
 % cfg          = nominalConfig;          % inherit old fields
 cfg.ctrl.case     = 'GLA';                  % activates closed‑loop
-cfg.ctrl.Ts      = 0.0025;
+% cfg.ctrl.Ts      = 0.0025;
+cfg.ctrl.Ts      = 0.005;
 % cfg.ctrl.Ts      = 0.025;
 
 
@@ -9,10 +10,11 @@ cfg.forceRealGust = false;             % forces gust input to be true gust (perf
 cfg.forceRealSense = true;            % forces sensor data to be true data (does not load)                             
 % horizon sizes ----------------------------------------------------------
 % cfg.ctrl.Nc       = 24;                     % MPC steps  (0.06 s)
-% cfg.ctrl.Ne       = 24;                     % MHE steps  (0.06 s)
-% cfg.ctrl.Nc       = 16;                     
-cfg.ctrl.Nc       = 16;                     
-cfg.ctrl.Ne       = 8;                     
+cfg.ctrl.Ne       = 12;                     % MHE steps  (0.06 s)
+% cfg.ctrl.Nc       = 12;                     
+cfg.ctrl.Nc       = 8;                     
+% cfg.ctrl.Nc       = 4;                     
+% cfg.ctrl.Ne       = 4;                     
 
  cfg.ctrl.mhe_method = 'multiple';   % 'multiple' or 'single'
 % beam length needed by sensor ------------------------------------------
@@ -66,11 +68,12 @@ cfg.Re = 1e-2; % This is the best I believe
 % cfg.Qc = 2*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 % cfg.Qc = .1*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 cfg.Qc = blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
+% cfg.Qc = 0.85*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 % cfg.Qc = .5*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 % cfg.Pc = cfg.Qc;
-% cfg.Pc = 2*cfg.Qc;
+cfg.Pc = 2*cfg.Qc;
 % cfg.Pc = .5*cfg.Qc;
-cfg.Pc = 5*cfg.Qc;
+% cfg.Pc = 5*cfg.Qc;
 % cfg.Pc = 0*cfg.Qc;
 % cfg.Pc = 2.5*cfg.Qc;
 % cfg.Pc = .1*cfg.Qc;
@@ -78,14 +81,14 @@ cfg.Pc = 5*cfg.Qc;
 % cfg.Pc = 5*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 
 % cfg.Pc = 2.5*cfg.Qc;
-% cfg.Rc = 1e-2;                         % actuator penalty
-cfg.Rc = 1e-4;                         % actuator penalty
+cfg.Rc = 1e-2;                         % actuator penalty
+% cfg.Rc = 1e-4;                         % actuator penalty
 % cfg.Rc = 5e-5;                         % actuator penalty
 % cfg.Rc = 5e-4;                         % actuator penalty
 % % cfg.Rc = 1e-1;                         % actuator penalty
 % cfg.Rc = 1;                         % actuator penalty
 % cfg.Rc = 5e-3;                         % actuator penalty
-cfg.ctrl.aT = 1e-4;
+cfg.ctrl.aT = 1e-2;
 % cfg.ctrl.aT = 1e-6;
 % % cfg.ctrl.aT = 5e-4;
 % cfg.ctrl.aT = 5e-5;
@@ -101,8 +104,8 @@ cfg.uU = deg2rad( 15);
 cfg.urateL = deg2rad(-50);
 cfg.urateU = deg2rad( 50);
 % cfg.wL = -1;  % Need to edit these vals
-cfg.wL = -5;  % Need to edit these vals
-cfg.wU = 5 ;
+cfg.wL = -15;  % Need to edit these vals
+cfg.wU = 15 ;
 % cfg.wL = -100;  % Need to edit these vals
 % cfg.wU = 100 ;
 cfg.ctrl.n_surf  = 2;     % e.g., two aileron flaps

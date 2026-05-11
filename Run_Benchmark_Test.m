@@ -16,9 +16,9 @@ addpath(genpath('plots\'));
 case_name = 'pazy_krylov_ROM';
 
 body_case   = 'wingOnly'    ; % wingOnly (default) | coupledfull
-sim_case    = 'nmhe_nmpc'   ; % openloop (default) | nmhe_nmpc
+sim_case    = 'openloop'   ; % openloop (default) | nmhe_nmpc
 
-
+% THIS NEEDS TO BE EDITED WITH ACTUAL FOLDER LOC
 % Generates the Run Script
 sim_init('\home\maxal\Research\TestBenchPazy',  ...
     'body_case',body_case, 'sim_case',sim_case,'overwrite', true)
