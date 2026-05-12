@@ -115,4 +115,35 @@ function cfg = nominalConfig
     % end
     % % ------------ RANDOM --------------------------------
     % cfg.SwTest =0;
+
+    
+    % Optional symmetry handling if using one semi-wing to represent both wings.
+    cfg.sim.symmetricWingPair = false;
+    cfg.sim.wingMultiplicity  = 1;
+    
+    % Conservative default: do not overwrite chi unless you explicitly want
+    % rigid-body alpha injected into the ROM attitude states.
+    cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    
+    % % Rigid-body parameters
+    % rParams = RigidBody.methods.paramsRigid_PazyUAV();
+    % 
+    % cfg.rigidEOMset.mass = rParams.mass;
+    % 
+    % % Use whichever field exists in your rParams.
+    % if isfield(rParams,'I_B')
+    %     cfg.rigidEOMset.I_B = rParams.I_B;
+    % elseif isfield(rParams,'I')
+    %     cfg.rigidEOMset.I_B = rParams.I;
+    % elseif all(isfield(rParams,{'Ixx','Iyy','Izz'}))
+    %     cfg.rigidEOMset.I_B = diag([rParams.Ixx, rParams.Iyy, rParams.Izz]);
+    % else
+    %     error('Could not find inertia in rParams.');
+    % end
+    % 
+    % % Thrust line offset, body frame, from CG to thrust application point.
+    % cfg.rigidEOMset.rThrust_B = [0;0;0];
+    % 
+    % % Optional initial rigid state.
+    % cfg.rigidEOMset.euler0 = [0; deg2rad(cfg.flight.aoa_deg); 0];
 end

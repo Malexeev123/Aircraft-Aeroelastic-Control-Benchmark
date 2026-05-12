@@ -43,12 +43,17 @@ classdef ROMIntegrator < handle
                 'N_Thrust', cfg.trim.thrust);
         end
         %------------------------------------------------------------------
-        function [x_np1,S_np1] = step(obj,x_n,u_k,g_k,S_n,storeSens)
+        function [x_np1,S_np1] = step(obj,x_n,u_k,g_k,S_n,storeSens, q_ratio)
             if nargin<6, storeSens=false;  end
+            if nargin<7, q_ratio=[];  end
             pc = obj.parConst;  pc.gust=g_k; 
             % pc.u=u_k;         % 2. params
             pc.u_ctrl=u_k;         % 2. params
-
+            if ~isempty(q_ratio)
+                pc.Fscale = q_ratio * pc.Fscale;
+                pc.scaleA = q_ratio * pc.scaleA;
+                pc.scaleAero = q_ratio * pc.scaleAero;
+            end
             dt = obj.dt;   
             g  = obj.gamma;  
             d = obj.delta;     % stage 1

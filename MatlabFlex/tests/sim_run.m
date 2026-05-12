@@ -67,6 +67,9 @@ if isempty(setup_dir) && exist('roots.mat','file')==2
     end
 end
 
+
+% Body case
+cfg.sim.body_case = body_case;
 % --- (C) scan Research/* for any folder that contains a sim_setup ---
 if isempty(setup_dir)
     % build list of candidate sim_setup roots
@@ -171,94 +174,6 @@ sim_run_root = fullfile(roots.sharpy_root,'sim_run');
 [run_dir, paths] = create_run_dirs(sim_run_root, case_name, sanitize_bodycase(body_case), overwrite, date_only_runs);
 addpath(genpath(roots.matlab_root));
 
-% % ---- locate setup_dir and roots without explicit args ----
-% % Option A: user provided an explicit setup_dir via name-value (honored as-is)
-% if isempty(setup_dir)
-%     % Option B: find latest sim_setup by using a saved roots.mat (preferred)
-%     % Try the most recent sim_setup/<case>/<body>/... by scanning roots.sim_setup_root
-%     roots = [];
-%     % 1) If a previous run left a roots.mat in the working dir, load it
-%     if exist('roots.mat','file')==2
-%         Sroots = load('roots.mat'); roots = Sroots.roots;
-%     end
-%     % 2) If not, try to load roots from the most recent sim_setup for this case/body
-%     if isempty(roots)
-%         % We can guess roots by looking up any sim_setup that contains our case/body:
-%         % If there’s a recent setup, it has for_matlab/roots.mat — search upward from current folder
-%         % (fast path) if you usually call sim_run from MatlabFlex/configs:
-%         here = fileparts(mfilename('fullpath'));   % .../MatlabFlex/configs
-%         research_root = fileparts(here);           % .../MatlabFlex
-%         % Try sibling 'TestBench/sim_setup' if that’s your layout; otherwise we’ll fall back below.
-%         candidate_sharpy = fullfile(fileparts(research_root),'TestBench');
-%         candidate_sim_setup = fullfile(candidate_sharpy,'sim_setup');
-% 
-%         if exist(candidate_sim_setup,'dir')==7
-%             setup_dir = find_latest_setup(candidate_sim_setup, case_name, sanitize_bodycase(body_case));
-%             if ~isempty(setup_dir)
-%                 fm = fullfile(setup_dir,'for_matlab');
-%                 if exist(fullfile(fm,'roots.mat'),'file')==2
-%                     Sroots = load(fullfile(fm,'roots.mat')); roots = Sroots.roots;
-%                 end
-%             end
-%         end
-%     end
-%     % 3) If still empty, last fallback: we will derive roots from sim_bundle once setup_dir is known
-%     if isempty(setup_dir)
-%         % If we already found roots, we can now find the latest setup cleanly
-%         if ~isempty(roots) && isfield(roots,'sim_setup_root')
-%             setup_dir = find_latest_setup(roots.sim_setup_root, case_name, sanitize_bodycase(body_case));
-%         end
-%     end
-% end
-% 
-% % If setup_dir still empty, error out with a helpful message
-% assert(~isempty(setup_dir), 'Could not locate a sim_setup directory. Consider passing ''setup_dir'', or ensure roots.mat exists from sim_init.');
-% 
-% % Load sim_bundle to derive roots if we didn’t have them yet
-% fm_setup = fullfile(setup_dir,'for_matlab');
-% assert(exist(fullfile(fm_setup,'sim_bundle.mat'),'file')==2, 'sim_bundle.mat not found in setup for_matlab.');
-% 
-% Ssim_setup = load(fullfile(fm_setup,'sim_bundle.mat'));    % has sim_config.paths.run_dir
-% if isempty(roots)
-%     % Reconstruct sharpy_root from run_dir = <sharpy_root>/sim_setup/<case>/<body>/<date>
-%     run_dir = Ssim_setup.sim_config.paths.run_dir;
-%     p1 = fileparts(run_dir);    % .../sim_setup/<case>/<body>
-%     p2 = fileparts(p1);         % .../sim_setup/<case>
-%     p3 = fileparts(p2);         % .../sim_setup
-%     sharpy_root = fileparts(p3);
-%     roots.sharpy_root    = sharpy_root;
-%     roots.sim_setup_root = p3;
-%     roots.sim_run_root   = fullfile(sharpy_root,'sim_run');
-% 
-%     % matlab_root from this file’s location
-%     roots.matlab_root    = fileparts(fileparts(mfilename('fullpath')));  % .../MatlabFlex
-% else
-%     sharpy_root = roots.sharpy_root;
-% end
-% 
-% % With roots determined, create sim_run/<case>/<body>/<date>
-% sim_run_root = fullfile(roots.sharpy_root,'sim_run');
-% [run_dir, paths] = create_run_dirs(sim_run_root, case_name, sanitize_bodycase(body_case), overwrite, date_only_runs);
-% 
-% % Put project on path
-% addpath(genpath(roots.matlab_root));
-
-% 
-% 
-% % ------------------- paths & MATLAB path -------------------
-% addpath(genpath(fullfile(matlab_root)));  % project code
-% sim_setup_root = fullfile(sharpy_root, 'sim_setup');
-% sim_run_root   = fullfile(sharpy_root, 'sim_run');
-% 
-% body_case_dir  = sanitize_bodycase(body_case);
-% 
-% if isempty(setup_dir)
-%     setup_dir = find_latest_setup(sim_setup_root, case_name, body_case_dir);
-%     assert(~isempty(setup_dir), 'No sim_setup folder found for %s/%s.', case_name, body_case_dir);
-% end
-% 
-% % Create run folder under sim_run/<case>/<body>/<date>
-% [run_dir, paths] = create_run_dirs(sim_run_root, case_name, body_case_dir, overwrite, date_only_runs);
 
 % ------------------- global console log -------------------
 if ~exist(paths.logs,'dir'), mkdir(paths.logs); end
@@ -355,9 +270,62 @@ end
 
 % ------------------- RUN DISPATCH ----------------------------------------
 results = struct(); hadError = false; MEout = [];
-
+cfg.sim.bodyCase = body_case;
+cfg.sim.body_case= body_case;
 % try
+ % Optional symmetry handling if using one semi-wing to represent both wings.
+    % cfg.sim.symmetricWingPair = true;
+    cfg.sim.symmetricWingPair = false;
+    cfg.sim.wingMultiplicity  = 1;
+    
+    % Conservative default: do not overwrite chi unless you explicitly want
+    % rigid-body alpha injected into the ROM attitude states.
+    cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    % cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    
+    % Rigid-body parameters
+    rParams = RigidBody.methods.paramsRigid_PazyUAV();
+    
+    cfg.rigidEOMset.mass = rParams.mass;
+    % cfg.rigidEOMset.mass = rParams.M6;
+    
+    % Use whichever field exists in your rParams.
+    if isfield(rParams,'J')
+        cfg.rigidEOMset.I_B = rParams.J;
+    else
+        error('Could not find inertia in rParams.');
+    end
+    
+    % Thrust line offset, body frame, from CG to thrust application point.
+    cfg.rigidEOMset.rThrust_B = [0;0;0];
+    
+    % Optional initial rigid state.
+    cfg.rigidEOMset.euler0 = [0; deg2rad(cfg.flight.aoa_deg); 0];
 
+    % ---------------------------------------------------------------------
+    % State-history allocation
+    % ---------------------------------------------------------------------
+    nxFlex = length(trim.states);   % flexible ROM state length
+    
+    % Use Nt+1 because plant states include the initial condition and each step.
+    t = t_vec(:);                       % column
+    Nt = numel(t) - 1;                  % number of s
+    x = zeros(nxFlex,Nt+1);
+    x(:,1) = x0(1:nxFlex);
+    
+    % Rigid-body appended state:
+    %   rb = [r_I(3); v_B(3); euler(3); omega_B(3)]
+    rbHist = nan(12,Nt+1);
+    
+    % Coupled-load logs:
+    Clamp6Hist   = nan(6,Nt);
+    FwingHist    = nan(3,Nt);
+    MwingHist    = nan(3,Nt);
+    FtotHist     = nan(3,Nt);
+    MtotHist     = nan(3,Nt);
+    FgravHist    = nan(3,Nt);
+    FthrustHist  = nan(3,Nt);
+    
     switch sim_case
 
         % ================= OPENLOOP =================
@@ -382,30 +350,90 @@ results = struct(); hadError = false; MEout = [];
                     t = t_vec(:);                       % column
                     Nt = numel(t) - 1;                  % number of steps between samples
                     x  = zeros(length(x0), Nt+1); x(:,1) = x0;
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
+                    rom   = modelFcn(cfg, beam, aero, base);
                     
-                    rom   = modelFcn(cfg, beam, aero, base); %#ok<NASU>
-                    plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0);
+
+                    plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
                     log = struct(); sensEq = [];
 
                     for k = 1:Nt
                         % gk = gust_series(k+1);          % align with sample k
                         gk = gust_series(k);          % align with sample k
                         uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
-                        x(:,k+1) = plant.step(uk, gk, "ROM");
+
+                        switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                                xk = plant.step(uk, gk, "ROM");
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                                xk = plant.stepCoupled(uk, gk);
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                        end
+                        % x(:,k+1) = plant.step(uk, gk, "ROM");
+                        xk_full = xk;
+                        % ---------------------------------------------------------------------
+                        % Split plant state into flexible and rigid-body parts.
+                        % ---------------------------------------------------------------------
+                        [xFlex_k, rb_k] = splitFlexibleRigidState(xk_full,nxFlex);
+                        
+                        % Store flexible part for legacy postProcess reconstruction.
+                        x(:,k+1) = xFlex_k;
+                        
+                        % Store appended rigid-body states separately.
+                        if ~isempty(rb_k)
+                            rbHist(:,k+1) = rb_k;
+                        end
+                        
+                        % ---------------------------------------------------------------------
+                        % Store coupled force/moment terms if PlantRunTime.stepCoupled populated
+                        % plant.last.
+                        % ---------------------------------------------------------------------
+                        if isprop(plant,'last') && isstruct(plant.last)
+                        
+                            if isfield(plant.last,'Clamp6')
+                                Clamp6Hist(:,k) = plant.last.Clamp6(:);
+                            end
+                        
+                            if isfield(plant.last,'Fwing_B')
+                                FwingHist(:,k) = plant.last.Fwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mwing_B')
+                                MwingHist(:,k) = plant.last.Mwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Ftot_B')
+                                FtotHist(:,k) = plant.last.Ftot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mtot_B')
+                                MtotHist(:,k) = plant.last.Mtot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fgrav_B')
+                                FgravHist(:,k) = plant.last.Fgrav_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fthrust_B')
+                                FthrustHist(:,k) = plant.last.Fthrust_B(:);
+                            end
+                        end
                     end
-                    % % Build model; many projects pass cfg, beam, aero, base
-                    % rom = modelFcn(cfg, beam, aero, base);
-                    % plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0);
-                    % % Open-loop propagate with gust only (no control)
-                    % Ts = run_settings.ctrl_Ts;
-                    % Nt = floor(Ssim.sim_config.cfg.sim.t_end / Ts);
-                    % t = (0:Nt)*Ts; x = zeros(length(x0), Nt+1); x(:,1) = x0;
-                    % log = struct(); sensEq = [];
-                    % for k = 1:Nt
-                    %     gk = gust_series( min(k+1, numel(gust_series)) );
-                    %     uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, 1);
-                    %     x(:,k+1) = plant.step(uk, gk, "ROM");
-                    % end
+                 
 
                 otherwise
                     error('Unknown runner="%s".', runner);
@@ -434,16 +462,41 @@ results = struct(); hadError = false; MEout = [];
                         case "coupledfull"
                             useRigidBody = true;
                             useOuterLQR  = true;
+
+                            LQRConfig;
                     
                         otherwise
                             error('Unknown cfg.sim.bodyCase = "%s".', body_case);
                     end
 
-                    outerCtrl = [];
                     if useOuterLQR
-                        % outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                        outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                    else
                         outerCtrl = [];
                     end
+                    
+
+                    if isfield(cfg,'fusion') && isfield(cfg.fusion,'enable') && cfg.fusion.enable
+                        fuser = AeroFlex.ctrl.ComplementaryCommandFusion(cfg, trim);
+                    else
+                        fuser = [];
+                    end
+                    
+                    if isfield(cfg,'actuator') && isfield(cfg.actuator,'enable') && cfg.actuator.enable
+                        actuator = AeroFlex.ctrl.ActuatorChain(cfg, trim);
+                    else
+                        actuator = [];
+                    end
+                    
+                    outerEvery = 1;
+                    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'outerEvery')
+                        outerEvery = cfg.ctrl.outerEvery;
+                    end
+                    cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                        + size(aero.forceMap.B_ddelta,2);
+                    u_outer_hold = zeros(cfg.nu,1);
+                    rbCmd_hold = struct('delta_e',0,'delta_a',0,'delta_r',0,'thrust',0);
+
 
                     modelFcn      = str2func(run_settings.modelFcn);
                     sensorFcn     = str2func(run_settings.sensorFcn);
@@ -462,8 +515,17 @@ results = struct(); hadError = false; MEout = [];
                     cfg.nu        = size(aero.forceMap.B_delta,2) ...
                                   + size(aero.forceMap.B_ddelta,2);
                     cfg.nw        = size(aero.forceMap.Bw,2);
-                    
-                    plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0);
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
+                    plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
                     est    = estimatorFcn(cfg, beam, aero, base, trim);
                     ctrl   = controllerFcn(cfg, beam, aero, base, trim);
 
@@ -525,11 +587,11 @@ results = struct(); hadError = false; MEout = [];
                     
                     % Store previous command for rate/change diagnostics.
                     uDiagPrev = zeros(cfg.nu,1);
-                    if isprop(mpc,'uPrev') && ~isempty(mpc.uPrev)
-                        uDiagPrev = mpc.uPrev(:);
-                    elseif exist('u_prev','var') && ~isempty(u_prev)
-                        uDiagPrev = u_prev(:);
-                    end
+                    % if isprop(mpc,'uPrev') && ~isempty(mpc.uPrev)
+                        % uDiagPrev = mpc.uPrev(:);
+                    % elseif exist('u_prev','var') && ~isempty(u_prev)
+                    uDiagPrev = u_prev(:);
+                    % end
                     
                     fprintf('\n');
                     fprintf('======================================================================\n');
@@ -550,12 +612,13 @@ results = struct(); hadError = false; MEout = [];
                     fprintf('----------------------------------------------------------------------\n');
 
                     for k = 1:Nt
-                        % Measurements (your PlantRunTime API returns z_k, t_k)
                         io = AeroFlex.sim.readPlantIO_case(plant, cfg, Ssim, body_case);
-                        
+                        io.rb = plant.rb;
                         t_k = io.t;
                         z_k = io.yWing;       % wing sensors for nMHE
-                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only                        
+                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only           
+                        rb_k = io.rb;
+
                         % True gust from prepared profile
                         gk = gust_series( min(round(t_k/cfg.sim.dt)+1, numel(gust_series)) );
                         trueGust(k) = gk;
@@ -568,12 +631,19 @@ results = struct(); hadError = false; MEout = [];
                                 u_outer = zeros(cfg.nu,1);
                     
                             case "coupledfull"
-                                if isempty(outerCtrl)
-                                   %LQR object .
-                                    u_outer = zeros(cfg.nu,1);
+                                if useOuterLQR && (mod(k-1,outerEvery) == 0)
+
+                                    ref = struct();
+                            
+                                    % Attitude-hold default: reference is trim.
+                                    %% Can overwrite these from guidance:
+                                    % ref.euler_ref = [phi_cmd; theta_cmd; psi_cmd];
+                                    % ref.v_B_ref   = [Ucmd*cos(alpha0); 0; Ucmd*sin(alpha0)];
+                            
+                                    [u_outer_hold, rbCmd_hold, outerInfo] = outerCtrl.computeControl(rb_k, ref, t_k);
+                                    u_outer = u_outer_hold;
                                 else
-                                    % u_outer = outerCtrl.compute(yRB, io.ref, t_k);
-                                    u_outer = outerCtrl.computeControl(yRB, t_k);
+                                    outerInfo = struct();
                                 end
                         end
 
@@ -700,23 +770,99 @@ results = struct(); hadError = false; MEout = [];
                         
 
                         % ==============================================================
-                        % 5. Command fusion / saturation
+                        % 5a. Command fusion / saturation
                         % ==============================================================
                         switch body_case
                             case "wingOnly"
                                 u_cmd = saturateControl(u_inner, cfg);
                     
                             case "coupledfull"
+                                if ~isempty(fuser)
+                                    [u_cmd_preAct, fusionInfo] = fuser.fuse(u_outer_hold, u_inner);
+                                else
                                 u_cmd = fuseInnerOuterCommands(u_outer, u_inner, cfg);
                                 u_cmd = saturateControl(u_cmd, cfg);
+                                fusionInfo = struct();
+
+                                end
+                        end
+
+                        %======================================================================
+                        % 5b. Actuator chain
+                        %======================================================================
+                        if ~isempty(actuator)
+                            [u_act, actInfo] = actuator.step(u_cmd_preAct);
+                        else
+                            u_act = u_cmd_preAct;
+                            actInfo = struct();
                         end
 
                         % ==============================================================
                         % 6. Propagate plant
                         % ==============================================================
                         % xk = plant.step(uk, gk, "ROM");
-                        xk = stepPlant_case(plant, cfg, body_case, u_cmd, gk);
-
+                        % xk = stepPlant_case(plant, cfg, body_case, u_cmd, gk);
+                        switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                                xk = plant.step(uk, gk, "ROM");
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                                xk = plant.stepCoupled(uk, gk);
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                        end
+                        % x(:,k+1) = plant.step(uk, gk, "ROM");
+                        xk_full = xk;
+                        % ---------------------------------------------------------------------
+                        % Split plant state into flexible and rigid-body parts.
+                        % ---------------------------------------------------------------------
+                        [xFlex_k, rb_k] = splitFlexibleRigidState(xk_full,nxFlex);
+                        
+                        % Store flexible part for legacy postProcess reconstruction.
+                        x(:,k+1) = xFlex_k;
+                        
+                        % Store appended rigid-body states separately.
+                        if ~isempty(rb_k)
+                            rbHist(:,k+1) = rb_k;
+                        end
+                        
+                        % ---------------------------------------------------------------------
+                        % Store coupled force/moment terms if PlantRunTime.stepCoupled populated
+                        % plant.last.
+                        % ---------------------------------------------------------------------
+                        if isprop(plant,'last') && isstruct(plant.last)
+                        
+                            if isfield(plant.last,'Clamp6')
+                                Clamp6Hist(:,k) = plant.last.Clamp6(:);
+                            end
+                        
+                            if isfield(plant.last,'Fwing_B')
+                                FwingHist(:,k) = plant.last.Fwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mwing_B')
+                                MwingHist(:,k) = plant.last.Mwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Ftot_B')
+                                FtotHist(:,k) = plant.last.Ftot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mtot_B')
+                                MtotHist(:,k) = plant.last.Mtot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fgrav_B')
+                                FgravHist(:,k) = plant.last.Fgrav_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fthrust_B')
+                                FthrustHist(:,k) = plant.last.Fthrust_B(:);
+                            end
+                        end
                         % figure;
                         % plot(estGust);
                         % Log
@@ -829,8 +975,55 @@ base.chi0 = trim.chi0;
 % Post-processing (tip deflection, angles, energies, modal series)
 % --------------------------------------------------------------
 % try
-    out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
-% catch ME
+    % ---------------------------------------------------------------------
+    % Pack logs for postProcess
+    % ---------------------------------------------------------------------
+    log = assignIfExists('log', struct());
+    
+    if sim_case ~= 'openloop'
+        log.xhat = xhat_hist;
+        log.U    = Uhist;
+    end
+    
+    if exist('wHorizon','var')
+        log.wHorizon = wHorizon;
+    end
+    
+    if exist('trueGust','var')
+        log.wTrue = trueGust;
+    end
+    
+    % Rigid-body states, if available.
+    if exist('rbHist','var') && any(isfinite(rbHist(:)))
+        log.rb = struct();
+        log.rb.state   = rbHist;
+        log.rb.r_I     = rbHist(1:3,:);
+        log.rb.v_B     = rbHist(4:6,:);
+        log.rb.euler   = rbHist(7:9,:);
+        log.rb.omega_B = rbHist(10:12,:);
+    end
+    
+    % Coupled force/moment logs, if available.
+    if exist('Clamp6Hist','var')
+        log.loads = struct();
+        log.loads.Clamp6   = Clamp6Hist;
+        log.loads.Fwing_B  = FwingHist;
+        log.loads.Mwing_B  = MwingHist;
+        log.loads.Ftot_B   = FtotHist;
+        log.loads.Mtot_B   = MtotHist;
+        log.loads.Fgrav_B  = FgravHist;
+        log.loads.Fthrust_B = FthrustHist;
+    end
+    
+    % Solver diagnostics, if available.
+    if exist('diag','var')
+        log.diag = diag;
+    end
+    
+    % Store body case for post-processing.
+    log.body_case = body_case;
+    % out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
+    out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, log);% catch ME
 %     warning('[postProcess] %s. Falling back to minimal outputs.', ME.message);
 %     out = minimal_post(t, x, cfg, beam);   % helper below
 % end
@@ -1185,6 +1378,7 @@ function xk = stepPlant_case(plant, cfg, bodyCase, u_cmd, gk)
         case "coupledfull"
             % Preferred future API:
             %
+            cfg.sim.rigidToWingMode = "alpha_gust";
               xk = plant.stepCoupled(u_cmd, gk);
             %
             % Internally this should:
@@ -1290,4 +1484,40 @@ function warningOnce(id,msg)
         warning(id,'%s',msg);
         issued(id) = true;
     end
+end
+
+function [xFlex, rb] = splitFlexibleRigidState(xFull,nxFlex)
+%SPLITFLEXIBLERIGIDSTATE Split plant state into flexible ROM and appended RB state.
+%
+% Expected coupled state:
+%   xFull = [xFlex; r_I(3); v_B(3); euler(3); omega_B(3)]
+%
+% For wing-only:
+%   xFull = xFlex
+
+    xFull = xFull(:);
+
+    if numel(xFull) < nxFlex
+        error('splitFlexibleRigidState:Dimension', ...
+              'xFull length %d is smaller than nxFlex %d.', ...
+              numel(xFull), nxFlex);
+    end
+
+    xFlex = xFull(1:nxFlex);
+
+    tail = xFull(nxFlex+1:end);
+
+    if isempty(tail)
+        rb = [];
+        return
+    end
+
+    if numel(tail) ~= 12
+        error('splitFlexibleRigidState:RigidTail', ...
+              ['Coupled state tail should have length 12: ', ...
+               '[r_I(3); v_B(3); euler(3); omega_B(3)]. Got %d.'], ...
+              numel(tail));
+    end
+
+    rb = tail;
 end

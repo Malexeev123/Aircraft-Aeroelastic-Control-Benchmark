@@ -12,6 +12,108 @@ arguments
     base
     log
 end
+%======================================================================
+% Coupled-state pre-processing
+%======================================================================
+% Legacy flexible ROM state length:
+%   xFlex = [q1(Nm); q2(Nm); qxi(Nm+1); qGamma(Na); chi(3)]
+%
+% Therefore:
+%   nxFlex = 3*Nm + Na + 4
+%
+% If X includes appended rigid-body states, split them here and continue
+% all legacy flexible-wing reconstruction using Xflex only.
+
+Nm = beam.Nm;
+
+if isfield(cfg,'Na') && ~isempty(cfg.Na)
+    Na2 = cfg.Na;
+elseif isfield(aero,'Na') && ~isempty(aero.Na)
+    Na2 = aero.Na;
+else
+    % Robust inference if X is flexible-only:
+    %   size(X,1) = 3*Nm + Na + 4
+    Na2 = size(X,1) - (3*Nm + 4);
+
+    % If X includes appended rigid state, this inference is contaminated.
+    % In that case, cfg.Na or aero.Na should be provided.
+    if Na2 < 0
+        error('postProcess:NaInference', ...
+              'Cannot infer Na from X. Provide cfg.Na or aero.Na.');
+    end
+end
+
+nxFlex = 3*Nm + Na2 + 4;
+
+if size(X,1) < nxFlex
+    error('postProcess:StateDimension', ...
+          'X has %d rows, but expected at least nxFlex = %d.', ...
+          size(X,1), nxFlex);
+end
+
+% Preserve raw input.
+out_raw_X = X;
+
+% Split flexible and rigid parts if present.
+Xrb_from_X = [];
+
+if size(X,1) > nxFlex
+    Xrb_from_X = X(nxFlex+1:end,:);
+    X = X(1:nxFlex,:);
+end
+
+% If log.rb exists, prefer it. Otherwise use appended rigid part from X.
+rb = struct();
+hasRB = false;
+
+if isfield(log,'rb') && isstruct(log.rb) && isfield(log.rb,'state') && ~isempty(log.rb.state)
+    rb.state = log.rb.state;
+    hasRB = true;
+elseif ~isempty(Xrb_from_X)
+    rb.state = Xrb_from_X;
+    hasRB = true;
+end
+
+if hasRB
+    % Ensure rb.state is 12 x Nt_rb.
+    if size(rb.state,1) ~= 12 && size(rb.state,2) == 12
+        rb.state = rb.state.';
+    end
+
+    if size(rb.state,1) ~= 12
+        warning('postProcess:RigidState', ...
+                'Rigid-body state should be 12 x Nt. Ignoring rb state.');
+        hasRB = false;
+        rb = struct();
+    else
+        rb.r_I     = rb.state(1:3,:);
+        rb.v_B     = rb.state(4:6,:);
+        rb.euler   = rb.state(7:9,:);
+        rb.omega_B = rb.state(10:12,:);
+    end
+end
+
+% Reconcile t and X lengths.
+Nt = size(X,2);
+
+if numel(t) ~= Nt
+    warning('postProcess:TimeLength', ...
+            'numel(t)=%d but size(X,2)=%d. Truncating to common length.', ...
+            numel(t), Nt);
+
+    Ncommon = min(numel(t), Nt);
+    t = t(1:Ncommon);
+    X = X(:,1:Ncommon);
+    Nt = Ncommon;
+
+    if hasRB
+        rb.state = rb.state(:,1:min(size(rb.state,2),Ncommon));
+        rb.r_I = rb.r_I(:,1:min(size(rb.r_I,2),Ncommon));
+        rb.v_B = rb.v_B(:,1:min(size(rb.v_B,2),Ncommon));
+        rb.euler = rb.euler(:,1:min(size(rb.euler,2),Ncommon));
+        rb.omega_B = rb.omega_B(:,1:min(size(rb.omega_B,2),Ncommon));
+    end
+end
 
 % ------------------------ publish defaults -------------------------------
 % (higher than default readability; safe for papers/presentations)
@@ -35,28 +137,28 @@ else
     else, Ts = cfg.sim.dt; end
 end
 
-Nt = numel(t);
-Nm = beam.Nm;
-if isfield(cfg,'Na') && ~isempty(cfg.Na)
-    Na2 = cfg.Na;
-else
-    Na2 = size(X,1) - (4*Nm + 1 + 3);
-    if Na2 < 0
-        error('postProcess: cannot infer Na from X size. Provide cfg.Na.');
-    end
-end
+% Nt = numel(t);
+% Nm = beam.Nm;
+% if isfield(cfg,'Na') && ~isempty(cfg.Na)
+%     Na2 = cfg.Na;
+% else
+%     Na2 = size(X,1) - (4*Nm + 1 + 3);
+%     if Na2 < 0
+%         error('postProcess: cannot infer Na from X size. Provide cfg.Na.');
+%     end
+% end
 
-% Keep legacy behavior: override X from cached log in non-openLoop
-if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
-    try
-        openL_log = load(fullfile(fullfile(cfg.paths.cache, cfg.case_name), 'log'),'log');
-        if isfield(openL_log,'log') && isfield(openL_log.log,'x') && ~isempty(openL_log.log.x)
-            X  = openL_log.log.x;
-            Nt = size(X,2);
-        end
-    catch
-    end
-end
+% % Keep legacy behavior: override X from cached log in non-openLoop
+% if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
+%     try
+%         openL_log = load(fullfile(fullfile(cfg.paths.cache, cfg.case_name), 'log'),'log');
+%         if isfield(openL_log,'log') && isfield(openL_log.log,'x') && ~isempty(openL_log.log.x)
+%             X  = openL_log.log.x;
+%             Nt = size(X,2);
+%         end
+%     catch
+%     end
+% end
 
 % ------------------------ modal partitions (legacy indexing) -------------
 q1   =  X( 1:Nm              , :);
@@ -182,6 +284,182 @@ out.q0 = q0; out.q1 = q1; out.q2 = q2; out.qxi = qxi;
 % out.chi = chi;
 out.chi = chi+ base.FM.chi_bar;
 out.Faero    = Faero;
+
+
+%======================================================================
+% Rigid-body outputs, if coupled state is available
+%======================================================================
+out.raw_X_input = out_raw_X;
+out.nxFlex = nxFlex;
+out.hasRigidBody = hasRB;
+
+if hasRB
+    % Match rigid logs to output time length.
+    NtRB = min(size(rb.state,2), Nt);
+
+    rb_t = t(1:NtRB);
+
+    out.rb = struct();
+    out.rb.t        = rb_t(:).';
+    out.rb.state    = rb.state(:,1:NtRB);
+    out.rb.r_I      = rb.r_I(:,1:NtRB);
+    out.rb.v_B      = rb.v_B(:,1:NtRB);
+    out.rb.euler    = rb.euler(:,1:NtRB);
+    out.rb.omega_B  = rb.omega_B(:,1:NtRB);
+
+    out.rb.euler_deg   = rad2deg(out.rb.euler);
+    out.rb.omega_deg_s = rad2deg(out.rb.omega_B);
+
+    uB = out.rb.v_B(1,:);
+    vB = out.rb.v_B(2,:);
+    wB = out.rb.v_B(3,:);
+
+    out.rb.U     = sqrt(uB.^2 + vB.^2 + wB.^2);
+    out.rb.alpha = atan2(wB,uB);
+    out.rb.beta  = asin(max(-1,min(1,vB ./ max(out.rb.U,eps))));
+
+    out.rb.alpha_deg = rad2deg(out.rb.alpha);
+    out.rb.beta_deg  = rad2deg(out.rb.beta);
+else
+    out.rb = struct();
+end
+
+%======================================================================
+% Coupled load outputs
+%======================================================================
+out.loads = struct();
+
+if isfield(log,'loads') && isstruct(log.loads)
+
+    loadFields = fieldnames(log.loads);
+
+    for ii = 1:numel(loadFields)
+        f = loadFields{ii};
+        val = log.loads.(f);
+
+        if isnumeric(val) && ~isempty(val)
+            % Force/moment logs are usually Nload x NtStep, one less than state time.
+            out.loads.(f) = val;
+        end
+    end
+
+    if isfield(out.loads,'Clamp6') && ~isempty(out.loads.Clamp6)
+
+        % Clamp6 = [Fx; Fy; Fz; Mx; My; Mz].
+        if isfield(cfg,'metrics') && isfield(cfg.metrics,'rootMomentIndex')
+            iMR = cfg.metrics.rootMomentIndex;
+        else
+            iMR = 5;  % default: My as vertical bending root moment
+        end
+
+        iMR = max(1,min(6,iMR));
+
+        MR = out.loads.Clamp6(iMR,:);
+
+        % Loads are usually logged for each plant/control step, length Nt-1.
+        if numel(MR) == numel(t)-1
+            tLoad = t(1:end-1);
+        else
+            tLoad = linspace(t(1),t(end),numel(MR));
+        end
+
+        out.loads.t = tLoad(:).';
+        out.loads.M_R = MR(:).';
+        out.loads.M_R_abs = abs(MR(:).');
+    end
+end
+
+%======================================================================
+% Control / estimator / solver outputs
+%======================================================================
+out.control = struct();
+out.estimator = struct();
+out.solver = struct();
+
+% -------------------- controls ---------------------------------------
+if isfield(log,'U') && isnumeric(log.U) && ~isempty(log.U)
+    Ulog = log.U;
+
+    % Expected Ulog = nu x Nctrl.
+    if size(Ulog,1) > size(Ulog,2) || size(Ulog,1) <= 20
+        out.control.U = Ulog;
+    else
+        out.control.U = Ulog.';
+    end
+
+    nU = size(out.control.U,1);
+    nK = size(out.control.U,2);
+
+    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'Ts')
+        tU = (0:nK-1)*cfg.ctrl.Ts;
+    else
+        tU = linspace(t(1),t(end),nK);
+    end
+
+    out.control.t = tU;
+
+    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'n_surf')
+        nSurf = cfg.ctrl.n_surf;
+    else
+        nSurf = min(2,nU);
+    end
+
+    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'var_per')
+        varPer = cfg.ctrl.var_per;
+    else
+        varPer = 1;
+    end
+
+    if varPer == 2 && nU >= 2*nSurf
+        out.control.delta = out.control.U(1:nSurf,:);
+        out.control.rate_cmd = out.control.U(nSurf+1:2*nSurf,:);
+    else
+        out.control.delta = out.control.U(1:min(nSurf,nU),:);
+        out.control.rate_cmd = [];
+    end
+
+    % Finite-difference realized command rate from deflection command.
+    if size(out.control.delta,2) >= 2
+        dtU = mean(diff(tU));
+        if isfinite(dtU) && dtU > 0
+            out.control.rate_fd = [zeros(size(out.control.delta,1),1), ...
+                                   diff(out.control.delta,1,2)/dtU];
+        else
+            out.control.rate_fd = zeros(size(out.control.delta));
+        end
+    else
+        out.control.rate_fd = zeros(size(out.control.delta));
+    end
+
+    out.control.delta_deg = rad2deg(out.control.delta);
+    out.control.rate_fd_deg_s = rad2deg(out.control.rate_fd);
+
+    if ~isempty(out.control.rate_cmd)
+        out.control.rate_cmd_deg_s = rad2deg(out.control.rate_cmd);
+    end
+end
+
+% -------------------- gusts / MHE disturbance -------------------------
+if isfield(log,'wTrue') && isnumeric(log.wTrue)
+    out.estimator.wTrue = log.wTrue(:).';
+end
+
+if isfield(log,'wHorizon') && isnumeric(log.wHorizon)
+    out.estimator.wHorizon = log.wHorizon;
+
+    % If wHorizon is Ne x Nt, the newest slot is the last row.
+    if size(log.wHorizon,1) <= size(log.wHorizon,2)
+        out.estimator.wHatCurrent = log.wHorizon(end,:);
+    else
+        out.estimator.wHatCurrent = log.wHorizon(:,end).';
+    end
+end
+
+% -------------------- solver diagnostics ------------------------------
+if isfield(log,'diag') && isstruct(log.diag)
+    out.solver = log.diag;
+end
+
 % % existing lines
 % out.t    = t.';               out.disp = TipA;
 % out.q0   = q0;                out.q1  = q1;  out.q2 = q2;
@@ -371,10 +649,396 @@ out.energy.Etot    = out.Etot;
 out.q.q0 = out.q0; out.q.q1 = out.q1; out.q.q2 = out.q2;
 out.plots_dir = plots_dir;                      % tell caller where plots live
 
+
+%======================================================================
+% Additional coupled/control/performance plots
+%======================================================================
+
+% -------------------- rigid-body plots --------------------------------
+if out.hasRigidBody
+    fh = figure('Color','w','Position',[100 100 1120 760]);
+    tiledlayout(3,1,'TileSpacing','tight');
+
+    nexttile;
+    plot(out.rb.t,out.rb.euler_deg(1,:), ...
+         out.rb.t,out.rb.euler_deg(2,:), ...
+         out.rb.t,out.rb.euler_deg(3,:));
+    grid on; ylabel('Euler [deg]');
+    legend('\phi','\theta','\psi','Location','best');
+    title('Rigid-body attitude');
+
+    nexttile;
+    plot(out.rb.t,out.rb.omega_deg_s(1,:), ...
+         out.rb.t,out.rb.omega_deg_s(2,:), ...
+         out.rb.t,out.rb.omega_deg_s(3,:));
+    grid on; ylabel('Rates [deg/s]');
+    legend('p','q','r','Location','best');
+
+    nexttile;
+    plot(out.rb.t,out.rb.U, ...
+         out.rb.t,out.rb.alpha_deg, ...
+         out.rb.t,out.rb.beta_deg);
+    grid on; xlabel('t [s]');
+    ylabel('Flight condition');
+    legend('U [m/s]','\alpha [deg]','\beta [deg]','Location','best');
+
+    save_plot(fh,'rigid_body_states');
+
+    fh = figure('Color','w','Position',[100 100 1120 520]);
+    plot3(out.rb.r_I(1,:),out.rb.r_I(2,:),out.rb.r_I(3,:));
+    grid on; axis equal;
+    xlabel('x_I [m]'); ylabel('y_I [m]'); zlabel('z_I [m]');
+    title('Rigid-body inertial trajectory');
+    save_plot(fh,'rigid_body_trajectory');
+end
+
+% -------------------- control plots -----------------------------------
+if isfield(out,'control') && isfield(out.control,'U') && ~isempty(out.control.U)
+
+    fh = figure('Color','w','Position',[100 100 1120 760]);
+
+    if isfield(out.control,'rate_cmd') && ~isempty(out.control.rate_cmd)
+        tiledlayout(3,1,'TileSpacing','tight');
+
+        nexttile;
+        plot(out.control.t,out.control.delta_deg.');
+        grid on; ylabel('\delta [deg]');
+        title('Control surface deflections');
+        legend(local_surface_labels(size(out.control.delta,1),'\delta'),'Location','best');
+
+        nexttile;
+        plot(out.control.t,out.control.rate_cmd_deg_s.');
+        grid on; ylabel('\dot{\delta}_{cmd} [deg/s]');
+        title('Commanded actuator-rate channels');
+        legend(local_surface_labels(size(out.control.rate_cmd,1),'\dot{\delta}_{cmd}'),'Location','best');
+
+        nexttile;
+        plot(out.control.t,out.control.rate_fd_deg_s.');
+        grid on; xlabel('t [s]'); ylabel('\Delta\delta/T_s [deg/s]');
+        title('Finite-difference realized deflection rate');
+        legend(local_surface_labels(size(out.control.rate_fd,1),'\dot{\delta}_{FD}'),'Location','best');
+    else
+        tiledlayout(2,1,'TileSpacing','tight');
+
+        nexttile;
+        plot(out.control.t,out.control.delta_deg.');
+        grid on; ylabel('\delta [deg]');
+        title('Control surface deflections');
+        legend(local_surface_labels(size(out.control.delta,1),'\delta'),'Location','best');
+
+        nexttile;
+        plot(out.control.t,out.control.rate_fd_deg_s.');
+        grid on; xlabel('t [s]'); ylabel('\Delta\delta/T_s [deg/s]');
+        title('Finite-difference realized deflection rate');
+        legend(local_surface_labels(size(out.control.rate_fd,1),'\dot{\delta}_{FD}'),'Location','best');
+    end
+
+    save_plot(fh,'control_commands');
+end
+
+% -------------------- gust estimate plot -------------------------------
+if isfield(out.estimator,'wTrue') || isfield(out.estimator,'wHatCurrent')
+    fh = figure('Color','w','Position',[100 100 1120 520]);
+    hold on;
+
+    if isfield(out.estimator,'wTrue')
+        tw = linspace(t(1),t(end),numel(out.estimator.wTrue));
+        plot(tw,out.estimator.wTrue,'k--');
+    end
+
+    if isfield(out.estimator,'wHatCurrent')
+        th = linspace(t(1),t(end),numel(out.estimator.wHatCurrent));
+        plot(th,out.estimator.wHatCurrent,'b-');
+    end
+
+    hold off; grid on;
+    xlabel('t [s]'); ylabel('w_g');
+    legend({'true gust','MHE estimate'},'Location','best');
+    title('Gust / disturbance estimate');
+    save_plot(fh,'gust_estimate');
+end
+
+% -------------------- loads plots --------------------------------------
+if isfield(out,'loads') && isfield(out.loads,'M_R')
+    fh = figure('Color','w','Position',[100 100 1120 520]);
+    plot(out.loads.t,out.loads.M_R);
+    grid on; xlabel('t [s]'); ylabel('M_R [N m]');
+    title('Wing-root bending moment proxy');
+    save_plot(fh,'root_bending_moment');
+end
+
+if isfield(out,'loads') && isfield(out.loads,'Ftot_B') && isfield(out.loads,'Mtot_B')
+    tLoad = linspace(t(1),t(end),size(out.loads.Ftot_B,2));
+
+    fh = figure('Color','w','Position',[100 100 1120 760]);
+    tiledlayout(2,1,'TileSpacing','tight');
+
+    nexttile;
+    plot(tLoad,out.loads.Ftot_B.');
+    grid on; ylabel('F_B [N]');
+    legend('F_x','F_y','F_z','Location','best');
+    title('Total rigid-body force');
+
+    nexttile;
+    plot(tLoad,out.loads.Mtot_B.');
+    grid on; xlabel('t [s]'); ylabel('M_B [N m]');
+    legend('M_x','M_y','M_z','Location','best');
+    title('Total rigid-body moment');
+
+    save_plot(fh,'total_forces_moments');
+end
+
+% -------------------- solver diagnostics -------------------------------
+if isfield(out,'solver') && isfield(out.solver,'tCtrl') && ~isempty(out.solver.tCtrl)
+    valid = isfinite(out.solver.tCtrl);
+
+    if any(valid)
+        tc = out.solver.tCtrl(valid);
+
+        fh = figure('Color','w','Position',[100 100 1120 760]);
+        tiledlayout(3,1,'TileSpacing','tight');
+
+        nexttile;
+        if isfield(out.solver,'mheTime') && isfield(out.solver,'mpcTime')
+            plot(tc,1e3*out.solver.mheTime(valid), ...
+                 tc,1e3*out.solver.mpcTime(valid));
+            legend('MHE','MPC','Location','best');
+        end
+        grid on; ylabel('solve [ms]');
+        title('Estimator/controller solve times');
+
+        nexttile;
+        if isfield(out.solver,'mheCont') && isfield(out.solver,'mpcCont')
+            semilogy(tc,out.solver.mheCont(valid), ...
+                     tc,out.solver.mpcCont(valid));
+            legend('MHE','MPC','Location','best');
+        end
+        grid on; ylabel('||c_{eq}||');
+
+        nexttile;
+        if isfield(out.solver,'mheFlag') && isfield(out.solver,'mpcFlag')
+            stairs(tc,out.solver.mheFlag(valid)); hold on;
+            stairs(tc,out.solver.mpcFlag(valid));
+            hold off;
+            legend('MHE','MPC','Location','best');
+        end
+        grid on; xlabel('t [s]'); ylabel('exit flag');
+
+        save_plot(fh,'solver_diagnostics');
+    end
+end
+
+%======================================================================
+% Performance metrics and summary tables
+%======================================================================
+metrics = struct();
+
+% -------------------- loads and deflections ---------------------------
+metrics.tip_z_peak_abs = max(abs(out.tip_z),[],'omitnan');
+metrics.tip_z_rms      = sqrt(mean(out.tip_z.^2,'omitnan'));
+
+metrics.tip_z_norm_pct_peak_abs = max(abs(out.tip_z_norm_pct),[],'omitnan');
+metrics.tip_z_norm_pct_rms      = sqrt(mean(out.tip_z_norm_pct.^2,'omitnan'));
+
+if isfield(out,'loads') && isfield(out.loads,'M_R')
+    MR = out.loads.M_R(:);
+    metrics.M_R_peak_abs = max(abs(MR),[],'omitnan');
+    metrics.M_R_rms      = sqrt(mean(MR.^2,'omitnan'));
+
+    if isfield(out.loads,'t') && numel(out.loads.t) == numel(MR)
+        Tload = out.loads.t(end) - out.loads.t(1);
+        if Tload > 0
+            metrics.M_R_rms_trapz = sqrt((1/Tload)*trapz(out.loads.t,MR.'.^2));
+        else
+            metrics.M_R_rms_trapz = metrics.M_R_rms;
+        end
+    else
+        metrics.M_R_rms_trapz = metrics.M_R_rms;
+    end
+else
+    metrics.M_R_peak_abs = nan;
+    metrics.M_R_rms = nan;
+    metrics.M_R_rms_trapz = nan;
+end
+
+% -------------------- rigid-body tracking -----------------------------
+if out.hasRigidBody
+    eul = out.rb.euler;
+
+    metrics.roll_peak_deg  = max(abs(rad2deg(eul(1,:))),[],'omitnan');
+    metrics.pitch_peak_deg = max(abs(rad2deg(eul(2,:))),[],'omitnan');
+    metrics.yaw_peak_deg   = max(abs(rad2deg(eul(3,:))),[],'omitnan');
+
+    metrics.roll_rms_deg  = sqrt(mean(rad2deg(eul(1,:)).^2,'omitnan'));
+    metrics.pitch_rms_deg = sqrt(mean(rad2deg(eul(2,:)).^2,'omitnan'));
+    metrics.yaw_rms_deg   = sqrt(mean(rad2deg(eul(3,:)).^2,'omitnan'));
+
+    metrics.U_mean = mean(out.rb.U,'omitnan');
+    metrics.U_peak_dev = max(abs(out.rb.U - metrics.U_mean),[],'omitnan');
+else
+    metrics.roll_peak_deg = nan;
+    metrics.pitch_peak_deg = nan;
+    metrics.yaw_peak_deg = nan;
+    metrics.roll_rms_deg = nan;
+    metrics.pitch_rms_deg = nan;
+    metrics.yaw_rms_deg = nan;
+    metrics.U_mean = nan;
+    metrics.U_peak_dev = nan;
+end
+
+% -------------------- actuator usage ----------------------------------
+if isfield(out,'control') && isfield(out.control,'delta')
+    delta = out.control.delta;
+    rateFD = out.control.rate_fd;
+
+    metrics.u_peak_rad = max(abs(delta(:)),[],'omitnan');
+    metrics.u_rms_rad  = sqrt(mean(delta(:).^2,'omitnan'));
+    metrics.u_peak_deg = rad2deg(metrics.u_peak_rad);
+    metrics.u_rms_deg  = rad2deg(metrics.u_rms_rad);
+
+    metrics.udot_peak_rad_s = max(abs(rateFD(:)),[],'omitnan');
+    metrics.udot_rms_rad_s  = sqrt(mean(rateFD(:).^2,'omitnan'));
+    metrics.udot_peak_deg_s = rad2deg(metrics.udot_peak_rad_s);
+    metrics.udot_rms_deg_s  = rad2deg(metrics.udot_rms_rad_s);
+
+    if isfield(cfg,'uL') && isfield(cfg,'uU')
+        uLim = max(abs([cfg.uL(:); cfg.uU(:)]));
+        if isscalar(uLim) && isfinite(uLim) && uLim > 0
+            metrics.u_saturation_fraction = mean(abs(delta(:)) >= 0.999*uLim,'omitnan');
+        else
+            metrics.u_saturation_fraction = nan;
+        end
+    else
+        metrics.u_saturation_fraction = nan;
+    end
+else
+    metrics.u_peak_rad = nan;
+    metrics.u_rms_rad = nan;
+    metrics.u_peak_deg = nan;
+    metrics.u_rms_deg = nan;
+    metrics.udot_peak_rad_s = nan;
+    metrics.udot_rms_rad_s = nan;
+    metrics.udot_peak_deg_s = nan;
+    metrics.udot_rms_deg_s = nan;
+    metrics.u_saturation_fraction = nan;
+end
+
+% -------------------- solver metrics ----------------------------------
+if isfield(out,'solver') && isfield(out.solver,'mheTime')
+    valid = isfinite(out.solver.mheTime);
+    metrics.mhe_solve_mean_ms = 1e3*mean(out.solver.mheTime(valid),'omitnan');
+    metrics.mhe_solve_max_ms  = 1e3*max(out.solver.mheTime(valid),[],'omitnan');
+else
+    metrics.mhe_solve_mean_ms = nan;
+    metrics.mhe_solve_max_ms = nan;
+end
+
+if isfield(out,'solver') && isfield(out.solver,'mpcTime')
+    valid = isfinite(out.solver.mpcTime);
+    metrics.mpc_solve_mean_ms = 1e3*mean(out.solver.mpcTime(valid),'omitnan');
+    metrics.mpc_solve_max_ms  = 1e3*max(out.solver.mpcTime(valid),[],'omitnan');
+else
+    metrics.mpc_solve_mean_ms = nan;
+    metrics.mpc_solve_max_ms = nan;
+end
+
+if isfield(out,'solver') && isfield(out.solver,'mheFlag')
+    valid = isfinite(out.solver.mheFlag);
+    metrics.mhe_success_pct = 100*mean(out.solver.mheFlag(valid) > 0,'omitnan');
+else
+    metrics.mhe_success_pct = nan;
+end
+
+if isfield(out,'solver') && isfield(out.solver,'mpcFlag')
+    valid = isfinite(out.solver.mpcFlag);
+    metrics.mpc_success_pct = 100*mean(out.solver.mpcFlag(valid) > 0,'omitnan');
+else
+    metrics.mpc_success_pct = nan;
+end
+
+out.metrics = metrics;
+
+% -------------------- summary table -----------------------------------
+metricNames = fieldnames(metrics);
+metricVals  = nan(numel(metricNames),1);
+
+for ii = 1:numel(metricNames)
+    v = metrics.(metricNames{ii});
+    if isnumeric(v) && isscalar(v)
+        metricVals(ii) = v;
+    end
+end
+
+out.metricsTable = table(metricNames,metricVals, ...
+    'VariableNames',{'Metric','Value'});
+
+% Export summary table.
+try
+    writetable(out.metricsTable,fullfile(plots_dir,'performance_metrics.csv'));
+catch ME
+    warning('postProcess:MetricsExport', ...
+            'Could not write performance_metrics.csv: %s', ME.message);
+end
+
+% -------------------- print compact summary ---------------------------
+fprintf('\n');
+fprintf('======================================================================\n');
+fprintf(' POST-PROCESS PERFORMANCE SUMMARY\n');
+fprintf('======================================================================\n');
+fprintf('  Tip z peak abs        : %10.4e m\n', metrics.tip_z_peak_abs);
+fprintf('  Tip z RMS             : %10.4e m\n', metrics.tip_z_rms);
+fprintf('  Tip z peak abs        : %10.4f %% b/2\n', metrics.tip_z_norm_pct_peak_abs);
+fprintf('  Tip z RMS             : %10.4f %% b/2\n', metrics.tip_z_norm_pct_rms);
+fprintf('  M_R peak abs          : %10.4e N m\n', metrics.M_R_peak_abs);
+fprintf('  M_R RMS               : %10.4e N m\n', metrics.M_R_rms_trapz);
+fprintf('  Control peak          : %10.4f deg\n', metrics.u_peak_deg);
+fprintf('  Control RMS           : %10.4f deg\n', metrics.u_rms_deg);
+fprintf('  Control rate peak     : %10.4f deg/s\n', metrics.udot_peak_deg_s);
+fprintf('  Control rate RMS      : %10.4f deg/s\n', metrics.udot_rms_deg_s);
+if out.hasRigidBody
+fprintf('  Roll/Pitch/Yaw RMS    : %10.4f / %10.4f / %10.4f deg\n', ...
+        metrics.roll_rms_deg, metrics.pitch_rms_deg, metrics.yaw_rms_deg);
+end
+fprintf('  MHE success           : %10.2f %%\n', metrics.mhe_success_pct);
+fprintf('  MPC success           : %10.2f %%\n', metrics.mpc_success_pct);
+fprintf('  MHE solve mean/max    : %10.3f / %10.3f ms\n', ...
+        metrics.mhe_solve_mean_ms, metrics.mhe_solve_max_ms);
+fprintf('  MPC solve mean/max    : %10.3f / %10.3f ms\n', ...
+        metrics.mpc_solve_mean_ms, metrics.mpc_solve_max_ms);
+fprintf('======================================================================\n\n');
+
+if isfield(log,'baseline') && isfield(log.baseline,'M_R_open') && ...
+        isfield(out,'loads') && isfield(out.loads,'M_R')
+
+    MRopen = log.baseline.M_R_open(:);
+    MRclosed = out.loads.M_R(:);
+
+    maxOpen = max(abs(MRopen),[],'omitnan');
+    maxClosed = max(abs(MRclosed),[],'omitnan');
+
+    rmsOpen = sqrt(mean(MRopen.^2,'omitnan'));
+    rmsClosed = sqrt(mean(MRclosed.^2,'omitnan'));
+
+    metrics.GLA_peak_pct = 100*(maxOpen - maxClosed)/max(maxOpen,eps);
+    metrics.GLA_rms_pct  = 100*(rmsOpen - rmsClosed)/max(rmsOpen,eps);
+
+else
+    metrics.GLA_peak_pct = nan;
+    metrics.GLA_rms_pct = nan;
+end
+fprintf('  GLA peak reduction    : %10.3f %%\n', metrics.GLA_peak_pct);
+fprintf('  GLA RMS reduction     : %10.3f %%\n', metrics.GLA_rms_pct);
 end % postProcess
 
 
 % ============================== helpers ===================================
+function labels = local_surface_labels(n,prefix)
+%LOCAL_SURFACE_LABELS Generate legend labels for surface channels.
+    labels = cell(1,n);
+    for ii = 1:n
+        labels{ii} = sprintf('%s_%d',prefix,ii);
+    end
+end
 function plots_dir = local_get_plots_dir(cfg)
 % Prefer cfg.paths.plots (set by sim_init/sim_run). If unavailable,
 % fall back to a local ./plots next to the current working directory.
@@ -405,7 +1069,7 @@ catch
     try, print(fh, '-dpdf', pdf); catch, saveas(fh, [fullbase '.pdf']); end
 end
 try, savefig(fh, fig); catch, end
-if ishghandle(fh), close(fh); end
+% if ishghandle(fh), close(fh); end
 
 end
 
