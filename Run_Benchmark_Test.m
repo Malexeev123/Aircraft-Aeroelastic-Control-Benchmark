@@ -15,7 +15,7 @@ addpath(genpath('plots\'));
 % Run Settings
 case_name = 'pazy_krylov_ROM';
 
-body_case   = 'coupledfull'    ; % wingOnly (default) | coupledfull
+body_case   = 'wingOnly'    ; % wingOnly (default) | coupledfull
 sim_case    = 'nmhe_nmpc'   ; % openloop (default) | nmhe_nmpc
 
 % THIS NEEDS TO BE EDITED WITH ACTUAL FOLDER LOC

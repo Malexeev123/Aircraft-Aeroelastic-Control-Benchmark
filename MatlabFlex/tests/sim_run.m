@@ -441,6 +441,7 @@ cfg.sim.body_case= body_case;
 
         % ================= NMHE/NMPC =================
         case 'nmhe_nmpc'
+            SQPconfig;
             switch runner
                 case 'simrunner'
                     % Let SimRunner own the inner loop (if your SimRunner supports control hooks)
@@ -775,7 +776,8 @@ cfg.sim.body_case= body_case;
                         switch body_case
                             case "wingOnly"
                                 u_cmd = saturateControl(u_inner, cfg);
-                    
+                                u_cmd_preAct = u_cmd;
+
                             case "coupledfull"
                                 if ~isempty(fuser)
                                     [u_cmd_preAct, fusionInfo] = fuser.fuse(u_outer_hold, u_inner);
@@ -783,7 +785,7 @@ cfg.sim.body_case= body_case;
                                 u_cmd = fuseInnerOuterCommands(u_outer, u_inner, cfg);
                                 u_cmd = saturateControl(u_cmd, cfg);
                                 fusionInfo = struct();
-
+                                u_cmd_preAct = u_cmd;
                                 end
                         end
 

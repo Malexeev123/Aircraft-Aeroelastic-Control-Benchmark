@@ -43,6 +43,10 @@ classdef nMHEv2 < AeroFlex.ctrl.EstimatorBase
         debug logical = true
         dbg   struct
         xlast
+
+        solverName string = "fmincon"
+        sqpSolver
+        sqpCheckDone logical = false
     end
 %======================================================================
 methods

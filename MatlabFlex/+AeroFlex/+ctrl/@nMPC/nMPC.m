@@ -87,6 +87,11 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         % ---------- debug ----------------------------------------------
         debug logical = true
         dbg struct
+        
+        solverName string = "fmincon"
+        sqpSolver
+        sqpCheckDone logical = false
+
     end
 
     %==================================================================
@@ -206,6 +211,42 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         % obj.solverOpts.FiniteDifferenceType = 'central';
 
         obj.dbg = struct('t',[],'U',[],'cont',[]);
+
+        %======================================================================
+        % Solver selection: fmincon or custom SQP
+        %======================================================================
+        if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'mpcSolver')
+            obj.solverName = lower(string(cfg.ctrl.mpcSolver));
+        else
+            obj.solverName = "fmincon";
+        end
+        
+        switch obj.solverName
+        
+            case "fmincon"
+                % Keep existing fmincon options.
+                obj.sqpSolver = [];
+        
+            case "custom_sqp"
+                sqpOpts = AeroFlex.optim.SQPSolver.defaultOptions();
+        
+                if isfield(cfg.ctrl,'sqp') && ~isempty(cfg.ctrl.sqp)
+                    f = fieldnames(cfg.ctrl.sqp);
+        
+                    for ii = 1:numel(f)
+                        sqpOpts.(f{ii}) = cfg.ctrl.sqp.(f{ii});
+                    end
+                end
+        
+                obj.sqpSolver = AeroFlex.optim.SQPSolver(sqpOpts);
+        
+            otherwise
+                error('nMPC:Solver', ...
+                      'Unknown cfg.ctrl.mpcSolver = "%s". Use "fmincon" or "custom_sqp".', ...
+                      obj.solverName);
+        end
+        
+        obj.sqpCheckDone = false;
     end
 
     %------------------------------------------------------------------
@@ -266,13 +307,39 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         % fprintf('[nMPC terminal] t = %.4f | JT_guess = %.3e | aT = %.3e | ratio JT/aT = %.3e\n', ...
                 % t_k, JT_guess, obj.aT, JT_guess/max(obj.aT,eps));
         % Assemble and solve the full horizon NLP.
+        %======================================================================
+        % Assemble and solve NMPC multiple-shooting NLP
+        %======================================================================
         nlp = obj.assembleWindow(xhat,wHorz);
-
-        [zOpt,fval,exitflag] = fmincon( ...
-            nlp.cost,obj.z0, ...
-            [],[],[],[], ...
-            nlp.lb,nlp.ub, ...
-            nlp.nonl,obj.solverOpts);
+        if ~obj.sqpCheckDone && obj.solverName == "custom_sqp"
+            obj.localCheckNMPCEqualityGradient(nlp,obj.z0,nlp.lb,nlp.ub);        end
+        switch obj.solverName
+                
+            case "fmincon"
+        
+                [zOpt,fval,exitflag,output,lambda] = fmincon( ...
+                    nlp.cost,obj.z0, ...
+                    [],[],[],[], ...
+                    nlp.lb,nlp.ub, ...
+                    nlp.nonl,obj.solverOpts);
+        
+            case "custom_sqp"
+        
+                % --------------------------------------------------------------
+                % One-time directional gradient check at the first NMPC solve.
+                % This checks the currently assembled NLP after warm-start repair.
+                % --------------------------------------------------------------
+                if ~obj.sqpCheckDone && obj.sqpSolver.options.CheckGradientsOnce
+                    obj.sqpSolver.checkGradients(nlp.cost,nlp.nonl,obj.z0,nlp.lb,nlp.ub);
+                    obj.sqpCheckDone = true;
+                end
+        
+                [zOpt,fval,exitflag,output,lambda] = obj.sqpSolver.solve( ...
+                    nlp.cost,obj.z0,nlp.lb,nlp.ub,nlp.nonl);
+        
+            otherwise
+                error('nMPC:Solver','Unhandled solverName = "%s".', obj.solverName);
+        end
 
         idx = obj.buildIndexMaps();
 
@@ -281,8 +348,9 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         continuityNorm = norm(ceq);
 
         if exitflag <= 0
-            warning('nMPC:solve', ...
-                'fmincon failed or stopped early. Holding previous input.');
+            warning('nMPC:SolveFailure', ...
+            'nMPC solver "%s" stopped with exitflag %d. Holding previous input. Message: %s', ...
+            obj.solverName, exitflag, output.message);
 
             uk = obj.uPrev;
 
@@ -321,9 +389,35 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
         Uinfo.cost       = fval;
         Uinfo.exitflag   = exitflag;
+        Uinfo.output     = output;
+        Uinfo.lambda     = lambda;
         Uinfo.uHorizon   = Uopt;
         Uinfo.wHorizon   = wHorz;
         Uinfo.continuity = continuityNorm;
+        
+        if isfield(output,'constrviolation')
+            Uinfo.constrviolation = output.constrviolation;
+        end
+        
+        if isfield(output,'firstorderopt')
+            Uinfo.firstorderopt = output.firstorderopt;
+        end
+        
+        if isfield(output,'stepsize')
+            Uinfo.stepsize = output.stepsize;
+        end
+        
+        if isfield(output,'qpExitflag')
+            Uinfo.qpExitflag = output.qpExitflag;
+        end
+        
+        if isfield(output,'slackEqInf')
+            Uinfo.slackEqInf = output.slackEqInf;
+        end
+        
+        if isfield(output,'slackIneqInf')
+            Uinfo.slackIneqInf = output.slackIneqInf;
+        end
 
         if obj.debug
             obj.debugPlots(t_k,Uinfo);
@@ -600,6 +694,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
                 row0 = row0 + nx;
             end
+            % ceq = ceq;
             ceq = [ceq; ceqRate];
 
             % fmincon wants gradceq as nVar x nEq.
@@ -763,7 +858,98 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         end
     end
     
-    
+    % function localCheckNMPCEqualityGradient(obj,nlp,z,nx,Nc,lb,ub)
+    %         %LOCALCHECKNMPCEQUALITYGRADIENT Split equality-gradient check into
+    %         % initial-condition rows and dynamic-continuity rows.
+    % 
+    %             z = z(:);
+    %             n = numel(z);
+    % 
+    %             lb = lb(:);
+    %             ub = ub(:);
+    % 
+    %             z = min(max(z,lb),ub);
+    % 
+    %             [~,ceq0,~,Gceq] = nlp.nonl(z);
+    % 
+    %             if size(Gceq,1) ~= n
+    %                 Gceq = Gceq.';
+    %             end
+    % 
+    %             rng(11);
+    %             d = randn(n,1);
+    %             d = d / max(norm(d),eps);
+    % 
+    %             h = 1e-6;
+    % 
+    %             % Keep central step inside bounds.
+    %             active = abs(d) > 0;
+    %             hBound = inf;
+    % 
+    %             idx = active & isfinite(ub);
+    %             if any(idx)
+    %                 hBound = min(hBound,min((ub(idx)-z(idx))./abs(d(idx))));
+    %             end
+    % 
+    %             idx = active & isfinite(lb);
+    %             if any(idx)
+    %                 hBound = min(hBound,min((z(idx)-lb(idx))./abs(d(idx))));
+    %             end
+    % 
+    %             if isfinite(hBound)
+    %                 h = min(h,0.49*hBound);
+    %             end
+    % 
+    %             if h <= eps
+    %                 fprintf('[nMPC grad check] Could not find bound-safe FD step.\n');
+    %                 return
+    %             end
+    % 
+    %             [~,ceqp] = nlp.nonl(z + h*d);
+    %             [~,ceqm] = nlp.nonl(z - h*d);
+    % 
+    %             ceqFD = (ceqp(:)-ceqm(:))/(2*h);
+    %             ceqAN = Gceq.'*d;
+    % 
+    %             % Expected layout:
+    %             %   ceq = [X0-xhat; defects]
+    %             nInit = nx;
+    % 
+    %             if numel(ceq0) >= nx*(Nc+1)
+    %                 rowsInit = 1:nInit;
+    %                 rowsDyn  = nInit+1:numel(ceq0);
+    %             else
+    %                 % If your version does not include X0 equality.
+    %                 rowsInit = [];
+    %                 rowsDyn = 1:numel(ceq0);
+    %             end
+    % 
+    %             denAll = max([1,norm(ceqFD,inf),norm(ceqAN,inf)]);
+    %             errAll = norm(ceqFD-ceqAN,inf)/denAll;
+    % 
+    %             if ~isempty(rowsInit)
+    %                 denInit = max([1,norm(ceqFD(rowsInit),inf),norm(ceqAN(rowsInit),inf)]);
+    %                 errInit = norm(ceqFD(rowsInit)-ceqAN(rowsInit),inf)/denInit;
+    %             else
+    %                 errInit = nan;
+    %             end
+    % 
+    %             denDyn = max([1,norm(ceqFD(rowsDyn),inf),norm(ceqAN(rowsDyn),inf)]);
+    %             errDyn = norm(ceqFD(rowsDyn)-ceqAN(rowsDyn),inf)/denDyn;
+    % 
+    %             fprintf('\n');
+    %             fprintf('======================================================================\n');
+    %             fprintf(' NMPC EQUALITY-GRADIENT SPLIT CHECK\n');
+    %             fprintf('======================================================================\n');
+    %             fprintf('  h                         : %.3e\n', h);
+    %             fprintf('  total equality rel error  : %.3e\n', errAll);
+    %             fprintf('  initial-state rel error   : %.3e\n', errInit);
+    %             fprintf('  dynamic-defect rel error  : %.3e\n', errDyn);
+    %             fprintf('  ||ceqFD||inf              : %.3e\n', norm(ceqFD,inf));
+    %             fprintf('  ||ceqAN||inf              : %.3e\n', norm(ceqAN,inf));
+    %             fprintf('  ||ceqFD-ceqAN||inf        : %.3e\n', norm(ceqFD-ceqAN,inf));
+    %             fprintf('======================================================================\n\n');
+    %         end
     %------------------------------------------------------------------
     function debugPlots(obj,t_k,info)
     % Shows how the optimized control horizon evolves over time.
@@ -809,6 +995,96 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         ylabel('||ceq||_2');
         title('NMPC multiple-shooting feasibility');
     end
+        function localCheckNMPCEqualityGradient(obj,nlp,z,lb,ub)
+        %LOCALCHECKNMPCEQUALITYGRADIENT Split equality-gradient check into
+        % initial-condition rows and dynamic-continuity rows.
+        
+            nx = obj.nx;
+            Nc = obj.Nc;
+        
+            z  = z(:);
+            lb = lb(:);
+            ub = ub(:);
+            n  = numel(z);
+        
+            z = min(max(z,lb),ub);
+        
+            [~,ceq0,~,Gceq] = nlp.nonl(z);
+        
+            if size(Gceq,1) ~= n
+                Gceq = Gceq.';
+            end
+        
+            rng(11);
+            d = randn(n,1);
+            d = d / max(norm(d),eps);
+        
+            h = 1e-6;
+        
+            active = abs(d) > 0;
+            hBound = inf;
+        
+            idxU = active & isfinite(ub);
+            if any(idxU)
+                hBound = min(hBound,min((ub(idxU)-z(idxU))./abs(d(idxU))));
+            end
+        
+            idxL = active & isfinite(lb);
+            if any(idxL)
+                hBound = min(hBound,min((z(idxL)-lb(idxL))./abs(d(idxL))));
+            end
+        
+            if isfinite(hBound)
+                h = min(h,0.49*hBound);
+            end
+        
+            if h <= eps
+                fprintf('[nMPC grad check] Could not find bound-safe FD step.\n');
+                return
+            end
+        
+            [~,ceqp] = nlp.nonl(z + h*d);
+            [~,ceqm] = nlp.nonl(z - h*d);
+        
+            ceqFD = (ceqp(:)-ceqm(:))/(2*h);
+            ceqAN = Gceq.'*d;
+        
+            % Expected layout:
+            %   ceq = [X0 - xhat; defects]
+            if numel(ceq0) >= nx*(Nc+1)
+                rowsInit = 1:nx;
+                rowsDyn  = nx+1:numel(ceq0);
+            else
+                rowsInit = [];
+                rowsDyn  = 1:numel(ceq0);
+            end
+        
+            denAll = max([1,norm(ceqFD,inf),norm(ceqAN,inf)]);
+            errAll = norm(ceqFD-ceqAN,inf)/denAll;
+        
+            if ~isempty(rowsInit)
+                denInit = max([1,norm(ceqFD(rowsInit),inf),norm(ceqAN(rowsInit),inf)]);
+                errInit = norm(ceqFD(rowsInit)-ceqAN(rowsInit),inf)/denInit;
+            else
+                errInit = nan;
+            end
+        
+            denDyn = max([1,norm(ceqFD(rowsDyn),inf),norm(ceqAN(rowsDyn),inf)]);
+            errDyn = norm(ceqFD(rowsDyn)-ceqAN(rowsDyn),inf)/denDyn;
+        
+            fprintf('\n');
+            fprintf('======================================================================\n');
+            fprintf(' NMPC EQUALITY-GRADIENT SPLIT CHECK\n');
+            fprintf('======================================================================\n');
+            fprintf('  h                         : %.3e\n', h);
+            fprintf('  total equality rel error  : %.3e\n', errAll);
+            fprintf('  initial-state rel error   : %.3e\n', errInit);
+            fprintf('  dynamic-defect rel error  : %.3e\n', errDyn);
+            fprintf('  ||ceqFD||inf              : %.3e\n', norm(ceqFD,inf));
+            fprintf('  ||ceqAN||inf              : %.3e\n', norm(ceqAN,inf));
+            fprintf('  ||ceqFD-ceqAN||inf        : %.3e\n', norm(ceqFD-ceqAN,inf));
+            fprintf('======================================================================\n\n');
+        end
 
     %------------------------------------------------------------------
     end % private methods
