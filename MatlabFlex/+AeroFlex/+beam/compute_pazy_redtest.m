@@ -82,8 +82,8 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
     del_pts = 0; del_idx = [];
     for i=1:nPts
         sNow = sVals(i);
-        alpha_s = alpha_of_s(i);  % your function for sweep vs. s
-        theta_s = twist_of_s(i);  % your function for twist vs. s
+        alpha_s = alpha_of_s(i);  %  function for sweep vs. s
+        theta_s = twist_of_s(i);  %  function for twist vs. s
         aoa_i = aoa_s(i);
         xi_bar_array(i,:) = combineSweepTwist(alpha_s, theta_s, aoa_i);
 

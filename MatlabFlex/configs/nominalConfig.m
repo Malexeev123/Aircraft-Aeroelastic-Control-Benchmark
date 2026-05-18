@@ -77,7 +77,9 @@ function cfg = nominalConfig
     cfg.gust.on      = true;  % include Dryden gust input
     cfg.gust.gust_length= 10.0;
     cfg.gust.gust_intensity = 0.02;
-    cfg.gust.gust_offset= 0;
+    cfg.gust.gust_offset= 2;
+     cfg.gust.gust_offset_ratio = .15; %start at 15% of sim
+
 
     cfg.gust.a = q_inf*cfg.flight.b_ref^2;
     cfg.gust.t_inf = cfg.flight.b_ref/cfg.flight.U_inf;

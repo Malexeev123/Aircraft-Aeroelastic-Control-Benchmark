@@ -1,0 +1,1591 @@
+function success = sim_run(case_name, body_case, varargin)
+%SIM_RUN  Execute a simulation using the previously prepared sim_setup bundle.
+%
+% Usage (auto-pick latest setup):
+%   sharpy_root = '/home/maxal/Research/TestBench';      % SHARPy root
+%   matlab_root = '/home/maxal/Research/MatlabFlex';     % MATLAB project root
+%   success = sim_run(sharpy_root, matlab_root, 'pazy_ROM', 'wingOnly');
+%
+% Usage (explicit setup dir):
+%   success = sim_run(sharpy_root, matlab_root, 'pazy_ROM','wingOnly', ...
+%                     'setup_dir', '/.../sim_setup/pazy_ROM/wing_only/20251110');
+%
+% Name-Value:
+%   'setup_dir'       : explicit sim_setup run directory to read from
+%   'date_only_runs'  : true  -> sim_run/<date>, false -> <date_time> (default: true)
+%   'overwrite'       : whether to reuse an existing run dir (default: true)
+%
+% Notes
+%   • Reads sim_bundle.mat, run_settings.mat, base/beam/aero bundles, sim_for_sharpy.h5
+%   • Supports runner families: 'SimRunner' and 'PlantROM'
+%   • Supports sim_case: 'openloop' and 'nmhe_nmpc'
+%   • Minimal outputs now; post-processing will follow later
+
+% ------------------- parse args -------------------
+p = inputParser;
+p.addParameter('setup_dir','',@(s)ischar(s)||isstring(s));
+p.addParameter('date_only_runs', true, @(b)islogical(b)||isnumeric(b));
+p.addParameter('overwrite',      true, @(b)islogical(b)||isnumeric(b));
+p.parse(varargin{:});
+setup_dir      = char(p.Results.setup_dir);
+date_only_runs = logical(p.Results.date_only_runs);
+overwrite      = logical(p.Results.overwrite);
+
+%% ---- locate setup_dir and roots without explicit args ----
+% We try, in order:
+%   (A) user-provided 'setup_dir'
+%   (B) roots.mat in CWD (rare)
+%   (C) scan Research/*/sim_setup/<case>/<body>/ to find the latest dated run
+%   (D) if we find a setup, also load for_matlab/roots.mat to reconstruct roots
+%
+% Everything here is path-agnostic and should work under .../Research/<anything>/
+
+here         = fileparts(mfilename('fullpath'));       % .../MatlabFlex/configs
+matlab_root  = fileparts(here);                         % .../MatlabFlex
+research_root= fileparts(matlab_root);                  % .../Research
+
+% record places we checked for better error messages
+checked_msgs = {};
+
+% --- (A) explicit setup_dir wins ---
+if ~isempty(setup_dir)
+    setup_dir = char(setup_dir);
+    if exist(setup_dir,'dir')~=7
+        error('Provided setup_dir does not exist: %s', setup_dir);
+    end
+end
+
+roots = [];  % will hold sharpy_root/matlab_root/sim_setup_root/sim_run_root if found
+
+% --- (B) roots.mat in current working dir (rare but cheap) ---
+if isempty(setup_dir) && exist('roots.mat','file')==2
+    try
+        Sroots = load('roots.mat'); roots = Sroots.roots;
+        checked_msgs{end+1} = sprintf('Loaded roots.mat from CWD -> %s', pwd);
+    catch
+        % ignore, continue
+    end
+end
+
+
+% Body case
+cfg.sim.body_case = body_case;
+% --- (C) scan Research/* for any folder that contains a sim_setup ---
+if isempty(setup_dir)
+    % build list of candidate sim_setup roots
+    sim_setup_candidates = discover_sim_setup_roots(research_root);
+    if isempty(sim_setup_candidates)
+        checked_msgs{end+1} = sprintf('No sim_setup found under %s', research_root);
+    else
+        checked_msgs{end+1} = sprintf('Found %d sim_setup roots under %s', numel(sim_setup_candidates), research_root);
+        % try each candidate for latest <case>/<body> folder
+        body_case_dir = sanitize_bodycase(body_case);
+        best_dir = '';
+        best_dn  = -inf;
+        for c = 1:numel(sim_setup_candidates)
+            base = sim_setup_candidates{c};
+            if exist(fullfile(base,case_name,body_case_dir),'dir')==7
+                dd = dir(fullfile(base,case_name,body_case_dir));
+                dd = dd([dd.isdir]);
+                for k = 1:numel(dd)
+                    nm = dd(k).name;
+                    if strcmp(nm,'.')||strcmp(nm,'..'), continue; end
+                    this_dir = fullfile(base,case_name,body_case_dir,nm);
+                    if dd(k).datenum > best_dn
+                        best_dn = dd(k).datenum;
+                        best_dir = this_dir;
+                    end
+                end
+            end
+        end
+        if ~isempty(best_dir)
+            setup_dir = best_dir;
+            checked_msgs{end+1} = sprintf('Selected latest setup: %s', setup_dir);
+        else
+            checked_msgs{end+1} = sprintf('No dated runs under any sim_setup/<case>/<body> for %s/%s', case_name, body_case_dir);
+        end
+    end
+end
+
+% --- If we found a setup_dir, see if it has for_matlab/roots.mat ---
+if ~isempty(setup_dir) && isempty(roots)
+    fm = fullfile(setup_dir,'for_matlab');
+    if exist(fullfile(fm,'roots.mat'),'file')==2
+        try
+            Sroots = load(fullfile(fm,'roots.mat')); roots = Sroots.roots;
+            checked_msgs{end+1} = sprintf('Loaded roots.mat from %s', fullfile(fm,'roots.mat'));
+        catch
+            checked_msgs{end+1} = sprintf('Failed loading roots.mat in %s', fm);
+        end
+    end
+end
+
+% --- If still no setup_dir, do a last-ditch try using any sim_bundle to reconstruct roots
+if isempty(setup_dir)
+    % search for any sim_bundle.mat under discovered sim_setup roots to infer a valid setup
+    sim_setup_candidates = discover_sim_setup_roots(research_root);
+    found_bundle = '';
+    for c = 1:numel(sim_setup_candidates)
+        base = sim_setup_candidates{c};
+        pattern = fullfile(base,'**','for_matlab','sim_bundle.mat');
+        L = dir(pattern);
+        if ~isempty(L)
+            % pick newest
+            [~,ix] = max([L.datenum]);
+            found_bundle = fullfile(L(ix).folder, L(ix).name);
+            setup_dir = fileparts(L(ix).folder);  % remove /for_matlab
+            checked_msgs{end+1} = sprintf('Guessed setup_dir via sim_bundle: %s', setup_dir);
+            break
+        end
+    end
+end
+
+% --- If we still don't have setup_dir, error with diagnostics ---
+if isempty(setup_dir)
+    fprintf(2,'[sim_run] Could not locate a valid sim_setup folder for case="%s", body="%s".\n', case_name, body_case);
+    if ~isempty(checked_msgs)
+        fprintf(2,'Checked:\n');
+        for i=1:numel(checked_msgs), fprintf(2,'  - %s\n', checked_msgs{i}); end
+    end
+    fprintf(2,'Hints:\n  • Run sim_init first (it creates sim_setup/... and roots.mat)\n  • Or call sim_run with ''setup_dir'',''/path/to/sim_setup/<case>/<body>/<date>''\n');
+    error('sim_run:setup_not_found','Auto-discovery failed.');
+end
+
+% --- If we had no roots, reconstruct them from sim_bundle paths
+fm_setup = fullfile(setup_dir,'for_matlab');
+Ssim_setup = load(fullfile(fm_setup,'sim_bundle.mat'));    % has sim_config.paths.run_dir
+if isempty(roots)
+    run_dir = Ssim_setup.sim_config.paths.run_dir;
+    p1 = fileparts(run_dir);    % .../sim_setup/<case>/<body>
+    p2 = fileparts(p1);         % .../sim_setup/<case>
+    p3 = fileparts(p2);         % .../sim_setup
+    sharpy_root = fileparts(p3);
+    roots.sharpy_root     = sharpy_root;
+    roots.sim_setup_root  = p3;
+    roots.sim_run_root    = fullfile(sharpy_root,'sim_run');
+    roots.matlab_root     = matlab_root;                  % from our file location
+    checked_msgs{end+1}   = sprintf('Reconstructed roots from sim_bundle at %s', fm_setup);
+else
+    sharpy_root = roots.sharpy_root;
+end
+
+% Finally, create sim_run folder structure & add MATLAB project to path
+sim_run_root = fullfile(roots.sharpy_root,'sim_run');
+[run_dir, paths] = create_run_dirs(sim_run_root, case_name, sanitize_bodycase(body_case), overwrite, date_only_runs);
+addpath(genpath(roots.matlab_root));
+
+
+% ------------------- global console log -------------------
+if ~exist(paths.logs,'dir'), mkdir(paths.logs); end
+log_name = sprintf('run_%s_%s_%s.log', case_name, body_case_dir, datestr(now,'yyyymmdd'));
+console_log = fullfile(paths.logs, log_name);
+diary off; diary(console_log); diary on;
+cleanupLog = onCleanup(@() diary('off')); %#ok<NASGU>
+
+fprintf('=== sim_run started %s ===\n', datestr(now,'yyyy-mm-dd HH:MM:SS'));
+fprintf('setup_dir: %s\n', setup_dir);
+fprintf('run_dir  : %s\n', run_dir);
+
+% ------------------- load setup artifacts -------------------
+fm = fullfile(setup_dir,'for_matlab');
+fs = fullfile(setup_dir,'for_sharpy');
+assert(exist(fm,'dir')==7 && exist(fs,'dir')==7, 'Setup dir missing for_matlab/for_sharpy.');
+
+% Core bundles
+Ssim = load(fullfile(fm,'sim_bundle.mat'));         % sim_config, state_space_system, input_settings, ...
+Saer = load(fullfile(fm,'aero_bundle.mat'));        % aero
+Sbem = load(fullfile(fm,'beam_bundle.mat'));        % beam
+Sbas = load(fullfile(fm,'base_bundle.mat'));        % base
+Srun = load(fullfile(fm,'run_settings.mat'));       % run_settings
+
+% Optional L
+if exist(fullfile(fm,'L_bundle.mat'),'file')
+    SL = load(fullfile(fm,'L_bundle.mat')); L = SL.L; blk = SL.blk; %#ok<NASGU>
+else
+    L = []; blk = [];
+end
+
+% Gust/time H5
+h5 = fullfile(fs,'sim_for_sharpy.h5');
+assert(exist(h5,'file')==2, 'Missing sim_for_sharpy.h5 in setup.');
+t_vec       = h5read(h5,'/time');                   % nsamp×1
+gust_series = h5read(h5,'/gust');                   % nsamp×1
+% deflection  = h5read(h5,'/deflection');             % nsamp×Nc
+% defl_rate   = h5read(h5,'/deflection_rate');        % nsamp×Nc
+
+
+
+% Rehydrate objects/config
+cfg  = Ssim.sim_config.cfg;          
+aero = Saer.aero;
+beam = Sbem.beam;
+base = Sbas.base;
+trim = Ssim.sim_config.trim;
+idx  = Ssim.sim_config.idx;
+x0   = Ssim.sim_config.x0;
+% 
+
+deflection  = safe_h5read(h5, '/deflection',    zeros(numel(t_vec), getOr(cfg.ctrl,'n_surf',2)));
+defl_rate   = safe_h5read(h5, '/deflection_rate', zeros(numel(t_vec), getOr(cfg.ctrl,'n_surf',2)));
+% % Make sure gust pipe is consistent for SimRunner path
+% if isprop(aero, 'gust_input')
+%     aero.gust_input = gust_series(:);   % guarantee column
+% end
+
+% Keep gust external; AeroROM.gust_input is read-only.
+gust_series = gust_series(:);  % used in Plant/ROM loops below
+
+% Optional sanity check for SimRunner path (just warn; do not set)
+try
+    gi = aero.gust_input;  % will throw if not readable; that's fine
+    if ~isempty(gi) && numel(gi) ~= numel(gust_series)
+        warning(['sim_run:gust_length_mismatch'], ...
+                'Setup gust length = %d, H5 gust length = %d. SimRunner will use its setup gust.', ...
+                numel(gi), numel(gust_series));
+    end
+catch
+    % property exists but read-only; ignore
+end
+
+% Runner preferences
+run_settings = Srun.run_settings;
+sim_case     = lower(char(run_settings.sim_case));
+runner       = lower(char(run_settings.runner));
+
+% ------------------- prep outputs & metadata -------------------
+copyfile(setup_dir, fullfile(paths.run_dir,'_setup_snapshot'));  % helpful provenance
+
+% Save a small meta for the run
+meta_fn = fullfile(paths.run_dir,'meta_run.yaml');
+fid = fopen(meta_fn,'w');
+if fid~=-1
+    fprintf(fid,'case_name: %s\n', Ssim.sim_config.case_name);
+    fprintf(fid,'body_case: %s\n', body_case_dir);
+    fprintf(fid,'setup_dir: %s\n', setup_dir);
+    fprintf(fid,'created:   %s\n', datestr(now,'yyyy-mm-dd'));
+    fprintf(fid,'sim_case:  %s\n', sim_case);
+    fprintf(fid,'runner:    %s\n', runner);
+    fclose(fid);
+end
+
+% ------------------- RUN DISPATCH ----------------------------------------
+results = struct(); hadError = false; MEout = [];
+cfg.sim.bodyCase = body_case;
+cfg.sim.body_case= body_case;
+% try
+ % Optional symmetry handling if using one semi-wing to represent both wings.
+    % cfg.sim.symmetricWingPair = true;
+    cfg.sim.symmetricWingPair = false;
+    cfg.sim.wingMultiplicity  = 1;
+    
+    % Conservative default: do not overwrite chi unless you explicitly want
+    % rigid-body alpha injected into the ROM attitude states.
+    cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    % cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    
+    % Rigid-body parameters
+    rParams = RigidBody.methods.paramsRigid_PazyUAV();
+    
+    cfg.rigidEOMset.mass = rParams.mass;
+    % cfg.rigidEOMset.mass = rParams.M6;
+    
+    % Use whichever field exists in your rParams.
+    if isfield(rParams,'J')
+        cfg.rigidEOMset.I_B = rParams.J;
+    else
+        error('Could not find inertia in rParams.');
+    end
+    
+    % Thrust line offset, body frame, from CG to thrust application point.
+    cfg.rigidEOMset.rThrust_B = [0;0;0];
+    
+    % Optional initial rigid state.
+    cfg.rigidEOMset.euler0 = [0; deg2rad(cfg.flight.aoa_deg); 0];
+
+    % ---------------------------------------------------------------------
+    % State-history allocation
+    % ---------------------------------------------------------------------
+    nxFlex = length(trim.states);   % flexible ROM state length
+    
+    % Use Nt+1 because plant states include the initial condition and each step.
+    t = t_vec(:);                       % column
+    Nt = numel(t) - 1;                  % number of s
+    x = zeros(nxFlex,Nt+1);
+    x(:,1) = x0(1:nxFlex);
+    
+    % Rigid-body appended state:
+    %   rb = [r_I(3); v_B(3); euler(3); omega_B(3)]
+    rbHist = nan(12,Nt+1);
+    
+    % Coupled-load logs:
+    Clamp6Hist   = nan(6,Nt);
+    FwingHist    = nan(3,Nt);
+    MwingHist    = nan(3,Nt);
+    FtotHist     = nan(3,Nt);
+    MtotHist     = nan(3,Nt);
+    FgravHist    = nan(3,Nt);
+    FthrustHist  = nan(3,Nt);
+    
+    % Plot true gust for reference( can remove in future)
+    figure; plot(t_vec, gust_series); title('True Gust Series');
+    xlabel('t (sec)'); ylabel('w true');
+
+    switch sim_case
+
+        % ================= OPENLOOP =================
+        case 'openloop'
+            switch runner
+                case 'simrunner'
+                    % Fresh SimRunner (don’t reuse any stale handles from MAT)
+                    simObj = AeroFlex.sim.SimRunner(cfg, beam, aero, base, trim);
+                    cfg.sim.storeSens = true;               % mirror setup
+                    u_ctrl = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1); % open-loop
+                    [t, x, log, sensEq] = simObj.run(x0, Ssim.sim_config.cfg.sim.t_end, u_ctrl, cfg.sim.storeSens);
+
+                case 'plantrom'
+                    % Plant integrator path (ROMIntegrator + PlantRunTime)
+                    modelFcn      = str2func(run_settings.modelFcn);
+                    sensorFcn     = str2func(run_settings.sensorFcn);
+                    estimatorFcn  = str2func(run_settings.estimatorFcn);
+                    controllerFcn = @(cfg_in) [];   % not used in open-loop
+                    
+
+                    % Time grid from setup H5
+                    t = t_vec(:);                       % column
+                    Nt = numel(t) - 1;                  % number of steps between samples
+                    x  = zeros(length(x0), Nt+1); x(:,1) = x0;
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
+                    rom   = modelFcn(cfg, beam, aero, base);
+                    
+
+                    plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
+                    log = struct(); sensEq = [];
+
+                    for k = 1:Nt
+                        % gk = gust_series(k+1);          % align with sample k
+                        gk = gust_series(k);          % align with sample k
+                        uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+
+                        switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                                xk = plant.step(uk, gk, "ROM");
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                                xk = plant.stepCoupled(uk, gk);
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                        end
+                        % x(:,k+1) = plant.step(uk, gk, "ROM");
+                        xk_full = xk;
+                        % ---------------------------------------------------------------------
+                        % Split plant state into flexible and rigid-body parts.
+                        % ---------------------------------------------------------------------
+                        [xFlex_k, rb_k] = splitFlexibleRigidState(xk_full,nxFlex);
+                        
+                        % Store flexible part for legacy postProcess reconstruction.
+                        x(:,k+1) = xFlex_k;
+                        
+                        % Store appended rigid-body states separately.
+                        if ~isempty(rb_k)
+                            rbHist(:,k+1) = rb_k;
+                        end
+                        
+                        % ---------------------------------------------------------------------
+                        % Store coupled force/moment terms if PlantRunTime.stepCoupled populated
+                        % plant.last.
+                        % ---------------------------------------------------------------------
+                        if isprop(plant,'last') && isstruct(plant.last)
+                        
+                            if isfield(plant.last,'Clamp6')
+                                Clamp6Hist(:,k) = plant.last.Clamp6(:);
+                            end
+                        
+                            if isfield(plant.last,'Fwing_B')
+                                FwingHist(:,k) = plant.last.Fwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mwing_B')
+                                MwingHist(:,k) = plant.last.Mwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Ftot_B')
+                                FtotHist(:,k) = plant.last.Ftot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mtot_B')
+                                MtotHist(:,k) = plant.last.Mtot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fgrav_B')
+                                FgravHist(:,k) = plant.last.Fgrav_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fthrust_B')
+                                FthrustHist(:,k) = plant.last.Fthrust_B(:);
+                            end
+                        end
+                    end
+                 
+
+                otherwise
+                    error('Unknown runner="%s".', runner);
+            end
+
+        % ================= NMHE/NMPC =================
+        case 'nmhe_nmpc'
+            SQPconfig;
+            switch runner
+                case 'simrunner'
+                    % Let SimRunner own the inner loop (if your SimRunner supports control hooks)
+                    % Here we just call it; user’s SimRunner implementation applies control inside.
+                    simObj = AeroFlex.sim.SimRunner(cfg, beam, aero, base, trim);
+                    cfg.sim.storeSens = false;
+                    [t, x, log, sensEq] = simObj.run(x0, Ssim.sim_config.cfg.sim.t_end, cfg.sim.storeSens);
+
+                case 'plantrom'
+                    % Full loop: Plant + Estimator + Controller 
+                    GLAConfig;
+                    % bodyCase = lower(string(cfg.sim.bodyCase));
+
+                    switch body_case
+                        case "wingOnly"
+                            useRigidBody = false;
+                            useOuterLQR  = false;
+                    
+                        case "coupledfull"
+                            useRigidBody = true;
+                            useOuterLQR  = true;
+
+                            LQRConfig;
+                    
+                        otherwise
+                            error('Unknown cfg.sim.bodyCase = "%s".', body_case);
+                    end
+
+                    if useOuterLQR
+                        outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                    else
+                        outerCtrl = [];
+                    end
+                    
+
+                    if isfield(cfg,'fusion') && isfield(cfg.fusion,'enable') && cfg.fusion.enable
+                        fuser = AeroFlex.ctrl.ComplementaryCommandFusion(cfg, trim);
+                    else
+                        fuser = [];
+                    end
+                    
+                    if isfield(cfg,'actuator') && isfield(cfg.actuator,'enable') && cfg.actuator.enable
+                        actuator = AeroFlex.ctrl.ActuatorChain(cfg, trim);
+                    else
+                        actuator = [];
+                    end
+                    
+                    outerEvery = 1;
+                    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'outerEvery')
+                        outerEvery = cfg.ctrl.outerEvery;
+                    end
+                    cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                        + size(aero.forceMap.B_ddelta,2);
+                    u_outer_hold = zeros(cfg.nu,1);
+                    rbCmd_hold = struct('delta_e',0,'delta_a',0,'delta_r',0,'thrust',0);
+
+
+                    modelFcn      = str2func(run_settings.modelFcn);
+                    sensorFcn     = str2func(run_settings.sensorFcn);
+                    estimatorFcn  = str2func(run_settings.estimatorFcn);
+                    controllerFcn = str2func(run_settings.controllerFcn);
+                    cfg.sim.storeSens = true;           % true if also want ∂x/∂x0
+                    cfg.trim.useRateProjection = false;
+                    cfg.trim.Uinpt = zeros(4,1);
+
+                    % Instantiate
+                    rom    = modelFcn(cfg, beam, aero, base);    
+                    cfg.modelHandle = @(cfg, beam, aero, base) modelFcn(cfg, beam, aero, base);
+                    % -------------- 1.  SENSOR / DIMENSIONS ----------------------------
+                    sensor = sensorFcn(beam, cfg);    
+                    cfg.ny        = size(sensor.PhiY,1);
+                    cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                                  + size(aero.forceMap.B_ddelta,2);
+                    cfg.nw        = size(aero.forceMap.Bw,2);
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
+                    plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
+                    est    = estimatorFcn(cfg, beam, aero, base, trim);
+                    ctrl   = controllerFcn(cfg, beam, aero, base, trim);
+
+                    % Time grid
+                    Ts = run_settings.ctrl_Ts;
+                    Nt = floor(Ssim.sim_config.cfg.sim.t_end / Ts);
+                    t  = (0:Nt-1)*Ts;
+
+                    % Logs
+                    % xhat_hist = zeros(length(x0), Nt);
+                    % Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
+                    % wHorizon  = zeros(run_settings.Ne, Nt);
+                    % trueGust  = zeros(1, Nt);
+                    
+                    xk = x0; u_prev = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+                    %======================================================================
+                    % Runtime / closed-loop diagnostic setup
+                    %======================================================================
+                    simWallTimer = tic;
+                    
+                    % Main integration setup. Rename these if your variables differ.
+                    dtSim     = cfg.sim.dt;
+                    TsCtrl    = cfg.ctrl.Ts;
+                    ctrlEvery = max(1, round(TsCtrl/dtSim)); % controller update interval in sim steps
+                    Nsim = size(Ssim.y,1) - 1;          % because log has samples 0...Nsim
+                    tEnd = Nsim * dtSim;
+                    
+                    % Number of controller samples, including t = 0.
+                    Nctrl = floor(tEnd/TsCtrl) + 1;
+                    tCtrlVec = (0:Nctrl-1) * TsCtrl;
+                    tCtrlVec(end) = min(tCtrlVec(end), tEnd);
+                    t = tCtrlVec;
+                    % Preallocate using Nctrl, not Nsim.
+                    xhat_hist = zeros(length(x0), Nctrl);
+                    Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nctrl);
+                    wHorizon  = zeros(cfg.ctrl.Ne*cfg.nw, Nctrl);
+                    trueGust  = zeros(1, Nctrl);
+
+                    % Print every N controller calls.
+                    diagPrintPeriod_s = 2*Ts;   % 
+                    % diagPrintPeriod_s = 0.05;   % 
+                    diagPrintEvery    = max(1, round(diagPrintPeriod_s/TsCtrl));
+                    
+                    % Preallocate controller-step diagnostics.
+                    NctrlMax = ceil(Nt/ctrlEvery) + 5;
+                    
+                    diag = struct();
+                    
+                    diag.iCtrl        = 0;
+                    diag.tCtrl        = nan(1,NctrlMax);
+                    
+                    diag.mheTime      = nan(1,NctrlMax);
+                    diag.mpcTime      = nan(1,NctrlMax);
+                    diag.totalCtrlTime= nan(1,NctrlMax);
+                    
+                    diag.mheCost      = nan(1,NctrlMax);
+                    diag.mpcCost      = nan(1,NctrlMax);
+                    
+                    diag.mheCont      = nan(1,NctrlMax);
+                    diag.mpcCont      = nan(1,NctrlMax);
+                    
+                    diag.mheFlag      = nan(1,NctrlMax);
+                    diag.mpcFlag      = nan(1,NctrlMax);
+                    
+                    diag.wInf         = nan(1,NctrlMax);
+                    diag.uInf         = nan(1,NctrlMax);
+                    diag.duInf        = nan(1,NctrlMax);
+                    diag.xErrInf      = nan(1,NctrlMax);
+                    
+                    diag.nMHEFail     = 0;
+                    diag.nMPCFail     = 0;
+                    
+                    % Store previous command for rate/change diagnostics.
+                    uDiagPrev = zeros(cfg.nu,1);
+                    % if isprop(mpc,'uPrev') && ~isempty(mpc.uPrev)
+                        % uDiagPrev = mpc.uPrev(:);
+                    % elseif exist('u_prev','var') && ~isempty(u_prev)
+                    uDiagPrev = u_prev(:);
+                    % end
+                    
+                    fprintf('\n');
+                    fprintf('======================================================================\n');
+                    fprintf(' SIMULATION START\n');
+                    fprintf('======================================================================\n');
+                    fprintf('  Nt              : %d samples\n', Nt);
+                    fprintf('  dtSim           : %.6g s\n', dtSim);
+                    fprintf('  TsCtrl          : %.6g s\n', TsCtrl);
+                    fprintf('  ctrlEvery       : %d sim steps/control update\n', ctrlEvery);
+                    fprintf('  MHE horizon Ne  : %d slots, tau_e = %.6g s\n', cfg.ctrl.Ne, cfg.ctrl.Ne*TsCtrl);
+                    fprintf('  MPC horizon Nc  : %d slots, tau_c = %.6g s\n', cfg.ctrl.Nc, cfg.ctrl.Nc*TsCtrl);
+                    fprintf('  nx, nu, nw      : %d, %d, %d\n', length(trim.states), cfg.nu, cfg.nw);
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf(['  %7s | %9s | %9s | %7s | %8s | %8s | %8s | %8s | %7s | %8s | %8s | %8s\n'], ...
+                            'Prog[%]', 't_sim[s]', 'wall', 'RTx', ...
+                            'MHE[ms]', 'MPC[ms]', 'MHEceq', 'MPCceq', ...
+                            'flags', '|w|inf', '|u|inf', '|du|inf');
+                    fprintf('----------------------------------------------------------------------\n');
+
+                    % for k = 1:Nt
+                    for k = 1:Nctrl
+                        io = AeroFlex.sim.readPlantIO_case(plant, cfg, Ssim, body_case);
+                        io.rb = plant.rb;
+                        t_k = io.t;
+                        z_k = io.yWing;       % wing sensors for nMHE
+                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only           
+                        rb_k = io.rb;
+                        
+                        
+            
+                        % True gust from prepared profile
+                        gk = gust_series( min(round(t_k/cfg.sim.dt)+1, numel(gust_series)) );
+                        trueGust(k) = gk;
+                        iCtrl = k;
+
+                        t_k = tCtrlVec(iCtrl);
+
+                        % Safe sensor index into the sim-rate sensor log.
+                        iSense = round(t_k/dtSim) + 1;
+                        iSense = min(max(iSense,1), size(Ssim.y,1));
+                    
+                        % z_k = Ssim.y(iSense,:).';
+                    
+                        % True gust, safely indexed.
+                        iGust = min(max(iSense,1), numel(gust_series));
+                        gk = gust_series(iGust);
+                    
+                        trueGust(iCtrl) = gk;
+                        % ==============================================================
+                        % 2. Outer rigid-body controller
+                        % ==============================================================
+                        switch body_case
+                            case "wingOnly"
+                                u_outer = zeros(cfg.nu,1);
+                    
+                            case "coupledfull"
+                                if useOuterLQR && (mod(k-1,outerEvery) == 0)
+
+                                    ref = struct();
+                            
+                                    % Attitude-hold default: reference is trim.
+                                    %% Can overwrite these from guidance:
+                                    % ref.euler_ref = [phi_cmd; theta_cmd; psi_cmd];
+                                    % ref.v_B_ref   = [Ucmd*cos(alpha0); 0; Ucmd*sin(alpha0)];
+                            
+                                    [u_outer_hold, rbCmd_hold, outerInfo] = outerCtrl.computeControl(rb_k, ref, t_k);
+                                    u_outer = u_outer_hold;
+                                else
+                                    outerInfo = struct();
+                                end
+                        end
+
+                        %======================================================================
+                        % Control / estimation update
+                        %======================================================================
+                        % if mod(k-1,ctrlEvery) == 0
+                        
+                        diag.iCtrl = diag.iCtrl + 1;
+                        iCtrl = diag.iCtrl;
+                    
+                        tCtrlTimer = tic;
+                    
+                        %--------------------------------------------------------------
+                        % 1. nMHE solve
+                        %--------------------------------------------------------------
+                        mheTimer = tic;
+
+                        % Estimate
+                        if ~cfg.ctrl.skipMHE % Only should be false in debug
+                            [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                        else
+                            if k == 1 % Need to init the vals
+                                 [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                            end
+                        end
+
+                        % [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                        mheSolveTime = toc(mheTimer);
+                        if Ehe.exitflag >= 0
+                            wMPC = what(end-cfg.nw+1:end);   % newest/current disturbance estimate
+                        else
+                            % wMPC = zeros(cfg.nw,1);          %  hold previous disturbance estimate
+                            wMPC = what(end-cfg.nw+1:end);   % newest/current disturbance estimate
+
+                        end
+
+                        if cfg.forceRealGust
+                            wForMPC = gk;
+                        else
+                            wForMPC = wMPC;
+                        end
+                        
+                        % [uk, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k);
+                        % wMPC = gk;  % Temp to test MPC
+
+                         %--------------------------------------------------------------
+                        % 2. nMPC solve
+                        %--------------------------------------------------------------
+                        mpcTimer = tic;
+                        % [uk, Uinfo] = ctrl.computeControl(xhat, wMPC, u_prev, t_k); %
+                        if ~cfg.ctrl.skipMPC 
+                            [u_inner, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k); %
+                        else
+                            if k == 1 % Need to init the vals
+                                [u_inner, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k); %
+                            end
+                        end
+                        uk = u_inner;
+                        % uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+                        % u_prev = uk;
+                        u_cmd = uk;
+
+                        mpcSolveTime = toc(mpcTimer);
+
+                        totalCtrlTime = toc(tCtrlTimer);
+
+                        %--------------------------------------------------------------
+                        % 3. Store diagnostics
+                        %--------------------------------------------------------------
+                        diag.tCtrl(iCtrl)         = t_k;
+                        diag.mheTime(iCtrl)       = mheSolveTime;
+                        diag.mpcTime(iCtrl)       = mpcSolveTime;
+                        diag.totalCtrlTime(iCtrl) = totalCtrlTime;
+                    
+                        diag.mheCost(iCtrl)       = safeField(Ehe,'cost',nan);
+                        diag.mpcCost(iCtrl)       = safeField(Uinfo,'cost',nan);
+                    
+                        diag.mheCont(iCtrl)       = safeField(Ehe,'continuity',nan);
+                        diag.mpcCont(iCtrl)       = safeField(Uinfo,'continuity',nan);
+                    
+                        diag.mheFlag(iCtrl)       = safeField(Ehe,'exitflag',safeField(Ehe,'flag',nan));
+                        diag.mpcFlag(iCtrl)       = safeField(Uinfo,'exitflag',safeField(Uinfo,'flag',nan));
+                    
+                        diag.wInf(iCtrl)          = norm(wMPC,inf);
+                        diag.uInf(iCtrl)          = norm(u_cmd(1:2),inf);
+                        % diag.duInf(iCtrl)         = norm(u_cmd(:)-uDiagPrev(:),inf);
+                        diag.duInf(iCtrl)         = norm(u_cmd(2:4),inf);
+                    
+                        if isprop(trim,'states') && ~isempty(trim.states)
+                            diag.xErrInf(iCtrl) = norm(xhat(:)-trim.states(:),inf);
+                        else
+                            diag.xErrInf(iCtrl) = norm(xhat(:),inf);
+                        end
+                    
+                        % Failure counters.
+                        if ~(diag.mheFlag(iCtrl) > 0)
+                            diag.nMHEFail = diag.nMHEFail + 1;
+                        end
+                    
+                        if ~(diag.mpcFlag(iCtrl) > 0)
+                            diag.nMPCFail = diag.nMPCFail + 1;
+                        end
+
+                        %--------------------------------------------------------------
+                        % 4. Runtime progress print
+                        %--------------------------------------------------------------
+                        isPrintStep = mod(iCtrl,diagPrintEvery) == 0;
+                        isLastStep  = k == Nt;
+                    
+                        if isPrintStep || isLastStep
+                            % --------------------------------------------------------------
+                            % Progress
+                            % --------------------------------------------------------------
+                            progressFrac = (iCtrl-1) / max(1,Nctrl-1);
+                            elapsedWall = toc(simWallTimer);
+                            etaWall = elapsedWall*(1/max(progressFrac,eps) - 1);
+                            % etaWall = elapsedWall*(1/progressFrac - 1);
+                    
+                            if elapsedWall > 0
+                                rtFactor = t_k/elapsedWall;
+                            else
+                                rtFactor = nan;
+                            end
+                    
+                            flagStr = sprintf('%+d/%+d', round(diag.mheFlag(iCtrl)), round(diag.mpcFlag(iCtrl)));
+                    
+                            fprintf(['  %7.2f | %9.4f | %9s | %7.2f | %8.2f | %8.2f | %8.1e | %8.1e | %7s | %8.2e | %8.2e | %8.2e'], ...
+                                    100*progressFrac, ...
+                                    t_k, ...
+                                    fmtDuration(elapsedWall), ...
+                                    rtFactor, ...
+                                    1e3*mheSolveTime, ...
+                                    1e3*mpcSolveTime, ...
+                                    diag.mheCont(iCtrl), ...
+                                    diag.mpcCont(iCtrl), ...
+                                    flagStr, ...
+                                    diag.wInf(iCtrl), ...
+                                    diag.uInf(iCtrl), ...
+                                    diag.duInf(iCtrl));
+                    
+                            fprintf('   ETA %s\n', fmtDuration(etaWall));
+                        end
+                    
+                        %--------------------------------------------------------------
+                        % 5. Update previous command bookkeeping
+                        %--------------------------------------------------------------
+                        uDiagPrev = u_cmd(:);
+                        u_prev    = u_cmd(:);   
+                        
+
+                        % ==============================================================
+                        % 5a. Command fusion / saturation
+                        % ==============================================================
+                        switch body_case
+                            case "wingOnly"
+                                u_cmd = saturateControl(u_inner, cfg);
+                                u_cmd_preAct = u_cmd;
+
+                            case "coupledfull"
+                                if ~isempty(fuser)
+                                    [u_cmd_preAct, fusionInfo] = fuser.fuse(u_outer_hold, u_inner);
+                                else
+                                u_cmd = fuseInnerOuterCommands(u_outer, u_inner, cfg);
+                                u_cmd = saturateControl(u_cmd, cfg);
+                                fusionInfo = struct();
+                                u_cmd_preAct = u_cmd;
+                                end
+                        end
+
+                        %======================================================================
+                        % 5b. Actuator chain
+                        %======================================================================
+                        if ~isempty(actuator)
+                            [u_act, actInfo] = actuator.step(u_cmd_preAct);
+                        else
+                            u_act = u_cmd_preAct;
+                            actInfo = struct();
+                        end
+
+                        % ==============================================================
+                        % 6. Propagate plant
+                        % ==============================================================
+                        % xk = plant.step(uk, gk, "ROM");
+                        % xk = stepPlant_case(plant, cfg, body_case, u_cmd, gk);
+                        switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                                xk = plant.step(uk, gk, "ROM");
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                                xk = plant.stepCoupled(uk, gk);
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                        end
+                        % x(:,k+1) = plant.step(uk, gk, "ROM");
+                        xk_full = xk;
+                        % ---------------------------------------------------------------------
+                        % Split plant state into flexible and rigid-body parts.
+                        % ---------------------------------------------------------------------
+                        [xFlex_k, rb_k] = splitFlexibleRigidState(xk_full,nxFlex);
+                        
+                        % Store flexible part for legacy postProcess reconstruction.
+                        x(:,k+1) = xFlex_k;
+                        
+                        % Store appended rigid-body states separately.
+                        if ~isempty(rb_k)
+                            rbHist(:,k+1) = rb_k;
+                        end
+                        
+                        % ---------------------------------------------------------------------
+                        % Store coupled force/moment terms if PlantRunTime.stepCoupled populated
+                        % plant.last.
+                        % ---------------------------------------------------------------------
+                        if isprop(plant,'last') && isstruct(plant.last)
+                        
+                            if isfield(plant.last,'Clamp6')
+                                Clamp6Hist(:,k) = plant.last.Clamp6(:);
+                            end
+                        
+                            if isfield(plant.last,'Fwing_B')
+                                FwingHist(:,k) = plant.last.Fwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mwing_B')
+                                MwingHist(:,k) = plant.last.Mwing_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Ftot_B')
+                                FtotHist(:,k) = plant.last.Ftot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Mtot_B')
+                                MtotHist(:,k) = plant.last.Mtot_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fgrav_B')
+                                FgravHist(:,k) = plant.last.Fgrav_B(:);
+                            end
+                        
+                            if isfield(plant.last,'Fthrust_B')
+                                FthrustHist(:,k) = plant.last.Fthrust_B(:);
+                            end
+                        end
+                        % figure;
+                        % plot(estGust);
+                        % Log
+                        xhat_hist(:,k) = xhat;
+                        Uhist(:,k)     = uk;
+                        if isnumeric(what)
+                            wHorizon(1:min(end,numel(what)),k) = what(1:min(end,numel(what)));
+                        end
+                    end
+
+                    % Pack outputs to match open-loop fields
+                    % x = []; sensEq = [];
+                    log = struct('xhat',xhat_hist,'U',Uhist,'wHorizon',wHorizon,'wTrue',trueGust);
+                    %======================================================================
+                    % Final diagnostic summary
+                    %======================================================================
+                    elapsedTotal = toc(simWallTimer);
+                    
+                    idxValid = 1:diag.iCtrl;
+                    
+                    mheTime_ms = 1e3*diag.mheTime(idxValid);
+                    mpcTime_ms = 1e3*diag.mpcTime(idxValid);
+                    totTime_ms = 1e3*diag.totalCtrlTime(idxValid);
+                    
+                    mheCont = diag.mheCont(idxValid);
+                    mpcCont = diag.mpcCont(idxValid);
+                    
+                    mheFlag = diag.mheFlag(idxValid);
+                    mpcFlag = diag.mpcFlag(idxValid);
+                    
+                    fprintf('\n');
+                    fprintf('======================================================================\n');
+                    fprintf(' SIMULATION COMPLETE\n');
+                    fprintf('======================================================================\n');
+                    fprintf('  Simulated duration      : %.6g s\n', tCtrlVec(end));
+                    fprintf('  Wall-clock duration     : %s\n', fmtDuration(elapsedTotal));
+                    fprintf('  Average real-time factor: %.3f x\n', tCtrlVec(end)/max(elapsedTotal,eps));
+                    fprintf('  Controller calls        : %d\n', diag.iCtrl);
+                    fprintf('----------------------------------------------------------------------\n');
+                    
+                    fprintf('  nMHE success rate       : %6.2f %%  (%d fail / %d total)\n', ...
+                            100*mean(mheFlag > 0,'omitnan'), diag.nMHEFail, diag.iCtrl);
+                    
+                    fprintf('  nMPC success rate       : %6.2f %%  (%d fail / %d total)\n', ...
+                            100*mean(mpcFlag > 0,'omitnan'), diag.nMPCFail, diag.iCtrl);
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  nMHE solve time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(mheTime_ms,'omitnan'), localPercentile(mheTime_ms,95), max(mheTime_ms,[],'omitnan'));
+                    
+                    fprintf('  nMPC solve time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(mpcTime_ms,'omitnan'), localPercentile(mpcTime_ms,95), max(mpcTime_ms,[],'omitnan'));
+                    
+                    fprintf('  Total ctrl time [ms]    : mean %8.3f | p95 %8.3f | max %8.3f\n', ...
+                            mean(totTime_ms,'omitnan'), localPercentile(totTime_ms,95), max(totTime_ms,[],'omitnan'));
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  nMHE continuity norm    : mean %8.2e | p95 %8.2e | max %8.2e\n', ...
+                            mean(mheCont,'omitnan'), localPercentile(mheCont,95), max(mheCont,[],'omitnan'));
+                    
+                    fprintf('  nMPC continuity norm    : mean %8.2e | p95 %8.2e | max %8.2e\n', ...
+                            mean(mpcCont,'omitnan'), localPercentile(mpcCont,95), max(mpcCont,[],'omitnan'));
+                    
+                    fprintf('----------------------------------------------------------------------\n');
+                    fprintf('  |wHat|_inf              : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.wInf(idxValid),'omitnan'), max(diag.wInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |u|_inf                 : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.uInf(idxValid),'omitnan'), max(diag.uInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |du|_inf per ctrl step  : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.duInf(idxValid),'omitnan'), max(diag.duInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('  |xhat-xTrim|_inf        : mean %8.2e | max %8.2e\n', ...
+                            mean(diag.xErrInf(idxValid),'omitnan'), max(diag.xErrInf(idxValid),[],'omitnan'));
+                    
+                    fprintf('======================================================================\n\n');
+                    %% ---- 5. PLOT ----------------------------------------------------------
+                    tAxis = (0:Nt-1)*cfg.ctrl.Ts;
+                    figure; 
+                    plot(tAxis,gust_series(1:end-1),'k--','LineWidth',1.4), hold on,
+                    plot(tCtrlVec,wHorizon(1,:),'b','LineWidth',1.4), grid on
+                    legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+                    title('MHE demo – ROM truth vs observer estimate')
+
+    %                  figure; plot(t_vec, gust_series); title('True Gust Series');
+    % xlabel('t (sec)'); ylabel('w true');
+                otherwise
+                    error('Unknown runner="%s".', runner);
+            end
+
+        otherwise
+            error('Unknown sim_case="%s".', sim_case);
+    end
+    
+    % % Store results
+    % results.t = exist('t','var') * t;             
+    % results.x = exist('x','var') * x;             
+    % results.log = exist('log','var') * log;       
+    % results.sensEq = exist('sensEq','var') * sensEq; 
+    results.t      = assignIfExists('t',      []);
+    results.x      = assignIfExists('x',      []);
+    results.log    = assignIfExists('log',    struct());
+    results.sensEq = assignIfExists('sensEq', []);
+    % figure; plot(t_vec, gust_series); title('True Gust Series');
+    % xlabel('t (sec)'); ylabel('w true');
+% catch ME
+%     hadError = true; MEout = ME;
+%     fprintf(2,'[sim_run] ERROR: %s\n', ME.message);
+%     fprintf(2,'%s\n', getReport(ME,'extended','hyperlinks','off'));
+% end
+base.chi0 = trim.chi0;
+%% ------------------------------------------------------------
+% Post-processing (tip deflection, angles, energies, modal series)
+% --------------------------------------------------------------
+% try
+    % ---------------------------------------------------------------------
+    % Pack logs for postProcess
+    % ---------------------------------------------------------------------
+    log = assignIfExists('log', struct());
+    
+    if sim_case ~= "openloop"
+        log.xhat = xhat_hist;
+        log.U    = Uhist;
+    end
+    
+    if exist('wHorizon','var')
+        log.wHorizon = wHorizon;
+    end
+    
+    if exist('trueGust','var')
+        log.wTrue = trueGust;
+    end
+    
+    % Rigid-body states, if available.
+    if exist('rbHist','var') && any(isfinite(rbHist(:)))
+        log.rb = struct();
+        log.rb.state   = rbHist;
+        log.rb.r_I     = rbHist(1:3,:);
+        log.rb.v_B     = rbHist(4:6,:);
+        log.rb.euler   = rbHist(7:9,:);
+        log.rb.omega_B = rbHist(10:12,:);
+    end
+    
+    % Coupled force/moment logs, if available.
+    if exist('Clamp6Hist','var')
+        log.loads = struct();
+        log.loads.Clamp6   = Clamp6Hist;
+        log.loads.Fwing_B  = FwingHist;
+        log.loads.Mwing_B  = MwingHist;
+        log.loads.Ftot_B   = FtotHist;
+        log.loads.Mtot_B   = MtotHist;
+        log.loads.Fgrav_B  = FgravHist;
+        log.loads.Fthrust_B = FthrustHist;
+    end
+    
+    % Solver diagnostics, if available.
+    if exist('diag','var')
+        log.diag = diag;
+    end
+    
+    % Store body case for post-processing.
+    log.body_case = body_case;
+    %Temp to run in RunBenchmark.m 
+    postProc = struct('t', t, 'x',x, 'cfg', cfg, 'beam', beam, 'aero', aero, 'base', base,'log',log);
+    % out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
+    out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, log);% catch ME
+%     warning('[postProcess] %s. Falling back to minimal outputs.', ME.message);
+%     out = minimal_post(t, x, cfg, beam);   % helper below
+% end
+%%
+% --- Ensure run root exists ---
+run_dir = paths.run_dir;        % already set earlier in your sim_run
+if ~exist(run_dir,'dir'), mkdir(run_dir); end
+
+% --- CSVs in the run root (what the notebook scans) ---
+writematrix(out.t(:),               fullfile(run_dir, 'time.csv'));
+writematrix(out.tip_z(:),           fullfile(run_dir, 'tip_z.csv'));
+writematrix(out.tip_z_norm_pct(:),  fullfile(run_dir, 'tip_z_norm_pct.csv'));
+
+% --- Also export a compact HDF5 in the run root (optional but nice) ---
+h5fn = fullfile(run_dir, 'sim_out.h5');
+if exist(h5fn,'file'), delete(h5fn); end
+h5create(h5fn,'/time',             [numel(out.t) 1]);         h5write(h5fn,'/time', out.t(:));
+h5create(h5fn,'/tip_z',            [numel(out.tip_z) 1]);     h5write(h5fn,'/tip_z', out.tip_z(:));
+h5create(h5fn,'/tip_z_norm_pct',   [numel(out.tip_z_norm_pct) 1]);  h5write(h5fn,'/tip_z_norm_pct', out.tip_z_norm_pct(:));
+
+% Save Euler angles, if you want them on disk too
+angles_deg = rad2deg(x(end-2:end,:)).';   % Nt x 3
+h5create(h5fn,'/angles_deg', [size(angles_deg,1) size(angles_deg,2)]);
+h5write(h5fn,'/angles_deg', angles_deg);
+
+% (Optional) Excel fallback the notebook can use if H5/CSV absent
+xcell_dir = fullfile(run_dir, 'xcell');
+if ~exist(xcell_dir,'dir'), mkdir(xcell_dir); end
+try
+    T = table(out.t(:), out.tip_z(:), out.tip_z_norm_pct(:), ...
+              angles_deg(:,1), angles_deg(:,2), angles_deg(:,3), ...
+              'VariableNames', {'time','tip_z','tip_z_norm_pct','roll_deg','pitch_deg','yaw_deg'});
+    writetable(T, fullfile(xcell_dir,'timeseries.xlsx'), 'Sheet','timeseries');
+catch ME
+    warning('xcell Excel export skipped: %s', ME.message);
+end
+
+
+%%
+
+% ------- Exports (CSV + HDF5 + MAT) ---------------------------
+post_dir = fullfile(paths.run_dir, 'post');            if ~exist(post_dir,'dir'), mkdir(post_dir); end
+plots_dir = paths.plots;                               if ~exist(plots_dir,'dir'), mkdir(plots_dir); end
+sh_py_dir = paths.for_sharpy;                          if ~exist(sh_py_dir,'dir'), mkdir(sh_py_dir); end
+fm_dir    = paths.for_matlab;                          if ~exist(fm_dir,'dir'),    mkdir(fm_dir);    end
+
+% 1) MAT bundle for MATLAB analysis
+save(fullfile(fm_dir,'post_out.mat'), 'out');
+
+% 2) CSVs (time, tip, angles [deg], energies)
+writematrix(out.t,                       fullfile(post_dir,'time.csv'));
+writematrix(out.tip.xyz,                 fullfile(post_dir,'tip_xyz_m.csv'));            % [t x 3]
+writematrix(out.tip.z_norm_pct,          fullfile(post_dir,'tip_z_norm_pct.csv'));      % [% b/2]
+writematrix(out.angles.deg,              fullfile(post_dir,'angles_deg.csv'));          % [t x 3: roll,pitch,yaw]
+writematrix([out.energy.Tkin, out.energy.Vpot, out.energy.Etot], ...
+                                          fullfile(post_dir,'energies.csv'));           % [t x 3]
+
+% 3) HDF5 for Python/SHARPy notebooks (simple, flat schema)
+h5post = fullfile(sh_py_dir,'post.h5');   if exist(h5post,'file'), delete(h5post); end
+h5create(h5post, '/time',                size(out.t));                     h5write(h5post,'/time', out.t);
+h5create(h5post, '/tip/xyz',            size(out.tip.xyz));               h5write(h5post,'/tip/xyz', out.tip.xyz);
+h5create(h5post, '/tip/z_norm_pct',     size(out.tip.z_norm_pct));        h5write(h5post,'/tip/z_norm_pct', out.tip.z_norm_pct);
+h5create(h5post, '/angles/deg',         size(out.angles.deg));            h5write(h5post,'/angles/deg', out.angles.deg);
+h5create(h5post, '/energy/Tkin',        size(out.energy.Tkin));           h5write(h5post,'/energy/Tkin', out.energy.Tkin);
+h5create(h5post, '/energy/Vpot',        size(out.energy.Vpot));           h5write(h5post,'/energy/Vpot', out.energy.Vpot);
+h5create(h5post, '/energy/Etot',        size(out.energy.Etot));           h5write(h5post,'/energy/Etot', out.energy.Etot);
+
+% optional modal series if you want them in H5 too (can be large)
+if isfield(out,'q') && isfield(out.q,'q0')
+    h5create(h5post, '/modal/q0', size(out.q.q0));    h5write(h5post,'/modal/q0', out.q.q0);
+    h5create(h5post, '/modal/q1', size(out.q.q1));    h5write(h5post,'/modal/q1', out.q.q1);
+    h5create(h5post, '/modal/q2', size(out.q.q2));    h5write(h5post,'/modal/q2', out.q.q2);
+end
+
+% 4) Quick plots saved in /plots
+try
+    % tip z (normalized) and angles
+    f1 = figure('Color','w'); plot(out.t, out.tip.z_norm_pct); grid on
+    xlabel('t [s]'); ylabel('Tip z [% b/2]'); title('Wing-tip heave (A-frame)')
+    saveas(f1, fullfile(plots_dir,'tip_z_norm_pct.png')); close(f1);
+
+    f2 = figure('Color','w'); plot(out.t, out.angles.deg); grid on
+    xlabel('t [s]'); ylabel('Angle [deg]'); title('Euler angles (roll, pitch, yaw)')
+    legend({'\phi','\theta','\psi'},'Location','best'); 
+    saveas(f2, fullfile(plots_dir,'angles_deg.png')); close(f2);
+
+    f3 = figure('Color','w'); plot(out.t, [out.energy.Tkin, out.energy.Vpot, out.energy.Etot]); grid on
+    xlabel('t [s]'); ylabel('Energy [J]'); title('Modal energies')
+    legend({'T','V','Total'},'Location','best');
+    saveas(f3, fullfile(plots_dir,'energies.png')); close(f3);
+catch MEp
+    warning('Plot save failed: %s', MEp.message);
+end
+
+% also tuck a tiny index yaml in run_dir so Python can locate post files
+yaml_fn = fullfile(paths.run_dir,'post_index.yaml');
+fid = fopen(yaml_fn,'w');  assert(fid~=-1);
+cleanupObj = onCleanup(@() fclose(fid));
+fprintf(fid, 'post:\n');
+fprintf(fid, '  mat:   %s\n', fullfile(relpath(paths.run_dir,fm_dir),'for_matlab/post_out.mat'));
+fprintf(fid, '  h5:    %s\n', fullfile(relpath(paths.run_dir,sh_py_dir),'for_sharpy/post.h5'));
+fprintf(fid, '  csv:\n');
+fprintf(fid, '    time:    %s\n', fullfile('post','time.csv'));
+fprintf(fid, '    tip_xyz: %s\n', fullfile('post','tip_xyz_m.csv'));
+fprintf(fid, '    tip_z%%:  %s\n', fullfile('post','tip_z_norm_pct.csv'));
+fprintf(fid, '    angles:  %s\n', fullfile('post','angles_deg.csv'));
+fprintf(fid, '    energy:  %s\n', fullfile('post','energies.csv'));
+
+
+% ------------------- Save run bundle -------------------
+try
+    save(fullfile(paths.for_matlab,'run_bundle.mat'), ...
+         'results','cfg','aero','beam','base','trim','idx','run_settings');
+catch ME
+    warning('[sim_run] Could not save run_bundle: %s', ME.message);
+end
+
+% Also drop a minimal H5 with time & (if present) a primary state trace
+try
+    h5out = fullfile(paths.for_sharpy,'sim_run_out.h5');
+    if exist(h5out,'file'), delete(h5out); end
+    if exist('t','var') && ~isempty(t)
+        h5create(h5out,'/time',[numel(t) 1]); h5write(h5out,'/time',t(:));
+    end
+    if exist('x','var') && ~isempty(x)
+        h5create(h5out,'/x_shape',[2 1]); h5write(h5out,'/x_shape',[size(x,1); size(x,2)]);
+        % write first modal velocity row if it exists
+        row = min(size(x,1), 1);
+        h5create(h5out,'/x_row1',[1 size(x,2)]); h5write(h5out,'/x_row1',x(row,:));
+    end
+catch ME
+    warning('[sim_run] H5 export skipped: %s', ME.message);
+end
+
+% ------------------- finalize log -------------------
+fprintf('=== sim_run finished %s (status: %s) ===\n', datestr(now,'yyyy-mm-dd HH:MM:SS'), ternary(~hadError,'OK','ERROR'));
+try, copyfile(console_log, fullfile(paths.run_dir,'console.log')); catch, end
+
+success = ~hadError;
+if hadError
+    % rethrow(MEout);  % uncomment if you want hard failure
+end
+end
+% --------------- helpers ----------------
+function A = safe_h5read(h5fn, dset, default)
+    A = default;
+    try
+        A = h5read(h5fn, dset);
+    catch
+        warning('Missing dataset %s in %s. Using default.', dset, h5fn);
+    end
+end
+function val = getOr(S, f, dflt)
+    if nargin<3, dflt = []; end
+    if isstruct(S) && isfield(S,f) && ~isempty(S.(f)), val = S.(f); else, val = dflt; end
+end
+
+function [run_dir, paths] = create_run_dirs(sim_root, case_name, body_case_dir, overwrite, date_only_runs)
+    if ~exist(sim_root,'dir'), mkdir(sim_root); end
+    case_dir = fullfile(sim_root, case_name); if ~exist(case_dir,'dir'), mkdir(case_dir); end
+    body_dir = fullfile(case_dir, body_case_dir); if ~exist(body_dir,'dir'), mkdir(body_dir); end
+    if date_only_runs
+        stamp = datestr(now,'yyyymmdd');
+    else
+        stamp = datestr(now,'yyyymmdd_HHMMSS');
+    end
+    run_dir = fullfile(body_dir, stamp);
+    if exist(run_dir,'dir')
+        if ~overwrite, error('Run dir exists: %s', run_dir); end
+    else
+        mkdir(run_dir);
+    end
+    paths.run_dir     = run_dir;
+    paths.from_sharpy = must_mkdir(fullfile(run_dir,'from_sharpy'));
+    paths.for_matlab  = must_mkdir(fullfile(run_dir,'for_matlab'));
+    paths.for_sharpy  = must_mkdir(fullfile(run_dir,'for_sharpy'));
+    paths.plots       = must_mkdir(fullfile(run_dir,'plots'));
+    paths.logs        = must_mkdir(fullfile(run_dir,'logs'));
+end
+
+function d = must_mkdir(d), if ~exist(d,'dir'), mkdir(d); end, end
+
+function s = sanitize_bodycase(s)
+    s = lower(char(s)); s = strrep(s,' ','_');
+    if strcmp(s,'wingonly'),    s = 'wing_only';    end
+    if strcmp(s,'coupledfull'), s = 'coupled_full'; end
+end
+
+function list = discover_sim_setup_roots(research_root)
+% Return a cell array of folders that contain a 'sim_setup' directory
+    list = {};
+    % 1) Direct child: Research/sim_setup
+    d1 = fullfile(research_root,'sim_setup');
+    if exist(d1,'dir')==7, list{end+1} = d1; end
+
+    % 2) One level below Research/*/sim_setup
+    kids = dir(research_root); kids = kids([kids.isdir]);
+    for i = 1:numel(kids)
+        nm = kids(i).name;
+        if strcmp(nm,'.')||strcmp(nm,'..'), continue; end
+        p = fullfile(research_root, nm, 'sim_setup');
+        if exist(p,'dir')==7
+            list{end+1} = p;
+        end
+    end
+
+    % 3) Two levels below Research/*/*/sim_setup (optional, helps in deep layouts)
+    grandkids = dir(fullfile(research_root,'*')); grandkids = grandkids([grandkids.isdir]);
+    for i = 1:numel(grandkids)
+        nm = grandkids(i).name;
+        if strcmp(nm,'.')||strcmp(nm,'..'), continue; end
+        subkids = dir(fullfile(research_root, nm)); subkids = subkids([subkids.isdir]);
+        for j = 1:numel(subkids)
+            nm2 = subkids(j).name;
+            if strcmp(nm2,'.')||strcmp(nm2,'..'), continue; end
+            p = fullfile(research_root, nm, nm2, 'sim_setup');
+            if exist(p,'dir')==7
+                list{end+1} = p;
+            end
+        end
+    end
+
+    % Uniquify
+    list = unique(list);
+end
+
+function out = minimal_post(t, X, cfg, beam)
+% Minimal fallback if full postProcess fails – returns time, tip z and angles only.
+    Nm = beam.Nm;
+    q2 = X(Nm+(1:Nm),:);
+    q0 = -beam.Omega \ q2;
+    x0 = beam.phi0 * q0;
+    Nnode = beam.fem.num_node - 1;            % last node is the "tip"
+    tip_idx = double((Nnode-1)*6) + (1:3);            % x,y,z translations of tip
+    tip_xyz = x0(tip_idx,:).';                % Nt x 3
+    tip_z_norm_pct = 100 * tip_xyz(:,3) / max(eps, cfg.debug.plt_scale); % % of b/2
+
+    chi = X(end-2:end,:).';                   % Nt x 3 (roll,pitch,yaw)
+    out.t = t(:);
+    out.tip.xyz = tip_xyz;
+    out.tip.z_norm_pct = tip_z_norm_pct;
+    out.angles.deg = rad2deg(chi);
+    out.energy.Tkin = 0.5*sum( X(1:Nm,:).^2 , 1 ).';
+    out.energy.Vpot = 0.5*sum( X(Nm+(1:Nm),:).^2 , 1 ).';
+    out.energy.Etot = out.energy.Tkin + out.energy.Vpot;
+    out.q.q0 = q0; out.q.q1 = X(1:Nm,:); out.q.q2 = q2;
+end
+
+function s = relpath(from, to)
+% Return relative path of "to" with respect to "from" (best effort)
+    try
+        s = char(java.nio.file.Paths.get(from).relativize(java.nio.file.Paths.get(to)).toString());
+    catch
+        s = to;
+    end
+end
+
+function val = assignIfExists(varname, fallback)
+    if evalin('caller', sprintf('exist(''%s'',''var'') && ~isempty(%s)', varname, varname))
+        val = evalin('caller', varname);
+    else
+        val = fallback;
+    end
+end
+
+function setup_dir = find_latest_setup(sim_setup_root, case_name, body_case_dir)
+    base = fullfile(sim_setup_root, case_name, body_case_dir);
+    if exist(base,'dir')~=7, setup_dir = ''; return; end
+    dd = dir(base); dd = dd([dd.isdir]);
+    % keep only folders named yyyymmdd or yyyymmdd_HHMMSS
+    names = setdiff({dd.name},{'.','..'});
+    if isempty(names), setup_dir=''; return; end
+    % sort by datenum
+    [~,ix] = sort([dd.datenum],'descend');
+    setup_dir = fullfile(base, dd(ix(1)).name);
+end
+
+function out = ternary(cond, a, b), if cond, out=a; else, out=b; end, end
+function val = safeField(S,fieldName,defaultVal)
+%SAFEFIELD Safely read a field from a struct.
+    if isstruct(S) && isfield(S,fieldName) && ~isempty(S.(fieldName))
+        val = S.(fieldName);
+    else
+        val = defaultVal;
+    end
+
+    if numel(val) > 1
+        val = val(1);
+    end
+end
+
+function str = fmtDuration(sec)
+%FMTDURATION Format seconds as hh:mm:ss.s.
+    if ~isfinite(sec) || sec < 0
+        str = '--:--:--';
+        return
+    end
+
+    h = floor(sec/3600);
+    m = floor((sec - 3600*h)/60);
+    s = sec - 3600*h - 60*m;
+
+    if h > 0
+        str = sprintf('%02d:%02d:%04.1f',h,m,s);
+    else
+        str = sprintf('%02d:%04.1f',m,s);
+    end
+end
+
+function p = localPercentile(x,pct)
+%LOCALPERCENTILE Percentile without requiring Statistics Toolbox.
+    x = x(:);
+    x = x(isfinite(x));
+
+    if isempty(x)
+        p = nan;
+        return
+    end
+
+    x = sort(x);
+
+    if numel(x) == 1
+        p = x;
+        return
+    end
+
+    q = pct/100;
+    pos = 1 + q*(numel(x)-1);
+
+    lo = floor(pos);
+    hi = ceil(pos);
+
+    if lo == hi
+        p = x(lo);
+    else
+        alpha = pos - lo;
+        p = (1-alpha)*x(lo) + alpha*x(hi);
+    end
+end
+
+%% Coupling functions
+
+function xk = stepPlant_case(plant, cfg, bodyCase, u_cmd, gk)
+%STEPPLANT_CASE Unified plant propagation interface.
+
+    switch lower(string(bodyCase))
+
+        case "wingonly"
+            % Existing flexible-wing-only ROM propagation.
+            xk = plant.step(u_cmd, gk, "ROM");
+
+        case "coupledfull"
+            % Preferred future API:
+            %
+            cfg.sim.rigidToWingMode = "alpha_gust";
+              xk = plant.stepCoupled(u_cmd, gk);
+            %
+            % Internally this should:
+            %   1. propagate flexible wing ROM,
+            %   2. compute Clamp6 = [Fwing; Mwing],
+            %   3. compute tail/fin/thrust/weight terms,
+            %   4. sum forces/moments,
+            %   5. propagate rigid-body 6-DoF state,
+            %   6. update local wing flight condition for next step.
+            %
+            % Temporary fallback:
+            % warningOnce('stepPlant_case:coupledFallback', ...
+            %     ['fully_coupled requested, but stepCoupled is not wired. ', ...
+            %      'Using plant.step(...,"ROM") fallback.']);
+            % xk = plant.step(u_cmd, gk, "ROM");
+
+        otherwise
+            error('Unknown bodyCase = "%s".', bodyCase);
+    end
+end
+
+function u = fuseInnerOuterCommands(u_outer, u_inner, cfg)
+%FUSEINNEROUTERCOMMANDS Complementary command fusion.
+%
+% Placeholder implementation:
+%   u = u_outer + u_inner
+%
+% Future implementation:
+%   u = F_L(z) u_outer + F_H(z) u_inner
+%
+% where F_L is low-pass and F_H is high-pass/complementary.
+
+    u_outer = u_outer(:);
+    u_inner = u_inner(:);
+
+    if numel(u_outer) ~= numel(u_inner)
+        error('Command dimension mismatch: outer has %d, inner has %d.', ...
+              numel(u_outer), numel(u_inner));
+    end
+
+    if isfield(cfg.ctrl,'useComplementaryFilter') && cfg.ctrl.useComplementaryFilter
+        % TODO: replace with persistent discrete filters.
+        % For now, direct sum.
+        u = u_outer + u_inner;
+    else
+        u = u_outer + u_inner;
+    end
+end
+
+function uSat = saturateControl(u, cfg)
+%SATURATECONTROL Apply actuator deflection/rate limits.
+
+    u = u(:);
+
+    nSurf  = cfg.ctrl.n_surf;
+    varPer = cfg.ctrl.var_per;
+
+    if varPer == 1
+        uL = expandBound(cfg.uL,nSurf);
+        uU = expandBound(cfg.uU,nSurf);
+
+    elseif varPer == 2
+        % Assumed ordering:
+        %   u = [delta_1; ...; delta_n; rate_1; ...; rate_n]
+        defL  = expandBound(cfg.uL,nSurf);
+        defU  = expandBound(cfg.uU,nSurf);
+        rateL = expandBound(cfg.urateL,nSurf);
+        rateU = expandBound(cfg.urateU,nSurf);
+
+        uL = [defL; rateL];
+        uU = [defU; rateU];
+
+    else
+        error('Unsupported cfg.ctrl.var_per = %d.', varPer);
+    end
+
+    if numel(u) ~= numel(uL)
+        error('Control length mismatch: numel(u)=%d, expected %d.', ...
+              numel(u), numel(uL));
+    end
+
+    uSat = min(max(u,uL),uU);
+end
+
+function b = expandBound(b,n)
+%EXPANDBOUND Expand scalar bound to n-vector.
+    b = b(:);
+    if isscalar(b)
+        b = repmat(b,n,1);
+    elseif numel(b) ~= n
+        error('Bound must be scalar or length %d.', n);
+    end
+end
+
+function warningOnce(id,msg)
+%WARNINGONCE Print a warning only once.
+    persistent issued
+    if isempty(issued)
+        issued = containers.Map();
+    end
+
+    if ~isKey(issued,id)
+        warning(id,'%s',msg);
+        issued(id) = true;
+    end
+end
+
+function [xFlex, rb] = splitFlexibleRigidState(xFull,nxFlex)
+%SPLITFLEXIBLERIGIDSTATE Split plant state into flexible ROM and appended RB state.
+%
+% Expected coupled state:
+%   xFull = [xFlex; r_I(3); v_B(3); euler(3); omega_B(3)]
+%
+% For wing-only:
+%   xFull = xFlex
+
+    xFull = xFull(:);
+
+    if numel(xFull) < nxFlex
+        error('splitFlexibleRigidState:Dimension', ...
+              'xFull length %d is smaller than nxFlex %d.', ...
+              numel(xFull), nxFlex);
+    end
+
+    xFlex = xFull(1:nxFlex);
+
+    tail = xFull(nxFlex+1:end);
+
+    if isempty(tail)
+        rb = [];
+        return
+    end
+
+    if numel(tail) ~= 12
+        error('splitFlexibleRigidState:RigidTail', ...
+              ['Coupled state tail should have length 12: ', ...
+               '[r_I(3); v_B(3); euler(3); omega_B(3)]. Got %d.'], ...
+              numel(tail));
+    end
+
+    rb = tail;
+end

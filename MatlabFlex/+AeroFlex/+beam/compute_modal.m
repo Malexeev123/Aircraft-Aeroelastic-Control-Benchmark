@@ -612,7 +612,6 @@ Phi1Fun = buildPiecewiseLinearFun(chainSegments, XYZ, Phi1_node_n);
 
 % ----------------------------------------------------------
 % 12) Convenience: interpolate at “center node” sA (if root is clamped)
-%     This mimics your earlier intent: approximate at node 1 using neighbors
 % ----------------------------------------------------------
 phi1_sA = zeros(6,Nm);
 phi2_sA = zeros(6,Nm);
@@ -1032,7 +1031,7 @@ if ~Clamped
 
 
     for k2 = 1:Nm
-        L1 = L1_operator(P(:,k2));          % 6x6  (your intrinsic.functions.L1fun)
+        L1 = L1_operator(P(:,k2));          % 6x6  ( intrinsic.functions.L1fun)
         T  = P.' * (L1 * MP);               % Nm x Nm, rows=k1 cols=k3
         Gamma1(:,k2,:) = Gamma1(:,k2,:) + reshape(T, [Nm,1,Nm]);
     end
@@ -1069,7 +1068,7 @@ for b = 1:nSeg
 
 
         for k2 = 1:Nm
-            L2 = L2_operator(P2(:,k2));      % your intrinsic.functions.L2fun
+            L2 = L2_operator(P2(:,k2));      %  intrinsic.functions.L2fun
             T  = Pm.' * (L2 * CP2);          % (k1,k3)
             Gamma2(:,k2,:) = Gamma2(:,k2,:) + reshape(T, [Nm,1,Nm]) * ds;
         end

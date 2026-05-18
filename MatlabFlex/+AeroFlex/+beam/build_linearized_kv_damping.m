@@ -2,7 +2,7 @@ function Dlin = build_linearized_kv_damping(fem, keepDofs, chain, elemLen, Eall,
 % BUILD_LINEARIZED_KV_DAMPING  Artola §2.1.4 linearised Kelvin–Voigt damping
 %
 % Inputs
-%   fem        : your FEM struct (coordinates, connectivities, num_node, num_elem, etc.)
+%   fem        :  FEM struct (coordinates, connectivities, num_node, num_elem, etc.)
 %   keepDofs   : active DOFs (vector of indices into full 6*N)
 %   chain      : node ordering along the wing/beam centerline
 %   elemLen    : length per sub-element (size nSub = length(chain)-1)
@@ -21,7 +21,6 @@ function Dlin = build_linearized_kv_damping(fem, keepDofs, chain, elemLen, Eall,
 %          .gather    function handle to gather sub->node (trap weights)
 %          .nSub
 %
-% Notes: we use your psi2 stencil for S1. S2 is built by differencing S1.
 
 ndof  = length(keepDofs);
 nSub  = length(chain)-1;

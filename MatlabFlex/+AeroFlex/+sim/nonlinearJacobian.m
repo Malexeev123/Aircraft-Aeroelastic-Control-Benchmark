@@ -252,11 +252,39 @@ Nu = zeros(nx, nx+m);
 Nu(idx.q1, nx+1) = par.Fscale * par.Dw;
 Nu(idx.qGam, nx+1) = par.Bw;
 
-Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.gustSet.a*par.Ddel;
-Nu(idx.q1, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) = par.scaleAero*par.Dddel;
+%% This assumes that its [del1 del2 ddel1 ddel2]
+% Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.gustSet.a*par.Ddel;
+
+% par.scaleAero = par.Fscale;
+par.scaleAero1 = par.Fscale;
+% par.t_inf = par.gustSet.t_inf;
+
+Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero*par.Ddel;
+Nu(idx.q1, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) = (par.t_inf*par.scaleAero1)*par.Dddel;
 
 Nu(idx.qGam, nx+2:nx+1 + ctrlIdx1) = (1/par.t_inf)*par.Bdel;
 Nu(idx.qGam, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bddel;
+
+% Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero*par.Dddel;
+% Nu(idx.q1, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) = (par.t_inf*par.scaleAero)*par.Ddel;
+% 
+% Nu(idx.qGam, nx+2:nx+1 + ctrlIdx1) = (1/par.t_inf)*par.Bddel;
+% Nu(idx.qGam, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bdel;
+
+%% Maybe its [del1 ddel1 del2 ddel2]
+% % Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.gustSet.a*par.Ddel;
+% Nu(idx.q1,nx+ 2) = par.scaleAero*par.Ddel(:,1);
+% Nu(idx.q1, nx+ 4) = par.scaleAero*par.Ddel(:,2);
+% 
+% Nu(idx.q1, nx+1 + ctrlIdx1) = par.scaleAero*par.Dddel(:,1);
+% Nu(idx.q1, nx+1 + ctrlIdx1 + ctrlIdx2) = par.scaleAero*par.Dddel(:,2);
+% 
+% Nu(idx.qGam, nx+2) = (1/par.t_inf)*par.Bdel(:,1);
+% Nu(idx.qGam, nx+2 + ctrlIdx1) = (1/par.t_inf)*par.Bdel(:,2);
+% 
+% Nu(idx.qGam, nx+1 + ctrlIdx1) =  par.Bddel(:,1);
+% Nu(idx.qGam, nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bddel(:,2);
+
 
 end
 

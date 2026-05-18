@@ -43,7 +43,7 @@ function [ROM_krylov_SS, forces_aero_beam_dof, mode_shape, ROM_krylov_Disc, forc
     catch
         ROM_krylov_SS = tustin_ct(ROM_krylov_Disc);
     end
-    KrylovSharpyContSS = tustin_ct(ROM_krylov_Disc); % keep your validator
+    KrylovSharpyContSS = tustin_ct(ROM_krylov_Disc);
 
     %% 3) Linearisation vectors from <case>.linss.h5
     [forces_aero_beam_dof, mode_shape, forces_aero, forces_structure, etas] = ...

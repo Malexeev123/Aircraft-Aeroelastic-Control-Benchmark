@@ -129,13 +129,28 @@ classdef PlantRunTime < handle
             
             obj.trimThrust = trim.thrust;    
 
-            if isfield(cfg,'trim') && isfield(cfg.trim,'deltaDeg')
-                obj.trimTailDelta = deg2rad(cfg.trim.deltaDeg);
-                if numel(obj.trimTailDelta) > 1
-                    obj.trimTailDelta = obj.trimTailDelta(1);
-                end
+            % if isfield(cfg,'trim') && isfield(cfg.trim,'deltaDeg')
+            %     obj.trimTailDelta = deg2rad(cfg.trim.deltaDeg);
+            %     if numel(obj.trimTailDelta) > 1
+            %         obj.trimTailDelta = obj.trimTailDelta(1);
+            %     end
+            % else
+            %     obj.trimTailDelta = 0;
+            % end
+
+            % -------------------------------------------------------------------------
+            % Rear elevator/tail trim.
+            % Prefer the solved trim struct. Fall back to cfg fields.
+            % Stored internally in radians.
+            % -------------------------------------------------------------------------
+            if nargin >= 6 && isstruct(trim) && isfield(trim,'deltaElev')
+                obj.trimTailDelta = trim.deltaElev;
             else
                 obj.trimTailDelta = 0;
+            end
+            
+            if numel(obj.trimTailDelta) > 1
+                obj.trimTailDelta = obj.trimTailDelta(1);
             end
         
             % --------------------------------------------------------------
@@ -175,10 +190,12 @@ classdef PlantRunTime < handle
         %--------------------------------------------------------------
         function [z_k,t_k] = readSensors(obj, cfg, log)
             t_k = obj.t;
-            y = log( round(t_k/cfg.sim.dt)+1, :).' ;
+            % y = log( round(t_k/cfg.sim.dt)+1, :).' ;
             if cfg.forceRealSense
                 z_k = obj.sensor.measure(obj.x(obj.model.idx.q1));
             else
+                y = log( round(t_k/cfg.sim.dt)+1, :).' ;
+
                 z_k = y;
             end
             % t_k = obj.t;
@@ -235,7 +252,37 @@ classdef PlantRunTime < handle
              if nargin < 4 || isempty(rbCmd)
                 % rbCmd = struct('delta_e',0,'delta_a',0,'delta_r',0,'thrust',obj.trimThrust);
                 rbCmd = [];
+             end
+            % -------------------------------------------------------------------------
+            % Rigid-body command defaults.
+            % rbCmd fields are interpreted as increments about trim unless otherwise
+            % stated.
+            % -------------------------------------------------------------------------
+            if isempty(rbCmd)
+                rbCmd = struct();
             end
+            
+            if ~isfield(rbCmd,'delta_e') || isempty(rbCmd.delta_e)
+                rbCmd.delta_e = 0;
+            end
+            
+            if ~isfield(rbCmd,'delta_a') || isempty(rbCmd.delta_a)
+                rbCmd.delta_a = 0;
+            end
+            
+            if ~isfield(rbCmd,'delta_r') || isempty(rbCmd.delta_r)
+                rbCmd.delta_r = 0;
+            end
+            
+            if ~isfield(rbCmd,'thrust') || isempty(rbCmd.thrust)
+                rbCmd.thrust = 0;
+            end
+            
+            % Total rear elevator and thrust applied to rigid aircraft.
+            delta_e_total = obj.trimTailDelta + rbCmd.delta_e;
+            thrust_total  = obj.trimThrust    + rbCmd.thrust;
+            rbCmd.delta_e =delta_e_total;
+            rbCmd.thrust = 
             % --------------------------------------------------------------
             % 0. Validate/sanitize inputs
             % --------------------------------------------------------------
@@ -282,7 +329,10 @@ classdef PlantRunTime < handle
                 % Rigid-body tail/fin/thrust see rbCmd:
                 [Ftail_B, Mtail_B] = obj.computeTailLoadsFromCmd(rbCmd);
                 [Ffin_B,  Mfin_B ] = obj.computeFinLoadsFromCmd(rbCmd);
+                Fgrav_B = obj.computeGravityBody();
+
                 [Fthrust_B, Mthrust_B] = obj.computeThrustLoadsFromCmd(rbCmd);
+                
             end
             % --------------------------------------------------------------
             % 6. Sum total aircraft force/moment in body axes
@@ -896,6 +946,57 @@ classdef PlantRunTime < handle
             else
                 alpha = 0;
             end
+        end
+        function [Ftail_B, Mtail_B] = computeTailLoadsFromCmd(obj,rbCmd)
+            U = obj.flightCond.Uinf;
+            alpha = obj.flightCond.alpha;
+        
+            if isfield(rbCmd,'delta_e')
+                delta_e = rbCmd.delta_e;
+            else
+                delta_e = 0;
+            end
+        
+            if exist('tailAeroForceMoment','file') == 2
+                [Ftail_B,Mtail_B] = tailAeroForceMoment(U,alpha,delta_e,obj.cfg);
+            else
+                Ftail_B = zeros(3,1);
+                Mtail_B = zeros(3,1);
+            end
+        end
+        function [Ffin_B, Mfin_B] = computeFinLoadsFromCmd(obj,rbCmd)
+            U = obj.flightCond.Uinf;
+            beta = obj.flightCond.beta;
+        
+            if isfield(rbCmd,'delta_r')
+                delta_r = rbCmd.delta_r;
+            else
+                delta_r = 0;
+            end
+        
+            if exist('finAeroForceMoment','file') == 2
+                [Ffin_B,Mfin_B] = finAeroForceMoment(U,beta,delta_r,obj.cfg);
+            else
+                Ffin_B = zeros(3,1);
+                Mfin_B = zeros(3,1);
+            end
+        end
+        function [Fthrust_B, Mthrust_B] = computeThrustLoadsFromCmd(obj,rbCmd)
+            if isfield(rbCmd,'thrust')
+                T = rbCmd.thrust;
+            else
+                T = obj.trimThrust;
+            end
+        
+            Fthrust_B = [T;0;0];
+        
+            if isfield(obj.rbParams,'rThrust_B')
+                rT = obj.rbParams.rThrust_B(:);
+            else
+                rT = zeros(3,1);
+            end
+        
+            Mthrust_B = cross(rT,Fthrust_B);
         end
     end
 

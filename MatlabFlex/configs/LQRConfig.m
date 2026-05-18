@@ -28,7 +28,7 @@ cfg.outerLQR.inputNames = {'delta_e','delta_a','delta_r','thrust'};
 
 % Trim rigid-body input.
 cfg.outerLQR.uTrim = [ ...
-    0;                              % delta_e [rad]
+    trim.deltaElev;                              % delta_e [rad]
     trim.deltaDeg(1);                              % delta_a [rad]
     0;                              % delta_r [rad]
     getfield_safe_trim_thrust(cfg, trim)];  % thrust [N]

@@ -274,12 +274,14 @@ cfg.sim.bodyCase = body_case;
 cfg.sim.body_case= body_case;
 % try
  % Optional symmetry handling if using one semi-wing to represent both wings.
+    % cfg.sim.symmetricWingPair = true;
     cfg.sim.symmetricWingPair = false;
     cfg.sim.wingMultiplicity  = 1;
     
     % Conservative default: do not overwrite chi unless you explicitly want
     % rigid-body alpha injected into the ROM attitude states.
     cfg.sim.coupleRigidAttitudeIntoWingChi = false;
+    % cfg.sim.coupleRigidAttitudeIntoWingChi = false;
     
     % Rigid-body parameters
     rParams = RigidBody.methods.paramsRigid_PazyUAV();
@@ -324,6 +326,10 @@ cfg.sim.body_case= body_case;
     FgravHist    = nan(3,Nt);
     FthrustHist  = nan(3,Nt);
     
+    % Plot true gust for reference( can remove in future)
+    figure; plot(t_vec, gust_series); title('True Gust Series');
+    xlabel('t (sec)'); ylabel('w true');
+
     switch sim_case
 
         % ================= OPENLOOP =================
@@ -348,8 +354,19 @@ cfg.sim.body_case= body_case;
                     t = t_vec(:);                       % column
                     Nt = numel(t) - 1;                  % number of steps between samples
                     x  = zeros(length(x0), Nt+1); x(:,1) = x0;
-                    
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
                     rom   = modelFcn(cfg, beam, aero, base);
+                    
+
                     plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
                     log = struct(); sensEq = [];
 
@@ -360,9 +377,11 @@ cfg.sim.body_case= body_case;
 
                         switch lower(string(body_case))
                             case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
                                 xk = plant.step(uk, gk, "ROM");
                         
                             case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
                                 xk = plant.stepCoupled(uk, gk);
                         
                             otherwise
@@ -426,6 +445,7 @@ cfg.sim.body_case= body_case;
 
         % ================= NMHE/NMPC =================
         case 'nmhe_nmpc'
+            SQPconfig;
             switch runner
                 case 'simrunner'
                     % Let SimRunner own the inner loop (if your SimRunner supports control hooks)
@@ -447,16 +467,41 @@ cfg.sim.body_case= body_case;
                         case "coupledfull"
                             useRigidBody = true;
                             useOuterLQR  = true;
+
+                            LQRConfig;
                     
                         otherwise
                             error('Unknown cfg.sim.bodyCase = "%s".', body_case);
                     end
 
-                    outerCtrl = [];
                     if useOuterLQR
-                        % outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                        outerCtrl = AeroFlex.ctrl.OuterLQR(cfg, trim);
+                    else
                         outerCtrl = [];
                     end
+                    
+
+                    if isfield(cfg,'fusion') && isfield(cfg.fusion,'enable') && cfg.fusion.enable
+                        fuser = AeroFlex.ctrl.ComplementaryCommandFusion(cfg, trim);
+                    else
+                        fuser = [];
+                    end
+                    
+                    if isfield(cfg,'actuator') && isfield(cfg.actuator,'enable') && cfg.actuator.enable
+                        actuator = AeroFlex.ctrl.ActuatorChain(cfg, trim);
+                    else
+                        actuator = [];
+                    end
+                    
+                    outerEvery = 1;
+                    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'outerEvery')
+                        outerEvery = cfg.ctrl.outerEvery;
+                    end
+                    cfg.nu        = size(aero.forceMap.B_delta,2) ...
+                        + size(aero.forceMap.B_ddelta,2);
+                    u_outer_hold = zeros(cfg.nu,1);
+                    rbCmd_hold = struct('delta_e',0,'delta_a',0,'delta_r',0,'thrust',0);
+
 
                     modelFcn      = str2func(run_settings.modelFcn);
                     sensorFcn     = str2func(run_settings.sensorFcn);
@@ -475,7 +520,16 @@ cfg.sim.body_case= body_case;
                     cfg.nu        = size(aero.forceMap.B_delta,2) ...
                                   + size(aero.forceMap.B_ddelta,2);
                     cfg.nw        = size(aero.forceMap.Bw,2);
-                    
+                    switch lower(string(body_case))
+                            case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
+                        
+                            case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
+                        
+                            otherwise
+                                error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
+                    end
                     plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
                     est    = estimatorFcn(cfg, beam, aero, base, trim);
                     ctrl   = controllerFcn(cfg, beam, aero, base, trim);
@@ -486,10 +540,10 @@ cfg.sim.body_case= body_case;
                     t  = (0:Nt-1)*Ts;
 
                     % Logs
-                    xhat_hist = zeros(length(x0), Nt);
-                    Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
-                    wHorizon  = zeros(run_settings.Ne, Nt);
-                    trueGust  = zeros(1, Nt);
+                    % xhat_hist = zeros(length(x0), Nt);
+                    % Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nt);
+                    % wHorizon  = zeros(run_settings.Ne, Nt);
+                    % trueGust  = zeros(1, Nt);
                     
                     xk = x0; u_prev = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
                     %======================================================================
@@ -501,7 +555,20 @@ cfg.sim.body_case= body_case;
                     dtSim     = cfg.sim.dt;
                     TsCtrl    = cfg.ctrl.Ts;
                     ctrlEvery = max(1, round(TsCtrl/dtSim)); % controller update interval in sim steps
+                    Nsim = size(Ssim.y,1) - 1;          % because log has samples 0...Nsim
+                    tEnd = Nsim * dtSim;
                     
+                    % Number of controller samples, including t = 0.
+                    Nctrl = floor(tEnd/TsCtrl) + 1;
+                    tCtrlVec = (0:Nctrl-1) * TsCtrl;
+                    tCtrlVec(end) = min(tCtrlVec(end), tEnd);
+                    
+                    % Preallocate using Nctrl, not Nsim.
+                    xhat_hist = zeros(length(x0), Nctrl);
+                    Uhist     = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per, Nctrl);
+                    wHorizon  = zeros(cfg.ctrl.Ne*cfg.nw, Nctrl);
+                    trueGust  = zeros(1, Nctrl);
+
                     % Print every N controller calls.
                     diagPrintPeriod_s = 2*Ts;   % 
                     % diagPrintPeriod_s = 0.05;   % 
@@ -562,12 +629,15 @@ cfg.sim.body_case= body_case;
                             'flags', '|w|inf', '|u|inf', '|du|inf');
                     fprintf('----------------------------------------------------------------------\n');
 
+                    % for k = 1:Nt
                     for k = 1:Nt
                         io = AeroFlex.sim.readPlantIO_case(plant, cfg, Ssim, body_case);
-                        
+                        io.rb = plant.rb;
                         t_k = io.t;
                         z_k = io.yWing;       % wing sensors for nMHE
-                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only                        
+                        yRB = io.yRB;         % rigid-body sensors for LQR, empty in wing_only           
+                        rb_k = io.rb;
+
                         % True gust from prepared profile
                         gk = gust_series( min(round(t_k/cfg.sim.dt)+1, numel(gust_series)) );
                         trueGust(k) = gk;
@@ -580,12 +650,19 @@ cfg.sim.body_case= body_case;
                                 u_outer = zeros(cfg.nu,1);
                     
                             case "coupledfull"
-                                if isempty(outerCtrl)
-                                   %LQR object .
-                                    u_outer = zeros(cfg.nu,1);
+                                if useOuterLQR && (mod(k-1,outerEvery) == 0)
+
+                                    ref = struct();
+                            
+                                    % Attitude-hold default: reference is trim.
+                                    %% Can overwrite these from guidance:
+                                    % ref.euler_ref = [phi_cmd; theta_cmd; psi_cmd];
+                                    % ref.v_B_ref   = [Ucmd*cos(alpha0); 0; Ucmd*sin(alpha0)];
+                            
+                                    [u_outer_hold, rbCmd_hold, outerInfo] = outerCtrl.computeControl(rb_k, ref, t_k);
+                                    u_outer = u_outer_hold;
                                 else
-                                    % u_outer = outerCtrl.compute(yRB, io.ref, t_k);
-                                    u_outer = outerCtrl.computeControl(yRB, t_k);
+                                    outerInfo = struct();
                                 end
                         end
 
@@ -605,22 +682,45 @@ cfg.sim.body_case= body_case;
                         mheTimer = tic;
 
                         % Estimate
-                        [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                        if ~cfg.ctrl.skipMHE % Only should be false in debug
+                            [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                        else
+                            if k == 1 % Need to init the vals
+                                 [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
+                            end
+                        end
+
+                        % [xhat, what, Ehe] = est.estimate(z_k, u_prev, t_k);
                         mheSolveTime = toc(mheTimer);
                         if Ehe.exitflag >= 0
                             wMPC = what(end-cfg.nw+1:end);   % newest/current disturbance estimate
                         else
-                            wMPC = zeros(cfg.nw,1);          %  hold previous disturbance estimate
+                            % wMPC = zeros(cfg.nw,1);          %  hold previous disturbance estimate
+                            wMPC = what(end-cfg.nw+1:end);   % newest/current disturbance estimate
+
                         end
-                        % estGust(k) = what(2);
-                        wMPC = what(2);
+
+                        if cfg.forceRealGust
+                            wForMPC = gk;
+                        else
+                            wForMPC = wMPC;
+                        end
+                        
+                        % [uk, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k);
+                        % wMPC = gk;  % Temp to test MPC
 
                          %--------------------------------------------------------------
                         % 2. nMPC solve
                         %--------------------------------------------------------------
                         mpcTimer = tic;
                         % [uk, Uinfo] = ctrl.computeControl(xhat, wMPC, u_prev, t_k); %
-                        [u_inner, Uinfo] = ctrl.computeControl(xhat, gk, u_prev, t_k); %
+                        if ~cfg.ctrl.skipMPC 
+                            [u_inner, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k); %
+                        else
+                            if k == 1 % Need to init the vals
+                                [u_inner, Uinfo] = ctrl.computeControl(xhat, wForMPC, u_prev, t_k); %
+                            end
+                        end
                         uk = u_inner;
                         % uk = zeros(cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
                         % u_prev = uk;
@@ -712,15 +812,32 @@ cfg.sim.body_case= body_case;
                         
 
                         % ==============================================================
-                        % 5. Command fusion / saturation
+                        % 5a. Command fusion / saturation
                         % ==============================================================
                         switch body_case
                             case "wingOnly"
                                 u_cmd = saturateControl(u_inner, cfg);
-                    
+                                u_cmd_preAct = u_cmd;
+
                             case "coupledfull"
+                                if ~isempty(fuser)
+                                    [u_cmd_preAct, fusionInfo] = fuser.fuse(u_outer_hold, u_inner);
+                                else
                                 u_cmd = fuseInnerOuterCommands(u_outer, u_inner, cfg);
                                 u_cmd = saturateControl(u_cmd, cfg);
+                                fusionInfo = struct();
+                                u_cmd_preAct = u_cmd;
+                                end
+                        end
+
+                        %======================================================================
+                        % 5b. Actuator chain
+                        %======================================================================
+                        if ~isempty(actuator)
+                            [u_act, actInfo] = actuator.step(u_cmd_preAct);
+                        else
+                            u_act = u_cmd_preAct;
+                            actInfo = struct();
                         end
 
                         % ==============================================================
@@ -730,9 +847,11 @@ cfg.sim.body_case= body_case;
                         % xk = stepPlant_case(plant, cfg, body_case, u_cmd, gk);
                         switch lower(string(body_case))
                             case "wingonly"
+                                cfg.sim.rigidToWingMode = "fixed";
                                 xk = plant.step(uk, gk, "ROM");
                         
                             case "coupledfull"
+                                cfg.sim.rigidToWingMode = "alpha_gust";
                                 xk = plant.stepCoupled(uk, gk);
                         
                             otherwise
@@ -878,7 +997,7 @@ cfg.sim.body_case= body_case;
         otherwise
             error('Unknown sim_case="%s".', sim_case);
     end
-
+    
     % % Store results
     % results.t = exist('t','var') * t;             
     % results.x = exist('x','var') * x;             
@@ -888,7 +1007,8 @@ cfg.sim.body_case= body_case;
     results.x      = assignIfExists('x',      []);
     results.log    = assignIfExists('log',    struct());
     results.sensEq = assignIfExists('sensEq', []);
-
+    % figure; plot(t_vec, gust_series); title('True Gust Series');
+    % xlabel('t (sec)'); ylabel('w true');
 % catch ME
 %     hadError = true; MEout = ME;
 %     fprintf(2,'[sim_run] ERROR: %s\n', ME.message);
@@ -1302,6 +1422,7 @@ function xk = stepPlant_case(plant, cfg, bodyCase, u_cmd, gk)
         case "coupledfull"
             % Preferred future API:
             %
+            cfg.sim.rigidToWingMode = "alpha_gust";
               xk = plant.stepCoupled(u_cmd, gk);
             %
             % Internally this should:

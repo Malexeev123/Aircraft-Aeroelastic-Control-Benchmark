@@ -840,6 +840,15 @@ metrics.tip_z_rms      = sqrt(mean(out.tip_z.^2,'omitnan'));
 metrics.tip_z_norm_pct_peak_abs = max(abs(out.tip_z_norm_pct),[],'omitnan');
 metrics.tip_z_norm_pct_rms      = sqrt(mean(out.tip_z_norm_pct.^2,'omitnan'));
 
+zTipPct = out.tip_z(:);
+zTipDyn = zTipPct - zTipPct(1);
+
+out.metrics.tipDynPeak = max(abs(zTipDyn));
+out.metrics.tipDynRMS  = sqrt(mean(zTipDyn.^2));
+
+fprintf('  Dynamic tip peak      : %.4f %% b/2\n', out.metrics.tipDynPeak);
+fprintf('  Dynamic tip RMS       : %.4f %% b/2\n', out.metrics.tipDynRMS);
+
 if isfield(out,'loads') && isfield(out.loads,'M_R')
     MR = out.loads.M_R(:);
     metrics.M_R_peak_abs = max(abs(MR),[],'omitnan');

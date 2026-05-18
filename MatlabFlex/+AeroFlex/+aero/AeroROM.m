@@ -112,7 +112,7 @@ classdef AeroROM
                 1, ... %cfg.force_map.scale
                 obj.savedata_dir);
             cfg.sim.dt = obj.ROM_dsc.Ts;
-            % 5) Gust input (keep  0.525 scaling)
+            % 5) Gust input 
             if cfg.gust.on
                 gust = AeroFlex.aero.get_1minuscosine_gust_input( ...
                     cfg.gust.gust_length, ...

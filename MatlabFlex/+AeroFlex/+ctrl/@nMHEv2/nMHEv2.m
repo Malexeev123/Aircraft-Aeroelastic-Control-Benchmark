@@ -89,7 +89,7 @@ function obj = nMHEv2(cfg,beam,aero,base, trim)
 
     % -------- 3. optimiser options -----------------------------------
     obj.solverOpts = optimoptions('fmincon',...
-        'Algorithm','interior-point',...     % interior-point | sqp
+        'Algorithm','sqp',...     % interior-point | sqp
         'SpecifyObjectiveGradient',true,...
         'SpecifyConstraintGradient',true,...
         'HessianApproximation','lbfgs',...
@@ -101,6 +101,45 @@ function obj = nMHEv2(cfg,beam,aero,base, trim)
     % obj.solverOpts.FiniteDifferenceType ='central';
     % obj.solverOpts.CheckGradients = true;
             % 'FiniteDifferenceStepSize',1e-8,...
+
+    %======================================================================
+    % nMHE solver selection
+    %======================================================================
+    if isfield(cfg,'ctrl') && isfield(cfg.ctrl,'mheSolver')
+        obj.solverName = lower(string(cfg.ctrl.mheSolver));
+    else
+        obj.solverName = "fmincon";
+    end
+    
+    switch obj.solverName
+    
+        case "fmincon"
+            obj.sqpSolver = [];
+    
+            % Make sure gradient checking is not accidentally active online.
+            if isprop(obj.solverOpts,'CheckGradients')
+                obj.solverOpts.CheckGradients = false;
+            end
+    
+        case "custom_sqp"
+            sqpOpts = AeroFlex.optim.SQPSolver.defaultOptions();
+    
+            if isfield(cfg.ctrl,'mheSqp') && ~isempty(cfg.ctrl.mheSqp)
+                f = fieldnames(cfg.ctrl.mheSqp);
+                for ii = 1:numel(f)
+                    sqpOpts.(f{ii}) = cfg.ctrl.mheSqp.(f{ii});
+                end
+            end
+    
+            obj.sqpSolver = AeroFlex.optim.SQPSolver(sqpOpts);
+    
+        otherwise
+            error('nMHEv2:Solver', ...
+                  'Unknown cfg.ctrl.mheSolver = "%s". Use "fmincon" or "custom_sqp".', ...
+                  obj.solverName);
+    end
+    
+    obj.sqpCheckDone = false;
 
     % -------- 4. rolling buffers  ------------------------------------
     obj.Xhist = zeros(obj.nx,obj.Ne+1);
@@ -149,10 +188,12 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
     obj.Yhist(:,end) = z_k;
     obj.Uhist(:,end) = u_prev;
     
-    obj.k = min(obj.k + 1, obj.Ne);
+    % obj.k = min(obj.k + 1, obj.Ne);
+    obj.k = min(obj.k + 1, obj.Ne+1);
     
     % ---- 2. until horizon is sufficiently populated ---------------------
-    if obj.k < obj.Ne
+    % if obj.k < obj.Ne
+    if obj.k < obj.Ne+1
         obj.Xhist(:,end) = obj.xhat;
     
         xhat = obj.xhat;
@@ -171,7 +212,10 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
 
     idx = obj.buildIndexMaps();
     % 
-    obj.z0(idx.x{obj.k}) = obj.xhat;
+    % I think this stays commented out
+    % So do not overwrite an internal shooting node before the solve.
+    % The shifted solution is already stored in obj.z0 from the previous call.
+    % obj.z0(idx.x{obj.k}) = obj.xhat;
 
     % % current arrival state -------------------------
     % obj.z0(idx.x{1}) = obj.xhat;
@@ -200,11 +244,45 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
         % or
         % obj.z0(idx.w{end}) = zeros(obj.nw,1);     % only new slot zero
     end
-    % ---- 4. assemble NLP & solve ------------------------------------
+    % % ---- 4. assemble NLP & solve ------------------------------------
+    % nlp = obj.assembleWindow();
+    % [p,fval,exitflag] = fmincon(nlp.cost,obj.z0,...
+    %                             [],[],[],[],nlp.lb,nlp.ub,...
+    %                             nlp.nonl,obj.solverOpts);
+    %======================================================================
+    % Assemble and solve nMHE multiple-shooting NLP
+    %======================================================================
     nlp = obj.assembleWindow();
-    [p,fval,exitflag] = fmincon(nlp.cost,obj.z0,...
-                                [],[],[],[],nlp.lb,nlp.ub,...
-                                nlp.nonl,obj.solverOpts);
+    
+    switch obj.solverName
+    
+        case "fmincon"
+    
+            [p,fval,exitflag,output,lambda] = fmincon( ...
+                nlp.cost,obj.z0, ...
+                [],[],[],[], ...
+                nlp.lb,nlp.ub, ...
+                nlp.nonl,obj.solverOpts);
+    
+        case "custom_sqp"
+    
+            if ~obj.sqpCheckDone && obj.sqpSolver.options.CheckGradientsOnce
+    
+                % Global directional check.
+                obj.sqpSolver.checkGradients(nlp.cost,nlp.nonl,obj.z0,nlp.lb,nlp.ub);
+    
+                % MHE-specific block check: separates X and W sensitivity errors.
+                obj.localCheckMHEEqualityGradientBlocks(nlp,obj.z0,nlp.lb,nlp.ub);
+    
+                obj.sqpCheckDone = true;
+            end
+    
+            [p,fval,exitflag,output,lambda] = obj.sqpSolver.solve( ...
+                nlp.cost,obj.z0,nlp.lb,nlp.ub,nlp.nonl);
+    
+        otherwise
+            error('nMHEv2:Solver','Unhandled solverName = "%s".', obj.solverName);
+    end
 
     % ---- 5. post-process solution -----------------------------------
     % obj.z0  = obj.shiftGuess(p);          % warm start for next call
@@ -220,6 +298,8 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
     Xsol = reshape(p([idx.x{:}]), obj.nx, obj.Ne+1);
     Wsol = reshape(p([idx.w{:}]), obj.nw, obj.Ne);
     
+    
+
     obj.Xhist = Xsol;
     obj.Whist = Wsol;
     
@@ -234,12 +314,43 @@ function [xhat,what,info] = estimate(obj,z_k,u_prev,t_k)
 
     xhat = obj.xhat;   
     what = obj.what;
+
     info.cost       = fval;
     info.exitflag   = exitflag;
+    info.output     = output;
+    info.lambda     = lambda;
     info.wHorizon   = reshape(obj.what,obj.nw,[])';
+    
     [~,ceq]         = nlp.nonl(p);
     info.continuity = norm(ceq);
-    if obj.debug,  obj.debugPlots(t_k,info);  end
+    
+    if isfield(output,'constrviolation')
+        info.constrviolation = output.constrviolation;
+    end
+    
+    if isfield(output,'firstorderopt')
+        info.firstorderopt = output.firstorderopt;
+    end
+    
+    if isfield(output,'stepsize')
+        info.stepsize = output.stepsize;
+    end
+    
+    if isfield(output,'qpExitflag')
+        info.qpExitflag = output.qpExitflag;
+    end
+    if obj.debug  
+        obj.debugPlots(t_k,info);  
+        % obj.debugPlots2(t_k,info);  
+    
+    end
+    % 
+    % wH = info.wHorizon(:);
+    % 
+    % fprintf('[MHE w check] t = %.4f | min(w)=%.4e | max(w)=%.4e | wL=%.4e | wU=%.4e | hitL=%d | hitU=%d\n', ...
+    % t_k, min(wH), max(wH), obj.wL(1), obj.wU(1), ...
+    % any(wH <= obj.wL(1) + 1e-6), ...
+    % any(wH >= obj.wU(1) - 1e-6));
 end
 %----------------------------------------------------------------------
 end  % public methods
@@ -269,10 +380,33 @@ end  % public methods
     function zShift = shiftGuess(obj,p)
         idx = obj.buildIndexMaps(); nx=obj.nx; nw=obj.nw; Ne=obj.Ne;
         zShift=zeros(size(p));
-        for j=1:Ne, zShift(idx.x{j}) = p(idx.x{j+1}); end
-        zShift(idx.x{Ne+1}) = p(idx.x{Ne+1});
-        for j=1:Ne-1, zShift(idx.w{j}) = p(idx.w{j+1}); end
-        zShift(idx.w{Ne})   = p(idx.w{Ne});
+
+        % Shift states.
+        for j = 1:Ne
+            zShift(idx.x{j}) = p(idx.x{j+1});
+        end
+    
+        % Shift disturbances.
+        for j = 1:Ne-1
+            zShift(idx.w{j}) = p(idx.w{j+1});
+        end
+        zShift(idx.w{Ne}) = p(idx.w{Ne});   % hold-last
+    
+        % Predict terminal state using last shifted state, last known control,
+        % and held disturbance. 
+        % Trying this out to see if it could get a better warm-start
+        x = zShift(idx.x{Ne});
+        w = zShift(idx.w{Ne});
+        u = obj.Uhist(:,end);
+    
+        Nsub = round(obj.Ts/obj.dt);
+        Sdummy = [eye(obj.nx), zeros(obj.nx,obj.nw+obj.nu)];
+    
+        for m = 1:Nsub
+            [x,Sdummy] = obj.model.step(x,u,w,Sdummy,false);
+        end
+    
+        zShift(idx.x{Ne+1}) = x;
     end
     %----------------------------------------------------------------------
     function nlp = assembleWindow(obj)
@@ -299,9 +433,9 @@ end  % public methods
 
             % first-slot disturbance penalty
             % dw   = p(idx.w{1}) - obj.Whist(:,1);
-            dw   = p(idx.w{1}) - arrivalW;
-            J    = J + 0.5*dw'*obj.Re*dw;
-            gradJ(idx.w{1}) = obj.Re*dw;
+            % dw   = p(idx.w{1}) - arrivalW;
+            % J    = J + 0.5*dw'*obj.Re*dw;
+            % gradJ(idx.w{1}) = obj.Re*dw;
 
             % innovation terms ------------------------------------------
             C     = obj.sensor.PhiY;
@@ -314,6 +448,53 @@ end  % public methods
                 J = J + 0.5*e'*obj.Qe*e;
                 gradJ(idx.x{j}) = gradJ(idx.x{j}) - Cf'*(obj.Qe*e);
             end
+            
+            if isfield(obj.cfg,'mhe') && isfield(obj.cfg.mhe,'penalizeAllW') && obj.cfg.mhe.penalizeAllW
+                for j = 1:N
+                    wj = p(idx.w{j});
+                    J = J + 0.5*wj.'*obj.Re*wj;
+                    gradJ(idx.w{j}) = gradJ(idx.w{j}) + obj.Re*wj;
+                end
+            else
+                dw = p(idx.w{1}) - arrivalW;
+                J = J + 0.5*dw.'*obj.Re*dw;
+                gradJ(idx.w{1}) = gradJ(idx.w{1}) + obj.Re*dw;
+            end
+
+            % Smoothness Term
+            if isfield(obj.cfg,'RdWe')
+                RdW = obj.cfg.RdWe;
+            else
+                RdW = [];
+            end
+            
+            if ~isempty(RdW)
+                Wmat = reshape(p([idx.w{:}]),obj.nw,[]);
+            
+                for j = 2:N
+                    dwSmooth = Wmat(:,j) - Wmat(:,j-1);
+            
+                    J = J + 0.5*dwSmooth.'*RdW*dwSmooth;
+            
+                    gradJ(idx.w{j})   = gradJ(idx.w{j})   + RdW*dwSmooth;
+                    gradJ(idx.w{j-1}) = gradJ(idx.w{j-1}) - RdW*dwSmooth;
+                end
+            end
+
+            % --------------------------------------------------------------
+            % Terminal disturbance penalty:
+            % discourages nonzero estimated gust at the newest/current slot.
+            % --------------------------------------------------------------
+            if isfield(obj.cfg,'mhe') && isfield(obj.cfg.mhe,'RwTerminal') && ...
+                    ~isempty(obj.cfg.mhe.RwTerminal)
+            
+                RwT = obj.cfg.mhe.RwTerminal;
+            
+                wN = p(idx.w{N});
+            
+                J = J + 0.5*wN.'*RwT*wN;
+                gradJ(idx.w{N}) = gradJ(idx.w{N}) + RwT*wN;
+            end
         end
 
         % ---------------------- CONTINUITY ------------------------------
@@ -325,12 +506,17 @@ end  % public methods
 
             ceq     = zeros(nx*(N),1);
             % gradceq = zeros(numel(z),nx*N);
-            gradceq = zeros(nx*(N), numel(z));
-            
+            % gradceq = zeros(nx*(N), numel(z));
+            S = [eye(nx) , zeros(nx,nw+obj.nu)];
+            Sx0 = S(:,1:nx);
+            Sw0 = S(:,nx+1:nx+nw);
+
+            nnzPerInterval = nx + nnz(Sx0) + nnz(Sw0);
+            gradceq = spalloc(nx*N, numel(z), N*nnzPerInterval);
 
             X = reshape(z(1:(N+1)*nx),nx,N+1);
             W = reshape(z((N+1)*nx+1:end),nw,N);
-            S = [eye(nx) , zeros(nx,nw+obj.nu)];
+            % S = [eye(nx) , zeros(nx,nw+obj.nu)];
             S_last = [eye(nx) , zeros(nx,nw+obj.nu)];
             % S = obj.Sprev;           % <-- STM that ended the *previous* RT call  = I at k=0 only
             % ceq(1:nx,:) = obj.xhat - X(:, 1);
@@ -385,11 +571,13 @@ end  % public methods
                 % ceq(rows) = X(:,k+2) - S_end*[x_n; wk; uk]-x_end;
 
 
-                gradceq(rows, idx_xkp1) =  eye(nx);     % d/dx_{k+1}
+                % gradceq(rows, idx_xkp1) =  eye(nx);     % d/dx_{k+1}
+                gradceq(rows, idx_xkp1) =  speye(nx);     % d/dx_{k+1}
+
                 % gradceq(rows, idx_xk) = -Sx; % d/dx_k
                 % gradceq(rows, idx_wk) = -Sw;
-                gradceq(rows, idx_xk) = -Sx; % d/dx_k
-                gradceq(rows, idx_wk) = -Sw;
+                gradceq(rows, idx_xk) = -sparse(Sx); % d/dx_k
+                gradceq(rows, idx_wk) = -sparse(Sw);
                
                 row0 = row0 + nx;
                 S_last = S_end;                 
@@ -451,6 +639,153 @@ end  % public methods
         
         figure(2004),clf, hold on,plot(obj.dbg.t,obj.dbg.cont(2:end)); hold off;grid on
         xlabel('t [s]'); ylabel('|continuity|'); title('MHE feasibility'), legend
+    end
+
+    function debugPlots2(obj,t_k,info)
+        %DEBUGPLOTS Time-aligned MHE disturbance horizon plot.
+        
+            wH = info.wHorizon;   % expected Ne x nw or Ne x 1 for nw=1
+        
+            if size(wH,2) > size(wH,1) && obj.nw == 1
+                wH = wH(:);
+            end
+        
+            if ~isfield(obj.dbg,'tSolve')
+                obj.dbg.tSolve = [];
+                obj.dbg.tSlot  = [];
+                obj.dbg.Wslot  = [];
+                obj.dbg.cont   = [];
+            end
+        
+            obj.dbg.tSolve(end+1,1) = t_k;
+            obj.dbg.cont(end+1,1)   = info.continuity;
+        
+            % Slot physical times: oldest to newest.
+            tSlots = zeros(obj.Ne,1);
+            for s = 1:obj.Ne
+                tSlots(s) = t_k - (obj.Ne - s)*obj.Ts;
+            end
+        
+            obj.dbg.tSlot = [obj.dbg.tSlot; tSlots(:)];
+            obj.dbg.Wslot = [obj.dbg.Wslot; wH(:)];
+        
+            figure(3001); clf;
+            plot(obj.dbg.tSlot,obj.dbg.Wslot,'.-','LineWidth',1.2);
+            grid on;
+            xlabel('physical time associated with MHE slot [s]');
+            ylabel('\hat{w}');
+            title('Time-aligned MHE disturbance estimates');
+        
+            figure(3004); clf;
+            semilogy(obj.dbg.tSolve,max(obj.dbg.cont,eps),'LineWidth',1.2);
+            grid on;
+            xlabel('solve time [s]');
+            ylabel('||c_{eq}||');
+            title('MHE feasibility');
+    end
+
+    function localCheckMHEEqualityGradientBlocks(obj,nlp,z,lb,ub)
+    %LOCALCHECKMHEEQUALITYGRADIENTBLOCKS Check MHE dynamic equality Jacobian
+    % by perturbing only X variables and only W variables separately.
+    
+        idx = obj.buildIndexMaps();
+    
+        nx = obj.nx;
+        nw = obj.nw;
+        Ne = obj.Ne;
+    
+        z  = z(:);
+        lb = lb(:);
+        ub = ub(:);
+        n  = numel(z);
+    
+        z = min(max(z,lb),ub);
+    
+        [~,ceq0,~,Gceq] = nlp.nonl(z);
+    
+        if size(Gceq,1) ~= n
+            Gceq = Gceq.';
+        end
+    
+        % If ceq includes X0-arrival equality, dynamic rows start after nx.
+        if numel(ceq0) >= nx*(Ne+1)
+            rowsDyn = nx+1:numel(ceq0);
+        else
+            rowsDyn = 1:numel(ceq0);
+        end
+    
+        h = 1e-6;
+    
+        % X-only direction.
+        dX = zeros(n,1);
+        rng(301);
+        for k = 1:Ne+1
+            dX(idx.x{k}) = randn(nx,1);
+        end
+        dX = dX / max(norm(dX),eps);
+    
+        % W-only direction.
+        dW = zeros(n,1);
+        rng(302);
+        for k = 1:Ne
+            dW(idx.w{k}) = randn(nw,1);
+        end
+        dW = dW / max(norm(dW),eps);
+    
+        errX = obj.localDirectionalEqualityError(nlp,z,dX,h,lb,ub,Gceq,rowsDyn);
+        errW = obj.localDirectionalEqualityError(nlp,z,dW,h,lb,ub,Gceq,rowsDyn);
+    
+        fprintf('\n');
+        fprintf('======================================================================\n');
+        fprintf(' NMHE DYNAMIC-EQUALITY BLOCK GRADIENT CHECK\n');
+        fprintf('======================================================================\n');
+        fprintf('  dynamic defect rel error, X-only direction : %.3e\n', errX);
+        fprintf('  dynamic defect rel error, W-only direction : %.3e\n', errW);
+        fprintf('======================================================================\n\n');
+    end
+
+    function err = localDirectionalEqualityError(obj,nlp,z,d,h,lb,ub,Gceq,rowsDyn)
+    %LOCALDIRECTIONALEQUALITYERROR Directional FD check for selected equality rows.
+    
+    
+        z  = z(:);
+        d  = d(:);
+        lb = lb(:);
+        ub = ub(:);
+    
+        active = abs(d) > 0;
+        hBound = inf;
+    
+        idxU = active & isfinite(ub);
+        if any(idxU)
+            hBound = min(hBound,min((ub(idxU)-z(idxU))./abs(d(idxU))));
+        end
+    
+        idxL = active & isfinite(lb);
+        if any(idxL)
+            hBound = min(hBound,min((z(idxL)-lb(idxL))./abs(d(idxL))));
+        end
+    
+        if isfinite(hBound)
+            h = min(h,0.49*hBound);
+        end
+    
+        if h <= eps
+            err = nan;
+            return
+        end
+    
+        [~,ceqp] = nlp.nonl(z + h*d);
+        [~,ceqm] = nlp.nonl(z - h*d);
+    
+        ceqFD = (ceqp(:)-ceqm(:))/(2*h);
+        ceqAN = Gceq.'*d;
+    
+        rowsDyn = rowsDyn(:);
+    
+        den = max([1,norm(ceqFD(rowsDyn),inf),norm(ceqAN(rowsDyn),inf)]);
+    
+        err = norm(ceqFD(rowsDyn)-ceqAN(rowsDyn),inf)/den;
     end
     %----------------------------------------------------------------------
     end   % private methods

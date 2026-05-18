@@ -128,12 +128,22 @@ if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
     % q_inf = 980;
     % aeroScale = 2.45;
 
+    % par.scaleAero = par.Fscale;
+    par.scaleAero1 = par.Fscale;
+    % par.t_inf = par.gustSet.t_inf;
+
+    
+
     u   = par.u_ctrl;    % [δ₁ δ₂ δ̇₁ δ̇₂]ᵀ
     NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
-    NcD = ( par.scaleA*par.Ddel*u(1:2) + par.scaleAero*par.Dddel*u(3:4) );
+    NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero1*par.Dddel*u(3:4) );
     % NcB = (1/t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
     % NcD = ( aeroScale*par.Ddel*u(1:2) + aeroScale*t_inf*par.Dddel*u(3:4) );
 
+    % NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
+    % NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero*par.Dddel*u(3:4) );
+    
+    
     N_terms(idx.qGam) = N_terms(idx.qGam) + NcB;
     % test rate projection for trim
     % if isfield(par, 'RateProject')

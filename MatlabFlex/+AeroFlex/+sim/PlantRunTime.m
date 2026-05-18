@@ -129,13 +129,28 @@ classdef PlantRunTime < handle
             
             obj.trimThrust = trim.thrust;    
 
-            if isfield(cfg,'trim') && isfield(cfg.trim,'deltaDeg')
-                obj.trimTailDelta = deg2rad(cfg.trim.deltaDeg);
-                if numel(obj.trimTailDelta) > 1
-                    obj.trimTailDelta = obj.trimTailDelta(1);
-                end
+            % if isfield(cfg,'trim') && isfield(cfg.trim,'deltaDeg')
+            %     obj.trimTailDelta = deg2rad(cfg.trim.deltaDeg);
+            %     if numel(obj.trimTailDelta) > 1
+            %         obj.trimTailDelta = obj.trimTailDelta(1);
+            %     end
+            % else
+            %     obj.trimTailDelta = 0;
+            % end
+
+            % -------------------------------------------------------------------------
+            % Rear elevator/tail trim.
+            % Prefer the solved trim struct. Fall back to cfg fields.
+            % Stored internally in radians.
+            % -------------------------------------------------------------------------
+            if nargin >= 6 && isstruct(trim) && isfield(trim,'deltaElev')
+                obj.trimTailDelta = trim.deltaElev;
             else
                 obj.trimTailDelta = 0;
+            end
+            
+            if numel(obj.trimTailDelta) > 1
+                obj.trimTailDelta = obj.trimTailDelta(1);
             end
         
             % --------------------------------------------------------------
@@ -175,10 +190,12 @@ classdef PlantRunTime < handle
         %--------------------------------------------------------------
         function [z_k,t_k] = readSensors(obj, cfg, log)
             t_k = obj.t;
-            y = log( round(t_k/cfg.sim.dt)+1, :).' ;
+            % y = log( round(t_k/cfg.sim.dt)+1, :).' ;
             if cfg.forceRealSense
                 z_k = obj.sensor.measure(obj.x(obj.model.idx.q1));
             else
+                y = log( round(t_k/cfg.sim.dt)+1, :).' ;
+
                 z_k = y;
             end
             % t_k = obj.t;
@@ -235,7 +252,37 @@ classdef PlantRunTime < handle
              if nargin < 4 || isempty(rbCmd)
                 % rbCmd = struct('delta_e',0,'delta_a',0,'delta_r',0,'thrust',obj.trimThrust);
                 rbCmd = [];
+             end
+            % -------------------------------------------------------------------------
+            % Rigid-body command defaults.
+            % rbCmd fields are interpreted as increments about trim unless otherwise
+            % stated.
+            % -------------------------------------------------------------------------
+            if isempty(rbCmd)
+                rbCmd = struct();
             end
+            
+            if ~isfield(rbCmd,'delta_e') || isempty(rbCmd.delta_e)
+                rbCmd.delta_e = 0;
+            end
+            
+            if ~isfield(rbCmd,'delta_a') || isempty(rbCmd.delta_a)
+                rbCmd.delta_a = 0;
+            end
+            
+            if ~isfield(rbCmd,'delta_r') || isempty(rbCmd.delta_r)
+                rbCmd.delta_r = 0;
+            end
+            
+            if ~isfield(rbCmd,'thrust') || isempty(rbCmd.thrust)
+                rbCmd.thrust = 0;
+            end
+            
+            % Total rear elevator and thrust applied to rigid aircraft.
+            delta_e_total = obj.trimTailDelta + rbCmd.delta_e;
+            thrust_total  = obj.trimThrust    + rbCmd.thrust;
+            rbCmd.delta_e =delta_e_total;
+            rbCmd.thrust = thrust_total;
             % --------------------------------------------------------------
             % 0. Validate/sanitize inputs
             % --------------------------------------------------------------
@@ -264,7 +311,8 @@ classdef PlantRunTime < handle
             % 4. Compute wing clamp/root reaction
             % --------------------------------------------------------------
             Clamp6 = obj.computeWingClampReaction();
-        
+            Clamp6 = obj.mirrorWingClamp(Clamp6);
+
             Fwing_B = Clamp6(1:3);
             Mwing_B = Clamp6(4:6);
         
@@ -402,6 +450,9 @@ classdef PlantRunTime < handle
             q1dot = xdot(obj.idx.q1);
         
             Clamp6 = obj.beam.red.phi1_sA * (obj.beam.Pr * q1dot);
+            Clamp6 = obj.mirrorWingClamp(Clamp6);
+
+
             Clamp6 = Clamp6(:);
         
             if numel(Clamp6) ~= 6
@@ -426,6 +477,7 @@ classdef PlantRunTime < handle
                     0 ];
             elseif isfield(obj.cfg,'sim') && isfield(obj.cfg.sim,'wingMultiplicity')
                 Clamp6 = obj.cfg.sim.wingMultiplicity * Clamp6;
+                % Clamp6 = 2 * Clamp6;
             end
         end
 
@@ -648,7 +700,10 @@ classdef PlantRunTime < handle
                     eulerDot;
                     omegaDot_B];
         end
-
+        function Clamp6_total = mirrorWingClamp(obj,Clamp6_left)
+            S = diag([1,-1,1, -1,1,-1]);
+            Clamp6_total = Clamp6_left + S*Clamp6_left;
+        end
         function rb = initRigidState(obj, cfg, x0)
         %INITRIGIDSTATE Initialize rigid-body state.
         

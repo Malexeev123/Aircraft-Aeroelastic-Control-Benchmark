@@ -81,8 +81,8 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
     del_pts = 0; del_idx = [];
     for i=1:nPts
         sNow = sVals(i);
-        alpha_s = alpha_of_s(i);  % your function for sweep vs. s
-        theta_s = twist_of_s(i);  % your function for twist vs. s
+        alpha_s = alpha_of_s(i);  %  function for sweep vs. s
+        theta_s = twist_of_s(i);  %  function for twist vs. s
         aoa_i = aoa_s(i);
         xi_bar_array(i,:) = combineSweepTwist(alpha_s, theta_s, aoa_i);
 
@@ -508,7 +508,6 @@ cfg.struct.damping_model = 'kv_sigma';
 cfg.struct.zeta = 0.005;          % e.g. 0.5% critical across all 6 dofs
 Sigma = rom_build_sigma_kv(phi1_discrete, chain, elemChainL, Eall, cfg);
 
-% store for your ROM builder
 ModeVars_discrete.Sigma = Sigma;
 % disp(Sigma)
 %%
@@ -997,7 +996,7 @@ function [phi1_loc, phi2_loc] = transformModesToLocal( ...
            fem, keepDofs, phi1_global, phi2_global )
 % transformModesToLocal
 % Inputs:
-%   fem            = your FE structure with .num_elem, .connectivities, etc.
+%   fem            =  FE structure with .num_elem, .connectivities, etc.
 %   keepDofs       = list of active dofs after condensation
 %   phi1_global    = [ndofs x nModes], velocity-like modes in global coords
 %   phi2_global    = [ndofs x nModes], force-like modes in global coords
@@ -1765,7 +1764,7 @@ function [Xfull_time, orientation_time] = recoverFull3Dsolution( ...
 %  known skeleton solution q0(t).
 %
 %  Inputs:
-%    fem          => your geometry (num_node, connectivities, etc.)
+%    fem          =>  geometry (num_node, connectivities, etc.)
 %    T_oa         => the [nOmitted x nActive] transformation or 
 %                    some user approach for splitted DOFs
 %    phi0         => the [nActive x nModes], the LNMs at active dofs
@@ -1788,7 +1787,7 @@ Xfull_time = cell(nTime,1);  % or use a 3D array [nNode x 3 x nTime]
 
 % The main principle:
 %   1) we get the “reference node position” r_a^k(t) from the beam solution 
-%      i.e. from your NMROM integration, you got [q1(t), q2(t)] 
+%      i.e. from NMROM integration, got [q1(t), q2(t)] 
 %      or something that also yields the master node positions & rotations 
 %   2) For each omitted node i that belongs to cross-section k, do eq. (2.134)
 %   3) Possibly do warping
@@ -1834,8 +1833,7 @@ orientation_time = []; % or store the cross-section orientation if you like
 end
 
 function isM = isMasterNode(k, fem)
-% e.g. if your keepDofs cover node k, it is a "master"? 
-% or if boundary_conditions(k) is not omitted, etc. 
+% Im not sure about this need to look at it later
 isM = true;  % or do a real logic
 end
 

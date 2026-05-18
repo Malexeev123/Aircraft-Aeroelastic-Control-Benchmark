@@ -28,10 +28,12 @@ T      = 0;         % scalar thrust [N], along +X body
 % elevator (single scalar used by tail model; map your 4-surf vector as needed)
 % if isfield(cfg.trim,'deltaDeg'), delta = cfg.trim.deltaDeg*pi/180*ones(4,1); else, delta = 0; end
 % if numel(delta) > 1, delta = delta(1); end    % use first entry as elevator
-delta = zeros(4,1);
+deltaWing = zeros(4,1);
 aoaRef = cfg.flight.aoa_deg*pi/180;
 % alpha  = alpha - aoaRef;           % Artola: internal states use AoA relative to reference
 deltaTa = 0;
+deltaElev = deltaTa;
+
 idx  = AeroFlex.core.buildIndexStruct(beam.Nm, aero.Na);
 Pz   = beam.Pz;                    % projector on clamped internal motions
 Pr   = beam.Pr;                    % extractor of clamp resultants (Nm -> 6)
@@ -90,7 +92,7 @@ while ~converged && it < maxIt
     iter = iter+1;
     % x0(idx.chi) = [0;alpha;0];
     % ========== STEPS 8–10: inner clamped solve with RATE PROJECTION ==========
-    [x, sim, log_trim] = inner_clamped_steady(x0(:, end), alpha, delta, T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
+    [x, sim, log_trim] = inner_clamped_steady(x0(:, end), alpha, deltaWing, T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
     % [x, sim, log_trim] = inner_clamped_steady(x(:, end), alpha, delta, T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
 
     % Evaluate clamp forces (A-section resultant) from flexible dynamics
@@ -100,12 +102,13 @@ while ~converged && it < maxIt
     xdot = AeroFlex.sim.nonlinear_terms(x(:,end),sim.parConst,idx) + sim.L*x(:,end);
     % q1dot_proj = Pz * xdot(idx.q1);
     q1dot_proj = xdot(idx.q1);
+
     Clamp6 = beam.red.phi1_sA*(Pr*q1dot_proj);   % [Fx;Fy;Fz;Mx;My;Mz] at A
-    % Clamp6 = mirrorWingClamp(Clamp6);
+    Clamp6 = mirrorWingClamp(Clamp6);
     % Tail / fin rigid aero (body frame)
     uBody = cfg.flight.U_inf;
     % [F_tail, M_tail] = tailAeroForceMoment(uBody, alpha, delta, cfg);   % user-tunable helper
-    [F_tail, M_tail] = tailAeroForceMoment(uBody, alpha, 0, cfg);   % user-tunable helper
+    [F_tail, M_tail] = tailAeroForceMoment(uBody, alpha, deltaElev, cfg);   % user-tunable helper
     [F_fin,  M_fin ] = finAeroForceMoment (uBody, 0.0  , 0.0 , cfg);    % set to zeros if unused
 
     % Weight (downwards +Z in NED; in body we take +Z down as well)
@@ -119,7 +122,7 @@ while ~converged && it < maxIt
     R = [ F_tot(1); F_tot(3); M_tot(2) ];
 
     if cfg.debug.trim
-        fprintf('It %2d | alpha = %.4f | delta = %.4f | thrust = %.4f | tail delta = %.4f  \n',it,alpha,delta(1),T, deltaTa);
+        fprintf('It %2d | alpha = %.4f | Wing delta = %.4f | thrust = %.4f | Elevator delta = %.4f  \n',it,alpha,deltaWing(1),T, deltaElev);
         fprintf('|R| = %.3e  [Fx=%.2f, Fz=%.2f, My=%.2f]\n',norm(R),R(1),R(2),R(3));
 
         % fprintf('It %2d | alpha = %.4f | delta = %.4f | thrust = %.4f \n',it,alpha,delta(1),T);
@@ -132,50 +135,75 @@ while ~converged && it < maxIt
     % ================== NEWTON STEP on [alpha, delta, T] ==================
     % Robust finite-difference Jacobian of R w.r.t [alpha, delta, T]
     hA = 1e-3; 
-    hTa = 1e-3; 
+    hE = 1e-3; 
     hD = 1e-3; 
     % hD = 1e-6; 
     hT = max(1e-2, 0.01*abs(T)+1e-3);
-    J = zeros(3,3);
-    % J = zeros(3,4);
-
+    % J = zeros(3,3);
+    J = zeros(3,4);
+    %%%%%%%%%%%%%%%%%%%%%
     % dR/dalpha
-    [xA , sim, ~]= inner_clamped_steady(x(:,end), alpha+hA, delta, T,FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
+    %%%%%%%%%%%%%%%%%%%%%
+    [xA , sim, ~]= inner_clamped_steady(x(:,end), alpha+hA, deltaWing, T,FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
     % xdotA = AeroFlex.sim.nonlinear_terms(xA(:,end),FlexPlant.parConst,idx) + FlexPlant.L*xA(:,end);
     % xdotA = AeroFlex.sim.nonlinear_terms(xA(:,end),sim.parConst,idx) + FlexPlant.L*xA(:,end);
     xdotA = AeroFlex.sim.nonlinear_terms(xA(:,end),sim.parConst,idx) + sim.L*xA(:,end);
     % q1dotA = Pz * xdotA(idx.q1);
     q1dotA = xdotA(idx.q1);
     Clamp6A = beam.red.phi1_sA*(Pr*q1dotA);
-    % Clamp6A = mirrorWingClamp(Clamp6A);
+    Clamp6A = mirrorWingClamp(Clamp6A);
 
     % [Fta, Mta] = tailAeroForceMoment(uBody, alpha+hA, delta, cfg);
-    [Fta, Mta] = tailAeroForceMoment(uBody, alpha+hA, 0, cfg);
+    [Fta, Mta] = tailAeroForceMoment(uBody, alpha+hA, deltaElev, cfg);
     FtotA = Clamp6A(1:3) + Fta + F_fin + F_w + F_T;
     MtotA = Clamp6A(4:6) + Mta + M_fin + M_T;
     JA = [ FtotA(1); FtotA(3); MtotA(2) ];
     J(:,1) = (JA - R)/hA;
 
+
+    %%%%%%%%%%%%%%%%%%%%%%%%
+    % -------------------------------------------------------------------------
+    % dR/d deltaElev
+    %%%%%%%%%%%%%%%%%%%%
+    %  -------------------------------------------------------------------------
+
+    
+    [Fte, Mte] = tailAeroForceMoment(uBody, alpha, deltaElev+hE, cfg);
+    
+    FtotE = Clamp6(1:3) + Fte + F_fin + F_w + F_T;
+    MtotE = Clamp6(4:6) + Mte + M_fin + M_T;
+    
+    RE = [FtotE(1); FtotE(3); MtotE(2)];
+    J(:,3) = (RE - R)/hE;
+    
+    %%%%%%%%%%%%%%%%%%%%%
     % dR/ddelta
-    [xD , sim, ~] = inner_clamped_steady(x(:,end), alpha, delta+[hD; hD; 0; 0], T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
+    %%%%%%%%%%%%%%%%%%%%%
+    [xD , sim, ~] = inner_clamped_steady(x(:,end), alpha, deltaWing+[hD; hD; 0; 0], T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
     % [xD , sim] = inner_clamped_steady(x(:,end), alpha, delta+[0; 0; hD; hD], T, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
     % xdotD = AeroFlex.sim.nonlinear_terms(xD,FlexPlant.parConst,idx) + FlexPlant.L*xD;
     xdotD = AeroFlex.sim.nonlinear_terms(xD(:,end),sim.parConst,idx) + sim.L*xD(:,end);
     % q1dotD = Pz * xdotD(idx.q1);
     q1dotD = xdotD(idx.q1);
     Clamp6D = beam.red.phi1_sA*(Pr*q1dotD);
-    % Clamp6D = mirrorWingClamp(Clamp6D);
+    Clamp6D = mirrorWingClamp(Clamp6D);
 
     % [Ftd, Mtd] = tailAeroForceMoment(uBody, alpha, delta+hD, cfg);
-    [Ftd, Mtd] = tailAeroForceMoment(uBody, alpha, 0, cfg);
+    [Ftd, Mtd] = tailAeroForceMoment(uBody, alpha, deltaElev, cfg);
+    % [Ftd, Mtd] = tailAeroForceMoment(uBody, alpha, 0, cfg);
+    % [Ftd, Mtd] = tailAeroForceMoment(uBody, alpha, 0, cfg);
     FtotD = Clamp6D(1:3) + Ftd + F_fin + F_w + F_T;
     MtotD = Clamp6D(4:6) + Mtd + M_fin + M_T;
     JD = [ FtotD(1); FtotD(3); MtotD(2) ];
     J(:,2) = (JD - R)/hD;
 
+    
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % % dR/dT
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     JT = [1; 0; 0];  % only Fx residual depends directly on T (no thrust offset -> no pitch moment)
-    J(:,3) = JT;
+    J(:,4) = JT;
     % dR/dT
     % [xT , sim] = inner_clamped_steady(x(:,end), alpha, delta, T+hT, FlexPlant, idx, Pz, tolSS, sim, cfg, beam, aero,base);
     % xdotT = AeroFlex.sim.nonlinear_terms(xT(:,end),sim.parConst,idx) + sim.L*xT(:,end);
@@ -202,10 +230,42 @@ while ~converged && it < maxIt
 
 
     % Solve Newton system
-    dX = -J\R;
+    % dX = -J\R;
+
+    % if rcond(J) < 1e-10
+    %     warning('TrimRBwFlex:IllConditionedNewton', ...
+    %         'Trim Newton Jacobian is ill-conditioned. rcond(J)=%.3e. Using pinv.', rcond(J));
+    %     dX = -pinv(J)*R;
+    % else
+        % dX = -J\R;
+    % end
+
+    % Least Squares for fourth residual
+    Wres = eye(3);
+    Jphys = J;
+    % Penalize moving wing flap more than elevator/thrust.
+    Lambda = diag([ ...
+        1e-3, ...   % alpha step regularization
+        1e-1,  ...   % wing flap step regularization
+        1e-2, ...   % elevator step regularization
+        1e-3]);     % thrust step regularization
+    
+    A = Jphys.'*Wres*Jphys + Lambda;
+    b = Jphys.'*Wres*R;
+    
+    % dX = -A\b;
+    if rcond(A) < 1e-12
+        warning('TrimRBwFlex:IllConditionedRegLS', ...
+            'Regularized trim LS matrix is ill-conditioned. rcond(A)=%.3e. Using pinv.', rcond(A));
+        dX = -pinv(A)*b;
+    else
+        dX = -A\b;
+    end
+
     alpha = alpha + dX(1);
-    delta = delta + [dX(2);dX(2);0;0];
-    T     = T     + dX(3);
+    deltaWing = deltaWing + [dX(2);dX(2);0;0];
+    deltaElev = deltaElev + dX(3);
+    T     = T     + dX(4);
     % deltaTa = deltaTa + dX(4);
     
     % Update baseline xi coupling after alpha change
@@ -228,7 +288,8 @@ end
 % trim.alphaDeg = rad2deg(alpha + aoaRef);
 trim.alphaDeg = rad2deg(alpha);
 % trim.deltaDeg = rad2deg(delta);
-trim.deltaDeg = delta;
+trim.deltaDeg = deltaWing;
+trim.deltaElev = deltaElev;
 trim.thrust   = T;
 trim.states   = x(:,end);
 trim.sensor   = log_trim;   % (placeholder; keep if you store inner logs)
@@ -346,351 +407,3 @@ function Clamp6_total = mirrorWingClamp(Clamp6_left)
 end
 
 
-
-% function trim = TrimRBwFlex(cfg, beam, aero, base)
-% % Implements Algorithm 1 (Artola PoC)
-% 
-% % ---------------- constants -------------------------------------------
-% tolSS  = cfg.trim.tolSteady;      % e.g. 1e‑7
-% tolNR  = cfg.trim.tolNewton;      % e.g. 1e‑6
-% alpha  = cfg.trim.alphaDeg * pi/180;
-% % deltaE = cfg.trim.deltaDeg * pi/180;
-% deltaE =zeros(4,1) * pi/180;
-% Tset   = cfg.trim.thrust;         % N
-% aoa = cfg.flight.aoa_deg* pi/180; 
-% idx = AeroFlex.core.buildIndexStruct(beam.Nm,aero.Na);
-% fThrust = 0;
-% 
-% % pre‑compute projectors
-% Pz  = beam.Pz;                    % 20×20
-% Pr  = beam.Pr;                    % 20×6
-% 
-% alpha = alpha - aoa;
-% % initial states --------------------------------------------------------
-% q1  = zeros(beam.Nm,1);
-% q2  = zeros(beam.Nm,1);
-% qxi = zeros(beam.Nm+1,1);
-% % qxi(1) = .1;
-% qxi(1) = base.xi_bar(1,1);
-% qg  = zeros(cfg.Na,1);
-% % chi = zeros(3,1);
-% chi = [0; aoa;0];
-% %%
-% % Testing inclusion of the tail Aero effects
-% quatRig = eul2quat(chi.');
-% xRigid = [quatRig.'; cfg.flight.U_inf;0;0; ... 
-%     0;0;0; ...
-%     0;0;0];
-% %%
-% % [phi_xi_trim,   Gamma_xi_iter, Gamma_g_iter, ~, xi_bar_trim] = AeroFlex.core.solve_baseline_quaternion_xi(beam.fem, aero.aeroMesh , ...
-% % beam.phi1, beam.Nm, beam.Mglobal, rad2deg(alpha));
-% [phi_xi_trim,   Gamma_xi_iter, Gamma_g_iter, ~, xi_bar_trim] = AeroFlex.core.solve_baseline_quaternion_xi(beam.fem, aero.aeroMesh , ...
-% beam.phi1, beam.Nm, beam.Mglobal, rad2deg(alpha-aoa));
-% base.Gamma_xi = Gamma_xi_iter;
-% base.Gamma_g = Gamma_g_iter;
-% 
-% x   = [q1;q2;qxi;qg;chi];
-% sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base);
-% converged = false;  iter = 0;
-% while ~converged
-%     iter = iter+1;
-%     % --- 8‑9 integrate dynamics until Pz*q1 small --------------------
-%     for k = 1:cfg.trim.itersInt
-%         % [q1,q2,qxi,qg,chi] = AeroFlex.sim.oneEulerStep(q1,q2,qxi,qg,chi,deltaE,Tset,alpha,beam,aero,cfg, base); 
-%         [~, x, log_trim, sensEq] = sim.run(x(:,end), cfg.sim.dt, deltaE, cfg.sim.storeSens);   % no gust, no control
-%         % log_trim = log_trim(:,end);
-%         q1 = x(sim.idx.q1, end);
-%         q2 = x(sim.idx.q2, end);
-%         qxi = x(sim.idx.qxi, end);
-%         qg = x(sim.idx.qGam, end);
-%         chi = x(sim.idx.chi, end);
-% 
-%         x_nFlex = x(:,end);
-%         q1 = Pz*q1;   % clamp A‑frame
-%         x(1:beam.Nm, end) = q1;
-%         % disp(norm(q1));
-%         FlexPlant = AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
-%         xNp = AeroFlex.sim.nonlinear_terms(x_nFlex,FlexPlant.parConst,idx);
-%         xFlex_dot = xNp + FlexPlant.L*x_nFlex;
-%         % mForces_Sa = beam.Pr*xFlex_dot(idx.q1);
-% 
-%         %% Testing Rigid
-%         R_rb2 = RigidBody.methods.CoupledTrim.EvalRigidBodyEOM(zeros(6,1), alpha, 0, fThrust, cfg);
-%         ModalR_rb2 = beam.red.phi1_sA.' * [R_rb2(1);0;R_rb2(2); 0 ; R_rb2(3);0];
-%         flexRes = Pz*xFlex_dot(idx.q1);
-% 
-%         %%
-%         % SteadyRes = Pz*xFlex_dot(idx.q1);
-%         % SteadyRes = Pz*(xFlex_dot(idx.q1)+ModalR_rb2);
-%         SteadyRes = Pz*(xFlex_dot(idx.q1)-ModalR_rb2);
-% 
-%         % if norm(Pz*q1) < tolSS, break, end
-%         if cfg.debug.trim
-%             fprintf('#%d  |Coupled Steady State Res|=%g\n',iter,norm(SteadyRes));
-%             fprintf('#%d  |Flexible Steady State Res|=%g\n',iter,norm(flexRes));
-%         end
-% 
-%         % if norm(SteadyRes) < tolSS
-%         if norm(flexRes) < tolSS
-%             break
-%         end
-%     end
-%     log_trim = log_trim(:,end);
-%     % --- 11 check residual forces at A -------------------------------
-%     % Res = Pr*q1;               % 3 forces + 3 moments
-%     % Res = Pr*xFlex_dot(1:beam.Nm);               % 3 forces + 3 moments
-%     Res = Pr*(xFlex_dot(idx.q1)-ModalR_rb2);               % 3 forces + 3 moments
-%     ResFlex = Pr*(xFlex_dot(idx.q1));               % 3 forces + 3 moments
-%     ResTot = Pr*(xFlex_dot(idx.q1)-ModalR_rb2);               % 3 forces + 3 moments
-%     % ResTot = Pr*(xFlex_dot(idx.q1)+ModalR_rb2);               % 3 forces + 3 moments
-%     % ResTot = Pr*(xFlex_dot(idx.q1))+ModalR_rb2;               % 3 forces + 3 moments
-%     ResOld = Res;
-%     % % Compute aerodynamic forces and moments from the tail
-%     RigidVel = beam.red.phi1_sA*q1;
-%     % % Update the residual forces with tail contributions
-%     % Res = Res + F_tail;  % Adjust residual forces with tail aerodynamic forces
-% 
-%     xRigid(1:4) = eul2quat(chi.').';
-%     xRigid(5:7) = RigidVel(1:3);
-%     xRigid(8:10) = RigidVel(4:6);
-%     % [F_tail, M_tail] = tailAeroForceMoment(norm(xRigid(5:7)), alpha, deltaE(1));
-%     aeroForcesRig = RigidBody.methods.rigidAeroDyn(alpha, 0, cfg);
-% 
-%     FMwing = beam.red.phi1_sA*ResFlex;
-%     % FMwing = beam.red.phi1_sA*Res;
-%     F_clamp = FMwing;
-%     q_inf = 0.5*cfg.flight.rho*cfg.flight.U_inf^2;
-%     a = q_inf*cfg.flight.b_ref^2;
-%     % F_clamp = a*FMwing;
-%     % F_clamp = q_inf*FMwing;
-% 
-%     % Ftot = FMwing + [aeroForcesRig.F_tail; aeroForcesRig.M_tail] + [aeroForcesRig.F_fin; aeroForcesRig.M_fin];
-%     Ftot = F_clamp + [aeroForcesRig.F_tail; aeroForcesRig.M_tail] + [aeroForcesRig.F_fin; aeroForcesRig.M_fin];
-% 
-%     uTRig = beam.red.phi1_sA*Tset;
-%     xdot = f(cfg, xRigid,uTRig(1:3),Ftot(1:3),Ftot(4:6));
-%     R_rb = RigidBody.methods.CoupledTrim.EvalRigidBodyEOM(F_clamp, alpha, 0, fThrust, cfg);
-%     ModalR_rb = beam.red.phi1_sA.' * [R_rb(1);0;R_rb(2); 0 ; R_rb(3);0];
-%     % ResTot = ModalR_rb + ResOld;
-%     Modaltest = beam.red.phi1_sA.'*xdot(5:10);
-%     dRig = - aeroForcesRig.J\R_rb;
-%     FtotalRes = F_clamp; 
-% 
-%     % FtotalRes(1) =F_clamp(1)+ R_rb(1); 
-%     % FtotalRes(3) = F_clamp(3)+R_rb(2); 
-%     % FtotalRes(5) = F_clamp(5)+R_rb(3); 
-% 
-%     % FtotalRes(1) =R_rb(1); 
-%     % FtotalRes(3) =R_rb(2); 
-%     % FtotalRes(5) = R_rb(3);
-%     % % Res = beam.Zvr*FtotalRes;
-%     % % Res = beam.red.phi1_sA.'*FtotalRes;
-%     % ResTot = beam.red.phi1_sA.'*FtotalRes;
-% 
-% 
-% 
-%     % if norm(Res) < tolNR
-%     if norm(ResTot) < tolNR
-%     % if norm(Ftot) < tolNR
-%         converged = true;
-%         break
-%     end
-% 
-%     % Thrust is treated as point force
-%     % thrustLocNodes = 0; % Beam Nodes at which Thrust is performed (need to make this more robust in the config)
-%     thrustLocNodes = [2;15]; % Exp of thrust acting on quarter wing half-span
-%     if isscalar(thrustLocNodes) & thrustLocNodes == 0 % If Thrust is at "clamped" node A
-%         phi1Thrust = beam.red.phi1_sA;
-%     else
-%         phi1Thrust = zeros(6, cfg.Nm );
-%         for i = 1:length(thrustLocNodes)
-%             nodeLoc = thrustLocNodes(i);
-%             nodeDOF = double((nodeLoc-1)*6)+(1:6);
-%             phi1ThrustLoc = beam.phi1(nodeDOF,:);
-%             phi1Thrust = phi1Thrust + phi1ThrustLoc;
-%         end
-%     end
-%     JTphi1 = [phi1Thrust.'; zeros(length(x)-cfg.Nm, 6)];
-%     J = sensEq(:,:,end);           % 6×20 Jacobian from sensitivities
-% 
-%     JwThrust = [J, JTphi1];
-%     Jtest = JTphi1(idx.q1,:)\(beam.red.phi1_sA.'*[R_rb(1);0;0;0;0;0]);
-%     % Jtest = JTphi1(idx.q1,:)\(beam.red.phi1_sA.'*[R_rb(1);0;0;0;0;0]);
-%     % dU = J(idx.q1,:)\(Res);          % 3×1 update  (α, δe, T)
-%     % dUwThrust = JwThrust(idx.q1,:)\(Res);
-%     dUwThrust = JwThrust(idx.q1,:)\(ResTot);
-%     % --- 14 Newton‑step on α, δe, T ----------------------------------
-%     % J = beam.dRigdq1;           % 6×20 Jacobian from sensitivities
-%     % dU = J(idx.q1,:)\(Pr*Res);          % 3×1 update  (α, δe, T)
-%     % dU = J(idx.q1,:)\(Res);          % 3×1 update  (α, δe, T)
-%     dUold = J(idx.q1,:)\(ResTot);          % 3×1 update  (α, δe, T)
-%     % dUwThrust = J(idx.q1,:)\(ResTot);          % 3×1 update  (α, δe, T)
-%     % dUt2 = Res/J(idx.q1,:);          % 3×1 update  (α, δe, T)
-%     % dUt2 = J(idx.q2,:)\(Res);          % 3×1 update  (α, δe, T)
-%     % dUt3 = J(idx.qxi(2:end),:)\(Res);          % 3×1 update  (α, δe, T)
-%     % dUt4 = J(idx.qGam,:)\(Res);          % 3×1 update  (α, δe, T)
-%     % dUt5 = J(idx.chi,:)\(Res);          % 3×1 update  (α, δe, T)
-%     xFlex_tmp = xFlex_dot;
-%     % xFlex_tmp = x(:,end);
-%     xFlex_tmp(idx.q1) = ResTot;
-%     % xFlex_tmp(idx.q1) = Res;
-%     % dUt3 = J\(xFlex_tmp);          % 3×1 update  (α, δe, T)
-%     dU = J\(xFlex_tmp);          % 3×1 update  (α, δe, T)
-%     dUwThrust = J\(xFlex_tmp);          % 3×1 update  (α, δe, T)
-%     dUwThrust2 = JwThrust\(xFlex_tmp);          % 3×1 update  (α, δe, T)
-%     % dUwThrust = JwThrust\(xFlex_tmp);          % 3×1 update  (α, δe, T)
-% 
-%     % dUrig = xdot\xRigid;
-% 
-%     % 
-%     % % Alpha Handling
-%     % dQuat = base.phiXi_sA*dU(idx.qxi,:);
-%     % dEul = dU(idx.chi);
-%     % xi_bar_reg = xi_bar_trim(1,1);
-%     % % dAlpha = quat2eul([xi_bar_reg dQuat(2:end).']); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     % dAlpha = quat2eul(dQuat.'); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     % % dAlpha = dEul(2); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     % % alpha  = alpha  - dAlpha(2) + dRig(1); % Pitch is second
-%     % alpha  = alpha  - dAlpha(2) ; % Pitch is second
-%     % % alpha  = alpha  - dEul(2) ; % Pitch is second
-%     % 
-%     % % Delta Handling
-%     % nu = cfg.ctrl.n_surf*cfg.ctrl.var_per;
-%     % dDelt = dU(end-nu+1:end); % last 4 is ctrl sens
-%     % % deltaE = deltaE -  dDelt + deg2rad(dRig(2));
-%     % deltaE = deltaE -  dDelt ;
-%     % 
-%     % % Thrust Handling
-%     % % Tset   = Tset  + dU(3);
-%     % TnodeDiff = beam.red.phi1_sA.'*[dRig(3); 0; 0; 0; 0; 0];
-%     % % Tset   = Tset  - dU(idx.q1)+ TnodeDiff;
-%     % Tset   = Tset  - dU(idx.q1);
-%     % % Tset   = Tset  - beam.red.phi1_sA.'*[FtotalRes(1);0;0;0;0;0];
-%     % % Tset   = Tset  + beam.red.phi1_sA.'*[FtotalRes(1);0;0;0;0;0];
-%     % TsetDis = beam.red.phi1_sA*Tset;
-%     %%
-%      % Alpha Handling
-%     dQuat = base.phiXi_sA*dUwThrust(idx.qxi,:);
-%     dEul = dUwThrust(idx.chi);
-%     dAlpTest = quat2eul(xi_bar_trim(1,:) - dQuat.');
-%     xi_bar_reg = xi_bar_trim(1,1);
-%     % dAlpha = quat2eul([xi_bar_reg dQuat(2:end).']); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     % dAlpha = quat2eul(dQuat.'); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     % dAlpha = dEul(2); % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     dAlpha = dAlpTest; % Recovering q_xi0(t) by setting to 1. Loss of skew-symmetry so check
-%     alpha  = alpha  - dAlpha(2); % Pitch is second
-%     % alpha  = alpha  + dAlpha(2); % Pitch is second
-% 
-%     % Delta Handling
-%     nu = cfg.ctrl.n_surf*cfg.ctrl.var_per;
-%     gust_start = length(x)+1;
-%     dDelt = dUwThrust(gust_start+1:gust_start+nu); % 
-%     deltaE = deltaE -  dDelt;
-%     % deltaE = deltaE +  dDelt;
-% 
-%     % Thrust Handling
-%     % Tset   = Tset  + dU(3);
-%     % Tset   = Tset  - dU(idx.q1);
-%     % fThrust = fThrust - dUwThrust(end-5:end);
-%     % Tset   = phi1Thrust.'*fThrust; % Temp
-% 
-%     % deltaThrust = dUwThrust(end-5);
-%     deltaThrust = Jtest(1);
-%     fThrust = fThrust - deltaThrust; % Fx in Newtons
-%     % fThrust = fThrust + deltaThrust; % Fx in Newtons
-%     Tset   = phi1Thrust.'*[fThrust;0;0;0;0;0]; % 
-%     % Tset   = Tset; % Temp
-%     TsetDis = beam.red.phi1_sA*Tset;
-%     %%
-%     % Update PhiXi info
-%     [phi_xi_trim,   Gamma_xi_iter, Gamma_g_iter, ~, xi_bar_trim] = AeroFlex.core.solve_baseline_quaternion_xi(beam.fem, aero.aeroMesh , ...
-%     beam.phi1, beam.Nm, beam.Mglobal, rad2deg(alpha-aoa));
-%     % Append Sim
-%     cfg.trim.thrust = Tset;
-%     base.Gamma_xi = Gamma_xi_iter;
-%     base.Gamma_g = Gamma_g_iter;
-%     sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base);
-% 
-%     if cfg.debug.trim
-%         fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Res));
-%         % fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Ftot));
-%     end
-% end
-% 
-% trim.alphaDeg = alpha*180/pi;
-% trim.deltaDeg = deltaE*180/pi;
-% trim.thrust   = Tset;
-% trim.states   = x(:,end);
-% trim.sensor = log_trim;
-% end
-% %%
-% % % Pull aerodynamic derivatives from LUT instead of single α0
-% % load(fullfile(AeroFlex.root(),'data','aeroGrid.mat'),'grid','Acell','Bcell');
-% % [Aero, ~] = AeroFlex.sim.lookupAero(grid,Acell,Bcell,trim.alpha,trim.V); %# << new helper
-% % trim.Amat = Aero.A;     trim.Bmat = Aero.B;
-% % disp('trimAircraft: coupled aero matrices inserted from LUT');
-% %%
-% function [F_tail, M_tail] = tailAeroForceMoment(V, alpha, delta_e)
-%     % tailAeroForceMoment - Compute horizontal tail aerodynamic force and moment.
-%     % 
-%     % Inputs:
-%     %   V       - Airspeed (m/s)
-%     %   alpha   - Angle of attack at tail (radians)
-%     %   delta_e - Elevator deflection (radians, positive = trailing-edge DOWN)
-%     %
-%     % Outputs:
-%     %   F_tail  - 3x1 force vector [Fx; Fy; Fz] from tail in body frame (N)
-%     %   M_tail  - 3x1 moment vector [Mx; My; Mz] from tail about CG in body frame (N·m)
-%     %
-%     % This function models the tail lift and pitching moment for pitch stability.
-%     % Assumes small angles (linear lift), no tail stall, and no wing downwash.
-%     % The tail is independent of any flexible wing control surfaces.
-%     %
-%     % Define constants (tail parameters and air density)
-%     rho = 1.225;       % air density (kg/m^3) at sea level
-%     S_t = 0.035;       % tail planform area (m^2)
-%     l_t = 0.6;         % tail moment arm (m, distance aft of CG)
-%     a_t = 4.4;         % tail lift curve slope (per radian)
-%     % eta = 0.95;        % elevator effectiveness factor (0 < eta <= 1)
-%     eta = 0.85;        % elevator effectiveness factor (0 < eta <= 1)
-%     % Compute dynamic pressure
-%     q = 0.5 * rho * V^2;
-%     % Compute tail lift force (positive = upward)
-%     L_tail = q * S_t * a_t * (alpha + eta * delta_e);
-%     % L_tail =  S_t * a_t * (alpha + eta * delta_e);
-%     % Tail force in body frame (assuming +Z axis is downward)
-%     F_tail = [0; 0; -L_tail];
-%     % Tail moment about CG in body frame (assuming +My is nose-up)
-%     % M_tail = [0; -L_tail * l_t; 0];
-%     M_tail = [-L_tail * l_t;0; 0];
-% end
-% function xdot = f(cfg, x,uB,Fb,Mb)
-%             gVec = [0 0 9.807].';  
-%             % x .. 13×1 StateQuat
-%             % uB .. thrust force in body frame  (3×1)
-%             % Fb .. aerodynamic forces in body frame (3×1)
-%             % Mb .. aerodynamic moments in body frame (3×1)
-%             q  = x(1:4);     Vb = x(5:7);   Om = x(8:10);   Pi = x(11:13);
-%             R  = quat2dcm(q.');             % body→inertial
-%             mass = cfg.rigidEOMset.mass;
-%             InvI= cfg.rigidEOMset.InvI;
-%             Inertia = cfg.rigidEOMset.Inertia;
-%             % translational accelerations
-%             Fi = R.'*mass*gVec;      % gravity in body frame
-%             acc_b = (uB + Fb + Fi)/mass - cross(Om,Vb);
-%             % rotational accelerations
-%             Om_dot = InvI * ( Mb - cross(Om,Inertia*Om) );
-%             % quaternion kinematics
-%             Omega = [   0   -Om.';
-%                          Om   -skew(Om)];
-%             q_dot  = 0.5*Omega*q;
-%             % inertial position rate
-%             Pi_dot = R.'*Vb;
-%             % stacked
-%             xdot = [q_dot; acc_b; Om_dot; Pi_dot];
-% end
-% function S = skew(v)
-% S = [   0   -v(3)  v(2);
-%        v(3)   0   -v(1);
-%       -v(2)  v(1)   0 ];
-% end

@@ -66,9 +66,9 @@ classdef SQPSolver < handle
             opts.MeritPenalty        = 1e3;
             opts.LineSearchBeta      = 0.5;
             opts.LineSearchC1        = 1e-4;
-            opts.MaxLineSearch       = 12;
+            opts.MaxLineSearch       = 15;
             opts.MinAlpha            = 1e-6;
-            opts.MeritAcceptTolerance = 1e-10;
+            opts.MeritAcceptTolerance = 1e-8;
 
             % QP elastic mode. This makes the QP subproblem feasible even
             % when the linearized constraints are inconsistent.
@@ -81,6 +81,7 @@ classdef SQPSolver < handle
             % Hessian approximation.
             %   "bfgs"     : damped BFGS Hessian of Lagrangian
             %   "identity" : fixed identity/scaled identity Hessian
+            % opts.HessianMode         = "bfgs";
             opts.HessianMode         = "bfgs";
             opts.InitialHessianScale = 1.0;
             opts.HessianRegularization = 1e-9;
@@ -308,6 +309,8 @@ classdef SQPSolver < handle
                 % QP multipliers corresponding to original nonlinear constraints.
                 lambdaEq = zeros(numel(ceq),1);
                 lambdaIneq = zeros(numel(c),1);
+                lambdaLower = zeros(n,1);
+                lambdaUpper = zeros(n,1);
 
                 if isfield(qpLambda,'eqlin') && ~isempty(qpLambda.eqlin)
                     lambdaEq = qpLambda.eqlin(1:numel(ceq));
@@ -315,6 +318,14 @@ classdef SQPSolver < handle
 
                 if isfield(qpLambda,'ineqlin') && ~isempty(qpLambda.ineqlin) && numel(c) > 0
                     lambdaIneq = qpLambda.ineqlin(1:numel(c));
+                end
+
+                if isfield(qpLambda,'lower') && ~isempty(qpLambda.lower)
+                    lambdaLower = qpLambda.lower(1:n);
+                end
+                
+                if isfield(qpLambda,'upper') && ~isempty(qpLambda.upper)
+                    lambdaUpper = qpLambda.upper(1:n);
                 end
 
                 % -----------------------------------------------------
@@ -414,8 +425,10 @@ classdef SQPSolver < handle
                 if opts.HessianMode == "bfgs"
                     s = zNew - z;
 
-                    gradLagOld = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq);
-                    gradLagNew = obj.lagrangianGradient(gNew,gradcNew,gradceqNew,lambdaIneq,lambdaEq);
+                    % gradLagOld = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq);
+                    gradLagOld = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
+                    % gradLagNew = obj.lagrangianGradient(gNew,gradcNew,gradceqNew,lambdaIneq,lambdaEq);
+                    gradLagNew = obj.lagrangianGradient(gNew,gradcNew,gradceqNew,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
 
                     y = gradLagNew - gradLagOld;
 
@@ -442,8 +455,11 @@ classdef SQPSolver < handle
 
                 lambda.eqnonlin = lambdaEq;
                 lambda.ineqnonlin = lambdaIneq;
+                lambda.lower = lambdaLower;
+                lambda.upper = lambdaUpper;
 
-                gradLag = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq);
+                gradLag = obj.lagrangianGradient( ...
+                    g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
                 kktInf = norm(gradLag,inf);
                 feasInf = feasInfNew;
 
@@ -850,16 +866,53 @@ classdef SQPSolver < handle
         end
 
         %--------------------------------------------------------------
-        function gradLag = lagrangianGradient(~,g,gradc,gradceq,lambdaIneq,lambdaEq)
-            gradLag = g(:);
+        % function gradLag = lagrangianGradient(~,g,gradc,gradceq,lambdaIneq,lambdaEq)
+        %     gradLag = g(:);
+        % 
+        %     if ~isempty(gradceq) && ~isempty(lambdaEq)
+        %         gradLag = gradLag + gradceq*lambdaEq(:);
+        %     end
+        % 
+        %     if ~isempty(gradc) && ~isempty(lambdaIneq)
+        %         gradLag = gradLag + gradc*lambdaIneq(:);
+        %     end
+        % end
 
+        function gradLag = lagrangianGradient(~,g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper)
+        %LAGRANGIANGRADIENT Full KKT stationarity residual including bounds.
+        %
+        % Constraints:
+        %   c(z) <= 0
+        %   ceq(z) = 0
+        %   lb <= z <= ub
+        %
+        % Bound convention:
+        %   lower: lb - z <= 0  -> derivative -I
+        %   upper: z - ub <= 0  -> derivative +I
+        %
+        % Therefore:
+        %   grad L = grad f + gradc*lambdaIneq + gradceq*lambdaEq
+        %            - lambdaLower + lambdaUpper
+        
+            gradLag = g(:);
+        
+            if nargin < 7 || isempty(lambdaLower)
+                lambdaLower = zeros(size(gradLag));
+            end
+        
+            if nargin < 8 || isempty(lambdaUpper)
+                lambdaUpper = zeros(size(gradLag));
+            end
+        
             if ~isempty(gradceq) && ~isempty(lambdaEq)
                 gradLag = gradLag + gradceq*lambdaEq(:);
             end
-
+        
             if ~isempty(gradc) && ~isempty(lambdaIneq)
                 gradLag = gradLag + gradc*lambdaIneq(:);
             end
+        
+            gradLag = gradLag - lambdaLower(:) + lambdaUpper(:);
         end
 
         %--------------------------------------------------------------

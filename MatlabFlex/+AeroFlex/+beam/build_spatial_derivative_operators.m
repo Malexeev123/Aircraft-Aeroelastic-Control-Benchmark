@@ -1,5 +1,5 @@
 function [S1, S2] = build_spatial_derivative_operators(fem, keepDofs, chain, elemLen, Eall)
-% Build first- and second-derivative operators consistent with your psi2 stencil:
+% Build first- and second-derivative operators
 %   x1' ≈ -(x1_{i+1}-x1_i)/ds + 0.5*E_i^T (x1_{i+1}+x1_i)
 % Then S2 is a centered difference of S1 along sub-elements.
 

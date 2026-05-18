@@ -51,58 +51,107 @@ N_terms = zeros(Nx,1);
 %                                  vec(Gamma1)^T * kron(q1,I)
 % Use pagemtimes (R2023b) :
 G1q1 = squeeze(pagemtimes(par.Gamma1, 'none', q1, 'none'));  % Nm×Nm×1  <- Σ over 3rd dim
+% G1q1 = squeeze(pagemtimes(permute(par.Gamma1,[1 3 2]), 'none', q1, 'none'));  % Nm×Nm×1  <- Σ over 3rd dim
 N1_G1 = -(G1q1(:,:,1) * q1);
 % N(idx.q1) = N(idx.q1) + N1_G1;
 
 G2q2 = squeeze(pagemtimes(par.Gamma2, 'none', q2, 'none'));
+% G2q2 = squeeze(pagemtimes(permute(par.Gamma2,[1 3 2]), 'none', q2, 'none'));
 N1_G2 = -(G2q2(:,:,1) * q2);
 % N(idx.q2) = N(idx.q2) + N1_G2;
 
 % ---------- Γ_g  term -----------------------------------------------------
 Ggqx = squeeze(pagemtimes(par.Gamma_g, 'none', q_xi, 'none'));
+
+% Ggqx = squeeze(pagemtimes(permute(par.Gamma_g, [1 3 2]), 'none', q_xi, 'none'));
 N1_Gg =  (Ggqx(:,:,1) * q_xi);
 % N(idx.q2) = N(idx.q2) + N1_Gg;
 
+
+% Gxiq1 = squeeze(pagemtimes(permute(par.Gamma_xi, [1 3 2]), 'none', q_xi, 'none'));
+% N_qxi =  (Gxiq1(:,:,1) * q1);
+
 % ---------- Γ_xi  term  (Nm+1×1) -----------------------------------------
-Gxiq1 = squeeze(pagemtimes(par.Gamma_xi, 'none', q1, 'none'));
-N_qxi =  (Gxiq1(:,:,1) * q_xi);
+% Gxiq1 = squeeze(pagemtimes(par.Gamma_xi, 'none', q1, 'none'));
+% N_qxi =  (Gxiq1(:,:,1) * q_xi);
+%
+% disp(size(par.Gamma_xi))
+Gxiq1 = squeeze(pagemtimes(par.Gamma_xi, 'none', q_xi, 'none'));
+% disp(size(Gxiq1))
+
+N_qxi =  (Gxiq1(:,:,1) * q1);
 
 % ---------- Γ2^T q1  (Eq 9b) ----------------------------------------------
-GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'));
-N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
+% GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'))
+% N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
+GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q2, 'none'));
+N_GT =  GT(:,:,1)*q1;     % note: transpose on first arg
 
 % ---------- aerodynamic linear forces  -----------------------------------
-% N_force = par.gustSet.a*par.gustSet.t_inf  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = par.scaleA  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .5*par.scaleAero  * par.forces_0; % Current Correct
-% N_force = .5*par.scaleA  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .435*par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
-% N_force = .4375*par.scaleAero  * par.forces_0;  % Nm × 1  (time‑invariant in open loop)
+
 % N_force =  par.forces_0;  % Nm × 1  (time‑invariant in open loop)
 
+% N_force = 1 *par.forces_0; % Current Correct
+N_force = par.Fscale *par.forces_0; % Current Correct
 
 % ---------- assemble -----------------------------------------------------
 N_terms(idx.q1 ) = N1_G1 + N1_G2 + N1_Gg + N_force+par.N_Thrust;  % Eq 9a
+% N_terms(idx.q1 ) = N1_G1 + N1_G2  + N_force+par.N_Thrust;  % Eq 9a
+% N_terms(idx.q1 ) = N1_G1 + N1_G2 + N1_Gg +par.N_Thrust;  % Eq 9a
 N_terms(idx.q2 ) =  N_GT; % Eq 9b
 N_terms(idx.qxi) = N_qxi;
+% N_terms(idx.qxi) = zeros(size(N_qxi));
 
 % ---------- gust contribution (if provided) --------------------------------
 if isfield(par,'gust') && ~isempty(par.gust)
     g   = par.gust;
+    % g   = 0.5*par.gust;
+    % g   = 0.525*par.gust;
+    % g   = 0.5125*par.gust;
     NgB = par.Bw * g;                 % circulatory part
     % NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
-    NgD = par.gustSet.a*par.gustSet.t_inf * par.Dw * g; % non‑circulatory part
+    % NgD = par.gustSet.a*par.gustSet.t_inf * par.Dw * g; % non‑circulatory part
+    % NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
+    NgD = par.Fscale * par.Dw * g; % non‑circulatory part
+    % NgD = par.Dw * g; % non‑circulatory part
+    
+    % NgD =  par.Dw * g; % non‑circulatory part
     N_terms(idx.qGam) = N_terms(idx.qGam) + NgB;  % Γ̇ input
     N_terms(idx.q1 ) = N_terms(idx.q1 ) + NgD;    % modal forces
 end
 
 % ---------- control‑surface contribution (if provided) ---------------------
 if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
+    %% Temp 
+    % t_inf = .0013;
+    % % t_inf = 1;
+    % q_inf = 980;
+    % aeroScale = 2.45;
+
+    % par.scaleAero = par.Fscale;
+    % par.scaleAero1 = par.Fscale;
+    % par.t_inf = par.gustSet.t_inf;
+
+    
+
     u   = par.u_ctrl;    % [δ₁ δ₂ δ̇₁ δ̇₂]ᵀ
+    % NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
+    % NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero*par.Dddel*u(3:4) );
+    % NcB = (1/t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
+    % NcD = ( aeroScale*par.Ddel*u(1:2) + aeroScale*t_inf*par.Dddel*u(3:4) );
+
     NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
-    NcD = ( par.scaleA*par.Ddel*u(1:2) + par.scaleAero*par.Dddel*u(3:4) );
+    NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero*par.Dddel*u(3:4) );
+    
+
     N_terms(idx.qGam) = N_terms(idx.qGam) + NcB;
+    % test rate projection for trim
+    % if isfield(par, 'RateProject')
+    %     if par.RateProject.projSet
+    %         NcD = par.RateProject.Pz*NcD;
+    %     end
+    % 
+    % end
     N_terms(idx.q1 ) = N_terms(idx.q1 ) + NcD;
 end
                                           

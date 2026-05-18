@@ -1,0 +1,1019 @@
+classdef SQPSolver < handle
+%======================================================================
+% SQPSOLVER
+%======================================================================
+% Lightweight Sequential Quadratic Programming solver for NMPC/NMHE
+% multiple-shooting NLPs of the form:
+%
+%   min_z     f(z)
+%   s.t.      c(z)   <= 0
+%             ceq(z) == 0
+%             lb <= z <= ub
+%
+% Required function signatures:
+%
+%   [f,g] = costFun(z)
+%
+%   [c,ceq,gradc,gradceq] = nonlFun(z)
+%
+% where gradients follow MATLAB fmincon convention:
+%
+%   gradc    : nVar x nIneq
+%   gradceq  : nVar x nEq
+%
+% Each SQP iteration solves:
+%
+%   min_d  g' d + 1/2 d' H d
+%   s.t.   ceq + J_eq d = 0
+%          c   + J_in d <= 0
+%          lb-z <= d <= ub-z
+%
+% Optional elastic slacks are included to avoid QP infeasibility during
+% early iterations.
+%
+% Exit flags:
+%    1 : first-order and feasibility tolerances satisfied
+%    2 : step tolerance satisfied and feasible
+%    0 : maximum iterations reached
+%   -1 : QP subproblem failed
+%   -2 : line search failed
+%   -3 : invalid function/gradient evaluation
+%
+% This is not intended to be a universal replacement for fmincon. It is
+% intended for repeatedly solved warm-started NMPC/NMHE multiple-shooting
+% problems with user-supplied gradients.
+%======================================================================
+
+    properties
+        options struct
+        H
+        lastOutput struct
+        lastLambda struct
+        lastGradCheck struct
+    end
+
+    methods(Static)
+        function opts = defaultOptions()
+            opts = struct();
+
+            % SQP major iterations.
+            opts.MaxIterations       = 25;
+            opts.OptimalityTolerance = 1e-4;
+            opts.ConstraintTolerance = 1e-6;
+            opts.StepTolerance       = 1e-7;
+
+            % Merit line-search.
+            opts.MeritPenalty        = 1e3;
+            opts.LineSearchBeta      = 0.5;
+            opts.LineSearchC1        = 1e-4;
+            opts.MaxLineSearch       = 12;
+            opts.MinAlpha            = 1e-6;
+            opts.MeritAcceptTolerance = 1e-10;
+
+            % QP elastic mode. This makes the QP subproblem feasible even
+            % when the linearized constraints are inconsistent.
+            opts.ElasticMode         = true;
+            opts.ElasticPenaltyEq    = 1e5;
+            opts.ElasticPenaltyIneq  = 1e5;
+            opts.ElasticSlackQuad    = 1e-8;
+            opts.ElasticSlackTol     = 1e-6;
+
+            % Hessian approximation.
+            %   "bfgs"     : damped BFGS Hessian of Lagrangian
+            %   "identity" : fixed identity/scaled identity Hessian
+            opts.HessianMode         = "bfgs";
+            opts.InitialHessianScale = 1.0;
+            opts.HessianRegularization = 1e-9;
+            opts.ResetHessianOnFailure = true;
+
+            % Gradient check.
+            opts.CheckGradientsOnce  = true;
+            opts.GradientCheckType   = "directional";
+            opts.GradientCheckDirections = 12;
+            opts.GradientCheckStep   = 1e-6;
+            opts.GradientCheckVerbose = true;
+
+            % Display.
+            opts.Display = "none";     % "none" | "iter" | "final"
+
+            % quadprog options.
+            opts.QPOptions = optimoptions('quadprog', ...
+                'Algorithm','interior-point-convex', ...
+                'Display','off', ...
+                'OptimalityTolerance',1e-8, ...
+                'ConstraintTolerance',1e-8, ...
+                'StepTolerance',1e-10, ...
+                'MaxIterations',200);
+        end
+    end
+
+    methods
+        %--------------------------------------------------------------
+        function obj = SQPSolver(opts)
+            if nargin < 1 || isempty(opts)
+                opts = AeroFlex.optim.SQPSolver.defaultOptions();
+            else
+                opts = obj.mergeOptions(AeroFlex.optim.SQPSolver.defaultOptions(),opts);
+            end
+
+            obj.options = opts;
+            obj.H = [];
+            obj.lastOutput = struct();
+            obj.lastLambda = struct();
+            obj.lastGradCheck = struct();
+        end
+
+        %--------------------------------------------------------------
+        function resetHessian(obj,nVar)
+            obj.H = obj.options.InitialHessianScale * speye(nVar);
+        end
+
+        %--------------------------------------------------------------
+        function [z,fval,exitflag,output,lambda] = solve(obj,costFun,z0,lb,ub,nonlFun)
+        %SOLVE Run SQP.
+        %
+        % Inputs:
+        %   costFun : function handle [f,g] = costFun(z)
+        %   z0      : initial decision vector
+        %   lb, ub  : simple bounds
+        %   nonlFun : function handle [c,ceq,gradc,gradceq] = nonlFun(z)
+        %
+        % Outputs match fmincon-style enough for nMPC diagnostics.
+
+            opts = obj.options;
+
+            z = z0(:);
+            n = numel(z);
+
+            lb = lb(:);
+            ub = ub(:);
+
+            if isempty(lb), lb = -inf(n,1); end
+            if isempty(ub), ub =  inf(n,1); end
+
+            assert(numel(lb)==n,'SQPSolver: lb length mismatch.');
+            assert(numel(ub)==n,'SQPSolver: ub length mismatch.');
+
+            % Project initial guess into simple bounds.
+            z = min(max(z,lb),ub);
+
+            if isempty(obj.H) || size(obj.H,1) ~= n || size(obj.H,2) ~= n
+                obj.resetHessian(n);
+            end
+
+            funcCount = 0;
+            constrCount = 0;
+
+            exitflag = 0;
+            message = "Maximum SQP iterations reached.";
+
+            lambda = struct('eqnonlin',[],'ineqnonlin',[],'lower',[],'upper',[]);
+            qpExitflag = nan;
+            qpOutput = struct();
+
+            alpha = 1;
+            stepInf = inf;
+            slackEqInf = 0;
+            slackIneqInf = 0;
+
+            try
+                [f,g,c,ceq,gradc,gradceq] = obj.evalAll(costFun,nonlFun,z);
+                funcCount = funcCount + 1;
+                constrCount = constrCount + 1;
+            catch ME
+                fval = nan;
+                exitflag = -3;
+                output = obj.makeOutput(0,funcCount,constrCount,nan,nan,nan,nan, ...
+                    "Initial function evaluation failed: " + string(ME.message), ...
+                    nan,struct(),nan,nan);
+                obj.lastOutput = output;
+                return
+            end
+
+            feasInf = obj.constraintViolation(c,ceq,z,lb,ub);
+
+            % Use a simple first-order check initially.
+            % For equality-constrained problems, this is conservative because it ignores
+            % the possibility that Lagrange multipliers balance the objective gradient.
+            kktInf = norm(g,inf);
+            
+            % --------------------------------------------------------------
+            % Initial-point exit check.
+            % This is essential for warm-started real-time NMPC.
+            % If the repaired warm start is already feasible and nearly stationary,
+            % do not waste time solving a QP.
+            % --------------------------------------------------------------
+            if feasInf <= opts.ConstraintTolerance && ...
+               kktInf <= opts.OptimalityTolerance
+            
+                fval = f;
+                exitflag = 1;
+                message = "SQP converged at initial point: feasibility and optimality satisfied.";
+            
+                output = obj.makeOutput(0,funcCount,constrCount,fval,feasInf,kktInf, ...
+                    0,message,nan,struct(),1,0,0);
+            
+                lambda = struct('eqnonlin',zeros(numel(ceq),1), ...
+                                'ineqnonlin',zeros(numel(c),1), ...
+                                'lower',[], ...
+                                'upper',[]);
+            
+                obj.lastOutput = output;
+                obj.lastLambda = lambda;
+            
+                if opts.Display == "final" || opts.Display == "iter"
+                    fprintf('[SQP] exitflag=%d | iter=%d | f=%.6e | feas=%.3e | opt=%.3e | step=%.3e | %s\n', ...
+                        exitflag,0,fval,feasInf,kktInf,0,message);
+                end
+            
+                return
+            end
+
+            if opts.Display == "iter"
+                obj.printHeader();
+                obj.printIter(0,f,feasInf,kktInf,0,1,0,0,nan);
+            end
+
+            zPrev = z;
+            gPrev = g;
+            gradcPrev = gradc;
+            gradceqPrev = gradceq;
+            lambdaEqPrev = zeros(numel(ceq),1);
+            lambdaIneqPrev = zeros(numel(c),1);
+
+            for iter = 1:opts.MaxIterations
+
+                % -----------------------------------------------------
+                % 1. Build and solve QP subproblem
+                % -----------------------------------------------------
+                Hq = obj.makePositiveDefinite(obj.H);
+
+                [Haug,faug,Aineq,bineq,Aeq,beq,lbq,ubq,slackInfo] = ...
+                    obj.buildQP(Hq,g,c,ceq,gradc,gradceq,z,lb,ub);
+
+                try
+                    [dAug,~,qpExitflag,qpOutput,qpLambda] = quadprog( ...
+                        Haug,faug,Aineq,bineq,Aeq,beq,lbq,ubq,[],opts.QPOptions);
+                catch ME
+                    exitflag = -1;
+                    message = "quadprog call failed: " + string(ME.message);
+                    break
+                end
+
+                if isempty(dAug) || qpExitflag <= 0
+                    exitflag = -1;
+                    message = "QP subproblem failed. quadprog exitflag = " + string(qpExitflag);
+
+                    if opts.ResetHessianOnFailure
+                        obj.resetHessian(n);
+                    end
+
+                    break
+                end
+
+                d = dAug(1:n);
+
+                [slackEqInf,slackIneqInf] = obj.extractSlackNorms(dAug,slackInfo);
+                
+                stepInf = norm(d,inf);
+                % --------------------------------------------------------------
+                % Tiny-step exit before merit line search.
+                % If the current NLP point is feasible and the QP says to move by an
+                % insignificant amount, accept the current point as a usable RT-NMPC
+                % solution instead of failing the line search.
+                % --------------------------------------------------------------
+                if stepInf <= opts.StepTolerance && feasInf <= opts.ConstraintTolerance
+                
+                    exitflag = 2;
+                    message = "SQP stopped: QP step below StepTolerance and current point is feasible.";
+                
+                    fval = f;
+                
+                    output = obj.makeOutput(iter,funcCount,constrCount,fval,feasInf,kktInf, ...
+                        stepInf,message,qpExitflag,qpOutput,1,slackEqInf,slackIneqInf);
+                
+                    lambda.eqnonlin = lambdaEq;
+                    lambda.ineqnonlin = lambdaIneq;
+                
+                    obj.lastOutput = output;
+                    obj.lastLambda = lambda;
+                
+                    if opts.Display == "final" || opts.Display == "iter"
+                        fprintf('[SQP] exitflag=%d | iter=%d | f=%.6e | feas=%.3e | opt=%.3e | step=%.3e | %s\n', ...
+                            exitflag,iter,fval,feasInf,kktInf,stepInf,message);
+                    end
+                
+                    return
+                end
+                % QP multipliers corresponding to original nonlinear constraints.
+                lambdaEq = zeros(numel(ceq),1);
+                lambdaIneq = zeros(numel(c),1);
+                lambdaLower = zeros(n,1);
+                lambdaUpper = zeros(n,1);
+
+                if isfield(qpLambda,'eqlin') && ~isempty(qpLambda.eqlin)
+                    lambdaEq = qpLambda.eqlin(1:numel(ceq));
+                end
+
+                if isfield(qpLambda,'ineqlin') && ~isempty(qpLambda.ineqlin) && numel(c) > 0
+                    lambdaIneq = qpLambda.ineqlin(1:numel(c));
+                end
+
+                if isfield(qpLambda,'lower') && ~isempty(qpLambda.lower)
+                    lambdaLower = qpLambda.lower(1:n);
+                end
+                
+                if isfield(qpLambda,'upper') && ~isempty(qpLambda.upper)
+                    lambdaUpper = qpLambda.upper(1:n);
+                end
+
+                % -----------------------------------------------------
+                % 2. Merit line search
+                % -----------------------------------------------------
+                phi0 = obj.merit(costFun,nonlFun,z,lb,ub,opts.MeritPenalty);
+
+                directionalObj = g.'*d;
+                predictedDecrease = max(1e-12,-directionalObj);
+
+                accepted = false;
+                alpha = 1.0;
+
+                for ls = 1:opts.MaxLineSearch
+                    zTrial = z + alpha*d;
+                    zTrial = min(max(zTrial,lb),ub);
+
+                    phiTrial = obj.merit(costFun,nonlFun,zTrial,lb,ub,opts.MeritPenalty);
+
+                    meritTol = opts.MeritAcceptTolerance * max(1,abs(phi0));
+                    
+                    if phiTrial <= phi0 - opts.LineSearchC1*alpha*predictedDecrease + meritTol || ...
+                       phiTrial <= phi0 + meritTol
+                        accepted = true;
+                        break
+                    end
+
+                    alpha = opts.LineSearchBeta * alpha;
+
+                    if alpha < opts.MinAlpha
+                        break
+                    end
+                end
+
+                if ~accepted
+                
+                    % If the line search failed, but the current point is already feasible,
+                    % this is not necessarily a catastrophic MPC failure. It usually means
+                    % the QP direction did not provide a useful merit decrease from an
+                    % already feasible warm-started trajectory.
+                    if feasInf <= opts.ConstraintTolerance
+                
+                        exitflag = 2;
+                        message = "SQP stopped: line search failed, but current point is feasible. Returning current point.";
+                
+                        fval = f;
+                
+                        output = obj.makeOutput(iter,funcCount,constrCount,fval,feasInf,kktInf, ...
+                            stepInf,message,qpExitflag,qpOutput,alpha,slackEqInf,slackIneqInf);
+                
+                        lambda.eqnonlin = lambdaEq;
+                        lambda.ineqnonlin = lambdaIneq;
+                
+                        obj.lastOutput = output;
+                        obj.lastLambda = lambda;
+                
+                        if opts.Display == "final" || opts.Display == "iter"
+                            fprintf('[SQP] exitflag=%d | iter=%d | f=%.6e | feas=%.3e | opt=%.3e | step=%.3e | %s\n', ...
+                                exitflag,iter,fval,feasInf,kktInf,stepInf,message);
+                        end
+                
+                        return
+                    end
+                
+                    % If infeasible, then this really is a line-search failure.
+                    exitflag = -2;
+                    message = "Merit line search failed and current point is infeasible.";
+                
+                    if opts.ResetHessianOnFailure
+                        obj.resetHessian(n);
+                    end
+                
+                    break
+                end
+                % -----------------------------------------------------
+                % 3. Accept step and evaluate new NLP data
+                % -----------------------------------------------------
+                zNew = z + alpha*d;
+                zNew = min(max(zNew,lb),ub);
+
+                try
+                    [fNew,gNew,cNew,ceqNew,gradcNew,gradceqNew] = ...
+                        obj.evalAll(costFun,nonlFun,zNew);
+                    funcCount = funcCount + 1;
+                    constrCount = constrCount + 1;
+                catch ME
+                    exitflag = -3;
+                    message = "Function evaluation after step failed: " + string(ME.message);
+                    break
+                end
+
+                feasInfNew = obj.constraintViolation(cNew,ceqNew,zNew,lb,ub);
+
+                % -----------------------------------------------------
+                % 4. Damped BFGS Hessian update
+                % -----------------------------------------------------
+                if opts.HessianMode == "bfgs"
+                    s = zNew - z;
+
+                    % gradLagOld = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq);
+                    gradLagOld = obj.lagrangianGradient(g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
+                    % gradLagNew = obj.lagrangianGradient(gNew,gradcNew,gradceqNew,lambdaIneq,lambdaEq);
+                    gradLagNew = obj.lagrangianGradient(gNew,gradcNew,gradceqNew,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
+
+                    y = gradLagNew - gradLagOld;
+
+                    obj.updateBFGS(s,y);
+                end
+
+                % -----------------------------------------------------
+                % 5. Update iterate
+                % -----------------------------------------------------
+                zPrev = z;
+                gPrev = g;
+                gradcPrev = gradc;
+                gradceqPrev = gradceq;
+                lambdaEqPrev = lambdaEq;
+                lambdaIneqPrev = lambdaIneq;
+
+                z = zNew;
+                f = fNew;
+                g = gNew;
+                c = cNew;
+                ceq = ceqNew;
+                gradc = gradcNew;
+                gradceq = gradceqNew;
+
+                lambda.eqnonlin = lambdaEq;
+                lambda.ineqnonlin = lambdaIneq;
+                lambda.lower = lambdaLower;
+                lambda.upper = lambdaUpper;
+
+                gradLag = obj.lagrangianGradient( ...
+                    g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper);
+                kktInf = norm(gradLag,inf);
+                feasInf = feasInfNew;
+
+                if opts.Display == "iter"
+                    obj.printIter(iter,f,feasInf,kktInf,stepInf,alpha, ...
+                        slackEqInf,slackIneqInf,qpExitflag);
+                end
+
+                % -----------------------------------------------------
+                % 6. Exit checks
+                % -----------------------------------------------------
+                if feasInf <= opts.ConstraintTolerance && ...
+                   kktInf <= opts.OptimalityTolerance
+
+                    exitflag = 1;
+                    message = "SQP converged: first-order optimality and feasibility satisfied.";
+                    break
+                end
+
+                if feasInf <= opts.ConstraintTolerance && ...
+                   stepInf <= opts.StepTolerance
+
+                    exitflag = 2;
+                    message = "SQP converged: step tolerance satisfied and feasible.";
+                    break
+                end
+
+                if stepInf <= opts.StepTolerance && feasInf > opts.ConstraintTolerance
+                    exitflag = -2;
+                    message = "SQP stopped: step tolerance reached but constraints not satisfied.";
+                    break
+                end
+            end
+
+            fval = f;
+
+            if opts.Display == "final" || opts.Display == "iter"
+                fprintf('[SQP] exitflag=%d | iter=%d | f=%.6e | feas=%.3e | opt=%.3e | step=%.3e | %s\n', ...
+                    exitflag,iter,fval,feasInf,kktInf,stepInf,message);
+            end
+
+            output = obj.makeOutput(iter,funcCount,constrCount,fval,feasInf,kktInf, ...
+                stepInf,message,qpExitflag,qpOutput,alpha,slackEqInf,slackIneqInf);
+
+            obj.lastOutput = output;
+            obj.lastLambda = lambda;
+        end
+
+        %--------------------------------------------------------------
+        function report = checkGradients(obj,costFun,nonlFun,z,lb,ub)
+        %CHECKGRADIENTS Directional finite-difference check.
+        %
+        % This is intentionally directional instead of full coordinate
+        % finite-difference because NMPC decision vectors can be very large.
+
+            opts = obj.options;
+            z = z(:);
+            n = numel(z);
+
+            lb = lb(:);
+            ub = ub(:);
+
+            if isempty(lb), lb = -inf(n,1); end
+            if isempty(ub), ub =  inf(n,1); end
+
+            z = min(max(z,lb),ub);
+
+            [f,g,c,ceq,gradc,gradceq] = obj.evalAll(costFun,nonlFun,z);
+
+            nDir = opts.GradientCheckDirections;
+            h0 = opts.GradientCheckStep;
+
+            objErr = nan(nDir,1);
+            cErr   = nan(nDir,1);
+            ceqErr = nan(nDir,1);
+
+            rng(1);
+
+            for j = 1:nDir
+                d = randn(n,1);
+                d = d / max(norm(d),eps);
+
+                h = obj.boundSafeStep(z,d,h0,lb,ub);
+
+                if h <= eps
+                    continue
+                end
+
+                zp = z + h*d;
+                zm = z - h*d;
+
+                fp = costFun(zp);
+                fm = costFun(zm);
+
+                objFD = (fp - fm)/(2*h);
+                objAN = g.'*d;
+
+                denObj = max([1, abs(objFD), abs(objAN)]);
+                objErr(j) = abs(objFD - objAN) / denObj;
+                
+                [cp,ceqp] = nonlFun(zp);
+                [cm,ceqm] = nonlFun(zm);
+
+                if ~isempty(c)
+                    cFD = (cp(:) - cm(:))/(2*h);
+                    cAN = gradc.'*d;
+
+                    denC = max([1, norm(cFD,inf), norm(cAN,inf)]);
+                    cErr(j) = norm(cFD - cAN,inf) / denC;
+                end
+
+                if ~isempty(ceq)
+                    ceqFD = (ceqp(:) - ceqm(:))/(2*h);
+                    ceqAN = gradceq.'*d;
+
+                    denCeq = max([1, norm(ceqFD,inf), norm(ceqAN,inf)]);
+                    ceqErr(j) = norm(ceqFD - ceqAN,inf) / denCeq;
+                end
+            end
+
+            report = struct();
+            report.objectiveRelErrMax = max(objErr,[],'omitnan');
+            report.ineqRelErrMax      = max(cErr,[],'omitnan');
+            report.eqRelErrMax        = max(ceqErr,[],'omitnan');
+            report.objectiveRelErr    = objErr;
+            report.ineqRelErr         = cErr;
+            report.eqRelErr           = ceqErr;
+
+            obj.lastGradCheck = report;
+
+            if opts.GradientCheckVerbose
+                fprintf('\n');
+                fprintf('======================================================================\n');
+                fprintf(' CUSTOM SQP DIRECTIONAL GRADIENT CHECK\n');
+                fprintf('======================================================================\n');
+                fprintf('  directions checked       : %d\n', nDir);
+                fprintf('  max objective rel error  : %.3e\n', report.objectiveRelErrMax);
+                fprintf('  max inequality rel error : %.3e\n', report.ineqRelErrMax);
+                fprintf('  max equality rel error   : %.3e\n', report.eqRelErrMax);
+                fprintf('======================================================================\n\n');
+            end
+        end
+    end
+
+    methods(Access=private)
+        %--------------------------------------------------------------
+        function opts = mergeOptions(~,defaults,user)
+            opts = defaults;
+
+            if isempty(user)
+                return
+            end
+
+            f = fieldnames(user);
+
+            for i = 1:numel(f)
+                opts.(f{i}) = user.(f{i});
+            end
+
+            if ~isfield(opts,'QPOptions') || isempty(opts.QPOptions)
+                opts.QPOptions = defaults.QPOptions;
+            end
+        end
+
+        %--------------------------------------------------------------
+        function [f,g,c,ceq,gradc,gradceq] = evalAll(~,costFun,nonlFun,z)
+            [f,g] = costFun(z);
+
+            g = g(:);
+
+            [c,ceq,gradc,gradceq] = nonlFun(z);
+
+            c = c(:);
+            ceq = ceq(:);
+
+            n = numel(z);
+
+            if isempty(gradc)
+                gradc = zeros(n,0);
+            end
+
+            if isempty(gradceq)
+                gradceq = zeros(n,0);
+            end
+
+            if size(gradc,1) ~= n && size(gradc,2) == n
+                gradc = gradc.';
+            end
+
+            if size(gradceq,1) ~= n && size(gradceq,2) == n
+                gradceq = gradceq.';
+            end
+
+            if size(gradc,1) ~= n
+                error('SQPSolver:GradientDimension', ...
+                    'gradc must be nVar x nIneq.');
+            end
+
+            if size(gradceq,1) ~= n
+                error('SQPSolver:GradientDimension', ...
+                    'gradceq must be nVar x nEq.');
+            end
+
+            if size(gradc,2) ~= numel(c)
+                error('SQPSolver:GradientDimension', ...
+                    'gradc has %d columns but c has %d entries.', ...
+                    size(gradc,2),numel(c));
+            end
+
+            if size(gradceq,2) ~= numel(ceq)
+                error('SQPSolver:GradientDimension', ...
+                    'gradceq has %d columns but ceq has %d entries.', ...
+                    size(gradceq,2),numel(ceq));
+            end
+        end
+
+        %--------------------------------------------------------------
+        function [Haug,faug,Aineq,bineq,Aeq,beq,lbq,ubq,slackInfo] = ...
+                buildQP(obj,H,g,c,ceq,gradc,gradceq,z,lb,ub)
+
+            opts = obj.options;
+
+            n = numel(z);
+            meq = numel(ceq);
+            mineq = numel(c);
+
+            Aeq0 = gradceq.';
+            beq0 = -ceq;
+
+            Aineq0 = gradc.';
+            bineq0 = -c;
+
+            dlb = lb - z;
+            dub = ub - z;
+
+            if ~opts.ElasticMode
+                Haug = H;
+                faug = g;
+
+                Aeq = Aeq0;
+                beq = beq0;
+
+                Aineq = Aineq0;
+                bineq = bineq0;
+
+                lbq = dlb;
+                ubq = dub;
+
+                slackInfo = struct('n',n,'meq',meq,'mineq',mineq, ...
+                                   'elastic',false,'idxSp',[], ...
+                                   'idxSm',[],'idxSi',[]);
+                return
+            end
+
+            nSlack = 2*meq + mineq;
+            nAug = n + nSlack;
+
+            idxSp = n + (1:meq);
+            idxSm = n + meq + (1:meq);
+            idxSi = n + 2*meq + (1:mineq);
+
+            Haug = blkdiag(sparse(H), opts.ElasticSlackQuad*speye(nSlack));
+
+            faug = zeros(nAug,1);
+            faug(1:n) = g;
+
+            if meq > 0
+                faug(idxSp) = opts.ElasticPenaltyEq;
+                faug(idxSm) = opts.ElasticPenaltyEq;
+            end
+
+            if mineq > 0
+                faug(idxSi) = opts.ElasticPenaltyIneq;
+            end
+
+            if meq > 0
+                Aeq = spalloc(meq,nAug,nnz(Aeq0)+2*meq);
+                Aeq(:,1:n) = sparse(Aeq0);
+                Aeq(:,idxSp) = speye(meq);
+                Aeq(:,idxSm) = -speye(meq);
+                beq = beq0;
+            else
+                Aeq = [];
+                beq = [];
+            end
+
+            if mineq > 0
+                Aineq = spalloc(mineq,nAug,nnz(Aineq0)+mineq);
+                Aineq(:,1:n) = sparse(Aineq0);
+                Aineq(:,idxSi) = -speye(mineq);
+                bineq = bineq0;
+            else
+                Aineq = [];
+                bineq = [];
+            end
+
+            lbq = [-inf(nAug,1)];
+            ubq = [ inf(nAug,1)];
+
+            lbq(1:n) = dlb;
+            ubq(1:n) = dub;
+
+            if nSlack > 0
+                lbq(n+1:end) = 0;
+            end
+
+            slackInfo = struct('n',n,'meq',meq,'mineq',mineq, ...
+                               'elastic',true,'idxSp',idxSp, ...
+                               'idxSm',idxSm,'idxSi',idxSi);
+        end
+
+        %--------------------------------------------------------------
+        function [slackEqInf,slackIneqInf] = extractSlackNorms(~,dAug,slackInfo)
+            slackEqInf = 0;
+            slackIneqInf = 0;
+
+            if ~slackInfo.elastic
+                return
+            end
+
+            if slackInfo.meq > 0
+                sp = dAug(slackInfo.idxSp);
+                sm = dAug(slackInfo.idxSm);
+                slackEqInf = max(abs(sp-sm),[],'omitnan');
+            end
+
+            if slackInfo.mineq > 0
+                si = dAug(slackInfo.idxSi);
+                slackIneqInf = max(abs(si),[],'omitnan');
+            end
+        end
+
+        %--------------------------------------------------------------
+        function Hpd = makePositiveDefinite(obj,H)
+            opts = obj.options;
+
+            Hpd = 0.5*(H+H.');
+
+            if isempty(Hpd)
+                return
+            end
+
+            n = size(Hpd,1);
+
+            reg = opts.HessianRegularization;
+
+            for attempt = 1:8
+                [~,p] = chol(Hpd + reg*speye(n));
+
+                if p == 0
+                    Hpd = Hpd + reg*speye(n);
+                    return
+                end
+
+                reg = max(10*reg,1e-8);
+            end
+
+            Hpd = opts.InitialHessianScale*speye(n);
+        end
+
+        %--------------------------------------------------------------
+        function updateBFGS(obj,s,y)
+            opts = obj.options;
+
+            s = s(:);
+            y = y(:);
+
+            if norm(s) <= eps || norm(y) <= eps
+                return
+            end
+
+            H = obj.H;
+            H = 0.5*(H+H.');
+
+            Hs = H*s;
+
+            sHs = s.'*Hs;
+            sy  = s.'*y;
+
+            if sHs <= eps
+                obj.resetHessian(numel(s));
+                return
+            end
+
+            % Powell damping to preserve positive definiteness.
+            if sy < 0.2*sHs
+                theta = (0.8*sHs)/(sHs - sy);
+                y = theta*y + (1-theta)*Hs;
+                sy = s.'*y;
+            end
+
+            if sy <= eps
+                return
+            end
+
+            Hnew = H - (Hs*Hs.')/sHs + (y*y.')/sy;
+            Hnew = 0.5*(Hnew+Hnew.');
+
+            if any(~isfinite(Hnew(:)))
+                obj.resetHessian(numel(s));
+            else
+                obj.H = Hnew;
+            end
+        end
+
+        %--------------------------------------------------------------
+        % function gradLag = lagrangianGradient(~,g,gradc,gradceq,lambdaIneq,lambdaEq)
+        %     gradLag = g(:);
+        % 
+        %     if ~isempty(gradceq) && ~isempty(lambdaEq)
+        %         gradLag = gradLag + gradceq*lambdaEq(:);
+        %     end
+        % 
+        %     if ~isempty(gradc) && ~isempty(lambdaIneq)
+        %         gradLag = gradLag + gradc*lambdaIneq(:);
+        %     end
+        % end
+
+        function gradLag = lagrangianGradient(~,g,gradc,gradceq,lambdaIneq,lambdaEq,lambdaLower,lambdaUpper)
+        %LAGRANGIANGRADIENT Full KKT stationarity residual including bounds.
+        %
+        % Constraints:
+        %   c(z) <= 0
+        %   ceq(z) = 0
+        %   lb <= z <= ub
+        %
+        % Bound convention:
+        %   lower: lb - z <= 0  -> derivative -I
+        %   upper: z - ub <= 0  -> derivative +I
+        %
+        % Therefore:
+        %   grad L = grad f + gradc*lambdaIneq + gradceq*lambdaEq
+        %            - lambdaLower + lambdaUpper
+        
+            gradLag = g(:);
+        
+            if nargin < 7 || isempty(lambdaLower)
+                lambdaLower = zeros(size(gradLag));
+            end
+        
+            if nargin < 8 || isempty(lambdaUpper)
+                lambdaUpper = zeros(size(gradLag));
+            end
+        
+            if ~isempty(gradceq) && ~isempty(lambdaEq)
+                gradLag = gradLag + gradceq*lambdaEq(:);
+            end
+        
+            if ~isempty(gradc) && ~isempty(lambdaIneq)
+                gradLag = gradLag + gradc*lambdaIneq(:);
+            end
+        
+            gradLag = gradLag - lambdaLower(:) + lambdaUpper(:);
+        end
+
+        %--------------------------------------------------------------
+        function feas = constraintViolation(~,c,ceq,z,lb,ub)
+            vals = 0;
+
+            if ~isempty(ceq)
+                vals = max(vals,norm(ceq,inf));
+            end
+
+            if ~isempty(c)
+                vals = max(vals,max([0;c(:)]));
+            end
+
+            vals = max(vals,max([0;lb(:)-z(:)]));
+            vals = max(vals,max([0;z(:)-ub(:)]));
+
+            feas = vals;
+        end
+
+        %--------------------------------------------------------------
+        function phi = merit(obj,costFun,nonlFun,z,lb,ub,rho)
+            f = costFun(z);
+
+            [c,ceq] = nonlFun(z);
+
+            v = 0;
+
+            if ~isempty(ceq)
+                v = v + norm(ceq(:),1);
+            end
+
+            if ~isempty(c)
+                v = v + sum(max(0,c(:)));
+            end
+
+            v = v + sum(max(0,lb(:)-z(:)));
+            v = v + sum(max(0,z(:)-ub(:)));
+
+            phi = f + rho*v;
+        end
+
+        %--------------------------------------------------------------
+        function h = boundSafeStep(~,z,d,h0,lb,ub)
+            h = h0;
+
+            active = abs(d) > 0;
+
+            if any(active)
+                distUpper = inf(size(z));
+                distLower = inf(size(z));
+
+                idx = active & isfinite(ub);
+                distUpper(idx) = (ub(idx)-z(idx))./abs(d(idx));
+
+                idx = active & isfinite(lb);
+                distLower(idx) = (z(idx)-lb(idx))./abs(d(idx));
+
+                hBound = min([distUpper(active);distLower(active)]);
+
+                if isfinite(hBound)
+                    h = min(h,0.49*hBound);
+                end
+            end
+
+            if ~isfinite(h) || h <= 0
+                h = 0;
+            end
+        end
+
+        %--------------------------------------------------------------
+        function output = makeOutput(~,iter,funcCount,constrCount,fval,feas,kkt,step,message, ...
+                                    qpExitflag,qpOutput,alpha,slackEqInf,slackIneqInf)
+            output = struct();
+
+            output.iterations = iter;
+            output.funcCount = funcCount;
+            output.constrCount = constrCount;
+            output.fval = fval;
+            output.constrviolation = feas;
+            output.firstorderopt = kkt;
+            output.stepsize = step;
+            output.message = char(message);
+            output.algorithm = 'custom-sqp-bfgs-quadprog';
+            output.qpExitflag = qpExitflag;
+            output.qpOutput = qpOutput;
+            output.alpha = alpha;
+            output.slackEqInf = slackEqInf;
+            output.slackIneqInf = slackIneqInf;
+        end
+
+        %--------------------------------------------------------------
+        function printHeader(~)
+            fprintf('\n');
+            fprintf('  iter |      fval      |  feas_inf  |   opt_inf  |  step_inf  | alpha | slackEq | slackIneq | qp\n');
+            fprintf('-------------------------------------------------------------------------------------------------\n');
+        end
+
+        %--------------------------------------------------------------
+        function printIter(~,iter,f,feas,kkt,step,alpha,slackEq,slackIneq,qpflag)
+            fprintf('  %4d | %14.6e | %9.2e | %9.2e | %9.2e | %5.2f | %7.1e | %9.1e | %3g\n', ...
+                iter,f,feas,kkt,step,alpha,slackEq,slackIneq,qpflag);
+        end
+    end
+end

@@ -125,7 +125,8 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
         % ---------- trim/reference ------------------------------------
         obj.xTrim = trim.states(:);
-        obj.uTrim = obj.buildControlTrim(cfg);
+        % obj.uTrim = obj.buildControlTrim(cfg);
+        obj.uTrim = trim.deltaDeg;
 
         % ---------- state bounds --------------------------------------
         % Same style as your nMHE. These are broad safety/solver bounds.
@@ -195,14 +196,14 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
         % ---------- solver options ------------------------------------
         obj.solverOpts = optimoptions('fmincon', ...
-            'Algorithm','interior-point', ...      % interior-point | sqp
+            'Algorithm','sqp', ...      % interior-point | sqp
             'SpecifyObjectiveGradient',true, ...
             'SpecifyConstraintGradient',true, ...
-            'Display','none', ...
+            'Display','iter', ...
             'OptimalityTolerance',1e-4, ...
             'StepTolerance',1e-7, ...
             'ConstraintTolerance',1e-5, ...
-            'MaxIterations',500);
+            'MaxIterations',150);
 
         % Useful while debugging:
         % obj.solverOpts.FiniteDifferenceStepSize = 1e-8;
@@ -224,7 +225,6 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         switch obj.solverName
         
             case "fmincon"
-                % Keep existing fmincon options.
                 obj.sqpSolver = [];
         
             case "custom_sqp"
@@ -292,7 +292,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         wHorz = obj.buildPredictedGust();
 
         % Repair the shifted warm start so that:
-        %   X_0 = xhat
+          % X_0 = xhat
         % and the guessed state horizon is dynamically consistent under
         % the current shifted control guess and predicted disturbance.
 
@@ -312,7 +312,10 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
         %======================================================================
         nlp = obj.assembleWindow(xhat,wHorz);
         if ~obj.sqpCheckDone && obj.solverName == "custom_sqp"
-            obj.localCheckNMPCEqualityGradient(nlp,obj.z0,nlp.lb,nlp.ub);        end
+            obj.localCheckNMPCEqualityGradient(nlp,obj.z0,nlp.lb,nlp.ub);        
+            obj.localCheckNMPCEqualityGradientBlocks(nlp,obj.z0,nlp.lb,nlp.ub);
+
+        end
         switch obj.solverName
                 
             case "fmincon"
@@ -570,10 +573,6 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
         nVar = (Nc+1)*nx + Nc*nu;
 
-        % Q = 0.5*(obj.Qc + obj.Qc.');
-        % R = 0.5*(obj.Rc + obj.Rc.');
-        % P = 0.5*(obj.Pc + obj.Pc.');
-
         Q = obj.Qc; R = obj.Rc; P = obj.Pc;
         xRef = obj.xTrim;
         uRef = obj.uTrim;
@@ -618,13 +617,28 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
             
 
             nSurf = obj.n_surf;
+            % X = reshape(z(1:(Nc+1)*nx),nx,Nc+1);
+            % U = reshape(z((Nc+1)*nx+1:end),nu,Nc);
+            
+            % Trying to evaluate deflection
+            alphaDefl = 0.5;
+
+            if isprop(obj,'cfg') && isfield(obj.cfg,'ctrl') && ...
+                    isfield(obj.cfg.ctrl,'actuatorDeflectionAlpha')
+                alphaDefl = obj.cfg.ctrl.actuatorDeflectionAlpha;
+            end
 
             % Additional equality constraints: delta_k - delta_{k-1} - Ts*rate_k = 0
-            ceqRate = zeros(nSurf*(Nc+1),1);
-            JRateEq = spalloc(nSurf*(Nc+1),nVar,3*nSurf*Nc);
+            % delta_end,k - delta_start,k - Ts*rate_k = 0 Trying this now
+            % ceqRate = zeros(nSurf*(Nc+1),1); % Old
+            ceqRate = zeros(nSurf*Nc,1); % New
+
+            % JRateEq = spalloc(nSurf*(Nc+1),nVar,3*nSurf*Nc); % old
+            JRateEq = spalloc(nSurf*(Nc),nVar,3*nSurf*Nc); % new
 
             ceq = zeros(nx*(Nc+1),1);
-            Jceq = zeros(nx*(Nc+1),nVar);
+            Jceq = spalloc(nx*(Nc+1), nVar, nx + Nc*(nx + nx*nx + nx*nu + nx*nSurf)); % I think sparse is better for large
+            % Jceq = zeros(nx*(Nc+1),nVar);
 
             % ---- initial state equality: X_0 - xhat = 0 --------------
             ceq(1:nx) = z(idx.x{1}) - x0Current;
@@ -633,11 +647,24 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
             % ---- continuity constraints ------------------------------
             row0 = nx;
             % row0 = 0;
-            row0rate = nSurf;
+            % row0rate = nSurf; % old
+            row0rate = 0; % Trying this now
 
             for k = 0:Nc-1
+            % for k = 0:Nc-2
                 xk = z(idx.x{k+1});
                 uk = z(idx.u{k+1});
+
+                % idx_xk   = k*nx     + (1:nx);
+                % idx_xkp1 = (k+1)*nx + (1:nx);
+                % idx_uk   = (Nc+1)*nx + k*nu + (1:nu);
+
+                % disp(k+1)
+                % xk = X(:,k+1);
+                % 
+                % % x_n = x;
+                % uk = U(:,k+1);
+
                 wk = wHorz(:,k+1);
 
                 x = xk;
@@ -669,6 +696,13 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
             
                 row0rate = row0rate + nSurf;
 
+                 % Deflection used by the aerodynamic/ROM model over interval k.
+                %
+                % alphaDefl = 0.5 gives midpoint deflection:
+                %
+                %   delta_model = 0.5*(delta_start + delta_end)
+                delta_model_k = (1-alphaDefl)*delta_prev + alphaDefl*delta_k;
+                uk = [delta_model_k; rate_k];
                 % Sensitivity seed:
                 % S = d x_current / d [xk; wk; uk]
                 S = [eye(nx), zeros(nx,nw+nu)];
@@ -680,17 +714,43 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
                 xEnd = x;
 
                 Sx = S(:,1:nx);
+                % Su = S(:,nx+1:nx+nu);
                 Su = S(:,nx+nw+1:end);
+                % Test
+                Su_delta = Su(:,1:nSurf);
+                Su_rate  = Su(:,nSurf+1:2*nSurf);
 
                 rows = row0 + (1:nx);
 
                 % Defect convention:
                 %   X_{k+1} - Phi(X_k,U_k,W_k) = 0
                 ceq(rows) = z(idx.x{k+2}) - xEnd;
+                % ceq(rows) = X(:,k+2) - xEnd;
 
-                Jceq(rows,idx.x{k+2}) =  eye(nx);
-                Jceq(rows,idx.x{k+1}) = -Sx;
-                Jceq(rows,idx.u{k+1}) = -Su;
+                % Jceq(rows,idx.x{k+2}) =  eye(nx);
+                % Jceq(rows,idx.x{k+1}) = -Sx;
+                % Jceq(rows,idx.u{k+1}) = -Su;
+
+                Jceq(rows,idx.x{k+2}) =  speye(nx);
+                Jceq(rows,idx.x{k+1}) = -(Sx);
+                % Jceq(rows,idx.x{k+1}) = -sparse(Sx);
+                % Jceq(rows,idx.u{k+1}) = -sparse(Su);
+                
+                % test
+                Jceq(rows,idx.u{k+1}(1:nSurf)) = ...
+                    Jceq(rows,idx.u{k+1}(1:nSurf)) - alphaDefl*Su_delta;
+
+                Jceq(rows,idx.u{k+1}(nSurf+1:2*nSurf)) = ...
+                    Jceq(rows,idx.u{k+1}(nSurf+1:2*nSurf)) - Su_rate;
+    
+                % Jceq(rows, idx_xkp1) =  eye(nx);     % d/dx_{k+1}
+                % Jceq(rows, idx_xk) = -Sx; % d/dx_k
+                % Jceq(rows, idx_uk) = -Su;
+                
+                if prevIsDecision
+                    Jceq(rows,idx.u{k}(1:nSurf)) = ...
+                        Jceq(rows,idx.u{k}(1:nSurf)) - (1-alphaDefl)*Su_delta;
+                end
 
                 row0 = row0 + nx;
             end
@@ -702,9 +762,9 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
             gradceq = [Jceq; JRateEq].';
 
             % ---- terminal set inequality -----------------------------
-            useTerminalSet = ~isempty(obj.aT) && isfinite(obj.aT) && obj.aT > 0;
+            % useTerminalSet = ~isempty(obj.aT) && isfinite(obj.aT) && obj.aT > 0;
 
-            if useTerminalSet
+            % if useTerminalSet
                 xN = z(idx.x{Nc+1});
                 eN = xN - xRef;
 
@@ -714,10 +774,10 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
 
                 gradc = zeros(nVar,1);
                 gradc(idx.x{Nc+1}) = P*eN;
-            else
-                c = [];
-                gradc = [];
-            end
+            % else
+                % c = [];
+                % gradc = [];
+            % end
         end
 
         % --------------------- BOUNDS --------------------------------
@@ -1085,7 +1145,117 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
             fprintf('  ||ceqFD-ceqAN||inf        : %.3e\n', norm(ceqFD-ceqAN,inf));
             fprintf('======================================================================\n\n');
         end
-
+        function localCheckNMPCEqualityGradientBlocks(obj,nlp,z,lb,ub)
+            %LOCALCHECKNMPCEQUALITYGRADIENTBLOCKS Check dynamic equality Jacobian by
+            % perturbing only X variables and only U variables separately.
+            
+                idx = obj.buildIndexMaps();
+            
+                nx = obj.nx;
+                nu = obj.nu;
+                Nc = obj.Nc;
+            
+                z  = z(:);
+                lb = lb(:);
+                ub = ub(:);
+                n  = numel(z);
+            
+                z = min(max(z,lb),ub);
+            
+                [~,ceq0,~,Gceq] = nlp.nonl(z);
+            
+                if size(Gceq,1) ~= n
+                    Gceq = Gceq.';
+                end
+            
+                rowsDyn = nx+1:numel(ceq0);  % assumes ceq = [X0-xhat; dynamics]
+            
+                h = 1e-6;
+            
+                % --------------------------------------------------------------
+                % Build state-only direction
+                % --------------------------------------------------------------
+                dX = zeros(n,1);
+            
+                rng(101);
+                for k = 1:Nc+1
+                    dX(idx.x{k}) = randn(nx,1);
+                end
+            
+                dX = dX / max(norm(dX),eps);
+            
+                % --------------------------------------------------------------
+                % Build control-only direction
+                % --------------------------------------------------------------
+                dU = zeros(n,1);
+            
+                rng(202);
+                for k = 1:Nc
+                    dU(idx.u{k}) = randn(nu,1);
+                end
+            
+                dU = dU / max(norm(dU),eps);
+            
+                % --------------------------------------------------------------
+                % Evaluate errors
+                % --------------------------------------------------------------
+                errX = obj.localDirectionalEqualityError(nlp,z,dX,h,lb,ub,Gceq,rowsDyn);
+                errU = obj.localDirectionalEqualityError(nlp,z,dU,h,lb,ub,Gceq,rowsDyn);
+            
+                fprintf('\n');
+                fprintf('======================================================================\n');
+                fprintf(' NMPC DYNAMIC-EQUALITY BLOCK GRADIENT CHECK\n');
+                fprintf('======================================================================\n');
+                fprintf('  dynamic defect rel error, X-only direction : %.3e\n', errX);
+                fprintf('  dynamic defect rel error, U-only direction : %.3e\n', errU);
+                fprintf('======================================================================\n\n');
+        end
+        function err = localDirectionalEqualityError(obj,nlp,z,d,h,lb,ub,Gceq,rowsDyn)
+            %LOCALDIRECTIONALEQUALITYERROR Directional FD check for selected equality rows.
+            %
+            % This is used by localCheckNMPCEqualityGradientBlocks to isolate whether
+            % the dynamic-defect Jacobian error comes from X sensitivities or U
+            % sensitivities.
+                       
+                z  = z(:);
+                d  = d(:);
+                lb = lb(:);
+                ub = ub(:);
+            
+                active = abs(d) > 0;
+                hBound = inf;
+            
+                idxU = active & isfinite(ub);
+                if any(idxU)
+                    hBound = min(hBound,min((ub(idxU)-z(idxU))./abs(d(idxU))));
+                end
+            
+                idxL = active & isfinite(lb);
+                if any(idxL)
+                    hBound = min(hBound,min((z(idxL)-lb(idxL))./abs(d(idxL))));
+                end
+            
+                if isfinite(hBound)
+                    h = min(h,0.49*hBound);
+                end
+            
+                if h <= eps
+                    err = nan;
+                    return
+                end
+            
+                [~,ceqp] = nlp.nonl(z + h*d);
+                [~,ceqm] = nlp.nonl(z - h*d);
+            
+                ceqFD = (ceqp(:)-ceqm(:))/(2*h);
+                ceqAN = Gceq.'*d;
+            
+                rowsDyn = rowsDyn(:);
+            
+                den = max([1,norm(ceqFD(rowsDyn),inf),norm(ceqAN(rowsDyn),inf)]);
+            
+                err = norm(ceqFD(rowsDyn)-ceqAN(rowsDyn),inf)/den;
+            end
     %------------------------------------------------------------------
     end % private methods
 end
