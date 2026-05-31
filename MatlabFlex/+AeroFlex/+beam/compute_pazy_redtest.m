@@ -136,7 +136,6 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
             R_i3 = Rglobal0(idx_R,:);
 
             R_i6 = blkdiag(R_i3,R_i3);
-            if Nm ==20
 
                 % phi1_discrete(idx_0,j) = w0(j)*R_i6*phi0(idx_0,j);
                 phi1_discrete(idx_0,j) = w0(j)*phi0(idx_0,j);
@@ -146,16 +145,7 @@ function [ModeVars_continuous, ModeVars_discrete, Beam_Props, phi1_sA, phi2_sA] 
                 % phi1_discrete(idx_0,j) = -phi0(idx_0,j);
                 % phi1_discrete(idx_0,j) = w0(j)*phi0(idx_0,j);
 
-            else
-                if NetworkPath
-                    % phi1_discrete(idx_0,j) = w0(j)*R_i6*phi0(idx_0,j);
-
-                else
-                    % phi1_discrete(idx_0,j) = w0(j)*phi0(idx_0,j);
-                    % phi1_discrete(idx_0,j) = w0(j)*R_i6*phi0(idx_0,j);
-
-                end
-            end
+   
             % if i >= (activePts/2+1)
             %     phi1_discrete(idx_0,j) = -phi1_discrete(idx_0,j);
             % end

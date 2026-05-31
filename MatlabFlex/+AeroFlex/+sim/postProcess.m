@@ -97,9 +97,9 @@ end
 Nt = size(X,2);
 
 if numel(t) ~= Nt
-    warning('postProcess:TimeLength', ...
-            'numel(t)=%d but size(X,2)=%d. Truncating to common length.', ...
-            numel(t), Nt);
+    % warning('postProcess:TimeLength', ...
+    %         'numel(t)=%d but size(X,2)=%d. Truncating to common length.', ...
+    %         numel(t), Nt);
 
     Ncommon = min(numel(t), Nt);
     t = t(1:Ncommon);
@@ -246,7 +246,7 @@ for k = 1:Nt
     eulTipT(k,:) = eulTipSel;
 
     x0A_sim(:,k) = x0A;
-    if mod(k, ctrN) == 0
+    % if mod(k, ctrN) == 0
         kSam = kSam + 1;
         if kSam <= size(Xi_hat_full,2)
             quat_hat_All = reshape( Xi_hat_full(:,kSam) , 4,[] ).';
@@ -262,7 +262,7 @@ for k = 1:Nt
             TipA_hat(kSam,:)  = x0_hatA(selTip).';
             vel_tip_hat(kSam,:) = x1_hatA(selTip).';
         end
-    end
+    % end
 end
 t_ctr = linspace(0, cfg.sim.t_end, size(TipA_hat, 1));
 
@@ -271,6 +271,12 @@ try
     Faero = (aero.forceMap.C_Gamma * qGam).';  % Nt x Nm
 catch
     Faero = zeros(Nt, Nm);
+end
+% Ensure Positive notation
+
+if max(TipA(:,3)) <0
+    TipA = -TipA;
+    TipA_hat = -TipA_hat;
 end
 
 % ------------------------ package legacy outputs -------------------------
@@ -473,18 +479,18 @@ out.tip_z_norm_pct = 100 * (out.tip_z ./ span_half);   % %. of (b/2)
 % ------------------------ plots (unchanged content) + saving -------------
 
 % disp(size(x0A_sim));
-% 1) Tip estimation overlay (non-openLoop only)
-if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
-    fh = figure('Color','w','Position',[100 100 1120 520]);
-    plot(t_ctr,TipA_hat(:,1)*100/cfg.debug.plt_scale); hold on
-    plot(t_ctr,TipA_hat(:,2)*100/cfg.debug.plt_scale);
-    plot(t_ctr,TipA_hat(:,3)*100/cfg.debug.plt_scale);
-    xlabel('t [s]'); ylabel('Tip [% b/2]'); grid on
-    legend({'x','y','z'},'Location','best')
-    title('Wing-tip estimation (A-frame, % span/2)');
-    hold off
-    save_plot(fh, 'tip_estimation');
-end
+% % 1) Tip estimation overlay (non-openLoop only)
+% if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
+%     fh = figure('Color','w','Position',[100 100 1120 520]);
+%     plot(t_ctr,TipA_hat(:,1)*100/cfg.debug.plt_scale); hold on
+%     plot(t_ctr,TipA_hat(:,2)*100/cfg.debug.plt_scale);
+%     plot(t_ctr,TipA_hat(:,3)*100/cfg.debug.plt_scale);
+%     xlabel('t [s]'); ylabel('Tip [% b/2]'); grid on
+%     legend({'x','y','z'},'Location','best')
+%     title('Wing-tip estimation (A-frame, % span/2)');
+%     hold off
+%     save_plot(fh, 'tip_estimation');
+% end
 
 % 2) Modal q0/q1/q2 (debugPlots)
 if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'debugPlots') && cfg.plotOpts.debugPlots
@@ -500,10 +506,11 @@ end
 if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'wingTip') && cfg.plotOpts.wingTip
     fh = figure('Color','w','Position',[100 100 1120 520]);
     % plot(t,  out.disp(:,3)*100/cfg.debug.plt_scale); hold on
-    plot(t,  out.tip_z_norm_pct); hold on
+    plot(t,  out.tip_z_norm_pct, 'LineWidth', 2); hold on
     if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
-        plot(t_ctr, out.TipA_hat(:,3)*100/cfg.debug.plt_scale);
-        legend({'True','Estimate'},'Location','best');
+        stairs(t_ctr, out.TipA_hat(:,3)*100/cfg.debug.plt_scale, 'LineWidth', 2);
+        % plot(t_ctr, out.TipA_hat(:,3)*100/cfg.debug.plt_scale, 'LineWidth', 2);
+        legend({'True','nMHE Estimate'},'Location','best');
     end
     xlabel('t [s]'); ylabel('Tip z [% b/2]'); grid on
     title('Wing-tip heave (A-frame, % span/2)');
@@ -708,9 +715,9 @@ if isfield(out,'control') && isfield(out.control,'U') && ~isempty(out.control.U)
 
         nexttile;
         plot(out.control.t,out.control.rate_cmd_deg_s.');
-        grid on; ylabel('\dot{\delta}_{cmd} [deg/s]');
+        grid on; ylabel('dot{\delta}_{cmd} [deg/s]');
         title('Commanded actuator-rate channels');
-        legend(local_surface_labels(size(out.control.rate_cmd,1),'\dot{\delta}_{cmd}'),'Location','best');
+        legend(local_surface_labels(size(out.control.rate_cmd,1),'dot{\delta}_{cmd}'),'Location','best');
 
         nexttile;
         plot(out.control.t,out.control.rate_fd_deg_s.');
@@ -767,27 +774,30 @@ if isfield(out,'loads') && isfield(out.loads,'M_R')
     save_plot(fh,'root_bending_moment');
 end
 
-if isfield(out,'loads') && isfield(out.loads,'Ftot_B') && isfield(out.loads,'Mtot_B')
-    tLoad = linspace(t(1),t(end),size(out.loads.Ftot_B,2));
-
-    fh = figure('Color','w','Position',[100 100 1120 760]);
-    tiledlayout(2,1,'TileSpacing','tight');
-
-    nexttile;
-    plot(tLoad,out.loads.Ftot_B.');
-    grid on; ylabel('F_B [N]');
-    legend('F_x','F_y','F_z','Location','best');
-    title('Total rigid-body force');
-
-    nexttile;
-    plot(tLoad,out.loads.Mtot_B.');
-    grid on; xlabel('t [s]'); ylabel('M_B [N m]');
-    legend('M_x','M_y','M_z','Location','best');
-    title('Total rigid-body moment');
-
-    save_plot(fh,'total_forces_moments');
+if ~(cfg.sim.body_case == "wingOnly")
+    if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop')) 
+        if isfield(out,'loads') && isfield(out.loads,'Ftot_B') && isfield(out.loads,'Mtot_B')
+            tLoad = linspace(t(1),t(end),size(out.loads.Ftot_B,2));
+        
+            fh = figure('Color','w','Position',[100 100 1120 760]);
+            tiledlayout(2,1,'TileSpacing','tight');
+        
+            nexttile;
+            plot(tLoad,out.loads.Ftot_B.');
+            grid on; ylabel('F_B [N]');
+            legend('F_x','F_y','F_z','Location','best');
+            title('Total rigid-body force');
+        
+            nexttile;
+            plot(tLoad,out.loads.Mtot_B.');
+            grid on; xlabel('t [s]'); ylabel('M_B [N m]');
+            legend('M_x','M_y','M_z','Location','best');
+            title('Total rigid-body moment');
+        
+            save_plot(fh,'total_forces_moments');
+        end
+    end
 end
-
 % -------------------- solver diagnostics -------------------------------
 if isfield(out,'solver') && isfield(out.solver,'tCtrl') && ~isempty(out.solver.tCtrl)
     valid = isfinite(out.solver.tCtrl);

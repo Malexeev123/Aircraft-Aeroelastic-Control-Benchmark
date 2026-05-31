@@ -297,6 +297,7 @@ classdef BeamModel
             
             % 2.G) Damping (placeholder)
             if isfield(cfg.struct,'damping') && cfg.struct.damping
+                % obj.Sigma = red.ModeVars_discrete.Sigma;
                 obj.Sigma = red.ModeVars_discrete.Sigma;
             else
                 obj.Sigma = zeros(obj.Nm,1);

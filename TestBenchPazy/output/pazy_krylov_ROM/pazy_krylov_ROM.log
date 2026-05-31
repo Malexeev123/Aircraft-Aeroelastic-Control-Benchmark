@@ -11,7 +11,7 @@ Aeroelastics Lab, Aeronautics Department.
     Copyright (c), Imperial College London.
     All rights reserved.
     License available at https://github.com/imperialcollegelondon/sharpy
-Running SHARPy from /home/maxal/Research
+Running SHARPy from /home/maxal/Aircraft-Aeroelastic-Control-Benchmark
 SHARPy being run is in /home/maxal/.local/lib/python3.11/site-packages
 SHARPy output folder set
 	./output//pazy_krylov_ROM/
@@ -293,7 +293,7 @@ Variable save_wake has no assigned value in the settings file.
 |=======|========|======|==============|==============|==============|==============|==============|
 |  ts   |   t    | iter | struc ratio  |  iter time   | residual vel |  FoR_vel(x)  |  FoR_vel(z)  |
 |=======|========|======|==============|==============|==============|==============|==============|
-|   1   | 0.0007 |  6   |   0.654118   |   0.235231   |  -6.010677   | 0.000000e+00 | 0.000000e+00 |
+|   1   | 0.0007 |  6   |   0.658012   |   0.256078   |  -6.010677   | 0.000000e+00 | 0.000000e+00 |
 ...Finished
 Generating an instance of Modal
 Variable save_data has no assigned value in the settings file.
@@ -349,7 +349,7 @@ State-space realisation of UVLM equations started...
 Computing wake propagation matrix with CFL1=True
 	state-space model produced in form:
 	x_{n+1} = A x_{n} + Bp u_{n+1}
-			...done in 0.40 sec
+			...done in 0.39 sec
 Aero surface 0
 Gust monitoring station domain:
 [-0.03847655 -0.0133308   0.01181496  0.03696071  0.06210646]
@@ -1003,119 +1003,79 @@ Moment Matching Krylov Model Reduction
 	Constructing observability space
 ROM is stable
 	DT Eigenvalues:
-		mu = 0.901480 + -0.000000j
-		mu = 0.871369 + -0.023741j
-		mu = 0.871369 + 0.023741j
-		mu = 0.840356 + -0.042291j
-		mu = 0.840356 + 0.042291j
-		mu = 0.817772 + 0.000000j
-		mu = 0.809564 + 0.000000j
-		mu = 0.756316 + -0.000000j
-		mu = 0.735720 + 0.000000j
-		mu = 0.685241 + -0.000000j
-		mu = 0.677815 + -0.000000j
-		mu = 0.612683 + 0.000000j
-		mu = 0.604963 + -0.000000j
-		mu = 0.565135 + 0.000000j
-		mu = 0.539919 + -0.000000j
-		mu = 0.514598 + -0.000000j
-		mu = 0.448666 + 0.177097j
-		mu = 0.448666 + -0.177097j
-		mu = 0.464995 + 0.000000j
-		mu = 0.442033 + 0.033819j
-		mu = 0.442033 + -0.033819j
-		mu = 0.396542 + 0.000000j
-		mu = 0.340488 + 0.000000j
-		mu = 0.306259 + 0.000000j
-		mu = -0.063396 + -0.227714j
-		mu = -0.063396 + 0.227714j
-		mu = -0.226891 + 0.000000j
-		mu = -0.221892 + -0.000000j
-		mu = -0.211542 + -0.000000j
-		mu = -0.171243 + 0.085077j
-		mu = -0.171243 + -0.085077j
-		mu = -0.188486 + -0.000000j
-		mu = -0.168459 + -0.062967j
-		mu = -0.168459 + 0.062967j
-		mu = 0.128082 + -0.106216j
-		mu = 0.128082 + 0.106216j
-		mu = -0.164884 + -0.000000j
-		mu = 0.115849 + -0.111868j
-		mu = 0.115849 + 0.111868j
-		mu = -0.157438 + -0.020693j
-		mu = -0.157438 + 0.020693j
-		mu = 0.107345 + -0.111989j
-		mu = 0.107345 + 0.111989j
-		mu = 0.085786 + 0.117727j
-		mu = 0.085786 + -0.117727j
-		mu = 0.089134 + -0.100341j
-		mu = 0.089134 + 0.100341j
-		mu = 0.090727 + -0.095791j
-		mu = 0.090727 + 0.095791j
-		mu = 0.103924 + 0.073371j
-		mu = 0.103924 + -0.073371j
-		mu = 0.120548 + -0.000000j
-		mu = -0.119301 + -0.000000j
-		mu = 0.064744 + -0.081247j
-		mu = 0.064744 + 0.081247j
-		mu = 0.057909 + -0.000000j
-		mu = 0.012680 + 0.055629j
-		mu = 0.012680 + -0.055629j
-		mu = -0.045788 + 0.022198j
-		mu = -0.045788 + -0.022198j
-		mu = -0.028270 + 0.024234j
-		mu = -0.028270 + -0.024234j
-		mu = 0.022831 + -0.023799j
-		mu = 0.022831 + 0.023799j
-		mu = -0.025937 + -0.000000j
-		mu = 0.023353 + -0.000000j
-		mu = -0.010942 + -0.013570j
-		mu = -0.010942 + 0.013570j
-		mu = 0.009396 + -0.011662j
-		mu = 0.009396 + 0.011662j
-		mu = 0.010517 + 0.000000j
-		mu = 0.009498 + -0.000000j
-		mu = -0.005790 + -0.005199j
-		mu = -0.005790 + 0.005199j
-		mu = 0.000278 + 0.007500j
-		mu = 0.000278 + -0.007500j
-		mu = 0.006712 + -0.000000j
-		mu = -0.002241 + 0.005600j
-		mu = -0.002241 + -0.005600j
-		mu = -0.005055 + -0.000000j
+		mu = 0.905508 + 0.000000j
+		mu = 0.871849 + 0.000000j
+		mu = 0.836243 + -0.000000j
+		mu = 0.798148 + -0.000000j
+		mu = 0.751961 + -0.076771j
+		mu = 0.751961 + 0.076771j
+		mu = 0.704496 + 0.000000j
+		mu = 0.690117 + -0.032901j
+		mu = 0.690117 + 0.032901j
+		mu = 0.654134 + 0.000000j
+		mu = 0.613843 + -0.000000j
+		mu = 0.492845 + 0.000000j
+		mu = 0.394718 + -0.000000j
+		mu = 0.391088 + -0.000000j
+		mu = 0.294831 + 0.000000j
+		mu = -0.287060 + -0.000000j
+		mu = 0.257617 + 0.000000j
+		mu = -0.247100 + 0.000000j
+		mu = -0.228372 + 0.000000j
+		mu = -0.188111 + 0.064582j
+		mu = -0.188111 + -0.064582j
+		mu = -0.185760 + 0.058443j
+		mu = -0.185760 + -0.058443j
+		mu = -0.188762 + -0.000000j
+		mu = -0.183532 + -0.000000j
+		mu = -0.094136 + 0.146785j
+		mu = -0.094136 + -0.146785j
+		mu = 0.133977 + -0.105581j
+		mu = 0.133977 + 0.105581j
+		mu = 0.157463 + 0.064719j
+		mu = 0.157463 + -0.064719j
+		mu = 0.095842 + -0.065570j
+		mu = 0.095842 + 0.065570j
+		mu = 0.094159 + 0.062381j
+		mu = 0.094159 + -0.062381j
+		mu = -0.028480 + 0.037124j
+		mu = -0.028480 + -0.037124j
+		mu = -0.028843 + 0.000000j
+		mu = -0.009407 + 0.000000j
+		mu = 0.008445 + 0.000000j
 
 System reduced from order 837 to 
-	n = 80 states
-...Completed Model Order Reduction in 1.45 s
+	n = 40 states
+...Completed Model Order Reduction in 0.29 s
 Aeroelastic system assembled:
-	Aerodynamic states: 80
-	Structural states: 40
-	Total states: 120
-	Inputs: 65
-	Outputs: 60
+	Aerodynamic states: 40
+	Structural states: 20
+	Total states: 60
+	Inputs: 35
+	Outputs: 30
 Final system is:
 State-space object
-States: 120
-Inputs: 65
-Outputs: 60
+States: 60
+Inputs: 35
+Outputs: 30
 dt: 0.000714286
 Input Variables:
-	(InputVariable: q, size: 20, index: 0, starting at: 0, finishing at: 20)
-	(InputVariable: q_dot, size: 20, index: 1, starting at: 20, finishing at: 40)
-	(InputVariable: u_gust, size: 1, index: 2, starting at: 40, finishing at: 41)
+	(InputVariable: q, size: 10, index: 0, starting at: 0, finishing at: 10)
+	(InputVariable: q_dot, size: 10, index: 1, starting at: 10, finishing at: 20)
+	(InputVariable: u_gust, size: 1, index: 2, starting at: 20, finishing at: 21)
         (InputVariable: control_surface_deflection, size: 2, index: 3, starting
-at: 41, finishing at: 43)
+at: 21, finishing at: 23)
         (InputVariable: dot_control_surface_deflection, size: 2, index: 4,
-starting at: 43, finishing at: 45)
-	(InputVariable: Q, size: 20, index: 5, starting at: 45, finishing at: 65)
+starting at: 23, finishing at: 25)
+	(InputVariable: Q, size: 10, index: 5, starting at: 25, finishing at: 35)
 State Variables:
-	(StateVariable: krylov, size: 80, index: 0, starting at: 0, finishing at: 80)
-	(StateVariable: q, size: 20, index: 1, starting at: 80, finishing at: 100)
-	(StateVariable: q_dot, size: 20, index: 2, starting at: 100, finishing at: 120)
+	(StateVariable: krylov, size: 40, index: 0, starting at: 0, finishing at: 40)
+	(StateVariable: q, size: 10, index: 1, starting at: 40, finishing at: 50)
+	(StateVariable: q_dot, size: 10, index: 2, starting at: 50, finishing at: 60)
 Output Variables:
-	(OutputVariable: Q, size: 20, index: 0, starting at: 0, finishing at: 20)
-	(OutputVariable: q, size: 20, index: 1, starting at: 20, finishing at: 40)
-	(OutputVariable: q_dot, size: 20, index: 2, starting at: 40, finishing at: 60)
+	(OutputVariable: Q, size: 10, index: 0, starting at: 0, finishing at: 10)
+	(OutputVariable: q, size: 10, index: 1, starting at: 10, finishing at: 20)
+	(OutputVariable: q_dot, size: 10, index: 2, starting at: 20, finishing at: 30)
 
 Generating an instance of SaveData
 Variable save_aero has no assigned value in the settings file.
@@ -1137,5 +1097,5 @@ Variable stride has no assigned value in the settings file.
 Generating an instance of SaveParametricCase
 	Writing parameter pazy_model_ROM: 35
 Saved Krylov reduced order bases, V to file: ./output//pazy_krylov_ROM//save_pmor_data/pazy_krylov_ROM_krylov_aerorob.h5
-FINISHED - Elapsed time = 3.2271096 seconds
-FINISHED - CPU process time = 31.8713056 seconds
+FINISHED - Elapsed time = 2.0739526 seconds
+FINISHED - CPU process time = 14.0112536 seconds

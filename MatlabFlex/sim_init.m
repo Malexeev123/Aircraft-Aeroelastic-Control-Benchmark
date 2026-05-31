@@ -15,7 +15,7 @@ function [sim_config, success] = sim_init(sharpy_root_in, varargin)
 %
 % NAME-VALUE OPTIONS
 %   'case_name'     : default 'pazy_ROM'
-%   'sim_root'      : default '<sharpy_root>/sim_setup'    % << you asked this
+%   'sim_root'      : default '<sharpy_root>/sim_setup'    
 %   'debug'         : logical, default true
 %   'overwrite'     : logical, default false
 %   'research_root' : optional, defaults to parent of matlab_root
@@ -111,6 +111,7 @@ roots.sim_run_root  = fullfile(sharpy_root,'sim_run');
 success = false;
 
 cfg.case_name = case_name;  % make it explicit
+cfg.case = case_name;
 cfg.NetworkPath = getOr(cfg,'NetworkPath',0); % preserve if already set
 
 cfg.paths.sharpy.root         = sharpy_root;
@@ -282,11 +283,11 @@ q_inf = 0.5 * cfg.flight.rho * cfg.flight.U_inf^2;
 cfg.flight.aeroscale = q_inf*cfg.flight.b_ref^2; 
 cfg.flight.t_scale = cfg.flight.b_ref/cfg.flight.U_inf; 
 % cfg.flight.t_scale = 1;
-cfg.flight.Fscale = 1; 
 % cfg.flight.Fscale = sqrt(cfg.ctrl.Ts/(cfg.flight.aeroscale*cfg.flight.t_scale)); 
 % cfg.flight.Fscale = 1/(cfg.flight.aeroscale); 
 cfg.flight.Fscale = (cfg.flight.aeroscale); 
 % disp(cfg.flight.Fscale)
+cfg.debug.plt_scale = cfg.struct.L/2;
 
 % Quick diagnostics
 n = size(aero.ROM_dsc.A,1); m = size(aero.ROM_dsc.B,2); p = size(aero.ROM_dsc.C,1);

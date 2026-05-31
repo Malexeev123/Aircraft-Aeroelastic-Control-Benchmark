@@ -116,8 +116,14 @@ while ~converged
     % xRigid(8:10) = RigidVel(4:6);
     % [F_tail, M_tail] = tailAeroForceMoment(norm(xRigid(5:7)), alpha, deltaE(1));
     FMwing = beam.red.phi1_sA*Res;
+    % Mirror resultant?
+    FMwing = mirrorWingClamp(FMwing);
     % FMwing = beam.red.phi1_sA*xFlex_dot(1:beam.Nm);
     % Ftot = FMwing + [F_tail; M_tail];
+    
+    if cfg.debug.trim
+        fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Res));
+    end
 
     if norm(Res) < tolNR
     % if norm(Ftot) < tolNR
@@ -204,11 +210,11 @@ while ~converged
     sim = AeroFlex.sim.SimRunner(cfg,beam,aero,base);
     % sim = AeroFlex.sim.ROMIntegrator(cfg,beam,aero,base);
 
-    if cfg.debug.trim
-        fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Res));
-        % fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Ftot));
-        disp('FMwing'); disp(FMwing);
-    end
+    % if cfg.debug.trim
+    %     fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Res));
+    %     % fprintf('#%d  |Trim Force Res|=%g\n',iter,norm(Ftot));
+    %     disp('FMwing'); disp(FMwing);
+    % end
 end
 
 trim.alphaDeg = alpha*180/pi;
@@ -228,4 +234,9 @@ function S = skew(v)
 S = [   0   -v(3)  v(2);
        v(3)   0   -v(1);
       -v(2)  v(1)   0 ];
+end
+
+function Clamp6_total = mirrorWingClamp(Clamp6_left)
+    S = diag([1,-1,1, -1,1,-1]);
+    Clamp6_total = Clamp6_left + S*Clamp6_left;
 end

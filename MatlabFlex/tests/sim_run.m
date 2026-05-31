@@ -942,11 +942,11 @@ cfg.sim.body_case= body_case;
                             mean(diag.xErrInf(idxValid),'omitnan'), max(diag.xErrInf(idxValid),[],'omitnan'));
                     
                     fprintf('======================================================================\n\n');
-                    %% ---- 5. PLOT ----------------------------------------------------------
-                    tAxis = (0:Nt-1)*cfg.ctrl.Ts;
-                    figure; plot(tAxis,trueGust,'k--',tAxis,estGust,'b','LineWidth',1.4), grid on
-                    legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
-                    title('MHE demo – ROM truth vs observer estimate')
+                    % %% ---- 5. PLOT ----------------------------------------------------------
+                    % tAxis = (0:Nt-1)*cfg.ctrl.Ts;
+                    % figure; plot(tAxis,trueGust,'k--',tAxis,estGust,'b','LineWidth',1.4), grid on
+                    % legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+                    % title('MHE demo – ROM truth vs observer estimate')
 
                     
                 otherwise

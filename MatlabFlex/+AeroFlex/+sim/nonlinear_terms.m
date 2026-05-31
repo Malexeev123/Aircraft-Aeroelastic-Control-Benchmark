@@ -109,10 +109,8 @@ if isfield(par,'gust') && ~isempty(par.gust)
     % g   = 0.525*par.gust;
     % g   = 0.5125*par.gust;
     NgB = par.Bw * g;                 % circulatory part
-    % NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
-    % NgD = par.gustSet.a*par.gustSet.t_inf * par.Dw * g; % non‑circulatory part
-    % NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
-    NgD = par.Fscale * par.Dw * g; % non‑circulatory part
+    NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
+    % NgD = par.Fscale * par.Dw * g; % non‑circulatory part
     % NgD = par.Dw * g; % non‑circulatory part
     
     % NgD =  par.Dw * g; % non‑circulatory part
@@ -136,7 +134,8 @@ if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
 
     u   = par.u_ctrl;    % [δ₁ δ₂ δ̇₁ δ̇₂]ᵀ
     NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
-    NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero1*par.Dddel*u(3:4) );
+    NcD = ( par.scaleAero1*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero1*par.Dddel*u(3:4) );
+    % NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero1*par.Dddel*u(3:4) );
     % NcB = (1/t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
     % NcD = ( aeroScale*par.Ddel*u(1:2) + aeroScale*t_inf*par.Dddel*u(3:4) );
 

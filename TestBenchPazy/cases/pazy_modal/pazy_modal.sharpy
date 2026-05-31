@@ -177,7 +177,7 @@ skip_attr = fortran
 [Modal]
 print_info = True
 use_undamped_modes = True
-NumLambda = 20
+NumLambda = 10
 rigid_body_modes = False
 write_modes_vtk = True
 print_matrices = True
@@ -199,7 +199,7 @@ newmark_damp = 5e-05
 discr_method = newmark
 dt = 0.0007142857142857143
 proj_modes = undamped
-num_modes = 20
+num_modes = 10
 print_info = on
 gravity = True
 remove_dofs = ,

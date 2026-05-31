@@ -249,7 +249,8 @@ Nu = zeros(nx, nx+m);
 % Nu(:,1) = Bdelta;      % flap‑rate
 % Nu(:,2) = Bgust;       % gust
 % Nu(idx.q1, nx+1) = par.gustSet.a*par.gustSet.t_inf * par.Dw;
-Nu(idx.q1, nx+1) = par.Fscale * par.Dw;
+Nu(idx.q1, nx+1) = par.scaleAero * par.Dw;
+% Nu(idx.q1, nx+1) = par.Fscale * par.Dw;
 Nu(idx.qGam, nx+1) = par.Bw;
 
 %% This assumes that its [del1 del2 ddel1 ddel2]
@@ -259,7 +260,8 @@ Nu(idx.qGam, nx+1) = par.Bw;
 par.scaleAero1 = par.Fscale;
 % par.t_inf = par.gustSet.t_inf;
 
-Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero*par.Ddel;
+Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero1*par.Ddel;
+% Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero*par.Ddel;
 Nu(idx.q1, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) = (par.t_inf*par.scaleAero1)*par.Dddel;
 
 Nu(idx.qGam, nx+2:nx+1 + ctrlIdx1) = (1/par.t_inf)*par.Bdel;

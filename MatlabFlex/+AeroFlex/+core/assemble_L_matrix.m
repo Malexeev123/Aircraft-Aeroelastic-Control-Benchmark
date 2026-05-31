@@ -17,7 +17,8 @@ function [L, blk] = assemble_L_matrix(cfg, beam, aero, base)
     Omg = beam.Omega;
     I   = eye(Nm);
     Sigma = beam.Sigma;
-    % Sigma = zeros(size(Sigma));
+    % Sigma already accounted for 
+    Sigma = zeros(size(Sigma)); % This would cause a double dipping
     FM  = aero.forceMap;
     dt = cfg.sim.dt;
     % disp(base.FM.Bchi)

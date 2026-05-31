@@ -121,13 +121,10 @@ classdef AeroROM
                     cfg.sim.dt, ...
                     cfg.flight.U_inf, ...
                     cfg.sim.t_end);
-                % obj.gust_input = gust(:,2)/cfg.force_map.scale;
-                % obj.gust_input = 0.525 * gust(:,2);
-                % obj.gust_input = 0.515 * gust(:,2);
-                % obj.gust_input = 0.5 * gust(:,2);
-                % obj.gust_input =  10*gust(:,2);
-                % obj.gust_input =  5*gust(:,2);
-                obj.gust_input =  gust(:,2);
+
+                % obj.gust_input =  gust(:,2);
+                obj.gust_input = cfg.struct.L * gust(:,2); % Multiply by full wing span?
+                % Need to confirm when running with differen geometry
             else
                 obj.gust_input = zeros(round(cfg.sim.t_end/cfg.sim.dt),1);
             end

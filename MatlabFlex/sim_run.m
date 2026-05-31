@@ -1,4 +1,5 @@
-function success = sim_run(case_name, body_case, varargin)
+function [success, sim_hist] = sim_run(case_name, body_case, varargin)
+% function success = sim_run(case_name, body_case, varargin)
 %SIM_RUN  Execute a simulation using the previously prepared sim_setup bundle.
 %
 % Usage (auto-pick latest setup):
@@ -867,11 +868,15 @@ cfg.sim.body_case= body_case;
                         switch lower(string(body_case))
                             case "wingonly"
                                 cfg.sim.rigidToWingMode = "fixed";
-                                xk = plant.step(uk, gk, "ROM");
+                                % xk = plant.step(uk, gk, "ROM");
+                                xk = plant.step(u_cmd_preAct, gk, "ROM");
+                                % xk = plant.step(u_act, gk, "ROM");
                         
                             case "coupledfull"
                                 cfg.sim.rigidToWingMode = "alpha_gust";
-                                xk = plant.stepCoupled(uk, gk);
+                                % xk = plant.stepCoupled(uk, gk);
+                                xk = plant.stepCoupled(u_cmd_preAct, gk);
+                                % xk = plant.stepCoupled(u_act, gk);
                         
                             otherwise
                                 error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
@@ -1004,11 +1009,11 @@ cfg.sim.body_case= body_case;
                     fprintf('======================================================================\n\n');
                     %% ---- 5. PLOT ----------------------------------------------------------
                     tAxis = (0:Nt-1)*cfg.ctrl.Ts;
-                    figure; 
-                    plot(tAxis,gust_series(1:end-1),'k--','LineWidth',1.4), hold on,
-                    plot(tCtrlVec,wHorizon(1,:),'b','LineWidth',1.4), grid on
-                    legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
-                    title('MHE demo – ROM truth vs observer estimate')
+                    % figure; 
+                    % plot(tAxis,gust_series(1:end-1),'k--','LineWidth',1.4), hold on,
+                    % plot(tCtrlVec,wHorizon(1,:),'b','LineWidth',1.4), grid on
+                    % legend('true','estimated'), xlabel('time [s]'), ylabel('gust [m/s]')
+                    % title('MHE demo – ROM truth vs observer estimate')
 
     %                  figure; plot(t_vec, gust_series); title('True Gust Series');
     % xlabel('t (sec)'); ylabel('w true');
@@ -1059,6 +1064,12 @@ base.chi0 = trim.chi0;
         log.wTrue = trueGust;
     end
     
+    % If available, actuator chain:
+    if exist('u_act', 'var')
+        log.u_act = u_act;
+        log.actInfo = actInfo;
+    end
+
     % Rigid-body states, if available.
     if exist('rbHist','var') && any(isfinite(rbHist(:)))
         log.rb = struct();
@@ -1089,7 +1100,7 @@ base.chi0 = trim.chi0;
     % Store body case for post-processing.
     log.body_case = body_case;
     %Temp to run in RunBenchmark.m 
-    postProc = struct('t', t, 'x',x, 'cfg', cfg, 'beam', beam, 'aero', aero, 'base', base,'log',log);
+    sim_hist = struct('t', t, 'x',x, 'cfg', cfg, 'beam', beam, 'aero', aero, 'base', base,'log',log);
     % out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, assignIfExists('log', struct()));
     out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, log);% catch ME
 %     warning('[postProcess] %s. Falling back to minimal outputs.', ME.message);
