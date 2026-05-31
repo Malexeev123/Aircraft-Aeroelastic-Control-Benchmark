@@ -128,6 +128,7 @@ if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
 
     % par.scaleAero = par.Fscale;
     par.scaleAero1 = par.Fscale;
+    par.scaleAero1 = 1;
     % par.t_inf = par.gustSet.t_inf;
 
     

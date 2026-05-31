@@ -40,7 +40,7 @@ end
 
 %% Change Toggle for separate post processing using sim_hist
 % (To not have to rerun the entire sim)
-separate_postProc = false; 
+separate_postProc = true; 
 
 if separate_postProc
     % Extract relevant data from simulation history for post-processing
@@ -51,5 +51,6 @@ if separate_postProc
     aero = sim_hist.aero;
     base = sim_hist.base;
     log = sim_hist.log;
+    close all % Just to not have to retype it 
     out = AeroFlex.sim.postProcess(t, x, cfg, beam, aero, base, log);
 end

@@ -1108,6 +1108,7 @@ function cfg2 = map_sharpy_sim_params_to_cfg(S)
         if isfield(S,'gust_intensity'), cfg2.gust.gust_intensity = S.gust_intensity; end
         if isfield(S,'num_control_surfaces'), cfg2.ctrl.n_surf = double(S.num_control_surfaces); end
         if isfield(S,'dt'), cfg2.sim.dt = S.dt; end
+        if isfield(S,'normalised_tip_displacement'), cfg2.sim.normalised_tip_displacement = S.normalised_tip_displacement; end
         if isfield(S,'n_nodes'), cfg2.n_nodes = uint8(S.n_nodes); end
     catch
         % Best-effort mapping

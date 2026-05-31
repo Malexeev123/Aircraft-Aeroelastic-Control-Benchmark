@@ -106,16 +106,16 @@ Variable ignore_first_x_nodes_in_force_calculation has no assigned value in the 
 |=====|=====|============|==========|==========|==========|==========|==========|==========|
 |iter |step | log10(res) |    Fx    |    Fy    |    Fz    |    Mx    |    My    |    Mz    |
 |=====|=====|============|==========|==========|==========|==========|==========|==========|
-|  0  |  0  |  0.00000   | -0.0399  |  0.0000  |  1.6444  |  0.0000  |  0.0595  | -0.0000  |
-|  1  |  0  |  -6.78287  | -0.0429  |  0.0000  |  1.6973  |  0.0000  |  0.0606  |  0.0000  |
-|  0  |  1  |  0.00000   | -0.0823  |  0.0000  |  3.4087  |  0.0000  |  0.1214  | -0.0000  |
-|  1  |  1  |  -6.14560  | -0.0884  |  0.0000  |  3.5171  | -0.0000  |  0.1235  | -0.0000  |
-|  0  |  2  |  0.00000   | -0.1274  |  0.0000  |  5.3007  | -0.0000  |  0.1857  | -0.0000  |
-|  1  |  2  |  -5.75802  | -0.1368  |  0.0000  |  5.4672  | -0.0000  |  0.1890  | -0.0000  |
-|  0  |  3  |  0.00000   | -0.1752  |  0.0000  |  7.3282  | -0.0000  |  0.2526  | -0.0000  |
-|  1  |  3  |  -5.47255  | -0.1880  |  0.0000  |  7.5560  | -0.0000  |  0.2571  | -0.0000  |
-|  0  |  4  |  0.00000   | -0.2258  |  0.0000  |  9.4997  | -0.0000  |  0.3222  | -0.0000  |
-|  1  |  4  |  -5.24296  | -0.2421  |  0.0000  |  9.7917  | -0.0000  |  0.3279  | -0.0000  |
+|  0  |  0  |  0.00000   | -0.0051  | -0.0000  |  0.6354  |  0.0000  |  0.0392  | -0.0000  |
+|  1  |  0  |  -7.44457  | -0.0064  |  0.0000  |  0.6809  |  0.0000  |  0.0401  |  0.0000  |
+|  0  |  1  |  0.00000   | -0.0114  |  0.0000  |  1.3746  |  0.0000  |  0.0805  | -0.0000  |
+|  1  |  1  |  -6.74914  | -0.0140  |  0.0000  |  1.4686  |  0.0000  |  0.0824  |  0.0000  |
+|  0  |  2  |  0.00000   | -0.0187  |  0.0000  |  2.2271  |  0.0000  |  0.1241  | -0.0000  |
+|  1  |  2  |  -6.31060  | -0.0228  |  0.0000  |  2.3733  |  0.0000  |  0.1270  | -0.0000  |
+|  0  |  3  |  0.00000   | -0.0272  |  0.0000  |  3.2035  | -0.0000  |  0.1701  | -0.0000  |
+|  1  |  3  |  -5.97939  | -0.0328  |  0.0000  |  3.4062  | -0.0000  |  0.1742  | -0.0000  |
+|  0  |  4  |  0.00000   | -0.0370  |  0.0000  |  4.3159  | -0.0000  |  0.2189  | -0.0000  |
+|  1  |  4  |  -5.70788  | -0.0442  |  0.0000  |  4.5797  | -0.0000  |  0.2242  | -0.0000  |
 Generating an instance of WriteVariablesTime
 Variable delimiter has no assigned value in the settings file.
     will default to the value:  
@@ -293,7 +293,7 @@ Variable save_wake has no assigned value in the settings file.
 |=======|========|======|==============|==============|==============|==============|==============|
 |  ts   |   t    | iter | struc ratio  |  iter time   | residual vel |  FoR_vel(x)  |  FoR_vel(z)  |
 |=======|========|======|==============|==============|==============|==============|==============|
-|   1   | 0.0007 |  6   |   0.658012   |   0.256078   |  -6.010677   | 0.000000e+00 | 0.000000e+00 |
+|   1   | 0.0006 |  6   |   0.646041   |   0.243811   |  -6.060052   | 0.000000e+00 | 0.000000e+00 |
 ...Finished
 Generating an instance of Modal
 Variable save_data has no assigned value in the settings file.
@@ -349,551 +349,551 @@ State-space realisation of UVLM equations started...
 Computing wake propagation matrix with CFL1=True
 	state-space model produced in form:
 	x_{n+1} = A x_{n} + Bp u_{n+1}
-			...done in 0.39 sec
+			...done in 0.43 sec
 Aero surface 0
 Gust monitoring station domain:
-[-0.03847655 -0.0133308   0.01181496  0.03696071  0.06210646]
+[-0.03849414 -0.01346547  0.0115632   0.03659187  0.06162053]
 Vertex info: i_n = 0	i_m = 0
-	Coordinate: [-3.84765468e-02 -3.83382711e-18  1.34363089e-03]
-	Projected coordinate: -0.03847654683088986
+	Coordinate: [-3.84941363e-02 -3.83382711e-18  6.71917996e-04]
+	Projected coordinate: -0.038494136257435925
 	Interpolation weights: [1. 0.]
 	C matrix column indices: (0, 1)
 	i_vertex: [0, 45, 90]
 Vertex info: i_n = 0	i_m = 1
-	Coordinate: [-1.34917762e-02 -1.34432899e-18  4.71143299e-04]
-	Projected coordinate: -0.01349177616148086
-	Interpolation weights: [0.00640191 0.99359809]
+	Coordinate: [-1.34979439e-02 -1.34432899e-18  2.35607609e-04]
+	Projected coordinate: -0.013497943882477534
+	Interpolation weights: [0.00129753 0.99870247]
 	C matrix column indices: (0, 1)
 	i_vertex: [9, 54, 99]
 Vertex info: i_n = 0	i_m = 2
-	Coordinate: [ 1.14929945e-02  1.14516914e-18 -4.01344292e-04]
-	Projected coordinate: 0.011492994507928138
-	Interpolation weights: [0.01280382 0.98719618]
+	Coordinate: [ 1.14982485e-02  1.14516914e-18 -2.00702778e-04]
+	Projected coordinate: 0.011498248492480859
+	Interpolation weights: [0.00259505 0.99740495]
 	C matrix column indices: (1, 2)
 	i_vertex: [18, 63, 108]
 Vertex info: i_n = 0	i_m = 3
-	Coordinate: [ 3.64777652e-02  3.63466726e-18 -1.27383188e-03]
-	Projected coordinate: 0.03647776517733713
-	Interpolation weights: [0.01920572 0.98079428]
+	Coordinate: [ 3.64944409e-02  3.63466726e-18 -6.37013165e-04]
+	Projected coordinate: 0.03649444086743925
+	Interpolation weights: [0.00389258 0.99610742]
 	C matrix column indices: (2, 3)
 	i_vertex: [27, 72, 117]
 Vertex info: i_n = 0	i_m = 4
-	Coordinate: [ 6.14625358e-02  6.12416539e-18 -2.14631947e-03]
-	Projected coordinate: 0.06146253584674613
-	Interpolation weights: [0.02560763 0.97439237]
+	Coordinate: [ 6.14906332e-02  6.12416539e-18 -1.07332355e-03]
+	Projected coordinate: 0.06149063324239764
+	Interpolation weights: [0.00519011 0.99480989]
 	C matrix column indices: (3, 4)
 	i_vertex: [36, 81, 126]
 Vertex info: i_n = 1	i_m = 0
-	Coordinate: [-0.03845492  0.06869133  0.00194859]
-	Projected coordinate: -0.03845491843302516
-	Interpolation weights: [9.99139879e-01 8.60121357e-04]
+	Coordinate: [-0.03848919  0.06871137  0.00094686]
+	Projected coordinate: -0.03848919189302809
+	Interpolation weights: [9.99802452e-01 1.97548046e-04]
 	C matrix column indices: (0, 1)
 	i_vertex: [1, 46, 91]
 Vertex info: i_n = 1	i_m = 1
-	Coordinate: [-0.01347144  0.06872767  0.00104062]
-	Projected coordinate: -0.01347143827376885
-	Interpolation weights: [0.00559311 0.99440689]
+	Coordinate: [-0.01349345  0.06873613  0.00048604]
+	Projected coordinate: -0.013493451638991922
+	Interpolation weights: [0.00111804 0.99888196]
 	C matrix column indices: (0, 1)
 	i_vertex: [10, 55, 100]
 Vertex info: i_n = 1	i_m = 2
-	Coordinate: [0.01151204 0.06876402 0.00013266]
-	Projected coordinate: 0.011512041885487474
-	Interpolation weights: [0.01204634 0.98795366]
+	Coordinate: [1.15022886e-02 6.87608933e-02 2.52144205e-05]
+	Projected coordinate: 0.01150228861504425
+	Interpolation weights: [0.00243364 0.99756636]
 	C matrix column indices: (1, 2)
 	i_vertex: [19, 64, 109]
 Vertex info: i_n = 1	i_m = 3
-	Coordinate: [ 0.03649552  0.06880036 -0.0007753 ]
-	Projected coordinate: 0.03649552204474379
-	Interpolation weights: [0.01849957 0.98150043]
+	Coordinate: [ 0.03649803  0.06878566 -0.00043561]
+	Projected coordinate: 0.036498028869080414
+	Interpolation weights: [0.00374923 0.99625077]
 	C matrix column indices: (2, 3)
 	i_vertex: [28, 73, 118]
 Vertex info: i_n = 1	i_m = 4
-	Coordinate: [ 0.061479    0.06883671 -0.00168327]
-	Projected coordinate: 0.06147900220400011
-	Interpolation weights: [0.0249528 0.9750472]
+	Coordinate: [ 0.06149377  0.06881042 -0.00089643]
+	Projected coordinate: 0.061493769123116576
+	Interpolation weights: [0.00506482 0.99493518]
 	C matrix column indices: (3, 4)
 	i_vertex: [37, 82, 127]
 Vertex info: i_n = 2	i_m = 0
-	Coordinate: [-0.03840111  0.13737461  0.00344805]
-	Projected coordinate: -0.03840110781146268
-	Interpolation weights: [0.99699993 0.00300007]
+	Coordinate: [-0.03847735  0.13742407  0.001598  ]
+	Projected coordinate: -0.03847734914206629
+	Interpolation weights: [9.99329285e-01 6.70715498e-04]
 	C matrix column indices: (0, 1)
 	i_vertex: [2, 47, 92]
 Vertex info: i_n = 2	i_m = 1
-	Coordinate: [-0.01341885  0.13744399  0.002509  ]
-	Projected coordinate: -0.013418846717651768
-	Interpolation weights: [0.00350164 0.99649836]
+	Coordinate: [-0.01348205  0.13747119  0.00111538]
+	Projected coordinate: -0.01348205249015644
+	Interpolation weights: [6.6259983e-04 9.9933740e-01]
 	C matrix column indices: (0, 1)
 	i_vertex: [11, 56, 101]
 Vertex info: i_n = 2	i_m = 2
-	Coordinate: [0.01156341 0.13751338 0.00156995]
-	Projected coordinate: 0.01156341437615915
-	Interpolation weights: [0.01000335 0.98999665]
+	Coordinate: [0.01151324 0.13751832 0.00063275]
+	Projected coordinate: 0.011513244161753413
+	Interpolation weights: [0.00199592 0.99800408]
 	C matrix column indices: (1, 2)
 	i_vertex: [20, 65, 110]
 Vertex info: i_n = 2	i_m = 3
-	Coordinate: [0.03654568 0.13758276 0.0006309 ]
-	Projected coordinate: 0.03654567546997007
-	Interpolation weights: [0.01650506 0.98349494]
+	Coordinate: [0.03650854 0.13756544 0.00015013]
+	Projected coordinate: 0.03650854081366326
+	Interpolation weights: [0.00332923 0.99667077]
 	C matrix column indices: (2, 3)
 	i_vertex: [29, 74, 119]
 Vertex info: i_n = 2	i_m = 4
-	Coordinate: [ 0.06152794  0.13765214 -0.00030815]
-	Projected coordinate: 0.061527936563780986
-	Interpolation weights: [0.02300677 0.97699323]
+	Coordinate: [ 0.06150384  0.13761257 -0.00033249]
+	Projected coordinate: 0.06150383746557311
+	Interpolation weights: [0.00466255 0.99533745]
 	C matrix column indices: (3, 4)
 	i_vertex: [38, 83, 128]
 Vertex info: i_n = 3	i_m = 0
-	Coordinate: [-0.03832399  0.20605194  0.00556057]
-	Projected coordinate: -0.03832399401763553
-	Interpolation weights: [0.99393326 0.00606674]
+	Coordinate: [-0.03846072  0.2061407   0.00249378]
+	Projected coordinate: -0.038460719708487676
+	Interpolation weights: [0.99866487 0.00133513]
 	C matrix column indices: (0, 1)
 	i_vertex: [3, 48, 93]
 Vertex info: i_n = 3	i_m = 1
-	Coordinate: [-0.01334276  0.20614808  0.00459693]
-	Projected coordinate: -0.013342758062692648
-	Interpolation weights: [4.75734185e-04 9.99524266e-01]
+	Coordinate: [-0.01346581  0.20620592  0.00199369]
+	Projected coordinate: -0.013465807260590896
+	Interpolation weights: [1.35349370e-05 9.99986465e-01]
 	C matrix column indices: (0, 1)
 	i_vertex: [12, 57, 102]
 Vertex info: i_n = 3	i_m = 2
-	Coordinate: [0.01163848 0.20624423 0.00363328]
-	Projected coordinate: 0.011638477892250233
-	Interpolation weights: [0.00701821 0.99298179]
+	Coordinate: [0.01152911 0.20627113 0.00149359]
+	Projected coordinate: 0.011529105187305879
+	Interpolation weights: [0.0013622 0.9986378]
 	C matrix column indices: (1, 2)
 	i_vertex: [21, 66, 111]
 Vertex info: i_n = 3	i_m = 3
-	Coordinate: [0.03661971 0.20634038 0.00266964]
-	Projected coordinate: 0.03661971384719311
-	Interpolation weights: [0.01356069 0.98643931]
+	Coordinate: [0.03652402 0.20633635 0.00099349]
+	Projected coordinate: 0.03652401763520265
+	Interpolation weights: [0.00271087 0.99728913]
 	C matrix column indices: (2, 3)
 	i_vertex: [30, 75, 120]
 Vertex info: i_n = 3	i_m = 4
-	Coordinate: [0.06160095 0.20643653 0.001706  ]
-	Projected coordinate: 0.061600949802136006
-	Interpolation weights: [0.02010317 0.97989683]
+	Coordinate: [0.06151893 0.20640156 0.00049339]
+	Projected coordinate: 0.06151893008309942
+	Interpolation weights: [0.00405953 0.99594047]
 	C matrix column indices: (3, 4)
 	i_vertex: [39, 84, 129]
 Vertex info: i_n = 4	i_m = 0
-	Coordinate: [-0.03823121  0.27472145  0.00808068]
-	Projected coordinate: -0.038231212672783246
-	Interpolation weights: [0.99024351 0.00975649]
+	Coordinate: [-0.03844103  0.27485921  0.00354266]
+	Projected coordinate: -0.03844102739492521
+	Interpolation weights: [0.99787808 0.00212192]
 	C matrix column indices: (0, 1)
 	i_vertex: [4, 49, 94]
 Vertex info: i_n = 4	i_m = 1
-	Coordinate: [-0.01325089  0.27484051  0.00709621]
-	Projected coordinate: -0.013250887493964724
-	Interpolation weights: [0.99682221 0.00317779]
+	Coordinate: [-0.01344646  0.27493989  0.00302768]
+	Projected coordinate: -0.013446462441975329
+	Interpolation weights: [9.99240628e-01 7.59371508e-04]
 	C matrix column indices: (1, 2)
 	i_vertex: [13, 58, 103]
 Vertex info: i_n = 4	i_m = 2
-	Coordinate: [0.01172944 0.27495957 0.00611174]
-	Projected coordinate: 0.011729437684853804
-	Interpolation weights: [0.00340091 0.99659909]
+	Coordinate: [0.0115481  0.27502057 0.00251269]
+	Projected coordinate: 0.011548102510974545
+	Interpolation weights: [6.03178256e-04 9.99396822e-01]
 	C matrix column indices: (1, 2)
 	i_vertex: [22, 67, 112]
 Vertex info: i_n = 4	i_m = 3
-	Coordinate: [0.03670976 0.27507863 0.00512727]
-	Projected coordinate: 0.03670976286367233
-	Interpolation weights: [0.00997961 0.99002039]
+	Coordinate: [0.03654267 0.27510125 0.0019977 ]
+	Projected coordinate: 0.036542667463924414
+	Interpolation weights: [0.00196573 0.99803427]
 	C matrix column indices: (2, 3)
 	i_vertex: [31, 76, 121]
 Vertex info: i_n = 4	i_m = 4
-	Coordinate: [0.06169009 0.27519769 0.0041428 ]
-	Projected coordinate: 0.06169008804249085
-	Interpolation weights: [0.0165583 0.9834417]
+	Coordinate: [0.06153723 0.27518193 0.00148271]
+	Projected coordinate: 0.061537232416874275
+	Interpolation weights: [0.00332828 0.99667172]
 	C matrix column indices: (3, 4)
 	i_vertex: [40, 85, 130]
 Vertex info: i_n = 5	i_m = 0
-	Coordinate: [-0.03812953  0.34339234  0.01082499]
-	Projected coordinate: -0.03812952887934457
-	Interpolation weights: [0.98619974 0.01380026]
+	Coordinate: [-0.03841988  0.34358335  0.00466185]
+	Projected coordinate: -0.03841987914093086
+	Interpolation weights: [0.99703312 0.00296688]
 	C matrix column indices: (0, 1)
 	i_vertex: [5, 50, 95]
 Vertex info: i_n = 5	i_m = 1
-	Coordinate: [-0.01314987  0.34352772  0.00982574]
-	Projected coordinate: -0.013149873605299095
-	Interpolation weights: [0.99280508 0.00719492]
+	Coordinate: [-0.01342557  0.34367508  0.00413622]
+	Projected coordinate: -0.013425573653523731
+	Interpolation weights: [0.99840603 0.00159397]
 	C matrix column indices: (1, 2)
 	i_vertex: [14, 59, 104]
 Vertex info: i_n = 5	i_m = 2
-	Coordinate: [0.01182978 0.34366311 0.0088265 ]
-	Projected coordinate: 0.011829781668746386
-	Interpolation weights: [9.99410414e-01 5.89585723e-04]
+	Coordinate: [0.01156873 0.3437668  0.0036106 ]
+	Projected coordinate: 0.01156873183388341
+	Interpolation weights: [9.9977895e-01 2.2104951e-04]
 	C matrix column indices: (2, 3)
 	i_vertex: [23, 68, 113]
 Vertex info: i_n = 5	i_m = 3
-	Coordinate: [0.03680944 0.3437985  0.00782725]
-	Projected coordinate: 0.03680943694279186
-	Interpolation weights: [0.00601575 0.99398425]
+	Coordinate: [0.03656304 0.34385853 0.00308498]
+	Projected coordinate: 0.03656303732129054
+	Interpolation weights: [0.00115187 0.99884813]
 	C matrix column indices: (2, 3)
 	i_vertex: [32, 77, 122]
 Vertex info: i_n = 5	i_m = 4
-	Coordinate: [0.06178909 0.34393388 0.006828  ]
-	Projected coordinate: 0.061789092216837344
-	Interpolation weights: [0.01262109 0.98737891]
+	Coordinate: [0.06155734 0.34395025 0.00255935]
+	Projected coordinate: 0.061557342808697686
+	Interpolation weights: [0.00252478 0.99747522]
 	C matrix column indices: (3, 4)
 	i_vertex: [41, 86, 131]
 Vertex info: i_n = 6	i_m = 0
-	Coordinate: [-0.0380233   0.41206444  0.01368306]
-	Projected coordinate: -0.03802330095458728
-	Interpolation weights: [0.98197525 0.01802475]
+	Coordinate: [-0.03839818  0.41231107  0.00580752]
+	Projected coordinate: -0.038398176806085996
+	Interpolation weights: [0.99616602 0.00383398]
 	C matrix column indices: (0, 1)
 	i_vertex: [6, 51, 96]
 Vertex info: i_n = 6	i_m = 1
-	Coordinate: [-0.01304417  0.41221223  0.01267254]
-	Projected coordinate: -0.013044169177074304
-	Interpolation weights: [0.98860141 0.01139859]
+	Coordinate: [-0.01340408  0.4124112   0.00527379]
+	Projected coordinate: -0.013404075448076147
+	Interpolation weights: [0.99754709 0.00245291]
 	C matrix column indices: (1, 2)
 	i_vertex: [15, 60, 105]
 Vertex info: i_n = 6	i_m = 2
-	Coordinate: [0.01193496 0.41236001 0.01166203]
-	Projected coordinate: 0.011934962600438661
-	Interpolation weights: [0.99522756 0.00477244]
+	Coordinate: [0.01159003 0.41251132 0.00474006]
+	Projected coordinate: 0.01159002590993371
+	Interpolation weights: [0.99892816 0.00107184]
 	C matrix column indices: (2, 3)
 	i_vertex: [24, 69, 114]
 Vertex info: i_n = 6	i_m = 3
-	Coordinate: [0.03691409 0.41250779 0.01065152]
-	Projected coordinate: 0.03691409437795163
-	Interpolation weights: [0.00185372 0.99814628]
+	Coordinate: [0.03658413 0.41261145 0.00420632]
+	Projected coordinate: 0.03658412726794356
+	Interpolation weights: [3.09235376e-04 9.99690765e-01]
 	C matrix column indices: (2, 3)
 	i_vertex: [33, 78, 123]
 Vertex info: i_n = 6	i_m = 4
-	Coordinate: [0.06189323 0.41265557 0.00964101]
-	Projected coordinate: 0.06189322615546458
-	Interpolation weights: [0.00847988 0.99152012]
+	Coordinate: [0.06157823 0.41271157 0.00367259]
+	Projected coordinate: 0.061578228625953406
+	Interpolation weights: [0.00169031 0.99830969]
 	C matrix column indices: (3, 4)
 	i_vertex: [42, 87, 132]
 Vertex info: i_n = 7	i_m = 0
-	Coordinate: [-0.03791598  0.48074464  0.01656899]
-	Projected coordinate: -0.0379159761135413
-	Interpolation weights: [0.97770714 0.02229286]
+	Coordinate: [-0.03837663  0.48104524  0.00694685]
+	Projected coordinate: -0.038376628277554836
+	Interpolation weights: [0.99530506 0.00469494]
 	C matrix column indices: (0, 1)
 	i_vertex: [7, 52, 97]
 Vertex info: i_n = 7	i_m = 1
-	Coordinate: [-0.01293711  0.48089858  0.01555285]
-	Projected coordinate: -0.012937109882325793
-	Interpolation weights: [0.98434386 0.01565614]
+	Coordinate: [-0.01338263  0.48114958  0.00640902]
+	Projected coordinate: -0.013382631857370752
+	Interpolation weights: [0.99669033 0.00330967]
 	C matrix column indices: (1, 2)
 	i_vertex: [16, 61, 106]
 Vertex info: i_n = 7	i_m = 2
-	Coordinate: [0.01204176 0.48105253 0.0145367 ]
-	Projected coordinate: 0.012041756348889706
-	Interpolation weights: [0.99098057 0.00901943]
+	Coordinate: [0.01161136 0.48125392 0.0058712 ]
+	Projected coordinate: 0.01161136456281333
+	Interpolation weights: [0.99807559 0.00192441]
 	C matrix column indices: (2, 3)
 	i_vertex: [25, 70, 115]
 Vertex info: i_n = 7	i_m = 3
-	Coordinate: [0.03702062 0.48120647 0.01352056]
-	Projected coordinate: 0.0370206225801052
-	Interpolation weights: [0.99761729 0.00238271]
+	Coordinate: [0.03660536 0.48135827 0.00533337]
+	Projected coordinate: 0.036605360982997416
+	Interpolation weights: [9.99460860e-01 5.39140385e-04]
 	C matrix column indices: (3, 4)
 	i_vertex: [34, 79, 124]
 Vertex info: i_n = 7	i_m = 4
-	Coordinate: [0.06199949 0.48136042 0.01250442]
-	Projected coordinate: 0.061999488811320703
-	Interpolation weights: [0.00425401 0.99574599]
+	Coordinate: [0.06159936 0.48146261 0.00479555]
+	Projected coordinate: 0.06159935740318149
+	Interpolation weights: [8.46124641e-04 9.99153875e-01]
 	C matrix column indices: (3, 4)
 	i_vertex: [43, 88, 133]
 Vertex info: i_n = 8	i_m = 0
-	Coordinate: [-0.03780852  0.54942963  0.01945886]
-	Projected coordinate: -0.03780851615608143
-	Interpolation weights: [0.97343366 0.02656634]
+	Coordinate: [-0.03835525  0.54978294  0.00807868]
+	Projected coordinate: -0.0383552536745869
+	Interpolation weights: [0.99445106 0.00554894]
 	C matrix column indices: (0, 1)
 	i_vertex: [8, 53, 98]
 Vertex info: i_n = 8	i_m = 1
-	Coordinate: [-0.01282977  0.54958638  0.01844014]
-	Projected coordinate: -0.012829772362998787
-	Interpolation weights: [0.98007524 0.01992476]
+	Coordinate: [-0.01336131  0.54988925  0.00753895]
+	Projected coordinate: -0.013361306562013463
+	Interpolation weights: [0.99583829 0.00416171]
 	C matrix column indices: (1, 2)
 	i_vertex: [17, 62, 107]
 Vertex info: i_n = 8	i_m = 2
-	Coordinate: [0.01214897 0.54974314 0.01742142]
-	Projected coordinate: 0.012148971430083857
-	Interpolation weights: [0.98671683 0.01328317]
+	Coordinate: [0.01163264 0.54999555 0.00699923]
+	Projected coordinate: 0.011632640550559957
+	Interpolation weights: [0.99722553 0.00277447]
 	C matrix column indices: (2, 3)
 	i_vertex: [26, 71, 116]
 Vertex info: i_n = 8	i_m = 3
-	Coordinate: [0.03712772 0.54989989 0.0164027 ]
-	Projected coordinate: 0.037127715223166505
-	Interpolation weights: [0.99335841 0.00664159]
+	Coordinate: [0.03662659 0.55010186 0.0064595 ]
+	Projected coordinate: 0.036626587663133384
+	Interpolation weights: [0.99861276 0.00138724]
 	C matrix column indices: (3, 4)
 	i_vertex: [35, 80, 125]
 Vertex info: i_n = 8	i_m = 4
-	Coordinate: [0.06210646 0.55005664 0.01538399]
-	Projected coordinate: 0.06210645901624915
+	Coordinate: [0.06162053 0.55020817 0.00591977]
+	Projected coordinate: 0.0616205347757068
 	Interpolation weights: [0. 1.]
 	C matrix column indices: (3, 4)
 	i_vertex: [44, 89, 134]
 Aero surface 1
 Gust monitoring station domain:
-[-0.03847655 -0.0133308   0.01181496  0.03696071  0.06210646]
+[-0.03849414 -0.01346547  0.0115632   0.03659187  0.06162053]
 Vertex info: i_n = 0	i_m = 0
-	Coordinate: [-0.03780864 -0.54942963  0.01945888]
-	Projected coordinate: -0.03780863899383108
-	Interpolation weights: [0.97343854 0.02656146]
+	Coordinate: [-0.03835528 -0.54978294  0.00807868]
+	Projected coordinate: -0.03835527934179784
+	Interpolation weights: [0.99445209 0.00554791]
 	C matrix column indices: (0, 1)
 	i_vertex: [135, 180, 225]
 Vertex info: i_n = 0	i_m = 1
-	Coordinate: [-0.0128299  -0.54958638  0.01844016]
-	Projected coordinate: -0.012829895209389071
-	Interpolation weights: [0.98008013 0.01991987]
+	Coordinate: [-0.01336133 -0.54988925  0.00753896]
+	Projected coordinate: -0.013361332229668404
+	Interpolation weights: [0.99583932 0.00416068]
 	C matrix column indices: (1, 2)
 	i_vertex: [144, 189, 234]
 Vertex info: i_n = 0	i_m = 2
-	Coordinate: [ 0.01214885 -0.54974314  0.01742144]
-	Projected coordinate: 0.01214884857505294
-	Interpolation weights: [0.98672171 0.01327829]
+	Coordinate: [ 0.01163261 -0.54999555  0.00699923]
+	Projected coordinate: 0.011632614882461026
+	Interpolation weights: [0.99722656 0.00277344]
 	C matrix column indices: (2, 3)
 	i_vertex: [153, 198, 243]
 Vertex info: i_n = 0	i_m = 3
-	Coordinate: [ 0.03712759 -0.54989989  0.01640273]
-	Projected coordinate: 0.03712759235949495
-	Interpolation weights: [0.9933633 0.0066367]
+	Coordinate: [ 0.03662656 -0.55010186  0.0064595 ]
+	Projected coordinate: 0.03662656199459046
+	Interpolation weights: [0.99861379 0.00138621]
 	C matrix column indices: (3, 4)
 	i_vertex: [162, 207, 252]
 Vertex info: i_n = 0	i_m = 4
-	Coordinate: [ 0.06210634 -0.55005664  0.01538401]
-	Projected coordinate: 0.06210633614393696
-	Interpolation weights: [4.88640446e-06 9.99995114e-01]
+	Coordinate: [ 0.06162051 -0.55020817  0.00591977]
+	Projected coordinate: 0.06162050910671989
+	Interpolation weights: [1.02558343e-06 9.99998974e-01]
 	C matrix column indices: (3, 4)
 	i_vertex: [171, 216, 261]
 Vertex info: i_n = 1	i_m = 0
-	Coordinate: [-0.0379161  -0.48074463  0.01656901]
-	Projected coordinate: -0.037916099112128204
-	Interpolation weights: [0.97771203 0.02228797]
+	Coordinate: [-0.03837665 -0.48104524  0.00694685]
+	Projected coordinate: -0.03837665394633711
+	Interpolation weights: [0.99530609 0.00469391]
 	C matrix column indices: (0, 1)
 	i_vertex: [136, 181, 226]
 Vertex info: i_n = 1	i_m = 1
-	Coordinate: [-0.01293723 -0.48089858  0.01555287]
-	Projected coordinate: -0.012937232889371058
-	Interpolation weights: [0.98434875 0.01565125]
+	Coordinate: [-0.01338266 -0.48114958  0.00640902]
+	Projected coordinate: -0.013382657526564761
+	Interpolation weights: [0.99669136 0.00330864]
 	C matrix column indices: (1, 2)
 	i_vertex: [145, 190, 235]
 Vertex info: i_n = 1	i_m = 2
-	Coordinate: [ 0.01204163 -0.48105253  0.01453673]
-	Projected coordinate: 0.012041633333386087
-	Interpolation weights: [0.99098547 0.00901453]
+	Coordinate: [ 0.01161134 -0.48125392  0.0058712 ]
+	Projected coordinate: 0.011611338893207574
+	Interpolation weights: [0.99807662 0.00192338]
 	C matrix column indices: (2, 3)
 	i_vertex: [154, 199, 244]
 Vertex info: i_n = 1	i_m = 3
-	Coordinate: [ 0.0370205  -0.48120647  0.01352058]
-	Projected coordinate: 0.037020499556143234
-	Interpolation weights: [0.99762218 0.00237782]
+	Coordinate: [ 0.03660534 -0.48135827  0.00533337]
+	Projected coordinate: 0.03660533531297991
+	Interpolation weights: [9.99461885e-01 5.38114761e-04]
 	C matrix column indices: (3, 4)
 	i_vertex: [163, 208, 253]
 Vertex info: i_n = 1	i_m = 4
-	Coordinate: [ 0.06199937 -0.48136042  0.01250444]
-	Projected coordinate: 0.06199936577890037
-	Interpolation weights: [0.0042589 0.9957411]
+	Coordinate: [ 0.06159933 -0.48146261  0.00479555]
+	Projected coordinate: 0.06159933173275225
+	Interpolation weights: [8.47150282e-04 9.99152850e-01]
 	C matrix column indices: (3, 4)
 	i_vertex: [172, 217, 262]
 Vertex info: i_n = 2	i_m = 0
-	Coordinate: [-0.03802342 -0.41206444  0.01368308]
-	Projected coordinate: -0.038023423696765014
-	Interpolation weights: [0.98198013 0.01801987]
+	Coordinate: [-0.0383982  -0.41231107  0.00580753]
+	Projected coordinate: -0.03839820236252897
+	Interpolation weights: [0.99616704 0.00383296]
 	C matrix column indices: (0, 1)
 	i_vertex: [137, 182, 227]
 Vertex info: i_n = 2	i_m = 1
-	Coordinate: [-0.01304429 -0.41221223  0.01267256]
-	Projected coordinate: -0.013044291927064449
-	Interpolation weights: [0.98860629 0.01139371]
+	Coordinate: [-0.0134041  -0.4124112   0.00527379]
+	Projected coordinate: -0.013404101004833028
+	Interpolation weights: [0.99754811 0.00245189]
 	C matrix column indices: (1, 2)
 	i_vertex: [146, 191, 236]
 Vertex info: i_n = 2	i_m = 2
-	Coordinate: [ 0.01193484 -0.41236001  0.01166205]
-	Projected coordinate: 0.01193483984263611
-	Interpolation weights: [0.99523245 0.00476755]
+	Coordinate: [ 0.01159    -0.41251132  0.00474006]
+	Projected coordinate: 0.01159000035286293
+	Interpolation weights: [0.99892918 0.00107082]
 	C matrix column indices: (2, 3)
 	i_vertex: [155, 200, 245]
 Vertex info: i_n = 2	i_m = 3
-	Coordinate: [ 0.03691397 -0.41250779  0.01065154]
-	Projected coordinate: 0.036913971612336664
-	Interpolation weights: [0.0018586 0.9981414]
+	Coordinate: [ 0.0365841  -0.41261145  0.00420632]
+	Projected coordinate: 0.03658410171055888
+	Interpolation weights: [3.10256500e-04 9.99689743e-01]
 	C matrix column indices: (2, 3)
 	i_vertex: [164, 209, 254]
 Vertex info: i_n = 2	i_m = 4
-	Coordinate: [ 0.0618931  -0.41265557  0.00964102]
-	Projected coordinate: 0.06189310338203721
-	Interpolation weights: [0.00848476 0.99151524]
+	Coordinate: [ 0.0615782  -0.41271157  0.00367259]
+	Projected coordinate: 0.06157820306825483
+	Interpolation weights: [0.00169133 0.99830867]
 	C matrix column indices: (3, 4)
 	i_vertex: [173, 218, 263]
 Vertex info: i_n = 3	i_m = 0
-	Coordinate: [-0.03812966 -0.34339233  0.01082501]
-	Projected coordinate: -0.03812966445525371
-	Interpolation weights: [0.98620513 0.01379487]
+	Coordinate: [-0.03841991 -0.34358335  0.00466185]
+	Projected coordinate: -0.03841990598686984
+	Interpolation weights: [0.99703419 0.00296581]
 	C matrix column indices: (0, 1)
 	i_vertex: [138, 183, 228]
 Vertex info: i_n = 3	i_m = 1
-	Coordinate: [-0.01315001 -0.34352772  0.00982576]
-	Projected coordinate: -0.013150009192668398
-	Interpolation weights: [0.99281047 0.00718953]
+	Coordinate: [-0.0134256  -0.34367508  0.00413622]
+	Projected coordinate: -0.013425600500235875
+	Interpolation weights: [0.99840711 0.00159289]
 	C matrix column indices: (1, 2)
 	i_vertex: [147, 192, 237]
 Vertex info: i_n = 3	i_m = 2
-	Coordinate: [ 0.01182965 -0.34366311  0.00882651]
-	Projected coordinate: 0.011829646069916912
-	Interpolation weights: [9.99415807e-01 5.84193209e-04]
+	Coordinate: [ 0.0115687 -0.3437668  0.0036106]
+	Projected coordinate: 0.011568704986398094
+	Interpolation weights: [9.99780023e-01 2.19976841e-04]
 	C matrix column indices: (2, 3)
 	i_vertex: [156, 201, 246]
 Vertex info: i_n = 3	i_m = 3
-	Coordinate: [ 0.0368093  -0.3437985   0.00782727]
-	Projected coordinate: 0.03680930133250221
-	Interpolation weights: [0.00602115 0.99397885]
+	Coordinate: [ 0.03656301 -0.34385853  0.00308498]
+	Projected coordinate: 0.03656301047303205
+	Interpolation weights: [0.00115294 0.99884706]
 	C matrix column indices: (2, 3)
 	i_vertex: [165, 210, 255]
 Vertex info: i_n = 3	i_m = 4
-	Coordinate: [ 0.06178896 -0.34393389  0.00682802]
-	Projected coordinate: 0.06178895659508754
-	Interpolation weights: [0.01262648 0.98737352]
+	Coordinate: [ 0.06155732 -0.34395025  0.00255935]
+	Projected coordinate: 0.061557315959666015
+	Interpolation weights: [0.00252586 0.99747414]
 	C matrix column indices: (3, 4)
 	i_vertex: [174, 219, 264]
 Vertex info: i_n = 4	i_m = 0
-	Coordinate: [-0.03823133 -0.27472145  0.0080807 ]
-	Projected coordinate: -0.03823132792411213
-	Interpolation weights: [0.9902481 0.0097519]
+	Coordinate: [-0.03844105 -0.27485921  0.00354267]
+	Projected coordinate: -0.0384410519471291
+	Interpolation weights: [0.99787906 0.00212094]
 	C matrix column indices: (0, 1)
 	i_vertex: [139, 184, 229]
 Vertex info: i_n = 4	i_m = 1
-	Coordinate: [-0.013251   -0.27484051  0.00709623]
-	Projected coordinate: -0.013251002750298961
-	Interpolation weights: [0.9968268 0.0031732]
+	Coordinate: [-0.01344649 -0.27493989  0.00302768]
+	Projected coordinate: -0.013446486994102657
+	Interpolation weights: [9.99241609e-01 7.58390548e-04]
 	C matrix column indices: (1, 2)
 	i_vertex: [148, 193, 238]
 Vertex info: i_n = 4	i_m = 2
-	Coordinate: [ 0.01172932 -0.27495957  0.00611176]
-	Projected coordinate: 0.011729322423514205
-	Interpolation weights: [0.00340549 0.99659451]
+	Coordinate: [ 0.01154808 -0.27502057  0.00251269]
+	Projected coordinate: 0.011548077958923783
+	Interpolation weights: [6.04159213e-04 9.99395841e-01]
 	C matrix column indices: (1, 2)
 	i_vertex: [157, 202, 247]
 Vertex info: i_n = 4	i_m = 3
-	Coordinate: [ 0.03670965 -0.27507863  0.00512729]
-	Projected coordinate: 0.03670964759732736
-	Interpolation weights: [0.00998419 0.99001581]
+	Coordinate: [ 0.03654264 -0.27510125  0.0019977 ]
+	Projected coordinate: 0.03654264291195022
+	Interpolation weights: [0.00196671 0.99803329]
 	C matrix column indices: (2, 3)
 	i_vertex: [166, 211, 256]
 Vertex info: i_n = 4	i_m = 4
-	Coordinate: [ 0.06168997 -0.27519769  0.00414282]
-	Projected coordinate: 0.061689972771140536
-	Interpolation weights: [0.01656289 0.98343711]
+	Coordinate: [ 0.06153721 -0.27518193  0.00148271]
+	Projected coordinate: 0.06153720786497666
+	Interpolation weights: [0.00332926 0.99667074]
 	C matrix column indices: (3, 4)
 	i_vertex: [175, 220, 265]
 Vertex info: i_n = 5	i_m = 0
-	Coordinate: [-0.03832421 -0.20605193  0.00556058]
-	Projected coordinate: -0.03832420563575263
-	Interpolation weights: [0.99394167 0.00605833]
+	Coordinate: [-0.03846076 -0.2061407   0.00249379]
+	Projected coordinate: -0.03846076066589562
+	Interpolation weights: [0.99866651 0.00133349]
 	C matrix column indices: (0, 1)
 	i_vertex: [140, 185, 230]
 Vertex info: i_n = 5	i_m = 1
-	Coordinate: [-0.01334297 -0.20614808  0.00459694]
-	Projected coordinate: -0.013342969698695363
-	Interpolation weights: [4.84150558e-04 9.99515849e-01]
+	Coordinate: [-0.01346585 -0.20620592  0.00199369]
+	Projected coordinate: -0.013465848220333981
+	Interpolation weights: [1.51714501e-05 9.99984829e-01]
 	C matrix column indices: (0, 1)
 	i_vertex: [149, 194, 239]
 Vertex info: i_n = 5	i_m = 2
-	Coordinate: [ 0.01163827 -0.20624423  0.0036333 ]
-	Projected coordinate: 0.011638266238361918
-	Interpolation weights: [0.00702663 0.99297337]
+	Coordinate: [ 0.01152906 -0.20627113  0.00149359]
+	Projected coordinate: 0.01152906422522766
+	Interpolation weights: [0.00136384 0.99863616]
 	C matrix column indices: (1, 2)
 	i_vertex: [158, 203, 248]
 Vertex info: i_n = 5	i_m = 3
-	Coordinate: [ 0.0366195  -0.20634039  0.00266966]
-	Projected coordinate: 0.0366195021754192
-	Interpolation weights: [0.01356911 0.98643089]
+	Coordinate: [ 0.03652398 -0.20633635  0.00099349]
+	Projected coordinate: 0.0365239766707893
+	Interpolation weights: [0.0027125 0.9972875]
 	C matrix column indices: (2, 3)
 	i_vertex: [167, 212, 257]
 Vertex info: i_n = 5	i_m = 4
-	Coordinate: [ 0.06160074 -0.20643654  0.00170602]
-	Projected coordinate: 0.061600738112476475
-	Interpolation weights: [0.02011158 0.97988842]
+	Coordinate: [ 0.06151889 -0.20640156  0.00049339]
+	Projected coordinate: 0.061518889116350936
+	Interpolation weights: [0.00406117 0.99593883]
 	C matrix column indices: (3, 4)
 	i_vertex: [176, 221, 266]
 Vertex info: i_n = 6	i_m = 0
-	Coordinate: [-0.03840119 -0.13737461  0.00344806]
-	Projected coordinate: -0.038401189190966876
-	Interpolation weights: [0.99700317 0.00299683]
+	Coordinate: [-0.03847737 -0.13742407  0.001598  ]
+	Projected coordinate: -0.038477367058533316
+	Interpolation weights: [9.99330000e-01 6.69999661e-04]
 	C matrix column indices: (0, 1)
 	i_vertex: [141, 186, 231]
 Vertex info: i_n = 6	i_m = 1
-	Coordinate: [-0.01341893 -0.13744399  0.00250901]
-	Projected coordinate: -0.013418928099275548
-	Interpolation weights: [0.00350488 0.99649512]
+	Coordinate: [-0.01348207 -0.13747119  0.00111538]
+	Projected coordinate: -0.013482070406208305
+	Interpolation weights: [6.63315651e-04 9.99336684e-01]
 	C matrix column indices: (0, 1)
 	i_vertex: [150, 195, 240]
 Vertex info: i_n = 6	i_m = 2
-	Coordinate: [ 0.01156333 -0.13751338  0.00156996]
-	Projected coordinate: 0.011563332992415786
-	Interpolation weights: [0.01000659 0.98999341]
+	Coordinate: [ 0.01151323 -0.13751832  0.00063276]
+	Projected coordinate: 0.01151322624611672
+	Interpolation weights: [0.00199663 0.99800337]
 	C matrix column indices: (1, 2)
 	i_vertex: [159, 204, 249]
 Vertex info: i_n = 6	i_m = 3
-	Coordinate: [ 0.03654559 -0.13758276  0.00063091]
-	Projected coordinate: 0.03654559408410711
-	Interpolation weights: [0.01650829 0.98349171]
+	Coordinate: [ 0.03650852 -0.13756544  0.00015013]
+	Projected coordinate: 0.03650852289844173
+	Interpolation weights: [0.00332995 0.99667005]
 	C matrix column indices: (2, 3)
 	i_vertex: [168, 213, 258]
 Vertex info: i_n = 6	i_m = 4
-	Coordinate: [ 0.06152786 -0.13765214 -0.00030814]
-	Projected coordinate: 0.06152785517579844
-	Interpolation weights: [0.02301 0.97699]
+	Coordinate: [ 0.06150382 -0.13761257 -0.00033249]
+	Projected coordinate: 0.06150381955076677
+	Interpolation weights: [0.00466326 0.99533674]
 	C matrix column indices: (3, 4)
 	i_vertex: [177, 222, 267]
 Vertex info: i_n = 7	i_m = 0
-	Coordinate: [-0.03845533 -0.06869131  0.00194861]
-	Projected coordinate: -0.03845533321515785
-	Interpolation weights: [9.99156374e-01 8.43626239e-04]
+	Coordinate: [-0.03848928 -0.06871136  0.00094686]
+	Projected coordinate: -0.038489275669254995
+	Interpolation weights: [9.99805799e-01 1.94200835e-04]
 	C matrix column indices: (0, 1)
 	i_vertex: [142, 187, 232]
 Vertex info: i_n = 7	i_m = 1
-	Coordinate: [-0.01347185 -0.06872767  0.00104064]
-	Projected coordinate: -0.013471853089540393
-	Interpolation weights: [0.0056096 0.9943904]
+	Coordinate: [-0.01349354 -0.06873613  0.00048604]
+	Projected coordinate: -0.013493535418749177
+	Interpolation weights: [0.00112139 0.99887861]
 	C matrix column indices: (0, 1)
 	i_vertex: [151, 196, 241]
 Vertex info: i_n = 7	i_m = 2
-	Coordinate: [ 0.01151163 -0.06876402  0.00013268]
-	Projected coordinate: 0.011511627036077067
-	Interpolation weights: [0.01206284 0.98793716]
+	Coordinate: [ 1.15022048e-02 -6.87608944e-02  2.52162159e-05]
+	Projected coordinate: 0.011502204831756645
+	Interpolation weights: [0.00243698 0.99756302]
 	C matrix column indices: (1, 2)
 	i_vertex: [160, 205, 250]
 Vertex info: i_n = 7	i_m = 3
-	Coordinate: [ 0.03649511 -0.06880038 -0.00077529]
-	Projected coordinate: 0.03649510716169452
-	Interpolation weights: [0.01851607 0.98148393]
+	Coordinate: [ 0.03649795 -0.06878566 -0.0004356 ]
+	Projected coordinate: 0.036497945082262465
+	Interpolation weights: [0.00375257 0.99624743]
 	C matrix column indices: (2, 3)
 	i_vertex: [169, 214, 259]
 Vertex info: i_n = 7	i_m = 4
-	Coordinate: [ 0.06147859 -0.06883674 -0.00168325]
-	Projected coordinate: 0.061478587287311974
-	Interpolation weights: [0.0249693 0.9750307]
+	Coordinate: [ 0.06149369 -0.06881042 -0.00089643]
+	Projected coordinate: 0.061493685332768284
+	Interpolation weights: [0.00506817 0.99493183]
 	C matrix column indices: (3, 4)
 	i_vertex: [178, 223, 268]
 Vertex info: i_n = 8	i_m = 0
-	Coordinate: [-3.84765468e-02 -3.83382711e-18  1.34363089e-03]
-	Projected coordinate: -0.03847654683088986
+	Coordinate: [-3.84941363e-02 -3.83382711e-18  6.71917996e-04]
+	Projected coordinate: -0.038494136257435925
 	Interpolation weights: [1. 0.]
 	C matrix column indices: (0, 1)
 	i_vertex: [143, 188, 233]
 Vertex info: i_n = 8	i_m = 1
-	Coordinate: [-1.34917762e-02 -1.34432899e-18  4.71143299e-04]
-	Projected coordinate: -0.01349177616148086
-	Interpolation weights: [0.00640191 0.99359809]
+	Coordinate: [-1.34979439e-02 -1.34432899e-18  2.35607609e-04]
+	Projected coordinate: -0.013497943882477534
+	Interpolation weights: [0.00129753 0.99870247]
 	C matrix column indices: (0, 1)
 	i_vertex: [152, 197, 242]
 Vertex info: i_n = 8	i_m = 2
-	Coordinate: [ 1.14929945e-02  1.14516914e-18 -4.01344292e-04]
-	Projected coordinate: 0.011492994507928138
-	Interpolation weights: [0.01280382 0.98719618]
+	Coordinate: [ 1.14982485e-02  1.14516914e-18 -2.00702778e-04]
+	Projected coordinate: 0.011498248492480859
+	Interpolation weights: [0.00259505 0.99740495]
 	C matrix column indices: (1, 2)
 	i_vertex: [161, 206, 251]
 Vertex info: i_n = 8	i_m = 3
-	Coordinate: [ 3.64777652e-02  3.63466726e-18 -1.27383188e-03]
-	Projected coordinate: 0.03647776517733713
-	Interpolation weights: [0.01920572 0.98079428]
+	Coordinate: [ 3.64944409e-02  3.63466726e-18 -6.37013165e-04]
+	Projected coordinate: 0.03649444086743925
+	Interpolation weights: [0.00389258 0.99610742]
 	C matrix column indices: (2, 3)
 	i_vertex: [170, 215, 260]
 Vertex info: i_n = 8	i_m = 4
-	Coordinate: [ 6.14625358e-02  6.12416539e-18 -2.14631947e-03]
-	Projected coordinate: 0.06146253584674613
-	Interpolation weights: [0.02560763 0.97439237]
+	Coordinate: [ 6.14906332e-02  6.12416539e-18 -1.07332355e-03]
+	Projected coordinate: 0.06149063324239764
+	Interpolation weights: [0.00519011 0.99480989]
 	C matrix column indices: (3, 4)
 	i_vertex: [179, 224, 269]
 Generating an instance of LinearBeam
@@ -909,83 +909,83 @@ Linearising gravity terms...
 	M = 0.00 kg
 	X_CG A -> -0.26 0.17 0.00
 Node  1 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.069 0.001
-			-> G 0.000 0.069 0.001
+			-> A 0.000 0.069 0.000
+			-> G 0.000 0.069 0.000
 	Node mass:
 		Matrix: 0.0403
 Node  2 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.137 0.002
-			-> G 0.000 0.137 0.002
+			-> A 0.000 0.137 0.001
+			-> G 0.000 0.137 0.001
 	Node mass:
 		Matrix: 0.0202
 Node  3 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.206 0.004
-			-> G 0.000 0.206 0.004
+			-> A 0.000 0.206 0.002
+			-> G 0.000 0.206 0.002
 	Node mass:
 		Matrix: 0.0403
 Node  4 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.275 0.007
-			-> G 0.000 0.275 0.007
+			-> A 0.000 0.275 0.003
+			-> G 0.000 0.275 0.003
 	Node mass:
 		Matrix: 0.0202
 Node  5 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.344 0.009
-			-> G 0.001 0.344 0.009
+			-> A 0.000 0.344 0.004
+			-> G 0.000 0.344 0.004
 	Node mass:
 		Matrix: 0.0403
 Node  6 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.412 0.012
-			-> G 0.001 0.412 0.012
+			-> A 0.000 0.412 0.005
+			-> G 0.000 0.412 0.005
 	Node mass:
 		Matrix: 0.0202
 Node  7 	-> B -0.000 -0.000 -0.000
-			-> A 0.000 0.481 0.015
-			-> G 0.001 0.481 0.015
+			-> A 0.000 0.481 0.006
+			-> G 0.000 0.481 0.006
 	Node mass:
 		Matrix: 0.0403
 Node  8 	-> B 0.003 -0.004 -0.000
-			-> A 0.004 0.553 0.018
-			-> G 0.005 0.553 0.018
+			-> A 0.004 0.553 0.007
+			-> G 0.004 0.553 0.007
 	Node mass:
 		Matrix: 0.0300
 Node  9 	-> B -0.003 -0.000 0.000
-			-> A 0.000 -0.553 0.018
-			-> G 0.001 -0.553 0.018
+			-> A 0.000 -0.553 0.007
+			-> G 0.000 -0.553 0.007
 	Node mass:
 		Matrix: 0.0300
 Node 10 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.481 0.015
-			-> G 0.001 -0.481 0.015
+			-> A 0.000 -0.481 0.006
+			-> G 0.000 -0.481 0.006
 	Node mass:
 		Matrix: 0.0403
 Node 11 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.412 0.012
-			-> G 0.001 -0.412 0.012
+			-> A 0.000 -0.412 0.005
+			-> G 0.000 -0.412 0.005
 	Node mass:
 		Matrix: 0.0202
 Node 12 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.344 0.009
-			-> G 0.001 -0.344 0.009
+			-> A 0.000 -0.344 0.004
+			-> G 0.000 -0.344 0.004
 	Node mass:
 		Matrix: 0.0403
 Node 13 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.275 0.007
-			-> G 0.000 -0.275 0.007
+			-> A 0.000 -0.275 0.003
+			-> G 0.000 -0.275 0.003
 	Node mass:
 		Matrix: 0.0202
 Node 14 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.206 0.004
-			-> G 0.000 -0.206 0.004
+			-> A 0.000 -0.206 0.002
+			-> G 0.000 -0.206 0.002
 	Node mass:
 		Matrix: 0.0403
 Node 15 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.137 0.002
-			-> G 0.000 -0.137 0.002
+			-> A 0.000 -0.137 0.001
+			-> G 0.000 -0.137 0.001
 	Node mass:
 		Matrix: 0.0202
 Node 16 	-> B -0.000 -0.000 0.000
-			-> A 0.000 -0.069 0.001
-			-> G 0.000 -0.069 0.001
+			-> A 0.000 -0.069 0.000
+			-> G 0.000 -0.069 0.000
 	Node mass:
 		Matrix: 0.0403
         Updated the beam C, modal C and K matrices with the terms from the
@@ -1003,50 +1003,50 @@ Moment Matching Krylov Model Reduction
 	Constructing observability space
 ROM is stable
 	DT Eigenvalues:
-		mu = 0.905508 + 0.000000j
-		mu = 0.871849 + 0.000000j
-		mu = 0.836243 + -0.000000j
-		mu = 0.798148 + -0.000000j
-		mu = 0.751961 + -0.076771j
-		mu = 0.751961 + 0.076771j
-		mu = 0.704496 + 0.000000j
-		mu = 0.690117 + -0.032901j
-		mu = 0.690117 + 0.032901j
-		mu = 0.654134 + 0.000000j
-		mu = 0.613843 + -0.000000j
-		mu = 0.492845 + 0.000000j
-		mu = 0.394718 + -0.000000j
-		mu = 0.391088 + -0.000000j
-		mu = 0.294831 + 0.000000j
-		mu = -0.287060 + -0.000000j
-		mu = 0.257617 + 0.000000j
-		mu = -0.247100 + 0.000000j
-		mu = -0.228372 + 0.000000j
-		mu = -0.188111 + 0.064582j
-		mu = -0.188111 + -0.064582j
-		mu = -0.185760 + 0.058443j
-		mu = -0.185760 + -0.058443j
-		mu = -0.188762 + -0.000000j
-		mu = -0.183532 + -0.000000j
-		mu = -0.094136 + 0.146785j
-		mu = -0.094136 + -0.146785j
-		mu = 0.133977 + -0.105581j
-		mu = 0.133977 + 0.105581j
-		mu = 0.157463 + 0.064719j
-		mu = 0.157463 + -0.064719j
-		mu = 0.095842 + -0.065570j
-		mu = 0.095842 + 0.065570j
-		mu = 0.094159 + 0.062381j
-		mu = 0.094159 + -0.062381j
-		mu = -0.028480 + 0.037124j
-		mu = -0.028480 + -0.037124j
-		mu = -0.028843 + 0.000000j
-		mu = -0.009407 + 0.000000j
-		mu = 0.008445 + 0.000000j
+		mu = 0.905484 + -0.000000j
+		mu = 0.871871 + 0.000000j
+		mu = 0.836375 + -0.000000j
+		mu = 0.798139 + 0.000000j
+		mu = 0.751972 + 0.076630j
+		mu = 0.751972 + -0.076630j
+		mu = 0.704612 + 0.000000j
+		mu = 0.690622 + -0.033295j
+		mu = 0.690622 + 0.033295j
+		mu = 0.654312 + 0.000000j
+		mu = 0.614160 + 0.000000j
+		mu = 0.493416 + -0.000000j
+		mu = 0.396219 + 0.000000j
+		mu = 0.393255 + 0.000000j
+		mu = 0.297125 + -0.000000j
+		mu = -0.287785 + 0.000000j
+		mu = 0.260769 + -0.000000j
+		mu = -0.247015 + -0.000000j
+		mu = -0.228832 + -0.000000j
+		mu = -0.189613 + -0.065207j
+		mu = -0.189613 + 0.065207j
+		mu = -0.186380 + 0.058626j
+		mu = -0.186380 + -0.058626j
+		mu = -0.189407 + 0.000000j
+		mu = -0.184410 + 0.000000j
+		mu = -0.093717 + -0.147279j
+		mu = -0.093717 + 0.147279j
+		mu = 0.134185 + 0.105466j
+		mu = 0.134185 + -0.105466j
+		mu = 0.157465 + -0.064302j
+		mu = 0.157465 + 0.064302j
+		mu = 0.096516 + 0.066312j
+		mu = 0.096516 + -0.066312j
+		mu = 0.094980 + 0.062827j
+		mu = 0.094980 + -0.062827j
+		mu = -0.027352 + -0.035379j
+		mu = -0.027352 + 0.035379j
+		mu = -0.029028 + -0.000000j
+		mu = -0.010262 + 0.000000j
+		mu = 0.006188 + 0.000000j
 
 System reduced from order 837 to 
 	n = 40 states
-...Completed Model Order Reduction in 0.29 s
+...Completed Model Order Reduction in 0.28 s
 Aeroelastic system assembled:
 	Aerodynamic states: 40
 	Structural states: 20
@@ -1058,7 +1058,7 @@ State-space object
 States: 60
 Inputs: 35
 Outputs: 30
-dt: 0.000714286
+dt: 0.000625
 Input Variables:
 	(InputVariable: q, size: 10, index: 0, starting at: 0, finishing at: 10)
 	(InputVariable: q_dot, size: 10, index: 1, starting at: 10, finishing at: 20)
@@ -1095,7 +1095,7 @@ Variable format has no assigned value in the settings file.
 Variable stride has no assigned value in the settings file.
     will default to the value: 1
 Generating an instance of SaveParametricCase
-	Writing parameter pazy_model_ROM: 35
+	Writing parameter pazy_model_ROM: 40
 Saved Krylov reduced order bases, V to file: ./output//pazy_krylov_ROM//save_pmor_data/pazy_krylov_ROM_krylov_aerorob.h5
-FINISHED - Elapsed time = 2.0739526 seconds
-FINISHED - CPU process time = 14.0112536 seconds
+FINISHED - Elapsed time = 2.0574706 seconds
+FINISHED - CPU process time = 13.8170536 seconds

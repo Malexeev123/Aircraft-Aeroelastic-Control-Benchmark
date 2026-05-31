@@ -258,6 +258,8 @@ Nu(idx.qGam, nx+1) = par.Bw;
 
 % par.scaleAero = par.Fscale;
 par.scaleAero1 = par.Fscale;
+par.scaleAero1 = 1;
+
 % par.t_inf = par.gustSet.t_inf;
 
 Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero1*par.Ddel;

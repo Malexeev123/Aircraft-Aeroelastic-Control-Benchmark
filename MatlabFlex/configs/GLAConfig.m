@@ -75,23 +75,23 @@ cfg.mhe.penalizeAllW = false;
 cfg.mhe.RwTerminal = 1e-3;
 %% MPC 
 
+% cfg.Qc = blkdiag(.25*eye(cfg.Nm), eye(cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
+cfg.Qc = blkdiag(.85*eye(cfg.Nm), eye(cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
+% cfg.Qc = 3*blkdiag(.85*eye(cfg.Nm), eye(cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
+% cfg.Qc = 2*blkdiag(.85*eye(cfg.Nm), eye(cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
+% cfg.Qc = 2*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
 % cfg.Qc = .85*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
-cfg.Qc = .65*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
+% cfg.Qc = .65*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
 % cfg.Qc = .5*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only      Current this
 % cfg.Qc = 2*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only
 % cfg.Qc = .5*blkdiag(eye(2*cfg.Nm),zeros(cfg.Nm+1+cfg.Na+3));   % velocity states & Force states only
 
 
-% cfg.Qc = 5*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
-% cfg.Qc = 2*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
-% cfg.Qc = .1*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
-% cfg.Qc = blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
-% cfg.Qc = 0.85*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
-% cfg.Qc = .5*blkdiag(eye(cfg.Nm),zeros(2*cfg.Nm+1+cfg.Na+3));   % velocity states only
 % cfg.Pc = cfg.Qc;
-cfg.Pc = 2*cfg.Qc;
+% cfg.Pc = 3*cfg.Qc;
 % cfg.Pc = 2.5*cfg.Qc; % Current this
-% cfg.Pc = .5*cfg.Qc;
+cfg.Pc = .5*cfg.Qc;
+% cfg.Pc = 4*cfg.Qc;
 % cfg.Pc = 5*cfg.Qc;
 % cfg.Pc = 0*cfg.Qc;
 % cfg.Pc = 2.5*cfg.Qc;
@@ -103,9 +103,12 @@ cfg.Pc = 2*cfg.Qc;
 % cfg.Rc = 1e-2;                          % actuator penalty
 % cfg.Rc = 1e-3;        % Current this                 % actuator penalty
 % cfg.Rc = diag([5e-4; 5e-4;5e-4;5e-4]);                         % actuator penalty
+cfg.Rc = diag([5e-4; 5e-4;2e-4;2e-4]);                         % actuator penalty
 % cfg.Rc = diag([5e-3; 5e-3 ;1e-2;1e-2]);                         % actuator penalty
 % cfg.Rc = diag([5e-3; 5e-3 ;5e-3;5e-3]);                         % actuator penalty
-cfg.Rc = diag([1e-2; 1e-2 ;1e-2;1e-2]);                         % actuator penalty
+% cfg.Rc = diag([8e-3; 8e-3 ;8e-3;8e-3]);                         % actuator penalty
+% cfg.Rc = diag([1e-3; 1e-3 ;1e-3;1e-3]);                         % actuator penalty
+% cfg.Rc = diag([1e-2; 1e-2 ;1e-2;1e-2]);                         % actuator penalty
 % cfg.Rc = 1e-4;                         % actuator penalty
 % cfg.Rc = 5e-5;                         % actuator penalty
 % cfg.Rc = 5e-4;                         % actuator penalty
@@ -121,8 +124,8 @@ cfg.ctrl.actuatorDeflectionAlpha = 0.5;
 % control limits ---------------------------------------------------------
 cfg.uL = deg2rad(-20);
 cfg.uU = deg2rad( 20);
-cfg.urateL = deg2rad(-75);
-cfg.urateU = deg2rad( 75);
+cfg.urateL = deg2rad(-100);
+cfg.urateU = deg2rad( 100);
 % cfg.urateL = deg2rad(-60);  % Current this
 % cfg.urateU = deg2rad( 60);  % Current this
 % cfg.urateL = deg2rad(-50);

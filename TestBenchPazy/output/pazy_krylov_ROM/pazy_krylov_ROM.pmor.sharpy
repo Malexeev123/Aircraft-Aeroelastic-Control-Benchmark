@@ -1,5 +1,5 @@
 [parameters]
-pazy_model_ROM = 35
+pazy_model_ROM = 40
 [sim_info]
 case = pazy_krylov_ROM
 path_to_data = /home/maxal/Aircraft-Aeroelastic-Control-Benchmark/TestBenchPazy/output/pazy_krylov_ROM

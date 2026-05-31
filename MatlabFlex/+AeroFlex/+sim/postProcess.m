@@ -518,6 +518,33 @@ if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'wingTip') && cfg.plotOpts.wi
     save_plot(fh, 'wingtip_heave');
 end
 
+% Wing-tip heave (against sharpy)
+try
+if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
+    openloop_tip_disp = cfg.sim.normalised_tip_displacement(:); 
+    % fh = figure('Color','w','Position',[100 100 1120 520]);
+    fh = figure;
+    % plot(t,  out.disp(:,3)*100/cfg.debug.plt_scale); hold on
+
+    % Accound for gust offset start to lineup with SHARPY
+    plot_offset = floor(cfg.gust.gust_offset_ratio*numel(t));
+    tip_z_offset = out.tip_z_norm_pct(plot_offset:end);
+    tip_z_offset(end+1: end+plot_offset-1) = tip_z_offset(end);
+    % plot(t(cfg.gust.gust_offset+1:end),  out.tip_z_norm_pct(cfg.gust.gust_offset+1:end), 'LineWidth', 2); hold on
+    plot(t,  tip_z_offset, 'LineWidth', 2); hold on
+
+    t_openL = linspace(0,cfg.sim.t_end,numel(openloop_tip_disp));
+    % openloop_tip_disp = reshape(openloop_tip_disp, size(t));
+    plot(t_openL, openloop_tip_disp, 'LineWidth', 2);
+    
+    xlabel('t [s]'); ylabel('Tip z [% b/2]'); grid on
+    title('Wing-tip Displacement Open Vs Closed Loop (A-frame, % span/2)');
+    legend({'Closed Loop', 'Open Loop'})
+    hold off
+    save_plot(fh, 'wingtip_heave');
+end
+catch
+end
 % figure; plot(t, eulTipT); title('Test');
 % ------------------------ energies (legacy math + plots) -----------------
 Tkin = 0.5*sum(q1.^2, 1);       % 1 x Nt
@@ -741,6 +768,38 @@ if isfield(out,'control') && isfield(out.control,'U') && ~isempty(out.control.U)
     end
 
     save_plot(fh,'control_commands');
+end
+
+if isfield(out,'control') && isfield(out.control,'U') && ~isempty(out.control.U)
+
+    fh = figure;
+    % fh = figure('Color','w','Position',[100 100 1120 760]);
+
+    plot_offset = floor(cfg.gust.gust_offset_ratio*numel(t));
+    delta_deg_offset = out.control.delta_deg(:,plot_offset:end).';
+    delta_deg_offset(end+1: end+plot_offset-1,1) = delta_deg_offset(end,1);
+    delta_deg_offset(end-plot_offset+1: end,2) = delta_deg_offset(end-plot_offset,2);
+    
+    dd_delta_offset = out.control.rate_cmd_deg_s(:,plot_offset:end).';
+    dd_delta_offset(end+1: end+plot_offset-1,1) = dd_delta_offset(end,1);
+    dd_delta_offset(end-plot_offset+1: end,2) = dd_delta_offset(end-plot_offset,2);
+
+
+        nexttile;
+        plot(out.control.t,delta_deg_offset);
+        % plot(out.control.t,out.control.delta_deg.');
+        grid on; ylabel('\delta [deg]');
+        title('Control surface deflections');
+        legend(local_surface_labels(size(out.control.delta,1),'\delta'),'Location','best');
+
+        nexttile;
+        % plot(out.control.t,out.control.rate_cmd_deg_s.');
+        plot(out.control.t,dd_delta_offset);
+        grid on; ylabel('dot{\delta}_{cmd} [deg/s]');
+        title('Commanded actuator-rate channels');
+        legend(local_surface_labels(size(out.control.rate_cmd,1),'dot{\delta}_{cmd}'),'Location','best');
+
+    save_plot(fh,'control_commands2');
 end
 
 % -------------------- gust estimate plot -------------------------------
