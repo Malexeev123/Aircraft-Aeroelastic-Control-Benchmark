@@ -21,7 +21,7 @@ sim_case    = 'nmhe_nmpc'   ; % openloop (default) | nmhe_nmpc
 
 % THIS NEEDS TO BE EDITED WITH ACTUAL FOLDER LOC
 % Generates the Run Script
-sim_init('\home\maxal\Aircraft-Aeroelastic-Control-Benchmark\TestBenchPazy',  ...
+sim_init(fullfile(pwd, 'TestBenchPazy'),  ...
     'body_case',body_case, 'sim_case',sim_case,'overwrite', true)
 
 
