@@ -216,6 +216,9 @@ cfg = merge_cfg(cfg, cfg_loaded);
 % cfg.flight.Fscale = sqrt(cfg.ctrl.Ts/(cfg.flight.aeroscale*cfg.flight.t_scale)); 
 % disp(cfg.flight.Fscale)
 cfg = ensure_nominal_extras(cfg);
+cfg = AeroFlex.sched.defaultLibraryConfig; % For lookup/interp
+% cfg = AeroFlex.sched.defaultLibraryConfig(cfg); % For lookup/interp
+
 validate_cfg(cfg);
 if debug, show_cfg_summary(cfg); end
 
@@ -462,6 +465,17 @@ fprintf('[sim_init] BASE OK: φξ %dx%d, Dχ %dx%d, Bχ %dx%d\n', ...
 %     fprintf('[sim_init] ctrb rank = %d (n=%d)\n', rankCo, size(A,1));
 % end
 
+%% Lookup-table setup library
+if isfield(cfg,'library') && cfg.library.enable && exist(cfg.library.path,'file') == 2
+  ROMlib = AeroFlex.sched.loadLibrary(cfg.library.path);
+  mu0 = [cfg.flight.U_inf, cfg.flight.aoa_deg];
+  sched0 = AeroFlex.sched.evalLibrary(ROMlib, mu0, cfg.library);
+  base.Gamma_xi = sched0.base.Gamma_xi;
+  base.Gamma_g  = sched0.base.Gamma_g;
+  if isfield(sched0.base,'xi_bar'), base.xi_bar = sched0.base.xi_bar; end
+  sim_config.ROMlib = ROMlib;
+  sim_config.sched0 = sched0;
+end
 
 %% ------------------------------------------------------------
 %  6) Trim (steady states) + indices + runner
@@ -675,6 +689,10 @@ sim_config.sysd   = sysd;
 sim_config.paths  = paths;
 sim_config.case_name = case_name;
 sim_config.body_case = opt.body_case;
+
+% include ROMlib/sched0 if they exist:
+if exist('ROMlib','var'), sim_config.ROMlib = ROMlib; end
+if exist('sched0','var'), sim_config.sched0 = sched0; end
 
 save(fullfile(paths.for_matlab,'sim_bundle.mat'), ...
     'sim_config','state_space_system','input_settings','t','U','y','tip_deflection','deflection','deflection_rate');

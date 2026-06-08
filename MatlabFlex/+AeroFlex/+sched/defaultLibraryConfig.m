@@ -1,4 +1,4 @@
-function cfg = defaultLibraryConfig(cfg)
+% function cfg = defaultLibraryConfig(cfg)
 %DEFAULTLIBRARYCONFIG Fill missing ROM-library scheduling options.
 %
 % The scheduler uses a local library of MATLAB-assembled ROM points.  Each
@@ -11,9 +11,9 @@ function cfg = defaultLibraryConfig(cfg)
 % The library is intentionally kept independent of nMHE/nMPC.  The control
 % horizon uses the frozen scheduled ROM supplied at the current major step.
 
-if nargin < 1 || isempty(cfg)
-    cfg = struct();
-end
+% if nargin < 1 || isempty(cfg)
+%     cfg = struct();
+% end
 
 if ~isfield(cfg,'library') || ~isstruct(cfg.library)
     cfg.library = struct();
@@ -80,4 +80,4 @@ if ~isfield(L.loads,'r_A_CG_B'), L.loads.r_A_CG_B = [0;0;0]; end
 if ~isfield(L.loads,'shiftWingMomentToCG'), L.loads.shiftWingMomentToCG = true; end
 
 cfg.library = L;
-end
+% end

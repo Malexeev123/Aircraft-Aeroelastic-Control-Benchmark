@@ -108,7 +108,7 @@ if isempty(setup_dir)
     end
 end
 
-% --- If we found a setup_dir, see if it has for_matlab/roots.mat ---
+% --- If found a setup_dir, see if it has for_matlab/roots.mat ---
 if ~isempty(setup_dir) && isempty(roots)
     fm = fullfile(setup_dir,'for_matlab');
     if exist(fullfile(fm,'roots.mat'),'file')==2
@@ -235,6 +235,19 @@ defl_rate   = safe_h5read(h5, '/deflection_rate', zeros(numel(t_vec), getOr(cfg.
 
 % Keep gust external; AeroROM.gust_input is read-only.
 gust_series = gust_series(:);  % used in Plant/ROM loops below
+
+cfg = AeroFlex.sched.defaultLibraryConfig;
+% cfg = AeroFlex.sched.defaultLibraryConfig(cfg);
+ROMlib = [];
+if isfield(cfg,'library') && cfg.library.enable
+    if isfield(Ssim.sim_config,'ROMlib')
+        ROMlib = Ssim.sim_config.ROMlib;
+    elseif exist(cfg.library.path,'file') == 2
+        ROMlib = AeroFlex.sched.loadLibrary(cfg.library.path);
+    else
+        error('cfg.library.enable=true, but no ROM library was found.');
+    end
+end
 
 % Optional sanity check for SimRunner path (just warn; do not set)
 try
@@ -369,6 +382,10 @@ cfg.sim.body_case= body_case;
                     
 
                     plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
+                    % Lookup
+                    if ~isempty(ROMlib)
+                        plant.attachROMLibrary(ROMlib);
+                    end
                     log = struct(); sensEq = [];
 
                     for k = 1:Nt
@@ -531,7 +548,11 @@ cfg.sim.body_case= body_case;
                             otherwise
                                 error('Unknown cfg.sim.body_case = "%s".', cfg.sim.body_case);
                     end
-                    plant  = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
+                    plant = AeroFlex.sim.PlantRunTime(cfg, beam, aero, base, x0, trim);
+                    % Lookup
+                    if ~isempty(ROMlib)
+                        plant.attachROMLibrary(ROMlib);
+                    end
                     est    = estimatorFcn(cfg, beam, aero, base, trim);
                     ctrl   = controllerFcn(cfg, beam, aero, base, trim);
 
