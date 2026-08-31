@@ -13,14 +13,14 @@ validation, and post-processing are project-owned.
 
 ## Current benchmark status
 
-| Scenario | Description | Status |
-| --- | --- | --- |
-| `A1` | Commanded attitude, no gust 
-| `A2` | Attitude hold under gust 
-| `A3` | Commanded attitude under gust 
-| `B1` | Thrust-led speed transition, no gust 
-| `B2` | Matched speed transition under gust 
-| `C` | Longitudinal trajectory tracking under gust
+| Scenario | Description |
+| --- | --- |
+| `A1` | Commanded attitude, no gust |
+| `A2` | Attitude hold under gust |
+| `A3` | Commanded attitude under gust |
+| `B1` | Thrust-led speed transition, no gust |
+| `B2` | Matched speed transition under gust |
+| `C` | Longitudinal trajectory tracking under gust |
 
 The Case-B interface retains the complete V90 scheduled runtime, including
 scheduled package/history ownership, current-package forecast context, state transport,
