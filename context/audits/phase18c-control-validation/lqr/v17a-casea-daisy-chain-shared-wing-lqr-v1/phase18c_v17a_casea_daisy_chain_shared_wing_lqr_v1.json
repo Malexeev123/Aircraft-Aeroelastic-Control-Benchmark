@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "phase18c-v17a-casea-daisy-chain-shared-wing-lqr-v1",
+  "auditOnly": true,
+  "enabledByDefault": false,
+  "modelId": "V17A_DIMENSIONAL_STEADY_FORCE_LOCKED",
+  "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+  "sourceId": "CASEA_U040_ALPHA_P01",
+  "sourceCoordinate": [
+    40,
+    1
+  ],
+  "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+  "sourcePackageSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+  "sourceCertificatePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/source_certification.json",
+  "sourceCertificateSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+  "runtimeCenteredSourceBankPath": "context\\audits\\phase18c-control-validation\\lqr\\PHASE18C_V17A_CASEA_RUNTIME_CENTERED_LQR_BANK_V1.mat",
+  "runtimeCenteredSourceBankSha256": "d42a1cdc790dfc9f213483f7ce525982d8b76083f0d4bb46bd31bee9bad081c1",
+  "baselineLqrArtifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casea-runtime-centered-source-bank-v1\\phase18c_v17a_casea_runtime_centered_longitudinal_lqr_v1.json",
+  "baselineLqrArtifactSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
+  "sampleTimeSeconds": 0.04,
+  "plantStepSeconds": 0.000625,
+  "substepsPerOuterSample": 64,
+  "stateOrder": [
+    "u",
+    "w",
+    "theta",
+    "q"
+  ],
+  "rigidStateIndices": [
+    1,
+    3,
+    5,
+    8
+  ],
+  "inputOrder": [
+    "symmetricWingIncrement",
+    "elevatorIncrement",
+    "thrustIncrement"
+  ],
+  "A": [
+    [
+      1.0005074785602162,
+      0.012175944065809519,
+      -0.39224429098064473,
+      -0.024638415752065157
+    ],
+    [
+      -0.066401347600104618,
+      0.17956837891288041,
+      0.006268507463677811,
+      0.61994606237458783
+    ],
+    [
+      -0.0014923958364998194,
+      -0.018439688953783787,
+      1.0002712069800612,
+      0.019026396888555119
+    ],
+    [
+      -0.050485247884337753,
+      -0.62389309080914035,
+      0.017637364280508144,
+      -0.059025688426798936
+    ]
+  ],
+  "B": [
+    [
+      13.689918461068373,
+      -0.48660261597888166,
+      0.052632142200081944
+    ],
+    [
+      -962.99898318386045,
+      32.765266640977231,
+      -0.0014533588776899364
+    ],
+    [
+      -26.99030456528029,
+      0.736418877388817,
+      -2.9876280269180988E-5
+    ],
+    [
+      -1847.7362081408364,
+      24.916188363948077,
+      -0.0019429195280686921
+    ]
+  ],
+  "Q": [
+    [
+      0.25,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      51.2938492189335,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      8.2070158750293611
+    ]
+  ],
+  "R": [
+    [
+      8.2070158750293611,
+      0,
+      0
+    ],
+    [
+      0,
+      184.60576732088975,
+      0
+    ],
+    [
+      0,
+      0,
+      126.49110640673517
+    ]
+  ],
+  "gain": [
+    [
+      9.2991833847861464E-5,
+      0.00061695674479879707,
+      -0.0025416993464637688,
+      0.00030939945908309827
+    ],
+    [
+      -0.0015411216025496019,
+      0.018249615381955287,
+      -0.03444409522421444,
+      0.022435318914752547
+    ],
+    [
+      0.0058300336985795615,
+      0.00081903454415999306,
+      -0.041103651518197615,
+      -0.00038577420487434717
+    ]
+  ],
+  "wingIncrementLimitRadians": 0.3490658503988659,
+  "elevatorIncrementLimitRadians": 0.17453292519943295,
+  "thrustIncrementLimitNewtons": 0.5,
+  "trimElevatorRadians": -0.031898630830668968,
+  "trimThrustNewtons": 0.434369242991249,
+  "maximumDiscreteClosedLoopPole": 0.97517495572213964,
+  "usesR2RigidEquilibrium": false,
+  "usesValidationTruthForSelection": false,
+  "daisyChainContract": "outer reference is an applied-wing endpoint preference; nMPC retains hard constraints and may deviate through its correction",
+  "lateralAuthorityClaimed": false
+}

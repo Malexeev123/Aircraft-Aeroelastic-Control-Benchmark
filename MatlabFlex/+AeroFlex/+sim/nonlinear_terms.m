@@ -84,8 +84,8 @@ N_qxi =  (Gxiq1(:,:,1) * q1);
 % ---------- Γ2^T q1  (Eq 9b) ----------------------------------------------
 % GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'))
 % N_GT =  GT(:,:,1)*q2;     % note: transpose on first arg
-GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q2, 'none'));
-N_GT =  GT(:,:,1)*q1;     % note: transpose on first arg
+GT = squeeze(pagemtimes(par.Gamma2, 'transpose', q1, 'none'));
+N_GT = GT(:,:,1)*q2;      % sum_l q2_l*Gamma2(:,:,l).'*q1
 
 % ---------- aerodynamic linear forces  -----------------------------------
 
@@ -112,7 +112,7 @@ if isfield(par,'gust') && ~isempty(par.gust)
     NgD = par.scaleAero * par.Dw * g; % non‑circulatory part
     % NgD = par.Fscale * par.Dw * g; % non‑circulatory part
     % NgD = par.Dw * g; % non‑circulatory part
-    
+
     % NgD =  par.Dw * g; % non‑circulatory part
     N_terms(idx.qGam) = N_terms(idx.qGam) + NgB;  % Γ̇ input
     N_terms(idx.q1 ) = N_terms(idx.q1 ) + NgD;    % modal forces
@@ -120,7 +120,7 @@ end
 
 % ---------- control‑surface contribution (if provided) ---------------------
 if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
-    %% Temp 
+    %% Temp
     % t_inf = .0013;
     % % t_inf = 1;
     % q_inf = 980;
@@ -131,7 +131,7 @@ if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
     par.scaleAero1 = 1;
     % par.t_inf = par.gustSet.t_inf;
 
-    
+
 
     u   = par.u_ctrl;    % [δ₁ δ₂ δ̇₁ δ̇₂]ᵀ
     NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
@@ -142,19 +142,30 @@ if isfield(par,'u_ctrl') && ~isempty(par.u_ctrl)
 
     % NcB = (1/par.t_inf)*par.Bdel*u(1:2) + par.Bddel*u(3:4);
     % NcD = ( par.scaleA*par.Ddel*u(1:2) + (par.t_inf)*par.scaleAero*par.Dddel*u(3:4) );
-    
-    
+
+
     N_terms(idx.qGam) = N_terms(idx.qGam) + NcB;
     % test rate projection for trim
     % if isfield(par, 'RateProject')
     %     if par.RateProject.projSet
     %         NcD = par.RateProject.Pz*NcD;
     %     end
-    % 
+    %
     % end
     N_terms(idx.q1 ) = N_terms(idx.q1 ) + NcD;
 end
-                                          
+
+% A centered scheduled package may require a full-state affine term after
+% exact expansion back into the absolute-state runtime convention.
+if isfield(par,'affineOffset') && ~isempty(par.affineOffset)
+    if numel(par.affineOffset) ~= Nx
+        error('AeroFlex:sim:AffineOffsetSize', ...
+            'affineOffset has %d entries; expected %d.', ...
+            numel(par.affineOffset),Nx);
+    end
+    N_terms = N_terms + par.affineOffset(:);
+end
+
 
 % N_terms = par.dt * N_terms;   % IMEX increment
 end
@@ -178,7 +189,7 @@ end
 %     %   hat_chi has 3 entries (Euler angles, etc.)
 %     %
 %     % Equations of motion from eq. (9a)-(9c) in the reference, for example.
-% 
+%
 %     % --- Extract the relevant pieces from 'state' ---
 %     q1_start      = 1;
 %     q1_end        = num_modes;
@@ -190,14 +201,14 @@ end
 %     q_gamma_end   = q_xi_end + num_aero_states2;  % 3*num_modes+1 + num_aero_states2
 %     hat_chi_start = q_gamma_end + 1;              % 3*num_modes+1 + num_aero_states2 +1
 %     hat_chi_end   = hat_chi_start + 2;            % up to +2 -> last 3
-% 
+%
 %     % Now parse them out:
 %     q1      = state(q1_start : q1_end);
 %     q2      = state(q2_start : q2_end);
 %     q_xi    = state(q_xi_start : q_xi_end);
 %     q_gamma = state(q_gamma_start : q_gamma_end);
 %     hat_chi = state(hat_chi_start : hat_chi_end);
-% 
+%
 %     % Control input parse:
 %     icontrol_input = input_vars.control_inputs;
 %     if size(icontrol_input,1) == 1 % column
@@ -205,10 +216,10 @@ end
 %     end
 %     u_delta_i = icontrol_input(1:2);
 %     u_ddelta_i = icontrol_input(3:4);
-% 
-% 
+%
+%
 %     eta_thrust= input_vars.eta_thrust;
-% 
+%
 %     N_len = 2*num_modes + (num_modes+1) + num_aero_states2 + 3;
 %     N1    = zeros(N_len,1);
 %     %===== Γ₁ Term: -q1_l * Γ₁^l * q1 (Equation 9a) =====
@@ -217,42 +228,42 @@ end
 %         Gamma1_l = Gamma1(:, :, l);  % Slice of Γ₁ for mode l
 %         N1_Gamma1 = N1_Gamma1 - q1(l) * (Gamma1_l * q1);
 %     end
-% 
+%
 %     %===== Γ₂ Term: -q2_l * Γ₂^l * q2 (Equation 9a) =====
 %     N1_Gamma2 = zeros(num_modes, 1);
 %     for l = 1:num_modes
 %         Gamma2_l = Gamma2(:, :, l);  % Slice of Γ₂ for mode l
 %         N1_Gamma2 = N1_Gamma2 - q2(l) * (Gamma2_l * q2);
 %     end
-% 
+%
 %     %===== Γ_g Term: +qξ_l * Γ_g^l * qξ (Equation 9a) =====
 %     N1_GammaG = zeros(num_modes, 1);
 %     for l = 1:num_modes %+ 1  % Loop over num_modes + 1 for q_xi
 %         GammaG_l = Gamma_g(:, :, l);
 %         N1_GammaG = N1_GammaG + q_xi(l) * (GammaG_l * q_xi);
 %     end
-% 
+%
 %     %===== Γ_xi Term: +qξ_l * Γ_xi^l * q1 (Equation 9c) =====
 %     N1_GammaXi = zeros(num_modes + 1, 1);  % Correct size for q_xi
 %     for l = 1:num_modes+ 1
 %         GammaXi_l = Gamma_xi(:, :, l);  % Slice of Γ_xi for mode l
 %         N1_GammaXi = N1_GammaXi + q_xi(l) * (GammaXi_l * q1);
 %     end
-% 
+%
 %     %===== Γ₂^⊤ Term: q2_l*(Γ₂^l)^⊤ * q1 (Equation 9b) =====
 %     N2_Gamma2T = zeros(num_modes, 1);
 %     for l = 1:num_modes
 %         Gamma2_l = Gamma2(:, :, l);
 %         N2_Gamma2T = N2_Gamma2T + q2(l) * (Gamma2_l' * q1);
 %     end
-% 
+%
 %     %===== Gust to N1 =====
 %     Bw = input_vars.Bw;
 %     Dw = input_vars.Dw;
 %     aero_scale = input_vars.aero_scale;
 %     t_inf = input_vars.t_inf;
 %     if input_vars.scale_gust_choice ==1
-% 
+%
 %         N_gustB = Bw* gust_input_i;
 %         N_gustD = aero_scale*t_inf*Dw * gust_input_i;
 %     else
@@ -260,24 +271,24 @@ end
 %         N_gustD = Dw * gust_input_i;
 %         aero_scale =1;
 %     end
-% 
+%
 %     %===== Controls to N1 =====
 %     B_delta = input_vars.B_delta;
 %     D_delta= input_vars.D_delta;
 %     B_ddelta = input_vars.B_ddelta;
 %     D_ddelta= input_vars.D_ddelta;
-% 
+%
 %     if input_vars.scale_gust_choice ==1
-% 
+%
 %         control_ddeltaB = B_ddelta*u_ddelta_i;
 %         control_deltaB = (1/t_inf)* B_delta*u_delta_i;
-% 
+%
 %         control_ddeltaD = aero_scale*t_inf*D_ddelta*u_ddelta_i;
 %         control_deltaD = aero_scale*D_delta*u_delta_i;
 %     else
 %         control_ddeltaB = B_ddelta*u_ddelta_i;
 %         control_deltaB = B_delta*u_delta_i;
-% 
+%
 %         control_ddeltaD = D_ddelta*u_ddelta_i;
 %         control_deltaD = D_delta*u_delta_i;
 %         aero_scale =1;

@@ -1,0 +1,4608 @@
+{
+  "schemaVersion": "phase18c-v17a-caseb-source-domain-pulse-envelope-v1",
+  "status": "PASS",
+  "generatedUtc": "2026-08-29T02:51:43.188Z",
+  "matlabRelease": "2025b",
+  "approvalPath": "context\\change-control\\phase18c-v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1.json",
+  "manifestPath": "context\\audits\\phase18c-control-validation\\plant\\v17a-casebc-scheduled-reciprocal-bank-v1\\PHASE18C_V17A_CASEBC_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_BANK_V2.json",
+  "manifestSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+  "sourceCount": 14,
+  "secantTolerance": 0.001,
+  "records": [
+    {
+      "sourceId": "CASEC_NOMINAL",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/CASEC_NOMINAL/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+      "packageSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32975164611879237,
+        1.7453292519943295,
+        0.31670148547390203,
+        1.7022537582384896
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32975164611879237,
+        1.7453292519943295,
+        0.31670148547390203,
+        1.7022537582384896
+      ],
+      "minimumAcceptedInputAmplitude": 0.31670148547390203,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 5.3462366160850349E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 4.7577005174656462,
+      "maximumHiddenDepartureInfinity": 3.6314125507560235,
+      "maximumRootWrenchDepartureInfinity": 1257.0029395314896,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 4.754601932190246,
+          "hiddenDepartureInfinity": 3.5697122767519769,
+          "rootWrenchDepartureInfinity": 1256.6965907601048,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 1.7763568394002505E-11,
+          "visibleDepartureInfinity": 4.7546019343157679,
+          "hiddenDepartureInfinity": 3.5697178298321681,
+          "rootWrenchDepartureInfinity": 1256.6965918199826,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.7546019555709886,
+          "hiddenDepartureInfinity": 3.5697733606340796,
+          "rootWrenchDepartureInfinity": 1256.6966024187589,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.7546021681232036,
+          "hiddenDepartureInfinity": 3.5703286686531963,
+          "rootWrenchDepartureInfinity": 1256.6967084065236,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7546042936453219,
+          "hiddenDepartureInfinity": 3.5758817488443624,
+          "rootWrenchDepartureInfinity": 1256.6977682841691,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 1.7763568394002505E-15,
+          "visibleDepartureInfinity": 4.7546255488646452,
+          "hiddenDepartureInfinity": 3.6314125507560235,
+          "rootWrenchDepartureInfinity": 1256.7083670606257,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.8191660911050588E-12,
+          "wrenchSecantDefect": 8.8817841970012523E-12,
+          "visibleDepartureInfinity": 4.7546038112993978,
+          "hiddenDepartureInfinity": 3.5697456181693332,
+          "rootWrenchDepartureInfinity": 1256.6966479771118,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 2.4095830455525137E-13,
+          "wrenchSecantDefect": 8.8817841970012523E-13,
+          "visibleDepartureInfinity": 4.754620725407273,
+          "hiddenDepartureInfinity": 3.5700512440057324,
+          "rootWrenchDepartureInfinity": 1256.6971639900507,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 2.4095830455525116E-14,
+          "wrenchSecantDefect": 8.8817841970012523E-14,
+          "visibleDepartureInfinity": 4.7547898664842005,
+          "hiddenDepartureInfinity": 3.5731075023697256,
+          "rootWrenchDepartureInfinity": 1256.7023241194424,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 1.2047915227762559E-15,
+          "wrenchSecantDefect": 1.7347234759768071E-17,
+          "visibleDepartureInfinity": 4.7564812770713427,
+          "hiddenDepartureInfinity": 3.6036700860096542,
+          "rootWrenchDepartureInfinity": 1256.753925413358,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32975164611879237,
+          "stateSecantDefect": 2.9229064712589532E-15,
+          "wrenchSecantDefect": 6.8950400944345347E-13,
+          "visibleDepartureInfinity": 4.7577005174656462,
+          "hiddenDepartureInfinity": 3.6257008945481215,
+          "rootWrenchDepartureInfinity": 1256.7911218179549,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7546019559087318,
+          "hiddenDepartureInfinity": 3.569712232384139,
+          "rootWrenchDepartureInfinity": 1256.6965913855531,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 6.6613381477509392E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7546021715006308,
+          "hiddenDepartureInfinity": 3.5697173861537919,
+          "rootWrenchDepartureInfinity": 1256.6965980744656,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.754604327419627,
+          "hiddenDepartureInfinity": 3.569768923850317,
+          "rootWrenchDepartureInfinity": 1256.69666496359,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 5.088889243809111E-16,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 4.754622836334522,
+          "hiddenDepartureInfinity": 3.5702113833504332,
+          "rootWrenchDepartureInfinity": 1256.6972392175919,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 1.2780916884572779E-8,
+          "visibleDepartureInfinity": 4.7546019354007241,
+          "hiddenDepartureInfinity": 3.5697116602818113,
+          "rootWrenchDepartureInfinity": 1256.6965916096519,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 1.2780916753891312E-9,
+          "visibleDepartureInfinity": 4.7546019664205517,
+          "hiddenDepartureInfinity": 3.569711665130511,
+          "rootWrenchDepartureInfinity": 1256.6966003154525,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 3.5527136788005009E-11,
+          "wrenchSecantDefect": 7.9880729650563758E-12,
+          "visibleDepartureInfinity": 4.7546022766188241,
+          "hiddenDepartureInfinity": 3.5697117136175089,
+          "rootWrenchDepartureInfinity": 1256.6966873734591,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 4.992545603032616E-14,
+          "visibleDepartureInfinity": 4.7546053786015525,
+          "hiddenDepartureInfinity": 3.56971219848749,
+          "rootWrenchDepartureInfinity": 1256.6975579535256,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.3290705182007514E-11,
+          "wrenchSecantDefect": 1.2780916743698156E-12,
+          "visibleDepartureInfinity": 4.7546363984288318,
+          "hiddenDepartureInfinity": 3.5697170471872983,
+          "rootWrenchDepartureInfinity": 1256.706263754189,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.3302562363910511E-9,
+          "wrenchSecantDefect": 6.2406820037524849E-17,
+          "visibleDepartureInfinity": 4.7549465967016289,
+          "hiddenDepartureInfinity": 3.5697655341853851,
+          "rootWrenchDepartureInfinity": 1256.7933217608229,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.31670148547390203,
+          "stateSecantDefect": 5.3462366160850349E-8,
+          "wrenchSecantDefect": 4.0339768472257449E-14,
+          "visibleDepartureInfinity": 4.7556934903294783,
+          "hiddenDepartureInfinity": 3.56988228090218,
+          "rootWrenchDepartureInfinity": 1257.0029395314896,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 2.2204460492503144E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.7546019320310551,
+          "hiddenDepartureInfinity": 3.5697116599308991,
+          "rootWrenchDepartureInfinity": 1256.6965906524081,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 1.3877787807814457E-13,
+          "visibleDepartureInfinity": 4.75460193272386,
+          "hiddenDepartureInfinity": 3.5697116616213926,
+          "rootWrenchDepartureInfinity": 1256.6965907430153,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.7763568394002505E-12,
+          "visibleDepartureInfinity": 4.7546019396519092,
+          "hiddenDepartureInfinity": 3.5697116785263248,
+          "rootWrenchDepartureInfinity": 1256.6965916490876,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 2.2204460492503131E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7546020089324026,
+          "hiddenDepartureInfinity": 3.5697118475756495,
+          "rootWrenchDepartureInfinity": 1256.6966007098106,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7546027017373369,
+          "hiddenDepartureInfinity": 3.5697135380688949,
+          "rootWrenchDepartureInfinity": 1256.6966913170397,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 8.8817841970012523E-16,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.7546096297866765,
+          "hiddenDepartureInfinity": 3.5697304430013479,
+          "rootWrenchDepartureInfinity": 1256.6975973893307,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.7022537582384896,
+          "stateSecantDefect": 1.0435323090395628E-15,
+          "wrenchSecantDefect": 1.6708856520608606E-14,
+          "visibleDepartureInfinity": 4.75461503561855,
+          "hiddenDepartureInfinity": 3.5697436336150674,
+          "rootWrenchDepartureInfinity": 1256.6983043811879,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0700",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U017P75_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/p5_trim.mat",
+      "packageSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32934014760529273,
+        1.7453292519943295,
+        0.30983375853727907,
+        1.7220925513604337
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32934014760529273,
+        1.7453292519943295,
+        0.30983375853727907,
+        1.7220925513604337
+      ],
+      "minimumAcceptedInputAmplitude": 0.30983375853727907,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 4.8382245207153029E-8,
+      "maximumWrenchSecantDefect": 2.6057129944718234E-8,
+      "maximumVisibleDepartureInfinity": 4.7367661682101323,
+      "maximumHiddenDepartureInfinity": 3.6092462366894855,
+      "maximumRootWrenchDepartureInfinity": 1251.2388135743226,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 5.6843418860808015E-9,
+          "visibleDepartureInfinity": 4.7336856678354744,
+          "hiddenDepartureInfinity": 3.5521276099567354,
+          "rootWrenchDepartureInfinity": 1250.9476261863949,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 3.5527136788005009E-11,
+          "wrenchSecantDefect": 5.6843418860808015E-10,
+          "visibleDepartureInfinity": 4.733685670013541,
+          "hiddenDepartureInfinity": 3.5521321766986467,
+          "rootWrenchDepartureInfinity": 1250.9476272498162,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 5.6843418860808015E-11,
+          "visibleDepartureInfinity": 4.7336856917942125,
+          "hiddenDepartureInfinity": 3.5521778441177587,
+          "rootWrenchDepartureInfinity": 1250.9476378840284,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7336859096009167,
+          "hiddenDepartureInfinity": 3.5526345183088828,
+          "rootWrenchDepartureInfinity": 1250.9477442261509,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7336880876679457,
+          "hiddenDepartureInfinity": 3.55720126022012,
+          "rootWrenchDepartureInfinity": 1250.9488076473758,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.3306690738754696E-16,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.7337098683363861,
+          "hiddenDepartureInfinity": 3.6028686793324978,
+          "rootWrenchDepartureInfinity": 1250.9594418596243,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 9.9472537597718737E-12,
+          "wrenchSecantDefect": 1.1368683772161603E-9,
+          "visibleDepartureInfinity": 4.7336875383044523,
+          "hiddenDepartureInfinity": 3.5521617895565432,
+          "rootWrenchDepartureInfinity": 1250.9476830342728,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 1.243406719971484E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7337043747033052,
+          "hiddenDepartureInfinity": 3.5524739726967249,
+          "rootWrenchDepartureInfinity": 1250.9481957285939,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 9.9472537597718793E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7338727386900441,
+          "hiddenDepartureInfinity": 3.5555958040985418,
+          "rootWrenchDepartureInfinity": 1250.9533226718058,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 9.9472537597718774E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-13,
+          "visibleDepartureInfinity": 4.7355563783785621,
+          "hiddenDepartureInfinity": 3.5868141181167141,
+          "rootWrenchDepartureInfinity": 1251.0045921039248,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32934014760529273,
+          "stateSecantDefect": 3.0203586864699948E-15,
+          "wrenchSecantDefect": 5.3932552868118933E-15,
+          "visibleDepartureInfinity": 4.7367661682101323,
+          "hiddenDepartureInfinity": 3.6092462366894855,
+          "rootWrenchDepartureInfinity": 1251.0414320812463,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.8421709430404007E-11,
+          "visibleDepartureInfinity": 4.7336856917416856,
+          "hiddenDepartureInfinity": 3.5521276918711164,
+          "rootWrenchDepartureInfinity": 1250.9476268171886,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.7336859090756551,
+          "hiddenDepartureInfinity": 3.552132995842459,
+          "rootWrenchDepartureInfinity": 1250.9476335577535,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.7336880824153491,
+          "hiddenDepartureInfinity": 3.5521860355558825,
+          "rootWrenchDepartureInfinity": 1250.9477009634024,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 1.0177774980889413E-15,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 4.7337067408897688,
+          "hiddenDepartureInfinity": 3.5526413901151672,
+          "rootWrenchDepartureInfinity": 1250.9482796518514,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 3.5527136788005009E-9,
+          "wrenchSecantDefect": 2.6057129944718234E-8,
+          "visibleDepartureInfinity": 4.7336856709436077,
+          "hiddenDepartureInfinity": 3.5521271030510517,
+          "rootWrenchDepartureInfinity": 1250.9476270080556,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 8.1428528955450722E-11,
+          "visibleDepartureInfinity": 4.7336857010948714,
+          "hiddenDepartureInfinity": 3.5521271076418128,
+          "rootWrenchDepartureInfinity": 1250.9476354664223,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 1.0422851717161277E-9,
+          "visibleDepartureInfinity": 4.7336860026075138,
+          "hiddenDepartureInfinity": 3.5521271535494217,
+          "rootWrenchDepartureInfinity": 1250.9477200500896,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 1.0422851719333994E-10,
+          "visibleDepartureInfinity": 4.7336890177339308,
+          "hiddenDepartureInfinity": 3.5521276126255104,
+          "rootWrenchDepartureInfinity": 1250.9485658867625,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.0404125317982107E-11,
+          "wrenchSecantDefect": 2.6057129297791805E-12,
+          "visibleDepartureInfinity": 4.7337191689981051,
+          "hiddenDepartureInfinity": 3.5521322033863991,
+          "rootWrenchDepartureInfinity": 1250.9570242534917,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.03997066303441E-9,
+          "wrenchSecantDefect": 2.6057129297751066E-13,
+          "visibleDepartureInfinity": 4.7340206816398469,
+          "hiddenDepartureInfinity": 3.5521781109952841,
+          "rootWrenchDepartureInfinity": 1251.0416079207828,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.30983375853727907,
+          "stateSecantDefect": 4.8382245207153029E-8,
+          "wrenchSecantDefect": 3.3640161066031047E-13,
+          "visibleDepartureInfinity": 4.7347236542049931,
+          "hiddenDepartureInfinity": 3.5522851439521483,
+          "rootWrenchDepartureInfinity": 1251.2388135743226,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 1.1102230246251565E-11,
+          "visibleDepartureInfinity": 4.7336856676663253,
+          "hiddenDepartureInfinity": 3.5521271027414389,
+          "rootWrenchDepartureInfinity": 1250.9476260775584,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 3.5527136788005009E-11,
+          "wrenchSecantDefect": 5.6843418860808015E-10,
+          "visibleDepartureInfinity": 4.7336856683220443,
+          "hiddenDepartureInfinity": 3.5521271045456824,
+          "rootWrenchDepartureInfinity": 1250.9476261614502,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.7336856748792417,
+          "hiddenDepartureInfinity": 3.5521271225881197,
+          "rootWrenchDepartureInfinity": 1250.9476270003688,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 3.5527136788005009E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7336857404512118,
+          "hiddenDepartureInfinity": 3.5521273030124894,
+          "rootWrenchDepartureInfinity": 1250.9476353895552,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 5.3290705182007514E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.733686396170917,
+          "hiddenDepartureInfinity": 3.5521291072561878,
+          "rootWrenchDepartureInfinity": 1250.9477192814193,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.73369295336797,
+          "hiddenDepartureInfinity": 3.5521471496931722,
+          "rootWrenchDepartureInfinity": 1250.9485582000589,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.7220925513604337,
+          "stateSecantDefect": 1.0315106880565378E-15,
+          "wrenchSecantDefect": 3.3029134982598407E-14,
+          "visibleDepartureInfinity": 4.7336982143714685,
+          "hiddenDepartureInfinity": 3.5521616255924551,
+          "rootWrenchDepartureInfinity": 1250.9492312855043,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0700",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U018P25_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/p5_trim.mat",
+      "packageSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.33014529792036135,
+        1.7453292519943295,
+        0.32328968560921811,
+        1.683367471678566
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.33014529792036135,
+        1.7453292519943295,
+        0.32328968560921811,
+        1.683367471678566
+      ],
+      "minimumAcceptedInputAmplitude": 0.32328968560921811,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 5.8872851437027777E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 4.7786673393127508,
+      "maximumHiddenDepartureInfinity": 3.6209990369991272,
+      "maximumRootWrenchDepartureInfinity": 1262.7817782165,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.7755523156944015,
+          "hiddenDepartureInfinity": 3.5844531998254148,
+          "rootWrenchDepartureInfinity": 1262.4600131185521,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 5.3290705182007514E-11,
+          "wrenchSecantDefect": 1.1102230246251565E-12,
+          "visibleDepartureInfinity": 4.7755523177664942,
+          "hiddenDepartureInfinity": 3.5844532383530061,
+          "rootWrenchDepartureInfinity": 1262.4600141738181,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.3322676295501878E-12,
+          "wrenchSecantDefect": 2.8421709430404007E-11,
+          "visibleDepartureInfinity": 4.77555233848742,
+          "hiddenDepartureInfinity": 3.5844536236289226,
+          "rootWrenchDepartureInfinity": 1262.4600247264796,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.3322676295501878E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7755525456966739,
+          "hiddenDepartureInfinity": 3.5844574763880872,
+          "rootWrenchDepartureInfinity": 1262.4601302530932,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.3322676295501878E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.775554617789199,
+          "hiddenDepartureInfinity": 3.5844960039797313,
+          "rootWrenchDepartureInfinity": 1262.4611855192297,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.5527136788005009E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-14,
+          "visibleDepartureInfinity": 4.7755753387125353,
+          "hiddenDepartureInfinity": 3.5848812798961758,
+          "rootWrenchDepartureInfinity": 1262.4717381805951,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 1.1702349690620864E-12,
+          "wrenchSecantDefect": 1.4210854715202004E-10,
+          "visibleDepartureInfinity": 4.7755542025268864,
+          "hiddenDepartureInfinity": 3.5844753347915539,
+          "rootWrenchDepartureInfinity": 1262.4600706852086,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.6809398762483456E-13,
+          "wrenchSecantDefect": 1.4210854715202004E-11,
+          "visibleDepartureInfinity": 4.7755711860913257,
+          "hiddenDepartureInfinity": 3.5846745880144004,
+          "rootWrenchDepartureInfinity": 1262.460589840385,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.680939876248346E-14,
+          "wrenchSecantDefect": 8.8817841970012523E-14,
+          "visibleDepartureInfinity": 4.7757410217338609,
+          "hiddenDepartureInfinity": 3.5866671202428639,
+          "rootWrenchDepartureInfinity": 1262.4657813921469,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.6809398762483463E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.7774393779737743,
+          "hiddenDepartureInfinity": 3.6065924425274991,
+          "rootWrenchDepartureInfinity": 1262.517696909767,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.33014529792036135,
+          "stateSecantDefect": 2.8356847084083421E-15,
+          "wrenchSecantDefect": 8.6042284408449632E-14,
+          "visibleDepartureInfinity": 4.7786673393127508,
+          "hiddenDepartureInfinity": 3.6209990369991272,
+          "rootWrenchDepartureInfinity": 1262.5552333570301,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 6.6613381477509392E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7755523392198622,
+          "hiddenDepartureInfinity": 3.5844534247377151,
+          "rootWrenchDepartureInfinity": 1262.4600137386483,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 2.2204460492503131E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7755525530210994,
+          "hiddenDepartureInfinity": 3.5844554874760135,
+          "rootWrenchDepartureInfinity": 1262.4600203747805,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.775554691033471,
+          "hiddenDepartureInfinity": 3.5844761148589934,
+          "rootWrenchDepartureInfinity": 1262.4600867361023,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 7.633325395384194E-16,
+          "wrenchSecantDefect": 1.0177778487618222E-15,
+          "visibleDepartureInfinity": 4.7755730462170822,
+          "hiddenDepartureInfinity": 3.584653204294054,
+          "rootWrenchDepartureInfinity": 1262.460656458836,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 5.3290705182007514E-9,
+          "wrenchSecantDefect": 4.8894212862816025E-11,
+          "visibleDepartureInfinity": 4.7755523190087024,
+          "hiddenDepartureInfinity": 3.5844531962028716,
+          "rootWrenchDepartureInfinity": 1262.4600139965848,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 1.2516918524215551E-9,
+          "visibleDepartureInfinity": 4.7755523509094964,
+          "hiddenDepartureInfinity": 3.5844532021275777,
+          "rootWrenchDepartureInfinity": 1262.4600229541454,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 1.001353482939953E-9,
+          "visibleDepartureInfinity": 4.7755526699174391,
+          "hiddenDepartureInfinity": 3.5844532613746374,
+          "rootWrenchDepartureInfinity": 1262.4601125297509,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.0013534829900884E-10,
+          "visibleDepartureInfinity": 4.7755558599968611,
+          "hiddenDepartureInfinity": 3.5844538538452357,
+          "rootWrenchDepartureInfinity": 1262.4610082858067,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.6377125190465449E-11,
+          "wrenchSecantDefect": 6.1117766295628763E-16,
+          "visibleDepartureInfinity": 4.7755877607910868,
+          "hiddenDepartureInfinity": 3.5844597785512171,
+          "rootWrenchDepartureInfinity": 1262.4699658463653,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.632887489781524E-9,
+          "wrenchSecantDefect": 1.0013534829873309E-12,
+          "visibleDepartureInfinity": 4.7759067687333445,
+          "hiddenDepartureInfinity": 3.5845190256110318,
+          "rootWrenchDepartureInfinity": 1262.5595414519507,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.32328968560921811,
+          "stateSecantDefect": 5.8872851437027777E-8,
+          "wrenchSecantDefect": 3.87242167248977E-14,
+          "visibleDepartureInfinity": 4.7766982263237168,
+          "hiddenDepartureInfinity": 3.5846660173594684,
+          "rootWrenchDepartureInfinity": 1262.7817782165,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 1.7763568394002505E-10,
+          "visibleDepartureInfinity": 4.77555231554531,
+          "hiddenDepartureInfinity": 3.5844531956977579,
+          "rootWrenchDepartureInfinity": 1262.46001301216,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.8421709430404007E-10,
+          "visibleDepartureInfinity": 4.7755523162755766,
+          "hiddenDepartureInfinity": 3.5844531970764368,
+          "rootWrenchDepartureInfinity": 1262.4600131098989,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1102230246251565E-13,
+          "visibleDepartureInfinity": 4.7755523235782382,
+          "hiddenDepartureInfinity": 3.5844532108632308,
+          "rootWrenchDepartureInfinity": 1262.460014087286,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 2.2204460492503131E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.775552396604855,
+          "hiddenDepartureInfinity": 3.5844533487311656,
+          "rootWrenchDepartureInfinity": 1262.4600238611577,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 5.3290705182007514E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7755531268710225,
+          "hiddenDepartureInfinity": 3.5844547274105172,
+          "rootWrenchDepartureInfinity": 1262.4601215998732,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.5527136788005009E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.7755604295326961,
+          "hiddenDepartureInfinity": 3.5844685142040307,
+          "rootWrenchDepartureInfinity": 1262.4610989870312,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.683367471678566,
+          "stateSecantDefect": 1.0552401043156302E-15,
+          "wrenchSecantDefect": 1.3507077400998213E-13,
+          "visibleDepartureInfinity": 4.77556597442319,
+          "hiddenDepartureInfinity": 3.5844789824776147,
+          "rootWrenchDepartureInfinity": 1262.4618411143542,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0675",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U018P125_ALPHA_P0675/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/p5_trim.mat",
+      "packageSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32997514261546379,
+        1.7453292519943295,
+        0.31551968204875075,
+        1.668410240565285
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32997514261546379,
+        1.7453292519943295,
+        0.31551968204875075,
+        1.668410240565285
+      ],
+      "minimumAcceptedInputAmplitude": 0.31551968204875075,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 5.4554805651561177E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 4.710988732113317,
+      "maximumHiddenDepartureInfinity": 3.5930258061879896,
+      "maximumRootWrenchDepartureInfinity": 1244.4532983083409,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.7078803096775381,
+          "hiddenDepartureInfinity": 3.5334037027325755,
+          "rootWrenchDepartureInfinity": 1244.1441248295216,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 5.3290705182007514E-11,
+          "wrenchSecantDefect": 2.8421709430404007E-10,
+          "visibleDepartureInfinity": 4.7078803118158143,
+          "hiddenDepartureInfinity": 3.5334090687755473,
+          "rootWrenchDepartureInfinity": 1244.1441258636605,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 5.3290705182007514E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.7078803331985757,
+          "hiddenDepartureInfinity": 3.5334627292052612,
+          "rootWrenchDepartureInfinity": 1244.1441362050516,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.70788054702619,
+          "hiddenDepartureInfinity": 3.5339993335024031,
+          "rootWrenchDepartureInfinity": 1244.1442396189602,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 5.3290705182007514E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7078826853023141,
+          "hiddenDepartureInfinity": 3.5393653764738198,
+          "rootWrenchDepartureInfinity": 1244.1452737580482,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 5.3290705182007514E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.7079040680617306,
+          "hiddenDepartureInfinity": 3.5930258061879896,
+          "rootWrenchDepartureInfinity": 1244.1556151489278,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.7746685806517215E-12,
+          "wrenchSecantDefect": 1.1368683772161603E-9,
+          "visibleDepartureInfinity": 4.70788219347473,
+          "hiddenDepartureInfinity": 3.5334366530603196,
+          "rootWrenchDepartureInfinity": 1244.1441818222822,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.7746685806517433E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7078991497877132,
+          "hiddenDepartureInfinity": 3.5337385720529859,
+          "rootWrenchDepartureInfinity": 1244.1446957912678,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.7746685806517457E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7080687129157459,
+          "hiddenDepartureInfinity": 3.5367577619796475,
+          "rootWrenchDepartureInfinity": 1244.1498354811245,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 3.5810014354888083E-15,
+          "wrenchSecantDefect": 1.4210854715202004E-13,
+          "visibleDepartureInfinity": 4.7097643440161567,
+          "hiddenDepartureInfinity": 3.566949661246265,
+          "rootWrenchDepartureInfinity": 1244.2012323796907,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32997514261546379,
+          "stateSecantDefect": 4.3410316880730226E-15,
+          "wrenchSecantDefect": 6.8905992023360341E-13,
+          "visibleDepartureInfinity": 4.710988732113317,
+          "hiddenDepartureInfinity": 3.5887507524296556,
+          "rootWrenchDepartureInfinity": 1244.2383452642528,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.70788033326157,
+          "hiddenDepartureInfinity": 3.5334036704300669,
+          "rootWrenchDepartureInfinity": 1244.1441254505896,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7078805476561323,
+          "hiddenDepartureInfinity": 3.5334087457504584,
+          "rootWrenchDepartureInfinity": 1244.1441320743413,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 5.5511151231257827E-16,
+          "visibleDepartureInfinity": 4.70788269160175,
+          "hiddenDepartureInfinity": 3.5334594989543717,
+          "rootWrenchDepartureInfinity": 1244.1441983118593,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 2.5444446219045555E-16,
+          "wrenchSecantDefect": 1.6284499790297779E-14,
+          "visibleDepartureInfinity": 4.7079010977232532,
+          "hiddenDepartureInfinity": 3.5338952234579293,
+          "rootWrenchDepartureInfinity": 1244.1447669717145,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 8.0780787542108443E-10,
+          "visibleDepartureInfinity": 4.7078803129309241,
+          "hiddenDepartureInfinity": 3.5334031070538967,
+          "rootWrenchDepartureInfinity": 1244.1441256945041,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 8.0780787750925585E-11,
+          "visibleDepartureInfinity": 4.7078803443496735,
+          "hiddenDepartureInfinity": 3.533403111988759,
+          "rootWrenchDepartureInfinity": 1244.1441345134858,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 2.2204460492503131E-12,
+          "wrenchSecantDefect": 1.0339940837464193E-9,
+          "visibleDepartureInfinity": 4.7078806585371673,
+          "hiddenDepartureInfinity": 3.5334031613373811,
+          "rootWrenchDepartureInfinity": 1244.1442227033042,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.0339940837998765E-10,
+          "visibleDepartureInfinity": 4.7078838004121,
+          "hiddenDepartureInfinity": 3.5334036548236014,
+          "rootWrenchDepartureInfinity": 1244.1451046014874,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.4778404035005224E-11,
+          "wrenchSecantDefect": 1.0339940838105679E-11,
+          "visibleDepartureInfinity": 4.7079152191614284,
+          "hiddenDepartureInfinity": 3.5334085896858025,
+          "rootWrenchDepartureInfinity": 1244.1539235833191,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.4799986770603937E-9,
+          "wrenchSecantDefect": 6.4624630238177207E-14,
+          "visibleDepartureInfinity": 4.7082294066547119,
+          "hiddenDepartureInfinity": 3.5334579383078157,
+          "rootWrenchDepartureInfinity": 1244.2421134016354,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.31551968204875075,
+          "stateSecantDefect": 5.4554805651561177E-8,
+          "wrenchSecantDefect": 2.5591101134357179E-15,
+          "visibleDepartureInfinity": 4.7089817798620022,
+          "hiddenDepartureInfinity": 3.5335761116336575,
+          "rootWrenchDepartureInfinity": 1244.4532983083409,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.8421709430404007E-9,
+          "visibleDepartureInfinity": 4.7078803095136488,
+          "hiddenDepartureInfinity": 3.5334031067029521,
+          "rootWrenchDepartureInfinity": 1244.1441247241055,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.7078803101769209,
+          "hiddenDepartureInfinity": 3.5334031084793103,
+          "rootWrenchDepartureInfinity": 1244.1441248095009,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 1.3877787807814457E-14,
+          "visibleDepartureInfinity": 4.707880316809641,
+          "hiddenDepartureInfinity": 3.533403126242892,
+          "rootWrenchDepartureInfinity": 1244.1441256634553,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7078803831368434,
+          "hiddenDepartureInfinity": 3.5334033038787114,
+          "rootWrenchDepartureInfinity": 1244.1441342029982,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.7078810464088621,
+          "hiddenDepartureInfinity": 3.5334050802369044,
+          "rootWrenchDepartureInfinity": 1244.1442195984275,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.70788767912905,
+          "hiddenDepartureInfinity": 3.533422843818832,
+          "rootWrenchDepartureInfinity": 1244.1450735527203,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.668410240565285,
+          "stateSecantDefect": 2.1294004894531981E-15,
+          "wrenchSecantDefect": 8.4932061383824475E-15,
+          "visibleDepartureInfinity": 4.7078926051047141,
+          "hiddenDepartureInfinity": 3.5334360364411319,
+          "rootWrenchDepartureInfinity": 1244.1457077658251,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0625",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U019P375_ALPHA_P0625/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/p5_trim.mat",
+      "packageSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.33181129425305705,
+        1.7453292519943295,
+        0.33635110421018061,
+        1.5348542266707583
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.33181129425305705,
+        1.7453292519943295,
+        0.33635110421018061,
+        1.5348542266707583
+      ],
+      "minimumAcceptedInputAmplitude": 0.33181129425305705,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 8.0968982966240211E-8,
+      "maximumWrenchSecantDefect": 9.78612952167503E-8,
+      "maximumVisibleDepartureInfinity": 4.6874077816336488,
+      "maximumHiddenDepartureInfinity": 3.5790540794484405,
+      "maximumRootWrenchDepartureInfinity": 1238.6692307477822,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.684237266891869,
+          "hiddenDepartureInfinity": 3.5188280809885946,
+          "rootWrenchDepartureInfinity": 1238.2920899170258,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.684237268844611,
+          "hiddenDepartureInfinity": 3.5188335013826597,
+          "rootWrenchDepartureInfinity": 1238.292090871651,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.6842372883720316,
+          "hiddenDepartureInfinity": 3.518887705323313,
+          "rootWrenchDepartureInfinity": 1238.2921004179043,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.6842374836462364,
+          "hiddenDepartureInfinity": 3.5194297447298459,
+          "rootWrenchDepartureInfinity": 1238.2921958804368,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-13,
+          "visibleDepartureInfinity": 4.684239436388264,
+          "hiddenDepartureInfinity": 3.5248501387951725,
+          "rootWrenchDepartureInfinity": 1238.2931505057616,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.6842589638066627,
+          "hiddenDepartureInfinity": 3.5790540794484405,
+          "rootWrenchDepartureInfinity": 1238.30269675901,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.214394097493949E-12,
+          "wrenchSecantDefect": 1.4210854715202004E-10,
+          "visibleDepartureInfinity": 4.684239177710233,
+          "hiddenDepartureInfinity": 3.5188606430511662,
+          "rootWrenchDepartureInfinity": 1238.2921473872877,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 2.1071970487469774E-13,
+          "wrenchSecantDefect": 6.9388939039072284E-15,
+          "visibleDepartureInfinity": 4.6842563770282357,
+          "hiddenDepartureInfinity": 3.5191591220083773,
+          "rootWrenchDepartureInfinity": 1238.2926655742706,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.42878819498791E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.68442837020637,
+          "hiddenDepartureInfinity": 3.5221439115804873,
+          "rootWrenchDepartureInfinity": 1238.2978474441011,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 1.0535985243734889E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.686148301799304,
+          "hiddenDepartureInfinity": 3.551991807301587,
+          "rootWrenchDepartureInfinity": 1238.3496661424047,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.33181129425305705,
+          "stateSecantDefect": 2.540235476236407E-15,
+          "wrenchSecantDefect": 8.5709217501062085E-14,
+          "visibleDepartureInfinity": 4.6874077816336488,
+          "hiddenDepartureInfinity": 3.5738489726667453,
+          "rootWrenchDepartureInfinity": 1238.3876121962373,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.684237289345,
+          "hiddenDepartureInfinity": 3.5188280003675962,
+          "rootWrenchDepartureInfinity": 1238.2920905063115,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.4210854715202004E-12,
+          "visibleDepartureInfinity": 4.684237493375921,
+          "hiddenDepartureInfinity": 3.5188326951726783,
+          "rootWrenchDepartureInfinity": 1238.2920967645093,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.2204460492503131E-15,
+          "wrenchSecantDefect": 1.4210854715202004E-13,
+          "visibleDepartureInfinity": 4.6842395336851288,
+          "hiddenDepartureInfinity": 3.5188796432234972,
+          "rootWrenchDepartureInfinity": 1238.2921593464878,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 1.0177774980372425E-15,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 4.6842570500712135,
+          "hiddenDepartureInfinity": 3.5192826998693549,
+          "rootWrenchDepartureInfinity": 1238.2926966229425,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 9.78612952167503E-8,
+          "visibleDepartureInfinity": 4.684237270661197,
+          "hiddenDepartureInfinity": 3.5188274793918333,
+          "rootWrenchDepartureInfinity": 1238.2920909322279,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 4.4408920985006262E-11,
+          "wrenchSecantDefect": 1.223266184223858E-9,
+          "visibleDepartureInfinity": 4.6842373065378871,
+          "hiddenDepartureInfinity": 3.5188274854150472,
+          "rootWrenchDepartureInfinity": 1238.2921010236721,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 4.7783835274482576E-13,
+          "visibleDepartureInfinity": 4.6842376653047939,
+          "hiddenDepartureInfinity": 3.5188275456471851,
+          "rootWrenchDepartureInfinity": 1238.2922019381151,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 9.7861294646928725E-11,
+          "visibleDepartureInfinity": 4.6842412529738606,
+          "hiddenDepartureInfinity": 3.5188281479685677,
+          "rootWrenchDepartureInfinity": 1238.2932110825445,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 7.16093850883226E-11,
+          "wrenchSecantDefect": 9.7861294646449881E-12,
+          "visibleDepartureInfinity": 4.68427712966453,
+          "hiddenDepartureInfinity": 3.5188341711823918,
+          "rootWrenchDepartureInfinity": 1238.3033025268387,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 7.1570349646776776E-9,
+          "wrenchSecantDefect": 9.7861294646449889E-13,
+          "visibleDepartureInfinity": 4.6846358965712129,
+          "hiddenDepartureInfinity": 3.5188944033206311,
+          "rootWrenchDepartureInfinity": 1238.4042169697809,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.33635110421018061,
+          "stateSecantDefect": 8.0968982966240211E-8,
+          "wrenchSecantDefect": 2.2697321756377608E-15,
+          "visibleDepartureInfinity": 4.6855780627328665,
+          "hiddenDepartureInfinity": 3.5190525803470964,
+          "rootWrenchDepartureInfinity": 1238.6692307477822,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.68423726675713,
+          "hiddenDepartureInfinity": 3.518827478896668,
+          "rootWrenchDepartureInfinity": 1238.2920898221209,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 1.7763568394002505E-11,
+          "visibleDepartureInfinity": 4.684237267497215,
+          "hiddenDepartureInfinity": 3.5188274804633957,
+          "rootWrenchDepartureInfinity": 1238.2920899226031,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.68423727489807,
+          "hiddenDepartureInfinity": 3.5188274961306707,
+          "rootWrenchDepartureInfinity": 1238.2920909274253,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.3290705182007514E-13,
+          "wrenchSecantDefect": 1.1102230246251565E-14,
+          "visibleDepartureInfinity": 4.6842373489066169,
+          "hiddenDepartureInfinity": 3.5188276528034228,
+          "rootWrenchDepartureInfinity": 1238.2921009756471,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 1.1102230246251565E-15,
+          "visibleDepartureInfinity": 4.6842380889920943,
+          "hiddenDepartureInfinity": 3.5188292195309434,
+          "rootWrenchDepartureInfinity": 1238.2922014578664,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.5527136788005009E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-14,
+          "visibleDepartureInfinity": 4.6842454898468606,
+          "hiddenDepartureInfinity": 3.5188448868061504,
+          "rootWrenchDepartureInfinity": 1238.2932062800589,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.5348542266707583,
+          "stateSecantDefect": 1.1573456909423998E-15,
+          "wrenchSecantDefect": 1.4814039751842589E-13,
+          "visibleDepartureInfinity": 4.6842498880451418,
+          "hiddenDepartureInfinity": 3.5188541975932219,
+          "rootWrenchDepartureInfinity": 1238.2938034282774,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P06",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/p5_trim.mat",
+      "packageSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32334367085822446,
+        1.7453292519943295,
+        0.19203350537018912,
+        1.9270721627301262
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32334367085822446,
+        1.7453292519943295,
+        0.19203350537018912,
+        1.9270721627301262
+      ],
+      "minimumAcceptedInputAmplitude": 0.19203350537018912,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 9.471600916693756E-9,
+      "maximumWrenchSecantDefect": 6.0641968001659163E-8,
+      "maximumVisibleDepartureInfinity": 3.7220326571880422,
+      "maximumHiddenDepartureInfinity": 2.4607404933268571,
+      "maximumRootWrenchDepartureInfinity": 977.65054883358448,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 1.1368683772161603E-8,
+          "visibleDepartureInfinity": 3.7192678979661511,
+          "hiddenDepartureInfinity": 2.379228811508884,
+          "rootWrenchDepartureInfinity": 977.52280915803908,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 8.8817841970012523E-12,
+          "visibleDepartureInfinity": 3.7192679035419576,
+          "hiddenDepartureInfinity": 2.379236147633609,
+          "rootWrenchDepartureInfinity": 977.52281117211157,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 3.7192679593000184,
+          "hiddenDepartureInfinity": 2.3793095088808576,
+          "rootWrenchDepartureInfinity": 977.52283131283616,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 3.7192685168806285,
+          "hiddenDepartureInfinity": 2.3800431213533439,
+          "rootWrenchDepartureInfinity": 977.523032720082,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 6.6613381477509392E-15,
+          "wrenchSecantDefect": 1.7347234759768071E-17,
+          "visibleDepartureInfinity": 3.7192740926867245,
+          "hiddenDepartureInfinity": 2.3873792460782091,
+          "rootWrenchDepartureInfinity": 977.5250467925415,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 8.8817841970012523E-16,
+          "wrenchSecantDefect": 1.1102230246251565E-16,
+          "visibleDepartureInfinity": 3.7193298507473269,
+          "hiddenDepartureInfinity": 2.4607404933268571,
+          "rootWrenchDepartureInfinity": 977.545187517136,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 2.7499820153526106E-12,
+          "wrenchSecantDefect": 4.4408920985006262E-12,
+          "visibleDepartureInfinity": 3.7192696074529046,
+          "hiddenDepartureInfinity": 2.379273142037305,
+          "rootWrenchDepartureInfinity": 977.52286163022393,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 2.7499820153526076E-13,
+          "wrenchSecantDefect": 4.4408920985006262E-13,
+          "visibleDepartureInfinity": 3.7192849984094778,
+          "hiddenDepartureInfinity": 2.3796794529178196,
+          "rootWrenchDepartureInfinity": 977.52333589395982,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 2.0624865115144561E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-12,
+          "visibleDepartureInfinity": 3.7194389079739087,
+          "hiddenDepartureInfinity": 2.3837425617229635,
+          "rootWrenchDepartureInfinity": 977.52807853131844,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.0624865115144559E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-13,
+          "visibleDepartureInfinity": 3.7209780034882134,
+          "hiddenDepartureInfinity": 2.4243736497744037,
+          "rootWrenchDepartureInfinity": 977.5755049049053,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32334367085822446,
+          "stateSecantDefect": 1.7009654204501062E-15,
+          "wrenchSecantDefect": 3.5160763189878708E-13,
+          "visibleDepartureInfinity": 3.7220326571880422,
+          "hiddenDepartureInfinity": 2.452215802836784,
+          "rootWrenchDepartureInfinity": 977.60800347720362,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 5.6843418860808015E-11,
+          "visibleDepartureInfinity": 3.7192679229389607,
+          "hiddenDepartureInfinity": 2.3792287967164909,
+          "rootWrenchDepartureInfinity": 977.52280975492215,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 2.2204460492503131E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-12,
+          "visibleDepartureInfinity": 3.71926815327005,
+          "hiddenDepartureInfinity": 2.3792359997096755,
+          "rootWrenchDepartureInfinity": 977.52281714094283,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.4408920985006262E-15,
+          "wrenchSecantDefect": 4.4408920985006262E-15,
+          "visibleDepartureInfinity": 3.7192704565809414,
+          "hiddenDepartureInfinity": 2.3793080296415212,
+          "rootWrenchDepartureInfinity": 977.52289100114865,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 5.0888874901862124E-16,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 3.7192902308792157,
+          "hiddenDepartureInfinity": 2.379926418312079,
+          "rootWrenchDepartureInfinity": 977.52352510301887,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 4.4408920985006262E-10,
+          "wrenchSecantDefect": 6.0641968001659163E-8,
+          "visibleDepartureInfinity": 3.7192678997176127,
+          "hiddenDepartureInfinity": 2.3792279967488539,
+          "rootWrenchDepartureInfinity": 977.52280959944915,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 4.4408920985006262E-11,
+          "wrenchSecantDefect": 5.9220673313123543E-12,
+          "visibleDepartureInfinity": 3.7192679210565704,
+          "hiddenDepartureInfinity": 2.3792280000333057,
+          "rootWrenchDepartureInfinity": 977.52281558621223,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 4.4408920985006262E-12,
+          "wrenchSecantDefect": 5.9220673169473215E-13,
+          "visibleDepartureInfinity": 3.7192681344461493,
+          "hiddenDepartureInfinity": 2.3792280328778226,
+          "rootWrenchDepartureInfinity": 977.52287545384263,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 3.7192702683419374,
+          "hiddenDepartureInfinity": 2.3792283613229945,
+          "rootWrenchDepartureInfinity": 977.52347413014752,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 2.5679458559579871E-11,
+          "wrenchSecantDefect": 9.2532301807101079E-17,
+          "visibleDepartureInfinity": 3.7192916072998163,
+          "hiddenDepartureInfinity": 2.3792316457747114,
+          "rootWrenchDepartureInfinity": 977.52946089319573,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 2.5684387949809206E-9,
+          "wrenchSecantDefect": 6.0641969312448846E-13,
+          "visibleDepartureInfinity": 3.7195049968786087,
+          "hiddenDepartureInfinity": 2.3792644902918814,
+          "rootWrenchDepartureInfinity": 977.58932852367855,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.19203350537018912,
+          "stateSecantDefect": 9.471600916693756E-9,
+          "wrenchSecantDefect": 3.158238499444425E-13,
+          "visibleDepartureInfinity": 3.7197232078891167,
+          "hiddenDepartureInfinity": 2.3792980769146292,
+          "rootWrenchDepartureInfinity": 977.65054883358448,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.1102230246251565E-11,
+          "wrenchSecantDefect": 1.1368683772161603E-8,
+          "visibleDepartureInfinity": 3.7192678973642246,
+          "hiddenDepartureInfinity": 2.3792279972113834,
+          "rootWrenchDepartureInfinity": 977.52280893581417,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 8.8817841970012523E-12,
+          "visibleDepartureInfinity": 3.719267897522688,
+          "hiddenDepartureInfinity": 2.3792280046586027,
+          "rootWrenchDepartureInfinity": 977.52280894986245,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 3.7192678991073267,
+          "hiddenDepartureInfinity": 2.379228079130796,
+          "rootWrenchDepartureInfinity": 977.52280909034562,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 3.7192679149537096,
+          "hiddenDepartureInfinity": 2.3792288238527273,
+          "rootWrenchDepartureInfinity": 977.52281049517728,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 3.7192680734175378,
+          "hiddenDepartureInfinity": 2.3792362710720387,
+          "rootWrenchDepartureInfinity": 977.522824543494,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 8.8817841970012523E-16,
+          "wrenchSecantDefect": 1.1368683772161603E-13,
+          "visibleDepartureInfinity": 3.7192696580558233,
+          "hiddenDepartureInfinity": 2.3793107432651537,
+          "rootWrenchDepartureInfinity": 977.52296502666115,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.9270721627301262,
+          "stateSecantDefect": 4.6089519055653519E-16,
+          "wrenchSecantDefect": 5.8994611496290816E-14,
+          "visibleDepartureInfinity": 3.7192712903603153,
+          "hiddenDepartureInfinity": 2.3793874555953027,
+          "rootWrenchDepartureInfinity": 977.52310973558724,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P08",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/p5_trim.mat",
+      "packageSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.3232516932105316,
+        1.7453292519943295,
+        0.22852156012242422,
+        2.1145295915426034
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.3232516932105316,
+        1.7453292519943295,
+        0.22852156012242422,
+        2.1145295915426034
+      ],
+      "minimumAcceptedInputAmplitude": 0.22852156012242422,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 1.3413191397654699E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 4.679620233285374,
+      "maximumHiddenDepartureInfinity": 3.5060398620910247,
+      "maximumRootWrenchDepartureInfinity": 1234.6918061737824,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.6768675382375706,
+          "hiddenDepartureInfinity": 3.4848547812032122,
+          "rootWrenchDepartureInfinity": 1234.5390054518793,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 4.4408920985006262E-12,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 4.6768675434880107,
+          "hiddenDepartureInfinity": 3.4848563207685257,
+          "rootWrenchDepartureInfinity": 1234.5390076549922,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.3322676295501878E-12,
+          "wrenchSecantDefect": 1.7763568394002505E-12,
+          "visibleDepartureInfinity": 4.6768675959924124,
+          "hiddenDepartureInfinity": 3.4848717164216638,
+          "rootWrenchDepartureInfinity": 1234.5390296861217,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-12,
+          "visibleDepartureInfinity": 4.6768681210364305,
+          "hiddenDepartureInfinity": 3.4850256729530424,
+          "rootWrenchDepartureInfinity": 1234.5392499974153,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.6768733714766082,
+          "hiddenDepartureInfinity": 3.4865652382668277,
+          "rootWrenchDepartureInfinity": 1234.5414531103506,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 8.8817841970012523E-16,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.6769258758775845,
+          "hiddenDepartureInfinity": 3.5019608914046816,
+          "rootWrenchDepartureInfinity": 1234.5634842397048,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 3.882295237328958E-12,
+          "wrenchSecantDefect": 2.8421709430404007E-10,
+          "visibleDepartureInfinity": 4.67686924078284,
+          "hiddenDepartureInfinity": 3.48486771772956,
+          "rootWrenchDepartureInfinity": 1234.5390605722212,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 3.8822952373289903E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.6768845689406859,
+          "hiddenDepartureInfinity": 3.4849856860320072,
+          "rootWrenchDepartureInfinity": 1234.5395588584106,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 3.8822952373289874E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.6770378505175412,
+          "hiddenDepartureInfinity": 3.4861653690564758,
+          "rootWrenchDepartureInfinity": 1234.5445417203034,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 3.8822952373289872E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.6785706661255668,
+          "hiddenDepartureInfinity": 3.4979621993011638,
+          "rootWrenchDepartureInfinity": 1234.5943703392318,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.3232516932105316,
+          "stateSecantDefect": 4.8043403561946228E-15,
+          "wrenchSecantDefect": 7.0343730840249918E-13,
+          "visibleDepartureInfinity": 4.679620233285374,
+          "hiddenDepartureInfinity": 3.5060398620910247,
+          "rootWrenchDepartureInfinity": 1234.628489570639,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.676867563464417,
+          "hiddenDepartureInfinity": 3.4848549071337263,
+          "rootWrenchDepartureInfinity": 1234.5390060677314,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.6768677957564746,
+          "hiddenDepartureInfinity": 3.4848575800736663,
+          "rootWrenchDepartureInfinity": 1234.5390138135124,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 6.6613381477509392E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-13,
+          "visibleDepartureInfinity": 4.6768701186770505,
+          "hiddenDepartureInfinity": 3.484884309473069,
+          "rootWrenchDepartureInfinity": 1234.5390912713212,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 5.0888874907032E-16,
+          "wrenchSecantDefect": 1.3027556464151324E-13,
+          "visibleDepartureInfinity": 4.6768900613276427,
+          "hiddenDepartureInfinity": 3.4851137857107624,
+          "rootWrenchDepartureInfinity": 1234.5397562591997,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 5.6228106484669304E-11,
+          "visibleDepartureInfinity": 4.6768675400450475,
+          "hiddenDepartureInfinity": 3.4848546103570932,
+          "rootWrenchDepartureInfinity": 1234.5390058757391,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 1.1515516340667389E-8,
+          "visibleDepartureInfinity": 4.6768675615627826,
+          "hiddenDepartureInfinity": 3.4848546123073381,
+          "rootWrenchDepartureInfinity": 1234.5390118935902,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 1.1515516347297743E-9,
+          "visibleDepartureInfinity": 4.67686777674013,
+          "hiddenDepartureInfinity": 3.4848546318097875,
+          "rootWrenchDepartureInfinity": 1234.5390720721002,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 1.1515516348623817E-10,
+          "visibleDepartureInfinity": 4.6768699285135984,
+          "hiddenDepartureInfinity": 3.4848548268342783,
+          "rootWrenchDepartureInfinity": 1234.5396738572008,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 2.5668356329333619E-11,
+          "wrenchSecantDefect": 2.8788790872056819E-12,
+          "visibleDepartureInfinity": 4.676891446248292,
+          "hiddenDepartureInfinity": 3.4848567770791865,
+          "rootWrenchDepartureInfinity": 1234.5456917082058,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 2.5684876447940042E-9,
+          "wrenchSecantDefect": 1.1515516348796205E-12,
+          "visibleDepartureInfinity": 4.6771066235952281,
+          "hiddenDepartureInfinity": 3.48487627952827,
+          "rootWrenchDepartureInfinity": 1234.6058702182554,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.22852156012242422,
+          "stateSecantDefect": 1.3413191397654699E-8,
+          "wrenchSecantDefect": 5.039162964740535E-13,
+          "visibleDepartureInfinity": 4.6774139005766857,
+          "hiddenDepartureInfinity": 3.4849041293636303,
+          "rootWrenchDepartureInfinity": 1234.6918061737824,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 2.2204460492503131E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.6768675377003524,
+          "hiddenDepartureInfinity": 3.4848546104736817,
+          "rootWrenchDepartureInfinity": 1234.539005212253,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.6768675381158324,
+          "hiddenDepartureInfinity": 3.484854613473221,
+          "rootWrenchDepartureInfinity": 1234.539005258729,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1102230246251565E-13,
+          "visibleDepartureInfinity": 4.6768675422706245,
+          "hiddenDepartureInfinity": 3.484854643468617,
+          "rootWrenchDepartureInfinity": 1234.5390057234883,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.3877787807814457E-15,
+          "visibleDepartureInfinity": 4.67686758381855,
+          "hiddenDepartureInfinity": 3.4848549434225742,
+          "rootWrenchDepartureInfinity": 1234.5390103710808,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.6768679992978042,
+          "hiddenDepartureInfinity": 3.4848579429621456,
+          "rootWrenchDepartureInfinity": 1234.5390568470079,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.6768721540903488,
+          "hiddenDepartureInfinity": 3.48488793835786,
+          "rootWrenchDepartureInfinity": 1234.539521606277,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 2.1145295915426034,
+          "stateSecantDefect": 1.2601077281032915E-15,
+          "wrenchSecantDefect": 1.0752921990320186E-13,
+          "visibleDepartureInfinity": 4.6768772992450582,
+          "hiddenDepartureInfinity": 3.484925083642453,
+          "rootWrenchDepartureInfinity": 1234.5400971484532,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P10",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P10/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
+      "packageSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.3306547804175114,
+        1.7453292519943295,
+        0.26518754154056484,
+        2.4445585951292075
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.3306547804175114,
+        1.7453292519943295,
+        0.26518754154056484,
+        2.4445585951292075
+      ],
+      "minimumAcceptedInputAmplitude": 0.26518754154056484,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 1.8063130582836346E-8,
+      "maximumWrenchSecantDefect": 2.67588469698469E-8,
+      "maximumVisibleDepartureInfinity": 6.1760478069716918,
+      "maximumHiddenDepartureInfinity": 4.6887461219320619,
+      "maximumRootWrenchDepartureInfinity": 1631.0636754236732,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.3322676295501878E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 6.1732593040324337,
+          "hiddenDepartureInfinity": 4.6266228451759783,
+          "rootWrenchDepartureInfinity": 1630.885073364404,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 6.1732593062828256,
+          "hiddenDepartureInfinity": 4.6266232052860214,
+          "rootWrenchDepartureInfinity": 1630.8850747133142,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 6.1732593287867559,
+          "hiddenDepartureInfinity": 4.626626806386458,
+          "rootWrenchDepartureInfinity": 1630.8850882024185,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 6.1732595538260542,
+          "hiddenDepartureInfinity": 4.6266628173908222,
+          "rootWrenchDepartureInfinity": 1630.88522309346,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 6.1732618042190337,
+          "hiddenDepartureInfinity": 4.6270229274344654,
+          "rootWrenchDepartureInfinity": 1630.8865720038739,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-14,
+          "visibleDepartureInfinity": 6.1732843081486788,
+          "hiddenDepartureInfinity": 4.6306240278708986,
+          "rootWrenchDepartureInfinity": 1630.9000611080144,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 5.220451921041166E-12,
+          "wrenchSecantDefect": 2.2204460492503131E-12,
+          "visibleDepartureInfinity": 6.173260990437373,
+          "hiddenDepartureInfinity": 4.6266603811012228,
+          "rootWrenchDepartureInfinity": 1630.8851279772919,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 3.4803012806941013E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 6.1732761703322376,
+          "hiddenDepartureInfinity": 4.626998564538467,
+          "rootWrenchDepartureInfinity": 1630.8856208421948,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 3.4803012806940973E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 6.1734279692825993,
+          "hiddenDepartureInfinity": 4.6303803989109138,
+          "rootWrenchDepartureInfinity": 1630.8905494912235,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 6.9606025613881955E-15,
+          "wrenchSecantDefect": 1.1102230246251565E-15,
+          "visibleDepartureInfinity": 6.1749459589570961,
+          "hiddenDepartureInfinity": 4.6641987426353753,
+          "rootWrenchDepartureInfinity": 1630.9398359815102,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.3306547804175114,
+          "stateSecantDefect": 2.1058541733574833E-15,
+          "wrenchSecantDefect": 1.7191803536320549E-13,
+          "visibleDepartureInfinity": 6.1760478069716918,
+          "hiddenDepartureInfinity": 4.6887461219320619,
+          "rootWrenchDepartureInfinity": 1630.9756110679875,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 2.2204460492503131E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 6.1732593297008185,
+          "hiddenDepartureInfinity": 4.6266235287516926,
+          "rootWrenchDepartureInfinity": 1630.8850740581452,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 6.1732595629666793,
+          "hiddenDepartureInfinity": 4.6266300410431676,
+          "rootWrenchDepartureInfinity": 1630.8850816507279,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.4408920985006262E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 6.1732618956252852,
+          "hiddenDepartureInfinity": 4.6266951639579172,
+          "rootWrenchDepartureInfinity": 1630.8851575765534,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 5.088889243809111E-16,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 6.1732819218785577,
+          "hiddenDepartureInfinity": 4.6272542547642379,
+          "rootWrenchDepartureInfinity": 1630.8858094121056,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 8.8817841970012523E-10,
+          "wrenchSecantDefect": 2.67588469698469E-8,
+          "visibleDepartureInfinity": 6.1732593061478118,
+          "hiddenDepartureInfinity": 4.6266228052342369,
+          "rootWrenchDepartureInfinity": 1630.885073888019,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 2.0905348747670469E-11,
+          "visibleDepartureInfinity": 6.1732593274366154,
+          "hiddenDepartureInfinity": 4.626622805868613,
+          "rootWrenchDepartureInfinity": 1630.8850799494646,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 1.0703538547350706E-9,
+          "visibleDepartureInfinity": 6.1732595403246462,
+          "hiddenDepartureInfinity": 4.6266228122123714,
+          "rootWrenchDepartureInfinity": 1630.8851405639216,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 2.090534872193793E-13,
+          "visibleDepartureInfinity": 6.1732616692049591,
+          "hiddenDepartureInfinity": 4.6266228756499528,
+          "rootWrenchDepartureInfinity": 1630.8857467084911,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 2.5690560789826122E-11,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 6.173282958008091,
+          "hiddenDepartureInfinity": 4.6266235100257651,
+          "rootWrenchDepartureInfinity": 1630.8918081541872,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 2.5685431559452354E-9,
+          "wrenchSecantDefect": 1.0703538545620763E-12,
+          "visibleDepartureInfinity": 6.17349584603941,
+          "hiddenDepartureInfinity": 4.6266298537838884,
+          "rootWrenchDepartureInfinity": 1630.9524226111484,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.26518754154056484,
+          "stateSecantDefect": 1.8063130582836346E-8,
+          "wrenchSecantDefect": 1.007637808396244E-13,
+          "visibleDepartureInfinity": 6.1738865843784865,
+          "hiddenDepartureInfinity": 4.6266414972262062,
+          "rootWrenchDepartureInfinity": 1631.0636754236732,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 4.4408920985006262E-11,
+          "visibleDepartureInfinity": 6.1732593038193446,
+          "hiddenDepartureInfinity": 4.6266228053069822,
+          "rootWrenchDepartureInfinity": 1630.8850732241342,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 4.4408920985006262E-12,
+          "visibleDepartureInfinity": 6.1732593041519408,
+          "hiddenDepartureInfinity": 4.6266228065960666,
+          "rootWrenchDepartureInfinity": 1630.8850733106185,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 5.6843418860808015E-11,
+          "visibleDepartureInfinity": 6.1732593074779079,
+          "hiddenDepartureInfinity": 4.6266228194869026,
+          "rootWrenchDepartureInfinity": 1630.8850741754611,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-12,
+          "visibleDepartureInfinity": 6.1732593407375758,
+          "hiddenDepartureInfinity": 4.6266229483952666,
+          "rootWrenchDepartureInfinity": 1630.8850828238876,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 6.1732596733342513,
+          "hiddenDepartureInfinity": 4.6266242374789091,
+          "rootWrenchDepartureInfinity": 1630.8851693081519,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 8.8817841970012523E-16,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 6.1732629993010057,
+          "hiddenDepartureInfinity": 4.6266371283153305,
+          "rootWrenchDepartureInfinity": 1630.8860341507952,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 2.4445585951292075,
+          "stateSecantDefect": 7.2665749522996589E-16,
+          "wrenchSecantDefect": 2.325917236589703E-14,
+          "visibleDepartureInfinity": 6.1732683376941857,
+          "hiddenDepartureInfinity": 4.6266578189470549,
+          "rootWrenchDepartureInfinity": 1630.8874222795437,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_U017P5_ALPHA_P06",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/p5_trim.mat",
+      "packageSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32902172068569557,
+        1.7453292519943295,
+        0.28463728075405337,
+        1.6459741137589745
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32902172068569557,
+        1.7453292519943295,
+        0.28463728075405337,
+        1.6459741137589745
+      ],
+      "minimumAcceptedInputAmplitude": 0.28463728075405337,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 3.857831700189222E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 4.4432748504010515,
+      "maximumHiddenDepartureInfinity": 3.4037759635070715,
+      "maximumRootWrenchDepartureInfinity": 1172.2174196513556,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.4402070755011538,
+          "hiddenDepartureInfinity": 3.3137606959001684,
+          "rootWrenchDepartureInfinity": 1171.9587010601797,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.3322676295501878E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.44020707785461,
+          "hiddenDepartureInfinity": 3.3137687973552676,
+          "rootWrenchDepartureInfinity": 1171.9587020358142,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.4402071013891762,
+          "hiddenDepartureInfinity": 3.3138498119062594,
+          "rootWrenchDepartureInfinity": 1171.9587117921585,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.4402073367348462,
+          "hiddenDepartureInfinity": 3.3146599574161764,
+          "rootWrenchDepartureInfinity": 1171.9588093556019,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.4402096901915247,
+          "hiddenDepartureInfinity": 3.3227614125153488,
+          "rootWrenchDepartureInfinity": 1171.9597849900372,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 8.8817841970012523E-16,
+          "visibleDepartureInfinity": 4.4402332247568186,
+          "hiddenDepartureInfinity": 3.4037759635070715,
+          "rootWrenchDepartureInfinity": 1171.9695413343884,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 5.4913642464099256E-12,
+          "wrenchSecantDefect": 4.4408920985006262E-12,
+          "visibleDepartureInfinity": 4.4402089400257463,
+          "hiddenDepartureInfinity": 3.3137726116824915,
+          "rootWrenchDepartureInfinity": 1171.9587561485255,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 5.4913642464099612E-13,
+          "wrenchSecantDefect": 6.9388939039072284E-15,
+          "visibleDepartureInfinity": 4.4402257231005189,
+          "hiddenDepartureInfinity": 3.3138879551784979,
+          "rootWrenchDepartureInfinity": 1171.9592529192728,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 5.4913642464099622E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.4403935538466888,
+          "hiddenDepartureInfinity": 3.3150413901385627,
+          "rootWrenchDepartureInfinity": 1171.9642206267456,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 5.4913642464099613E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.442071861151903,
+          "hiddenDepartureInfinity": 3.32657573973921,
+          "rootWrenchDepartureInfinity": 1172.0138977014724,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32902172068569557,
+          "stateSecantDefect": 6.6759899369846895E-15,
+          "wrenchSecantDefect": 6.9105832167792869E-13,
+          "visibleDepartureInfinity": 4.4432748504010515,
+          "hiddenDepartureInfinity": 3.3348434154751314,
+          "rootWrenchDepartureInfinity": 1172.0495055995827,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.4402070994668064,
+          "hiddenDepartureInfinity": 3.3137600636638953,
+          "rootWrenchDepartureInfinity": 1171.9587016907578,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.4402073175111436,
+          "hiddenDepartureInfinity": 3.313762474992537,
+          "rootWrenchDepartureInfinity": 1171.9587083415954,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.4402094979545117,
+          "hiddenDepartureInfinity": 3.3137865882789508,
+          "rootWrenchDepartureInfinity": 1171.9587748499719,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 2.544436151575083E-16,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 4.4402282174151351,
+          "hiddenDepartureInfinity": 3.3139936047614906,
+          "rootWrenchDepartureInfinity": 1171.9593458351912,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 5.5134904755395942E-11,
+          "visibleDepartureInfinity": 4.4402070784788243,
+          "hiddenDepartureInfinity": 3.3137597961989331,
+          "rootWrenchDepartureInfinity": 1171.9587018607176,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 4.4107923555291612E-11,
+          "visibleDepartureInfinity": 4.4402071076313234,
+          "hiddenDepartureInfinity": 3.3137598003429138,
+          "rootWrenchDepartureInfinity": 1171.9587100411932,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 5.513490447524266E-13,
+          "visibleDepartureInfinity": 4.4402073991563107,
+          "hiddenDepartureInfinity": 3.313759841782721,
+          "rootWrenchDepartureInfinity": 1171.9587918459479,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 1.1291628436529697E-10,
+          "visibleDepartureInfinity": 4.4402103144061815,
+          "hiddenDepartureInfinity": 3.3137602561807942,
+          "rootWrenchDepartureInfinity": 1171.959609893496,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 4.7639669986665467E-11,
+          "wrenchSecantDefect": 2.8229071090846113E-12,
+          "visibleDepartureInfinity": 4.4402394669048935,
+          "hiddenDepartureInfinity": 3.313764400161527,
+          "rootWrenchDepartureInfinity": 1171.9677903689771,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 4.76167549834372E-9,
+          "wrenchSecantDefect": 2.8229071090766425E-13,
+          "visibleDepartureInfinity": 4.44053099189201,
+          "hiddenDepartureInfinity": 3.3138058399688513,
+          "rootWrenchDepartureInfinity": 1172.0495951237881,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.28463728075405337,
+          "stateSecantDefect": 3.857831700189222E-8,
+          "wrenchSecantDefect": 9.9022288435604822E-14,
+          "visibleDepartureInfinity": 4.4411290627908233,
+          "hiddenDepartureInfinity": 3.3138908547837329,
+          "rootWrenchDepartureInfinity": 1172.2174196513556,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 5.6843418860808015E-9,
+          "visibleDepartureInfinity": 4.44020707528844,
+          "hiddenDepartureInfinity": 3.3137597960190055,
+          "rootWrenchDepartureInfinity": 1171.9587009573488,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 5.6843418860808015E-10,
+          "visibleDepartureInfinity": 4.440207075727483,
+          "hiddenDepartureInfinity": 3.3137597985436389,
+          "rootWrenchDepartureInfinity": 1171.9587010075056,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.4402070801179043,
+          "hiddenDepartureInfinity": 3.3137598237899724,
+          "rootWrenchDepartureInfinity": 1171.9587015090744,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 3.5527136788005009E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.4402071240221241,
+          "hiddenDepartureInfinity": 3.3137600762533066,
+          "rootWrenchDepartureInfinity": 1171.9587065247608,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 7.1054273576010019E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-13,
+          "visibleDepartureInfinity": 4.4402075630643214,
+          "hiddenDepartureInfinity": 3.3137626008866485,
+          "rootWrenchDepartureInfinity": 1171.9587566816253,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.5527136788005009E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-14,
+          "visibleDepartureInfinity": 4.4402119534862905,
+          "hiddenDepartureInfinity": 3.3137878472200692,
+          "rootWrenchDepartureInfinity": 1171.9592582502705,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.6459741137589745,
+          "stateSecantDefect": 1.6862731913938611E-17,
+          "wrenchSecantDefect": 6.7450504139280817E-17,
+          "visibleDepartureInfinity": 4.4402151047073355,
+          "hiddenDepartureInfinity": 3.3138059677510214,
+          "rootWrenchDepartureInfinity": 1171.9596182506716,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "OPS_U017P5_ALPHA_P08",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/p5_trim.mat",
+      "packageSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.33416292968731121,
+        1.7453292519943295,
+        0.32053250001311206,
+        1.8711998595804757
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.33416292968731121,
+        1.7453292519943295,
+        0.32053250001311206,
+        1.8711998595804757
+      ],
+      "minimumAcceptedInputAmplitude": 0.32053250001311206,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 4.8922774874675333E-8,
+      "maximumWrenchSecantDefect": 9.8048919645527664E-8,
+      "maximumVisibleDepartureInfinity": 7.3310178400225823,
+      "maximumHiddenDepartureInfinity": 5.5245988880129344,
+      "maximumRootWrenchDepartureInfinity": 1939.9123217678259,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 5.6843418860808015E-9,
+          "visibleDepartureInfinity": 7.3279435846200069,
+          "hiddenDepartureInfinity": 5.50050983154164,
+          "rootWrenchDepartureInfinity": 1939.6181529501644,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 7.3279435866707923,
+          "hiddenDepartureInfinity": 5.5005106041270926,
+          "rootWrenchDepartureInfinity": 1939.6181541173569,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 7.3279436071786463,
+          "hiddenDepartureInfinity": 5.5005183299816185,
+          "rootWrenchDepartureInfinity": 1939.6181657892807,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 3.5527136788005009E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 7.32794381225718,
+          "hiddenDepartureInfinity": 5.5005955885268722,
+          "rootWrenchDepartureInfinity": 1939.6182825085211,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 3.5527136788005009E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 7.3279458630425234,
+          "hiddenDepartureInfinity": 5.5013681739794107,
+          "rootWrenchDepartureInfinity": 1939.6194497009246,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 7.3279663708956768,
+          "hiddenDepartureInfinity": 5.5090940285047969,
+          "rootWrenchDepartureInfinity": 1939.6311216249587,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 2.5157425609235E-12,
+          "wrenchSecantDefect": 2.2204460492503131E-12,
+          "visibleDepartureInfinity": 7.3279454243659572,
+          "hiddenDepartureInfinity": 5.5005241633018276,
+          "rootWrenchDepartureInfinity": 1939.6182109471054,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 5.0314851218469412E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 7.3279619841303081,
+          "hiddenDepartureInfinity": 5.50065392172897,
+          "rootWrenchDepartureInfinity": 1939.6187340867655,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 5.0314851218469354E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 7.3281275817751794,
+          "hiddenDepartureInfinity": 5.501951506000391,
+          "rootWrenchDepartureInfinity": 1939.6239654833678,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 1.0062970243693868E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 7.329783558360341,
+          "hiddenDepartureInfinity": 5.5149273487146,
+          "rootWrenchDepartureInfinity": 1939.6762794493911,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.33416292968731121,
+          "stateSecantDefect": 3.0113963351025794E-15,
+          "wrenchSecantDefect": 1.7008616737257398E-13,
+          "visibleDepartureInfinity": 7.3310178400225823,
+          "hiddenDepartureInfinity": 5.5245988880129344,
+          "rootWrenchDepartureInfinity": 1939.7152716435314,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2204460492503131E-13,
+          "visibleDepartureInfinity": 7.3279436085962351,
+          "hiddenDepartureInfinity": 5.50050989015991,
+          "rootWrenchDepartureInfinity": 1939.6181535920457,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 7.3279438264330734,
+          "hiddenDepartureInfinity": 5.5005111903097905,
+          "rootWrenchDepartureInfinity": 1939.6181605361694,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 1.1102230246251565E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 7.3279460048014577,
+          "hiddenDepartureInfinity": 5.5005241918085934,
+          "rootWrenchDepartureInfinity": 1939.6182299774077,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 1.01777749814064E-15,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 7.3279647064480855,
+          "hiddenDepartureInfinity": 5.5006358117887055,
+          "rootWrenchDepartureInfinity": 1939.6188261417224,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 9.8048919645527664E-8,
+          "visibleDepartureInfinity": 7.3279435876085346,
+          "hiddenDepartureInfinity": 5.5005097458218293,
+          "rootWrenchDepartureInfinity": 1939.6181537382272,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 2.4512229791212035E-9,
+          "visibleDepartureInfinity": 7.3279436165560625,
+          "hiddenDepartureInfinity": 5.5005097469289828,
+          "rootWrenchDepartureInfinity": 1939.6181619979841,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 9.8048919309052E-10,
+          "visibleDepartureInfinity": 7.327943906031348,
+          "hiddenDepartureInfinity": 5.5005097580005176,
+          "rootWrenchDepartureInfinity": 1939.6182445955528,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 2.45122298236579E-11,
+          "visibleDepartureInfinity": 7.3279468007841988,
+          "hiddenDepartureInfinity": 5.50050986871587,
+          "rootWrenchDepartureInfinity": 1939.6190705712422,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 4.7584158835434209E-11,
+          "wrenchSecantDefect": 2.451222982401841E-12,
+          "visibleDepartureInfinity": 7.3279757483127064,
+          "hiddenDepartureInfinity": 5.5005109758693944,
+          "rootWrenchDepartureInfinity": 1939.6273303281343,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 4.7617576548475427E-9,
+          "wrenchSecantDefect": 9.80489192962659E-13,
+          "visibleDepartureInfinity": 7.3282652235977821,
+          "hiddenDepartureInfinity": 5.500522047404635,
+          "rootWrenchDepartureInfinity": 1939.7099278970559,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.32053250001311206,
+          "stateSecantDefect": 4.8922774874675333E-8,
+          "wrenchSecantDefect": 7.6600718200194274E-14,
+          "visibleDepartureInfinity": 7.3289745425790009,
+          "hiddenDepartureInfinity": 5.5005491766640313,
+          "rootWrenchDepartureInfinity": 1939.9123217678259,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 5.3290705182007514E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 7.32794358443393,
+          "hiddenDepartureInfinity": 5.5005097458327583,
+          "rootWrenchDepartureInfinity": 1939.6181528327716,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 3.5527136788005009E-11,
+          "wrenchSecantDefect": 4.4408920985006262E-12,
+          "visibleDepartureInfinity": 7.3279435848100229,
+          "hiddenDepartureInfinity": 5.5005097470382713,
+          "rootWrenchDepartureInfinity": 1939.6181529434282,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 7.3279435885709523,
+          "hiddenDepartureInfinity": 5.5005097590934078,
+          "rootWrenchDepartureInfinity": 1939.6181540499961,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 3.5527136788005009E-13,
+          "wrenchSecantDefect": 5.6843418860808015E-12,
+          "visibleDepartureInfinity": 7.3279436261802413,
+          "hiddenDepartureInfinity": 5.500509879644766,
+          "rootWrenchDepartureInfinity": 1939.6181651156728,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-13,
+          "visibleDepartureInfinity": 7.3279440022731315,
+          "hiddenDepartureInfinity": 5.5005110851583536,
+          "rootWrenchDepartureInfinity": 1939.6182757724412,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 7.3279477632020393,
+          "hiddenDepartureInfinity": 5.500523140294229,
+          "rootWrenchDepartureInfinity": 1939.6193823401245,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.8711998595804757,
+          "stateSecantDefect": 1.8986286923143689E-15,
+          "wrenchSecantDefect": 2.3765711620882257E-16,
+          "visibleDepartureInfinity": 7.3279514037806353,
+          "hiddenDepartureInfinity": 5.5005348096638755,
+          "rootWrenchDepartureInfinity": 1939.6204534974693,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "SGT16",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/SGT16/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
+      "packageSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.338864500679753,
+        1.7453292519943295,
+        0.32687494067536343,
+        1.3748261454568671
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.338864500679753,
+        1.7453292519943295,
+        0.32687494067536343,
+        1.3748261454568671
+      ],
+      "minimumAcceptedInputAmplitude": 0.32687494067536343,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 8.6833720464548535E-8,
+      "maximumWrenchSecantDefect": 2.6732424152894923E-8,
+      "maximumVisibleDepartureInfinity": 4.2834120387323,
+      "maximumHiddenDepartureInfinity": 3.2643834350121224,
+      "maximumRootWrenchDepartureInfinity": 1130.7653094121476,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 5.6843418860808015E-9,
+          "visibleDepartureInfinity": 4.2801666892149228,
+          "hiddenDepartureInfinity": 3.2058027420977155,
+          "rootWrenchDepartureInfinity": 1130.3768986142013,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.2801666911949638,
+          "hiddenDepartureInfinity": 3.2058080144128009,
+          "rootWrenchDepartureInfinity": 1130.3768994461459,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 5.3290705182007514E-12,
+          "wrenchSecantDefect": 1.1102230246251565E-13,
+          "visibleDepartureInfinity": 4.2801667109953749,
+          "hiddenDepartureInfinity": 3.2058607375636554,
+          "rootWrenchDepartureInfinity": 1130.3769077655916,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.2801669089994814,
+          "hiddenDepartureInfinity": 3.2063879690722,
+          "rootWrenchDepartureInfinity": 1130.3769909600489,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 4.28016888904053,
+          "hiddenDepartureInfinity": 3.2116602841576478,
+          "rootWrenchDepartureInfinity": 1130.3778229046218,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 8.8817841970012523E-16,
+          "visibleDepartureInfinity": 4.2801886894495862,
+          "hiddenDepartureInfinity": 3.2643834350121224,
+          "rootWrenchDepartureInfinity": 1130.3861423503504,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.0753003622831079E-12,
+          "wrenchSecantDefect": 1.1368683772161603E-9,
+          "visibleDepartureInfinity": 4.28016860442144,
+          "hiddenDepartureInfinity": 3.2058344091654649,
+          "rootWrenchDepartureInfinity": 1130.376954192767,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.0753003622830957E-13,
+          "wrenchSecantDefect": 2.8421709430404007E-11,
+          "visibleDepartureInfinity": 4.28018584326011,
+          "hiddenDepartureInfinity": 3.2061246850902929,
+          "rootWrenchDepartureInfinity": 1130.3774552318023,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 1.2225901086849296E-13,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.2803582316452076,
+          "hiddenDepartureInfinity": 3.2090274443385747,
+          "rootWrenchDepartureInfinity": 1130.3824656221564,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.0753003622830989E-15,
+          "wrenchSecantDefect": 6.9388939039072284E-17,
+          "visibleDepartureInfinity": 4.2820821153345321,
+          "hiddenDepartureInfinity": 3.2380550368213932,
+          "rootWrenchDepartureInfinity": 1130.4325695256975,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.338864500679753,
+          "stateSecantDefect": 4.810536780769186E-15,
+          "wrenchSecantDefect": 1.676991878696299E-13,
+          "visibleDepartureInfinity": 4.2834120387323,
+          "hiddenDepartureInfinity": 3.2604489375772925,
+          "rootWrenchDepartureInfinity": 1130.4712231565159,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.2801667108832389,
+          "hiddenDepartureInfinity": 3.20580267541305,
+          "rootWrenchDepartureInfinity": 1130.3768991771155,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.280166907878125,
+          "hiddenDepartureInfinity": 3.2058073475661444,
+          "rootWrenchDepartureInfinity": 1130.3769050752883,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.6645352591003757E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.28016887782699,
+          "hiddenDepartureInfinity": 3.2058540690970903,
+          "rootWrenchDepartureInfinity": 1130.3769640570169,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 3.053332494215125E-15,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 4.2801857901580975,
+          "hiddenDepartureInfinity": 3.2062551810330269,
+          "rootWrenchDepartureInfinity": 1130.377470424741,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 2.6732424152894923E-8,
+          "visibleDepartureInfinity": 4.280166693217188,
+          "hiddenDepartureInfinity": 3.2058021569457327,
+          "rootWrenchDepartureInfinity": 1130.3768997100183,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 6.5264708800275727E-13,
+          "visibleDepartureInfinity": 4.2801667312176184,
+          "hiddenDepartureInfinity": 3.2058021628929718,
+          "rootWrenchDepartureInfinity": 1130.3769104043163,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 3.5527136788005009E-11,
+          "wrenchSecantDefect": 1.0692969884120195E-9,
+          "visibleDepartureInfinity": 4.28016711122192,
+          "hiddenDepartureInfinity": 3.2058022223653615,
+          "rootWrenchDepartureInfinity": 1130.377017347296,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 1.0692969886406986E-10,
+          "visibleDepartureInfinity": 4.2801709112649329,
+          "hiddenDepartureInfinity": 3.2058028170892583,
+          "rootWrenchDepartureInfinity": 1130.3780867770927,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.1257223172315207E-11,
+          "wrenchSecantDefect": 4.1769413619447251E-14,
+          "visibleDepartureInfinity": 4.2802089116950661,
+          "hiddenDepartureInfinity": 3.2058087643282276,
+          "rootWrenchDepartureInfinity": 1130.3887810750593,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 8.1269035945297219E-9,
+          "wrenchSecantDefect": 5.2211767024309066E-16,
+          "visibleDepartureInfinity": 4.2805889159963977,
+          "hiddenDepartureInfinity": 3.2058682367179214,
+          "rootWrenchDepartureInfinity": 1130.4957240547274,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.32687494067536343,
+          "stateSecantDefect": 8.6833720464548535E-8,
+          "wrenchSecantDefect": 3.2715893217434443E-13,
+          "visibleDepartureInfinity": 4.2815468432555193,
+          "hiddenDepartureInfinity": 3.2060181566610728,
+          "rootWrenchDepartureInfinity": 1130.7653094121476,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 5.6843418860808015E-9,
+          "visibleDepartureInfinity": 4.28016668905417,
+          "hiddenDepartureInfinity": 3.2058021565319863,
+          "rootWrenchDepartureInfinity": 1130.3768985290299,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 1.1102230246251565E-12,
+          "visibleDepartureInfinity": 4.2801666895874275,
+          "hiddenDepartureInfinity": 3.2058021587555059,
+          "rootWrenchDepartureInfinity": 1130.3768985944312,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 3.4694469519536142E-15,
+          "visibleDepartureInfinity": 4.2801666949200126,
+          "hiddenDepartureInfinity": 3.2058021809907049,
+          "rootWrenchDepartureInfinity": 1130.3768992484452,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.2801667482458559,
+          "hiddenDepartureInfinity": 3.2058024033426928,
+          "rootWrenchDepartureInfinity": 1130.3769057885854,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 8.8817841970012523E-15,
+          "visibleDepartureInfinity": 4.280167281504295,
+          "hiddenDepartureInfinity": 3.2058046268625753,
+          "rootWrenchDepartureInfinity": 1130.3769711899863,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-14,
+          "visibleDepartureInfinity": 4.2801726140886851,
+          "hiddenDepartureInfinity": 3.2058268620613957,
+          "rootWrenchDepartureInfinity": 1130.3776252039952,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.3748261454568671,
+          "stateSecantDefect": 2.5841184804836445E-15,
+          "wrenchSecantDefect": 1.6538354886963536E-13,
+          "visibleDepartureInfinity": 4.2801748349687436,
+          "hiddenDepartureInfinity": 3.205836122432359,
+          "rootWrenchDepartureInfinity": 1130.3778975834955,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "STATICFB_CASEB_AB_MID",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEB_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/p5_trim.mat",
+      "packageSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.33433756947233273,
+        1.7453292519943295,
+        0.31509645030923672,
+        1.787452425350434
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.33433756947233273,
+        1.7453292519943295,
+        0.31509645030923672,
+        1.787452425350434
+      ],
+      "minimumAcceptedInputAmplitude": 0.31509645030923672,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 4.864387861435382E-8,
+      "maximumWrenchSecantDefect": 2.5275822412071732E-8,
+      "maximumVisibleDepartureInfinity": 7.3873977877861723,
+      "maximumHiddenDepartureInfinity": 5.5630384674300517,
+      "maximumRootWrenchDepartureInfinity": 1954.2876400625894,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 4.4408920985006262E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 7.3843055428288125,
+          "hiddenDepartureInfinity": 5.5412263524071736,
+          "rootWrenchDepartureInfinity": 1953.9950102301673,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 4.4408920985006262E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 7.38430554493672,
+          "hiddenDepartureInfinity": 5.5412268310077932,
+          "rootWrenchDepartureInfinity": 1953.9950113442583,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 5.6843418860808015E-11,
+          "visibleDepartureInfinity": 7.3843055660157848,
+          "hiddenDepartureInfinity": 5.5412316170139828,
+          "rootWrenchDepartureInfinity": 1953.9950224851675,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 7.3843057768064444,
+          "hiddenDepartureInfinity": 5.5412794770758769,
+          "rootWrenchDepartureInfinity": 1953.9951338942606,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 7.3843078847130244,
+          "hiddenDepartureInfinity": 5.5417580776948174,
+          "rootWrenchDepartureInfinity": 1953.9962479851906,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 7.3843289637785157,
+          "hiddenDepartureInfinity": 5.5465440838842275,
+          "rootWrenchDepartureInfinity": 1954.007388894493,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.9945233669599078E-12,
+          "wrenchSecantDefect": 1.1368683772161603E-9,
+          "visibleDepartureInfinity": 7.3843073923686475,
+          "hiddenDepartureInfinity": 5.5412393472204551,
+          "rootWrenchDepartureInfinity": 1953.9950676528624,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 1.2486308417400402E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 7.3843240403350752,
+          "hiddenDepartureInfinity": 5.5413567791406049,
+          "rootWrenchDepartureInfinity": 1953.99558557121,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.9945233669601568E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 7.3844905200006243,
+          "hiddenDepartureInfinity": 5.542531098342101,
+          "rootWrenchDepartureInfinity": 1954.0007647546856,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.9945233669601584E-15,
+          "wrenchSecantDefect": 2.8421709430404007E-13,
+          "visibleDepartureInfinity": 7.3861553167831913,
+          "hiddenDepartureInfinity": 5.5542742903570668,
+          "rootWrenchDepartureInfinity": 1954.0525565894411,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.33433756947233273,
+          "stateSecantDefect": 2.98771291953945E-15,
+          "wrenchSecantDefect": 6.8006711373413964E-13,
+          "visibleDepartureInfinity": 7.3873977877861723,
+          "hiddenDepartureInfinity": 5.5630384674300517,
+          "rootWrenchDepartureInfinity": 1954.0912098627723,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.4408920985006262E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 7.3843055666864705,
+          "hiddenDepartureInfinity": 5.5412264183119584,
+          "rootWrenchDepartureInfinity": 1953.995010866623,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 7.384305783513291,
+          "hiddenDepartureInfinity": 5.54122749005564,
+          "rootWrenchDepartureInfinity": 1953.9950177088167,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 7.3843079517815067,
+          "hiddenDepartureInfinity": 5.5412382074924489,
+          "rootWrenchDepartureInfinity": 1953.9950861307532,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 1.01777749814064E-15,
+          "wrenchSecantDefect": 1.3027551043140462E-13,
+          "visibleDepartureInfinity": 7.3843265667165294,
+          "hiddenDepartureInfinity": 5.5413302184291586,
+          "rootWrenchDepartureInfinity": 1953.9956735441974,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 3.5527136788005009E-9,
+          "wrenchSecantDefect": 2.5275822412071732E-8,
+          "visibleDepartureInfinity": 7.3843055458527083,
+          "hiddenDepartureInfinity": 5.5412262993520347,
+          "rootWrenchDepartureInfinity": 1953.995011035079,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 8.8817841970012523E-11,
+          "wrenchSecantDefect": 2.527582202875142E-9,
+          "visibleDepartureInfinity": 7.38430557517567,
+          "hiddenDepartureInfinity": 5.5412263004564011,
+          "rootWrenchDepartureInfinity": 1953.9950193933757,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 9.8733679949544737E-13,
+          "visibleDepartureInfinity": 7.38430586840529,
+          "hiddenDepartureInfinity": 5.5412263115000613,
+          "rootWrenchDepartureInfinity": 1953.9951029763422,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 5.3290705182007514E-12,
+          "wrenchSecantDefect": 1.0110328826322286E-10,
+          "visibleDepartureInfinity": 7.3843088007014916,
+          "hiddenDepartureInfinity": 5.5412264219366678,
+          "rootWrenchDepartureInfinity": 1953.9959388060074,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 4.8983039846461907E-11,
+          "wrenchSecantDefect": 1.0110328826322287E-11,
+          "visibleDepartureInfinity": 7.3843381236635039,
+          "hiddenDepartureInfinity": 5.5412275263027295,
+          "rootWrenchDepartureInfinity": 1954.00429710266,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 4.8993809009800771E-9,
+          "wrenchSecantDefect": 2.4683419986150871E-16,
+          "visibleDepartureInfinity": 7.3846313532836252,
+          "hiddenDepartureInfinity": 5.5412385699633511,
+          "rootWrenchDepartureInfinity": 1954.0878800691869,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.31509645030923672,
+          "stateSecantDefect": 4.864387861435382E-8,
+          "wrenchSecantDefect": 0,
+          "visibleDepartureInfinity": 7.3853321605104441,
+          "hiddenDepartureInfinity": 5.5412649638766629,
+          "rootWrenchDepartureInfinity": 1954.2876400625894,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 4.4408920985006262E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 7.3843055426321715,
+          "hiddenDepartureInfinity": 5.541226299378601,
+          "rootWrenchDepartureInfinity": 1953.9950101171576,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 5.3290705182007514E-11,
+          "wrenchSecantDefect": 5.6843418860808015E-10,
+          "visibleDepartureInfinity": 7.3843055429703028,
+          "hiddenDepartureInfinity": 5.5412263007220632,
+          "rootWrenchDepartureInfinity": 1953.9950102141613,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 4.4408920985006262E-13,
+          "visibleDepartureInfinity": 7.384305546351615,
+          "hiddenDepartureInfinity": 5.5412263141566882,
+          "rootWrenchDepartureInfinity": 1953.9950111841997,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 7.3843055801647353,
+          "hiddenDepartureInfinity": 5.5412264485029308,
+          "rootWrenchDepartureInfinity": 1953.9950208845821,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 8.8817841970012523E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-13,
+          "visibleDepartureInfinity": 7.3843059182959374,
+          "hiddenDepartureInfinity": 5.5412277919653592,
+          "rootWrenchDepartureInfinity": 1953.995117888406,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 2.2204460492503131E-16,
+          "wrenchSecantDefect": 4.4408920985006262E-16,
+          "visibleDepartureInfinity": 7.3843092996079616,
+          "hiddenDepartureInfinity": 5.5412412265896469,
+          "rootWrenchDepartureInfinity": 1953.9960879266457,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.787452425350434,
+          "stateSecantDefect": 4.9689620839721109E-16,
+          "wrenchSecantDefect": 1.2720553776990329E-13,
+          "visibleDepartureInfinity": 7.3843122580772436,
+          "hiddenDepartureInfinity": 5.5412529811757345,
+          "rootWrenchDepartureInfinity": 1953.9969366588284,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "STATICFB_CASEC_AB_MID",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/p5_trim.mat",
+      "packageSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.32974072534196913,
+        1.7453292519943295,
+        0.31895947788028756,
+        1.714373618419534
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.32974072534196913,
+        1.7453292519943295,
+        0.31895947788028756,
+        1.714373618419534
+      ],
+      "minimumAcceptedInputAmplitude": 0.31895947788028756,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 5.422748858617901E-8,
+      "maximumWrenchSecantDefect": 1.0116171073759735E-7,
+      "maximumVisibleDepartureInfinity": 4.78427000026041,
+      "maximumHiddenDepartureInfinity": 3.6239357822832123,
+      "maximumRootWrenchDepartureInfinity": 1264.1835576791977,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 1.7763568394002505E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 4.7811721373101337,
+          "hiddenDepartureInfinity": 3.5881694876261858,
+          "rootWrenchDepartureInfinity": 1263.8748093726554,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.8421709430404007E-10,
+          "visibleDepartureInfinity": 4.7811721394151245,
+          "hiddenDepartureInfinity": 3.5881695968247675,
+          "rootWrenchDepartureInfinity": 1263.8748104445965,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.3322676295501878E-12,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 4.7811721604650357,
+          "hiddenDepartureInfinity": 3.5881706888105867,
+          "rootWrenchDepartureInfinity": 1263.8748211640063,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 1.7763568394002505E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 4.7811723709641463,
+          "hiddenDepartureInfinity": 3.5881816086687759,
+          "rootWrenchDepartureInfinity": 1263.8749283581042,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 1.7763568394002505E-14,
+          "visibleDepartureInfinity": 4.7811744759552335,
+          "hiddenDepartureInfinity": 3.5882908072506692,
+          "rootWrenchDepartureInfinity": 1263.8760002990837,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 1.7763568394002505E-15,
+          "visibleDepartureInfinity": 4.7811955258642,
+          "hiddenDepartureInfinity": 3.5893827930696021,
+          "rootWrenchDepartureInfinity": 1263.8867197088796,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 4.8068711580677033E-12,
+          "wrenchSecantDefect": 1.4210854715202004E-10,
+          "visibleDepartureInfinity": 4.7811740160456946,
+          "hiddenDepartureInfinity": 3.58819116908682,
+          "rootWrenchDepartureInfinity": 1263.874866790258,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 4.8068711580677142E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7811909267707149,
+          "hiddenDepartureInfinity": 3.5883864114311055,
+          "rootWrenchDepartureInfinity": 1263.8753846206209,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.8068711580677151E-14,
+          "wrenchSecantDefect": 1.1368683772161603E-11,
+          "visibleDepartureInfinity": 4.7813600340190856,
+          "hiddenDepartureInfinity": 3.5903388348739669,
+          "rootWrenchDepartureInfinity": 1263.880562924252,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 4.8068711580677149E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 4.78305110631892,
+          "hiddenDepartureInfinity": 3.6098630693025764,
+          "rootWrenchDepartureInfinity": 1263.9323459605612,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.32974072534196913,
+          "stateSecantDefect": 8.7466377885191914E-15,
+          "wrenchSecantDefect": 4.2067044292437572E-17,
+          "visibleDepartureInfinity": 4.78427000026041,
+          "hiddenDepartureInfinity": 3.6239357822832123,
+          "rootWrenchDepartureInfinity": 1263.9696702310678,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 4.7811721610481879,
+          "hiddenDepartureInfinity": 3.5881697034249314,
+          "rootWrenchDepartureInfinity": 1263.8748099989307,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 6.9388939039072284E-16,
+          "visibleDepartureInfinity": 4.7811723767956673,
+          "hiddenDepartureInfinity": 3.5881717548122229,
+          "rootWrenchDepartureInfinity": 1263.8748167073484,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.2204460492503131E-15,
+          "wrenchSecantDefect": 5.5511151231257827E-16,
+          "visibleDepartureInfinity": 4.781174534270467,
+          "hiddenDepartureInfinity": 3.5881922686851411,
+          "rootWrenchDepartureInfinity": 1263.8748837915248,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 7.633325395384194E-16,
+          "wrenchSecantDefect": 1.0177778487618222E-15,
+          "visibleDepartureInfinity": 4.7811930565421878,
+          "hiddenDepartureInfinity": 3.5883683836178726,
+          "rootWrenchDepartureInfinity": 1263.8754597200812,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 3.5527136788005009E-9,
+          "wrenchSecantDefect": 1.0116171073759735E-7,
+          "visibleDepartureInfinity": 4.7811721405250687,
+          "hiddenDepartureInfinity": 3.588169476123253,
+          "rootWrenchDepartureInfinity": 1263.8748102215372,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 1.0116171048175506E-8,
+          "visibleDepartureInfinity": 4.7811721715644788,
+          "hiddenDepartureInfinity": 3.5881694817954384,
+          "rootWrenchDepartureInfinity": 1263.8748189334146,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 7.9032586373834168E-12,
+          "visibleDepartureInfinity": 4.7811724819585777,
+          "hiddenDepartureInfinity": 3.5881695385172931,
+          "rootWrenchDepartureInfinity": 1263.8749060521875,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 3.5527136788005009E-12,
+          "wrenchSecantDefect": 4.9395366482397131E-14,
+          "visibleDepartureInfinity": 4.7811755858995735,
+          "hiddenDepartureInfinity": 3.5881701057358413,
+          "rootWrenchDepartureInfinity": 1263.875777239916,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.3312909642500017E-11,
+          "wrenchSecantDefect": 4.9395366482522049E-15,
+          "visibleDepartureInfinity": 4.7812066253095304,
+          "hiddenDepartureInfinity": 3.5881757779213217,
+          "rootWrenchDepartureInfinity": 1263.8844891172032,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.3302628977291988E-9,
+          "wrenchSecantDefect": 1.0116171055623074E-12,
+          "visibleDepartureInfinity": 4.7815170194090983,
+          "hiddenDepartureInfinity": 3.5882324997761277,
+          "rootWrenchDepartureInfinity": 1263.9716078900733,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.31895947788028756,
+          "stateSecantDefect": 5.422748858617901E-8,
+          "wrenchSecantDefect": 3.1716764818435896E-13,
+          "visibleDepartureInfinity": 4.782272171964415,
+          "hiddenDepartureInfinity": 3.5883704974173796,
+          "rootWrenchDepartureInfinity": 1264.1835576791977,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 1.7763568394002505E-10,
+          "visibleDepartureInfinity": 4.7811721371558535,
+          "hiddenDepartureInfinity": 3.5881694756509135,
+          "rootWrenchDepartureInfinity": 1263.8748092641047,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 5.3290705182007514E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 4.781172137872332,
+          "hiddenDepartureInfinity": 3.5881694770720465,
+          "rootWrenchDepartureInfinity": 1263.8748093590889,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 1.7763568394002505E-12,
+          "visibleDepartureInfinity": 4.7811721450371136,
+          "hiddenDepartureInfinity": 3.5881694912833737,
+          "rootWrenchDepartureInfinity": 1263.8748103089313,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.8421709430404007E-12,
+          "visibleDepartureInfinity": 4.7811722166849284,
+          "hiddenDepartureInfinity": 3.5881696333966473,
+          "rootWrenchDepartureInfinity": 1263.8748198073547,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 5.5511151231257827E-16,
+          "wrenchSecantDefect": 1.7763568394002505E-14,
+          "visibleDepartureInfinity": 4.7811729331630737,
+          "hiddenDepartureInfinity": 3.5881710545293815,
+          "rootWrenchDepartureInfinity": 1263.874914791588,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 4.781180097944528,
+          "hiddenDepartureInfinity": 3.5881852658567261,
+          "rootWrenchDepartureInfinity": 1263.8758646339211,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.714373618419534,
+          "stateSecantDefect": 4.1446200905835692E-15,
+          "wrenchSecantDefect": 1.3262784967493779E-13,
+          "visibleDepartureInfinity": 4.7811857849788089,
+          "hiddenDepartureInfinity": 3.5881965460759906,
+          "rootWrenchDepartureInfinity": 1263.876618569815,
+          "accepted": true
+        }
+      ]
+    },
+    {
+      "sourceId": "STATICFB_CASEC_CA_MID",
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_CA_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "packagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/p5_trim.mat",
+      "packageSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
+      "inputNames": [
+        "gust",
+        "symmetric_deflection",
+        "symmetric_rate",
+        "elevator",
+        "thrust"
+      ],
+      "declaredInputBounds": [
+        1,
+        0.33468781894606142,
+        1.7453292519943295,
+        0.32155018737039492,
+        1.7426982501855663
+      ],
+      "acceptedInputBounds": [
+        1,
+        0.33468781894606142,
+        1.7453292519943295,
+        0.32155018737039492,
+        1.7426982501855663
+      ],
+      "minimumAcceptedInputAmplitude": 0.32155018737039492,
+      "allDeclaredPulsesAccepted": true,
+      "maximumStateSecantDefect": 5.4349847338910304E-8,
+      "maximumWrenchSecantDefect": 2.2737367544323206E-8,
+      "maximumVisibleDepartureInfinity": 7.3907665916972274,
+      "maximumHiddenDepartureInfinity": 5.5652348482777612,
+      "maximumRootWrenchDepartureInfinity": 1955.4043476114543,
+      "trials": [
+        {
+          "channel": "gust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 3.5527136788005009E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 7.387653208494835,
+          "hiddenDepartureInfinity": 5.5440564591704078,
+          "rootWrenchDepartureInfinity": 1955.0948742008161,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 7.387653210559157,
+          "hiddenDepartureInfinity": 5.5440571886982521,
+          "rootWrenchDepartureInfinity": 1955.0948752983652,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 7.3876532312023819,
+          "hiddenDepartureInfinity": 5.5440644839766984,
+          "rootWrenchDepartureInfinity": 1955.0948862738562,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-11,
+          "visibleDepartureInfinity": 7.3876534376346328,
+          "hiddenDepartureInfinity": 5.5441374367611607,
+          "rootWrenchDepartureInfinity": 1955.094996028766,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 3.5527136788005009E-14,
+          "wrenchSecantDefect": 5.6843418860808015E-13,
+          "visibleDepartureInfinity": 7.3876555019571342,
+          "hiddenDepartureInfinity": 5.5448669646057827,
+          "rootWrenchDepartureInfinity": 1955.0960935778626,
+          "accepted": true
+        },
+        {
+          "channel": "gust",
+          "amplitude": 1,
+          "stateSecantDefect": 1.7763568394002505E-15,
+          "wrenchSecantDefect": 2.2737367544323206E-13,
+          "visibleDepartureInfinity": 7.3876761451818682,
+          "hiddenDepartureInfinity": 5.5521622430520017,
+          "rootWrenchDepartureInfinity": 1955.1070690688291,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.0002,
+          "stateSecantDefect": 2.4106996971702616E-12,
+          "wrenchSecantDefect": 2.7755575615628914E-13,
+          "visibleDepartureInfinity": 7.3876550687353424,
+          "hiddenDepartureInfinity": 5.5440690337681442,
+          "rootWrenchDepartureInfinity": 1955.0949319302363,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.002,
+          "stateSecantDefect": 3.6160495457553514E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 7.3876718129642471,
+          "hiddenDepartureInfinity": 5.54418293467562,
+          "rootWrenchDepartureInfinity": 1955.0954525925665,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.8213993943404762E-14,
+          "wrenchSecantDefect": 2.7755575615628914E-15,
+          "visibleDepartureInfinity": 7.3878392552545824,
+          "hiddenDepartureInfinity": 5.54532194375037,
+          "rootWrenchDepartureInfinity": 1955.1006592158683,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.410699697170238E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 7.3895136782869706,
+          "hiddenDepartureInfinity": 5.5567120344978758,
+          "rootWrenchDepartureInfinity": 1955.1527254488863,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_deflection",
+          "amplitude": 0.33468781894606142,
+          "stateSecantDefect": 2.1602129317611433E-15,
+          "wrenchSecantDefect": 6.7934546876813329E-13,
+          "visibleDepartureInfinity": 7.3907665916972274,
+          "hiddenDepartureInfinity": 5.5652348482777612,
+          "rootWrenchDepartureInfinity": 1955.1916848231415,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.002,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 1.1368683772161603E-10,
+          "visibleDepartureInfinity": 7.3876532320913872,
+          "hiddenDepartureInfinity": 5.5440564887477581,
+          "rootWrenchDepartureInfinity": 1955.0948748300395,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.02,
+          "stateSecantDefect": 4.4408920985006262E-14,
+          "wrenchSecantDefect": 2.7755575615628914E-15,
+          "visibleDepartureInfinity": 7.38765344652469,
+          "hiddenDepartureInfinity": 5.5440574844717565,
+          "rootWrenchDepartureInfinity": 1955.0948815905981,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 0.2,
+          "stateSecantDefect": 2.2204460492503131E-15,
+          "wrenchSecantDefect": 1.1368683772161603E-12,
+          "visibleDepartureInfinity": 7.3876555908577082,
+          "hiddenDepartureInfinity": 5.5440674417117366,
+          "rootWrenchDepartureInfinity": 1955.0949491961853,
+          "accepted": true
+        },
+        {
+          "channel": "symmetric_rate",
+          "amplitude": 1.7453292519943295,
+          "stateSecantDefect": 2.544436151575083E-16,
+          "wrenchSecantDefect": 1.2722217815566857E-16,
+          "visibleDepartureInfinity": 7.3876740003051848,
+          "hiddenDepartureInfinity": 5.5441529262351334,
+          "rootWrenchDepartureInfinity": 1955.0955296011375,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 1E-6,
+          "stateSecantDefect": 1.7763568394002505E-9,
+          "wrenchSecantDefect": 9.7090271968586317E-11,
+          "visibleDepartureInfinity": 7.3876532116400195,
+          "hiddenDepartureInfinity": 5.5440563782406826,
+          "rootWrenchDepartureInfinity": 1955.0948750413086,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-6,
+          "stateSecantDefect": 5.3290705182007514E-10,
+          "wrenchSecantDefect": 2.4855109500402803E-9,
+          "visibleDepartureInfinity": 7.3876532420110017,
+          "hiddenDepartureInfinity": 5.5440563794010043,
+          "rootWrenchDepartureInfinity": 1955.0948837032902,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 9.9999999999999991E-5,
+          "stateSecantDefect": 8.8817841970012523E-12,
+          "wrenchSecantDefect": 9.70902713411571E-13,
+          "visibleDepartureInfinity": 7.3876535457208314,
+          "hiddenDepartureInfinity": 5.54405639100422,
+          "rootWrenchDepartureInfinity": 1955.0949703231058,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.001,
+          "stateSecantDefect": 1.7763568394002505E-12,
+          "wrenchSecantDefect": 9.942043785334487E-11,
+          "visibleDepartureInfinity": 7.3876565828191225,
+          "hiddenDepartureInfinity": 5.5440565070363821,
+          "rootWrenchDepartureInfinity": 1955.0958365212616,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.01,
+          "stateSecantDefect": 5.2557957985754911E-11,
+          "wrenchSecantDefect": 2.4272567835651252E-15,
+          "visibleDepartureInfinity": 7.3876869538020342,
+          "hiddenDepartureInfinity": 5.5440576673579951,
+          "rootWrenchDepartureInfinity": 1955.1044985028207,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.099999999999999992,
+          "stateSecantDefect": 5.2565551911243347E-9,
+          "wrenchSecantDefect": 1.9418054268521E-15,
+          "visibleDepartureInfinity": 7.387990663631153,
+          "hiddenDepartureInfinity": 5.5440692705741235,
+          "rootWrenchDepartureInfinity": 1955.1911183184106,
+          "accepted": true
+        },
+        {
+          "channel": "elevator",
+          "amplitude": 0.32155018737039492,
+          "stateSecantDefect": 5.4349847338910304E-8,
+          "wrenchSecantDefect": 7.72838559887267E-14,
+          "visibleDepartureInfinity": 7.3887382966261246,
+          "hiddenDepartureInfinity": 5.5440978338486513,
+          "rootWrenchDepartureInfinity": 1955.4043476114543,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1E-5,
+          "stateSecantDefect": 5.3290705182007514E-10,
+          "wrenchSecantDefect": 2.2737367544323206E-8,
+          "visibleDepartureInfinity": 7.3876532083047124,
+          "hiddenDepartureInfinity": 5.5440563782544885,
+          "rootWrenchDepartureInfinity": 1955.0948740902138,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.0001,
+          "stateSecantDefect": 1.7763568394002505E-11,
+          "wrenchSecantDefect": 2.2737367544323206E-9,
+          "visibleDepartureInfinity": 7.3876532086579365,
+          "hiddenDepartureInfinity": 5.5440563795390592,
+          "rootWrenchDepartureInfinity": 1955.0948741923414,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.001,
+          "stateSecantDefect": 8.8817841970012523E-13,
+          "wrenchSecantDefect": 2.2737367544323206E-10,
+          "visibleDepartureInfinity": 7.3876532121901732,
+          "hiddenDepartureInfinity": 5.54405639238477,
+          "rootWrenchDepartureInfinity": 1955.0948752136176,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.01,
+          "stateSecantDefect": 8.8817841970012523E-14,
+          "wrenchSecantDefect": 2.2204460492503131E-14,
+          "visibleDepartureInfinity": 7.3876532475125414,
+          "hiddenDepartureInfinity": 5.5440565208418775,
+          "rootWrenchDepartureInfinity": 1955.0948854263793,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 0.1,
+          "stateSecantDefect": 1.7763568394002505E-14,
+          "wrenchSecantDefect": 2.2737367544323206E-12,
+          "visibleDepartureInfinity": 7.3876536007362263,
+          "hiddenDepartureInfinity": 5.5440578054129466,
+          "rootWrenchDepartureInfinity": 1955.094987553997,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1,
+          "stateSecantDefect": 3.5527136788005009E-15,
+          "wrenchSecantDefect": 5.6843418860808015E-14,
+          "visibleDepartureInfinity": 7.3876571329730734,
+          "hiddenDepartureInfinity": 5.5440706511236435,
+          "rootWrenchDepartureInfinity": 1955.0960088301745,
+          "accepted": true
+        },
+        {
+          "channel": "thrust",
+          "amplitude": 1.7426982501855663,
+          "stateSecantDefect": 3.0579422525514773E-15,
+          "wrenchSecantDefect": 1.3047223891560211E-13,
+          "visibleDepartureInfinity": 7.3876600478465457,
+          "hiddenDepartureInfinity": 5.5440812516645961,
+          "rootWrenchDepartureInfinity": 1955.0968516079854,
+          "accepted": true
+        }
+      ]
+    }
+  ],
+  "maximumStateSecantDefect": 8.6833720464548535E-8,
+  "maximumWrenchSecantDefect": 1.0116171073759735E-7,
+  "minimumAcceptedInputAmplitude": 0.19203350537018912,
+  "allDeclaredPulsesAccepted": true,
+  "invariants": {
+    "sharpyModified": false,
+    "xbeamModified": false,
+    "negativeThrustAttempted": false,
+    "validationFittingUsed": false,
+    "scaleAero1Modified": false,
+    "r2RigidEquilibriumModified": false
+  },
+  "artifacts": {
+    "matPath": "context\\audits\\phase18c-control-validation\\cases\\attempts\\v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1\\source-domain-pulse-envelope-v1\\PHASE18C_V17A_CASEB_SOURCE_DOMAIN_PULSE_ENVELOPE_V1.mat",
+    "matSha256": "7eaf5fa8272c47c4762e1b7846121223b5d5927fc4b975fdffb7e7f411a5f8ae",
+    "logPath": "context\\audits\\phase18c-control-validation\\cases\\attempts\\v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1\\source-domain-pulse-envelope-v1\\PHASE18C_V17A_CASEB_SOURCE_DOMAIN_PULSE_ENVELOPE_V1.log"
+  }
+}

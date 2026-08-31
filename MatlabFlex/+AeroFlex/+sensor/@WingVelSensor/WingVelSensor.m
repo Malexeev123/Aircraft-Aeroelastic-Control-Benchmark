@@ -59,11 +59,19 @@ classdef WingVelSensor < handle
                 sA = s_interp(j);
                 snodes = s_node(j,:);
                 % --- locate the element that contains s --------------------------
-                if abs(sA-coords(1)) < 1e-4               % exactly at the clamp
-                    sL = coords(2);
-                    sR = coords(end);
-                    phi1L = beam.phi1(1:6, :);
-                    phi1R = beam.phi1(end-5:end, :);
+                if abs(sA-coords(1)) < 1e-4               % exactly at constrained center
+                    assert(numel(snodes) == 6, ...
+                        'WingVelSensor:CenterRows', ...
+                        'The constrained-center recovery requires six sensor rows.');
+                    assert(isprop(beam,'red') && isstruct(beam.red) && ...
+                        isfield(beam.red,'phi1_sA') && ...
+                        isequal(size(beam.red.phi1_sA),[6 size(beam.phi1,2)]) && ...
+                        all(isfinite(beam.red.phi1_sA),'all'), ...
+                        'WingVelSensor:CenterRecoveryMap', ...
+                        'beam.red.phi1_sA must be a finite 6-by-Nm source recovery map.');
+                    % Preserve the signed source recovery convention at the clamped center.
+                    phi_interp(snodes,:) = beam.red.phi1_sA;
+                    continue;
                 else
                     iL = find(coords <= sA,1,'last');    % left node
                     if iL == numel(coords)              % s at wing tip -> clamp to tip

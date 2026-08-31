@@ -54,6 +54,11 @@ classdef OuterLQR < handle
         useAileronOnWingSurfaces logical = true
         useElevatorOnWingSurfaces logical = false
 
+        structuredOuter struct = struct()
+        sharedWingDaisyChain struct = struct()
+        simplePdRigidPath struct = struct()
+        scheduledEquilibriumFeedforward struct = struct()
+
         rbParams struct
 
         eigCL
@@ -108,6 +113,11 @@ classdef OuterLQR < handle
             if isfield(cfg,'outerLQR') && isfield(cfg.outerLQR,'useElevatorOnWingSurfaces')
                 obj.useElevatorOnWingSurfaces = logical(cfg.outerLQR.useElevatorOnWingSurfaces);
             end
+            obj.structuredOuter = obj.loadStructuredOuterConfig(cfg);
+            obj.sharedWingDaisyChain = obj.loadSharedWingDaisyChainConfig(cfg);
+            obj.simplePdRigidPath = obj.loadSimplePdRigidPathConfig(cfg);
+            obj.scheduledEquilibriumFeedforward = ...
+                obj.loadScheduledEquilibriumFeedforwardConfig(cfg);
 
             [obj.A,obj.B] = obj.buildLinearModel(cfg);
             % ------------------------------------------------------------------
@@ -143,7 +153,7 @@ classdef OuterLQR < handle
         end
 
         %--------------------------------------------------------------
-        function [uFlexOuter, rbCmd, info] = computeControl(obj, rbMeas, ref, t)
+        function [uFlexOuter, rbCmd, info] = computeControl(obj, rbMeas, ref, t, realizedWingState)
         % Compute low-frequency outer-loop command.
         %
         % Inputs:
@@ -168,18 +178,47 @@ classdef OuterLQR < handle
                 ref = struct();
             end
 
+            if nargin < 5
+                realizedWingState = struct();
+            end
+
             x = obj.rbToState(rbMeas);
             xRef = obj.refToState(ref);
 
             dx = obj.wrapStateError(x - xRef);
 
-            du = -obj.K * dx;
-
-            uRB = obj.uTrimRB + du;
-
-            uRB = obj.saturateOuterRBInput(uRB);
-
-            [uFlexOuter, rbCmd] = obj.allocateCommand(uRB);
+            sharedWingInfo = struct('enabled',false,'symmetricIncrement',0);
+            simplePdInfo = struct('enabled',false,'thetaGain',0,'qGain',0);
+            speedGuidanceInfo = struct('enabled',false);
+            equilibriumInfo = struct('enabled',false,'owner',"fixed_initial_trim", ...
+                'uTrimRB',obj.uTrimRB(:),'uTrimWing',zeros(obj.nuFlex,1));
+            if obj.simplePdRigidPath.enable
+                [uFlexOuter,uRB,du,simplePdInfo] = obj.computeSimplePdCommand(dx);
+                [~,rbCmd] = obj.allocateCommand(uRB);
+            elseif obj.sharedWingDaisyChain.enable
+                [uFlexOuter,uRB,du,sharedWingInfo] = ...
+                    obj.computeSharedWingDaisyChainCommand(dx,realizedWingState);
+                [~,rbCmd] = obj.allocateCommand(uRB);
+            else
+                [uTrimActive,uTrimWing,equilibriumInfo] = ...
+                    obj.resolveScheduledEquilibriumFeedforward(realizedWingState);
+                if equilibriumInfo.enabled && ...
+                        obj.scheduledEquilibriumFeedforward.speedGuidance.enable
+                    [du,speedGuidanceInfo] = obj.computeScheduledSpeedGuidance( ...
+                        dx,x,xRef,ref);
+                else
+                    du = -obj.K * dx;
+                end
+                uRB = obj.saturateOuterRBInput(uTrimActive + du,uTrimActive);
+                [uFlexOuter, rbCmd] = obj.allocateCommand(uRB);
+                if equilibriumInfo.enabled
+                    assert(norm(uFlexOuter,inf)<=1e-14, ...
+                        'OuterLQR:ScheduledEquilibriumWingConflict', ...
+                        ['The scheduled-equilibrium discriminator cannot ', ...
+                         'coexist with a second direct wing allocation.']);
+                    uFlexOuter = uTrimWing;
+                end
+            end
 
             info = struct();
             info.t = t;
@@ -190,12 +229,436 @@ classdef OuterLQR < handle
             info.uRB = uRB;
             info.uFlexOuter = uFlexOuter;
             info.rbCmd = rbCmd;
+            info.sharedWingDaisyChain = sharedWingInfo;
+            info.simplePdRigidPath = simplePdInfo;
+            info.scheduledEquilibriumFeedforward = equilibriumInfo;
+            info.speedGuidance = speedGuidanceInfo;
 
             obj.last = info;
+        end
+
+        %--------------------------------------------------------------
+        function [uFlexOuter, info] = computeStructuredWingIncrement(obj, xhat, rbMeas, t)
+        %COMPUTESTRUCTUREDWINGINCREMENT Evaluate the approved audit-only map.
+        %
+        % xhat is the flexible nMHE state. rbMeas supplies body velocity,
+        % Euler angles, and body rates; inertial position is intentionally
+        % excluded. Invalid contract data fails closed to zero wing command.
+        %--------------------------------------------------------------
+            if nargin < 4
+                t = nan;
+            end
+
+            uFlexOuter = zeros(obj.nuFlex,1);
+            info = struct('t',t,'enabled',false,'accepted',false, ...
+                'status',"DISABLED",'symmetricWingIncrement',0, ...
+                'descriptorState',[],'outerOutput',[]);
+            if ~isfield(obj.structuredOuter,'enable') || ...
+                    ~obj.structuredOuter.enable
+                return
+            end
+            info.enabled = true;
+
+            try
+                design = obj.structuredOuter.design;
+                xhat = xhat(:);
+                rbState = obj.rbToState(rbMeas);
+                descriptorTrim = [obj.trim.states(:); obj.xTrim(:)];
+                xDescriptor = [xhat; rbState(:)];
+                assert(numel(xhat) == design.flexibleStateCount, ...
+                    'OuterLQR:StructuredFlexibleState', ...
+                    'The nMHE state length does not match the certified map.');
+                assert(numel(xDescriptor) == design.runtimeStateCount && ...
+                    numel(descriptorTrim) == design.runtimeStateCount, ...
+                    'OuterLQR:StructuredState', ...
+                    'The hybrid descriptor state has an unexpected length.');
+                assert(all(isfinite(xDescriptor)) && all(isfinite(descriptorTrim)), ...
+                    'OuterLQR:StructuredFinite', ...
+                    'The hybrid descriptor state must be finite.');
+
+                outputMap = design.outputMap;
+                outputScales = design.outerOutputScales(:);
+                gain = design.symmetricWingGain(:).';
+                inputScales = design.outerInputScales(:);
+                assert(isequal(size(outputMap), ...
+                    [numel(outputScales), design.runtimeStateCount]), ...
+                    'OuterLQR:StructuredOutputMap', ...
+                    'The certified physical-output map has an unexpected size.');
+                assert(numel(gain) == numel(outputScales) && ...
+                    numel(inputScales) >= 1 && all(outputScales > 0), ...
+                    'OuterLQR:StructuredGain', ...
+                    'The certified structured-controller scaling is invalid.');
+
+                yOuter = outputMap * (xDescriptor - descriptorTrim);
+                uSymmetric = -inputScales(1) * gain * (yOuter ./ outputScales);
+                assert(isfinite(uSymmetric), 'OuterLQR:StructuredCommand', ...
+                    'The structured wing increment is nonfinite.');
+                surfaceMap = design.symmetricWingSurfaceMap(:);
+                assert(numel(surfaceMap) == obj.nSurf && ...
+                    all(isfinite(surfaceMap)), 'OuterLQR:StructuredSurfaceMap', ...
+                    'The symmetric wing-surface map is incompatible with cfg.ctrl.n_surf.');
+
+                deflection = surfaceMap * uSymmetric;
+                if obj.varPer == 1
+                    uFlexOuter = deflection;
+                elseif obj.varPer == 2
+                    uFlexOuter = [deflection; zeros(obj.nSurf,1)];
+                else
+                    error('OuterLQR:StructuredVarPer', ...
+                        'Unsupported cfg.ctrl.var_per = %d.', obj.varPer);
+                end
+                assert(all(isfinite(uFlexOuter)), 'OuterLQR:StructuredCommand', ...
+                    'The structured wing command is nonfinite.');
+                info.accepted = true;
+                info.status = "ACCEPTED";
+                info.symmetricWingIncrement = uSymmetric;
+                info.descriptorState = xDescriptor;
+                info.outerOutput = yOuter;
+            catch err
+                uFlexOuter = zeros(obj.nuFlex,1);
+                info.status = "FAIL_CLOSED_" + string(err.identifier);
+            end
         end
     end
 
     methods (Access = private)
+        %--------------------------------------------------------------
+        function request = loadScheduledEquilibriumFeedforwardConfig(~,cfg)
+        %LOADSCHEDULEDEQUILIBRIUMFEEDFORWARDCONFIG Validate Case-B audit path.
+            request = struct('enable',false);
+            if ~isfield(cfg,'outerLQR') || ...
+                    ~isfield(cfg.outerLQR,'scheduledEquilibriumFeedforward')
+                return
+            end
+            request = cfg.outerLQR.scheduledEquilibriumFeedforward;
+            if ~isfield(request,'enable') || ~logical(request.enable)
+                request = struct('enable',false);
+                return
+            end
+            assert(isfield(request,'auditOnly') && ...
+                logical(request.auditOnly) && isfield(request,'source') && ...
+                string(request.source)== ...
+                "phase18c-v17a-caseb-scheduled-virtual-longitudinal-guidance-allocation-audit-v1", ...
+                'OuterLQR:ScheduledEquilibriumFeedforwardScope', ...
+                ['Scheduled equilibrium feedforward must remain bound to ', ...
+                 'the approved default-inactive Case-B audit.']);
+            if ~isfield(request,'speedGuidance')
+                request.speedGuidance = struct('enable',false);
+            end
+            guidance = request.speedGuidance;
+            if ~isfield(guidance,'enable') || ~logical(guidance.enable)
+                request.speedGuidance = struct('enable',false);
+                return
+            end
+            required = {'timeConstantSeconds','maximumAccelerationMps2'};
+            assert(isstruct(guidance) && all(isfield(guidance,required)) && ...
+                isscalar(guidance.timeConstantSeconds) && ...
+                isfinite(guidance.timeConstantSeconds) && ...
+                guidance.timeConstantSeconds>0 && ...
+                isscalar(guidance.maximumAccelerationMps2) && ...
+                isfinite(guidance.maximumAccelerationMps2) && ...
+                guidance.maximumAccelerationMps2>0, ...
+                'OuterLQR:ScheduledSpeedGuidanceConfig', ...
+                'The Case-B speed-guidance configuration is invalid.');
+            if isfield(guidance,'finiteHorizonAccelerationPerNewton')
+                assert(isscalar(guidance.finiteHorizonAccelerationPerNewton) && ...
+                    isfinite(guidance.finiteHorizonAccelerationPerNewton) && ...
+                    guidance.finiteHorizonAccelerationPerNewton>0 && ...
+                    isfield(guidance,'finiteHorizonSeconds') && ...
+                    isscalar(guidance.finiteHorizonSeconds) && ...
+                    isfinite(guidance.finiteHorizonSeconds) && ...
+                    guidance.finiteHorizonSeconds>0 && ...
+                    isfield(guidance,'effectivenessSource') && ...
+                    strlength(string(guidance.effectivenessSource))>0, ...
+                    'OuterLQR:ScheduledSpeedGuidanceEffectiveness', ...
+                    ['The finite-horizon thrust effectiveness must be ', ...
+                     'positive, finite, and source identified.']);
+            end
+        end
+
+        %--------------------------------------------------------------
+        function [du,info] = computeScheduledSpeedGuidance(obj,dx,x,xRef,ref)
+        %COMPUTESCHEDULEDSPEEDGUIDANCE Separate axial and pitch demands.
+            guidance = obj.scheduledEquilibriumFeedforward.speedGuidance;
+            assert(isstruct(ref) && ...
+                isfield(ref,'speedReferenceRateMps2') && ...
+                isscalar(ref.speedReferenceRateMps2) && ...
+                isfinite(ref.speedReferenceRateMps2), ...
+                'OuterLQR:ScheduledSpeedGuidanceReference', ...
+                'The speed-guidance path requires a finite reference rate.');
+            referenceVelocity = xRef(1:3);
+            measuredVelocity = x(1:3);
+            referenceSpeed = norm(referenceVelocity);
+            measuredSpeed = norm(measuredVelocity);
+            assert(referenceSpeed>0 && isfinite(measuredSpeed), ...
+                'OuterLQR:ScheduledSpeedGuidanceState', ...
+                'The speed-guidance velocity state is invalid.');
+
+            tangent = referenceVelocity/referenceSpeed;
+            velocityError = measuredVelocity-referenceVelocity;
+            axialError = tangent.'*velocityError;
+            feedbackError = dx;
+            feedbackError(1:3) = velocityError-tangent*axialError;
+            du = -obj.K*feedbackError;
+
+            speedError = referenceSpeed-measuredSpeed;
+            accelerationUnbounded = double(ref.speedReferenceRateMps2) + ...
+                speedError/double(guidance.timeConstantSeconds);
+            accelerationDemand = min(max(accelerationUnbounded, ...
+                -double(guidance.maximumAccelerationMps2)), ...
+                double(guidance.maximumAccelerationMps2));
+            effectiveness = 1/double(obj.rbParams.mass);
+            effectivenessOwner = "rigid_mass_inverse";
+            effectivenessHorizon = 0;
+            if isfield(guidance,'finiteHorizonAccelerationPerNewton')
+                effectiveness = double( ...
+                    guidance.finiteHorizonAccelerationPerNewton);
+                effectivenessOwner = string(guidance.effectivenessSource);
+                effectivenessHorizon = double(guidance.finiteHorizonSeconds);
+            end
+            thrustIncrement = accelerationDemand/effectiveness;
+            du(4) = thrustIncrement;
+            info = struct('enabled',true, ...
+                'owner',"reference_acceleration_plus_axial_speed_error", ...
+                'referenceSpeedMps',referenceSpeed, ...
+                'measuredSpeedMps',measuredSpeed, ...
+                'speedErrorMps',speedError, ...
+                'referenceAccelerationMps2', ...
+                    double(ref.speedReferenceRateMps2), ...
+                'accelerationUnboundedMps2',accelerationUnbounded, ...
+                'accelerationDemandMps2',accelerationDemand, ...
+                'thrustAccelerationEffectivenessMps2PerNewton', ...
+                    effectiveness, ...
+                'thrustEffectivenessOwner',effectivenessOwner, ...
+                'thrustEffectivenessHorizonSeconds', ...
+                    effectivenessHorizon, ...
+                'thrustIncrementNewton',thrustIncrement, ...
+                'axialVelocityErrorMps',axialError, ...
+                'axialErrorRemovedFromPitchFeedback',true);
+        end
+
+        %--------------------------------------------------------------
+        function [uTrimRB,uTrimWing,info] = ...
+                resolveScheduledEquilibriumFeedforward(obj,runtimeState)
+        %RESOLVESCHEDULEDEQUILIBRIUMFEEDFORWARD Read the atomic packet trim.
+            uTrimRB = obj.uTrimRB(:);
+            uTrimWing = zeros(obj.nuFlex,1);
+            info = struct('enabled',false,'owner',"fixed_initial_trim", ...
+                'uTrimRB',uTrimRB,'uTrimWing',uTrimWing);
+            if ~obj.scheduledEquilibriumFeedforward.enable
+                return
+            end
+            assert(isstruct(runtimeState) && ...
+                isfield(runtimeState,'scheduledQueryTrim'), ...
+                'OuterLQR:ScheduledEquilibriumFeedforwardMissing', ...
+                'The active scheduled packet did not supply its query trim.');
+            queryTrim = runtimeState.scheduledQueryTrim;
+            required = {'wing','elevator','thrust'};
+            assert(isstruct(queryTrim) && all(isfield(queryTrim,required)), ...
+                'OuterLQR:ScheduledEquilibriumFeedforwardContract', ...
+                'The scheduled query-trim contract is incomplete.');
+            commandTrim = queryTrim;
+            owner = "active_scheduled_reciprocal_packet_query_trim";
+            if obj.scheduledEquilibriumFeedforward.speedGuidance.enable
+                assert(isfield(runtimeState,'referenceQueryTrim'), ...
+                    'OuterLQR:ScheduledSpeedGuidanceTrim', ...
+                    ['The virtual-speed guidance path requires the ', ...
+                     'source-interpolated reference equilibrium.']);
+                commandTrim = runtimeState.referenceQueryTrim;
+                owner = "reference_scheduled_reciprocal_packet_query_trim";
+            end
+            wing = double(commandTrim.wing(:));
+            elevator = double(commandTrim.elevator);
+            thrust = double(commandTrim.thrust);
+            assert(numel(wing)==obj.nuFlex && isscalar(elevator) && ...
+                isscalar(thrust) && thrust>=0 && ...
+                all(isfinite([wing;elevator;thrust])), ...
+                'OuterLQR:ScheduledEquilibriumFeedforwardValue', ...
+                'The scheduled query trim is nonfinite or violates T >= 0.');
+            uTrimRB = [elevator;0;0;thrust];
+            uTrimWing = wing;
+            info = struct('enabled',true, ...
+                'owner',owner,'uTrimRB',uTrimRB,'uTrimWing',uTrimWing, ...
+                'activeScheduledQueryTrim',queryTrim);
+        end
+
+        %--------------------------------------------------------------
+        function simplePd = loadSimplePdRigidPathConfig(~,cfg)
+        %LOADSIMPLEPDRIGIDPATHCONFIG Validate the disabled-by-default audit.
+            simplePd = struct('enable',false,'auditOnly',true);
+            if ~isfield(cfg,'outerLQR') || ...
+                    ~isfield(cfg.outerLQR,'simplePdRigidPath')
+                return
+            end
+            simplePd = cfg.outerLQR.simplePdRigidPath;
+            if ~isfield(simplePd,'enable') || ~simplePd.enable
+                simplePd.enable = false;
+                return
+            end
+            assert(isfield(simplePd,'auditOnly') && simplePd.auditOnly && ...
+                isfield(simplePd,'source') && string(simplePd.source)== ...
+                "phase18c-v17a-casea-simple-pd-rigid-path-discriminator-v1", ...
+                'OuterLQR:SimplePdAudit', ...
+                'The simple PD path must remain bound to its audit contract.');
+        end
+
+        %--------------------------------------------------------------
+        function [uFlexOuter,uRB,du,info] = computeSimplePdCommand(obj,dx)
+        %COMPUTESIMPLEPDCOMMAND LQR-row-derived pitch/rate diagnostic.
+            thetaIndex = 5;
+            qIndex = 8;
+            elevatorIndex = 1;
+            thetaGain = obj.K(elevatorIndex,thetaIndex);
+            qGain = obj.K(elevatorIndex,qIndex);
+            assert(all(isfinite([thetaGain,qGain])), ...
+                'OuterLQR:SimplePdGain', ...
+                'The source-derived PD gains must be finite.');
+            du = zeros(obj.nuRB,1);
+            du(elevatorIndex) = -thetaGain*dx(thetaIndex) - qGain*dx(qIndex);
+            uRB = obj.saturateOuterRBInput(obj.uTrimRB + du);
+            uFlexOuter = zeros(obj.nuFlex,1);
+            info = struct('enabled',true,'thetaGain',thetaGain,'qGain',qGain, ...
+                'thetaError',dx(thetaIndex),'qError',dx(qIndex), ...
+                'elevatorIncrement',du(elevatorIndex));
+        end
+
+        %--------------------------------------------------------------
+        function structured = loadStructuredOuterConfig(~, cfg)
+        %LOADSTRUCTUREDOUTERCONFIG Validate the disabled-by-default audit map.
+        %--------------------------------------------------------------
+            structured = struct('enable',false);
+            if ~isfield(cfg,'outerLQR') || ...
+                    ~isfield(cfg.outerLQR,'structuredOuter')
+                return
+            end
+            structured = cfg.outerLQR.structuredOuter;
+            if ~isfield(structured,'enable') || ~structured.enable
+                structured.enable = false;
+                return
+            end
+            required = {'auditOnly','design','artifactSha256', ...
+                'expectedArtifactSha256'};
+            for field = required
+                assert(isfield(structured,field{1}), ...
+                    'OuterLQR:StructuredConfig', ...
+                    'The structured outer configuration is incomplete.');
+            end
+            assert(structured.auditOnly && ...
+                string(structured.artifactSha256) == ...
+                string(structured.expectedArtifactSha256), ...
+                'OuterLQR:StructuredArtifactHash', ...
+                'The structured outer artifact is not the approved hash.');
+        end
+
+        %--------------------------------------------------------------
+        function chain = loadSharedWingDaisyChainConfig(~,cfg)
+        %LOADSHAREDWINGDAISYCHAINCONFIG Validate an exact audit-only design.
+            chain = struct('enable',false);
+            if ~isfield(cfg,'outerLQR') || ...
+                    ~isfield(cfg.outerLQR,'sharedWingDaisyChain')
+                return
+            end
+            chain = cfg.outerLQR.sharedWingDaisyChain;
+            if ~isfield(chain,'enable') || ~logical(chain.enable)
+                chain = struct('enable',false);
+                return
+            end
+            required = {'auditOnly','design','artifactSha256','sourceId'};
+            for field = required
+                assert(isfield(chain,field{1}), ...
+                    'OuterLQR:SharedWingDaisyChainConfig', ...
+                    'The shared-wing daisy-chain configuration lacks %s.',field{1});
+            end
+            assert(logical(chain.auditOnly), ...
+                'OuterLQR:SharedWingDaisyChainScope', ...
+                'The shared-wing daisy-chain configuration must be audit-only.');
+            design = chain.design;
+            requiredDesign = {'gain','rigidStateIndices', ...
+                'wingIncrementLimitRadians','elevatorIncrementLimitRadians', ...
+                'thrustIncrementLimitNewtons','sampleTimeSeconds'};
+            for field = requiredDesign
+                assert(isfield(design,field{1}), ...
+                    'OuterLQR:SharedWingDaisyChainDesign', ...
+                    'The shared-wing daisy-chain design lacks %s.',field{1});
+            end
+            realized = isfield(design,'designType') && ...
+                string(design.designType)=="realized_multirate_fusion_actuator";
+            expectedGainSize = [3,4];
+            if realized, expectedGainSize = [3,6]; end
+            assert(isequal(size(design.gain),expectedGainSize) && ...
+                numel(design.rigidStateIndices)==4 && ...
+                all(isfinite(design.gain),'all') && ...
+                all(isfinite(design.rigidStateIndices)) && ...
+                isfinite(design.wingIncrementLimitRadians) && ...
+                design.wingIncrementLimitRadians>0 && ...
+                abs(design.sampleTimeSeconds-cfg.ctrl.outerTs)<= ...
+                    10*eps(design.sampleTimeSeconds), ...
+                'OuterLQR:SharedWingDaisyChainDesign', ...
+                'The shared-wing daisy-chain design is incompatible with runtime.');
+            if realized
+                assert(isfield(design,'stateOrder') && ...
+                    isequal(string(design.stateOrder(:)).', ...
+                    ["u","w","theta","q","outerLpSym","actuatorDeltaSym"]), ...
+                    'OuterLQR:SharedWingRealizedStateOrder', ...
+                    'The realised multirate state order is incompatible with OuterLQR.');
+            end
+        end
+
+        %--------------------------------------------------------------
+        function [uFlex,uRB,duRigid,info] = ...
+                computeSharedWingDaisyChainCommand(obj,dx,realizedWingState)
+        %COMPUTESHAREDWINGDAISYCHAINCOMMAND Evaluate coordinated outer inputs.
+            design = obj.sharedWingDaisyChain.design;
+            stateIndices = double(design.rigidStateIndices(:));
+            assert(isequal(stateIndices,[1;3;5;8]), ...
+                'OuterLQR:SharedWingDaisyChainStateOrder', ...
+                'The shared-wing design state order is incompatible with OuterLQR.');
+            if nargin < 3
+                realizedWingState = struct();
+            end
+            realized = isfield(design,'designType') && ...
+                string(design.designType)=="realized_multirate_fusion_actuator";
+            if realized
+                required = {'fusionOuterLP','actuatorDelta'};
+                for field = required
+                    assert(isfield(realizedWingState,field{1}), ...
+                        'OuterLQR:SharedWingRealizedState', ...
+                        ['The realised multirate shared-wing design requires ', ...
+                         'the current %s state.'],field{1});
+                end
+                outerLp = realizedWingState.fusionOuterLP(:);
+                actuatorDelta = realizedWingState.actuatorDelta(:);
+                assert(~isempty(outerLp) && ~isempty(actuatorDelta) && ...
+                    isfinite(outerLp(1)) && isfinite(actuatorDelta(1)), ...
+                    'OuterLQR:SharedWingRealizedState', ...
+                    'The realised multirate shared-wing state must be finite.');
+                commandState = [dx(stateIndices);outerLp(1);actuatorDelta(1)];
+            else
+                commandState = dx(stateIndices);
+            end
+            virtualCommand = -double(design.gain) * commandState;
+            wingLimit = double(design.wingIncrementLimitRadians);
+            wingIncrement = min(max(virtualCommand(1),-wingLimit),wingLimit);
+            uRB = obj.uTrimRB;
+            uRB(1) = uRB(1) + virtualCommand(2);
+            uRB(4) = uRB(4) + virtualCommand(3);
+            uRB = obj.saturateOuterRBInput(uRB);
+            duRigid = uRB-obj.uTrimRB;
+            if obj.varPer==1
+                uFlex = wingIncrement*ones(obj.nSurf,1);
+            elseif obj.varPer==2
+                uFlex = [wingIncrement*ones(obj.nSurf,1);zeros(obj.nSurf,1)];
+            else
+                error('OuterLQR:SharedWingDaisyChainVarPer', ...
+                    'Unsupported cfg.ctrl.var_per = %d.',obj.varPer);
+            end
+            info = struct('enabled',true,'symmetricIncrement',wingIncrement, ...
+                'virtualCommand',virtualCommand,'rigidIncrement',duRigid, ...
+                'realizedMultirate',realized,'commandState',commandState, ...
+                'wingSaturated',abs(wingIncrement-virtualCommand(1))> ...
+                    10*eps(max(1,wingLimit)));
+        end
+
         %--------------------------------------------------------------
         function [A,B] = buildLinearModel(obj,cfg)
         %BUILDLINEARMODEL Build rigid-body linear model for outer LQR.
@@ -650,16 +1113,29 @@ classdef OuterLQR < handle
         end
 
         %--------------------------------------------------------------
-        function uRB = saturateOuterRBInput(obj,uRB)
-        % Saturate outer LQR raw rigid-body input.
+        function uRB = saturateOuterRBInput(obj,uRB,uCenter)
+        % Limit rigid-body input perturbations about the trim command.
         %--------------------------------------------------------------
+            if nargin < 3
+                uCenter = obj.uTrimRB(:);
+            end
+            uCenter = uCenter(:);
+            assert(numel(uCenter)==obj.nuRB && all(isfinite(uCenter)) && ...
+                uCenter(4)>=0, ...
+                'OuterLQR:InputLimitCenter', ...
+                'The outer-input limit center must be finite with T >= 0.');
             uMax = obj.cfg.outerLQR.uMax(:);
-            uMin = -uMax;
+            assert(numel(uMax) == obj.nuRB, ...
+                'cfg.outerLQR.uMax must have length 4.');
+            assert(all(isfinite(uMax)) && all(uMax > 0), ...
+                'cfg.outerLQR.uMax must contain finite positive limits.');
 
-            % Thrust should usually be nonnegative. If trim thrust is small,
-            % allow perturbation but clip total thrust at zero.
-            uRB = min(max(uRB,uMin),uMax);
+            du = uRB(:) - uCenter;
+            du = min(max(du, -uMax), uMax);
+            uRB = uCenter + du;
 
+            % The perturbation limit is trim-relative; the physical thrust
+            % floor applies to the reconstructed total command.
             uRB(4) = max(0,uRB(4));
         end
 
@@ -717,16 +1193,14 @@ classdef OuterLQR < handle
 
             if isfield(trim,'rb') && isfield(trim.rb,'euler')
                 euler0 = trim.rb.euler(:);
-            elseif isfield(trim,'chi0')
-                euler0 = trim.chi0(:);
-                if numel(euler0) ~= 3
-                    euler0 = [0; alpha0; 0];
-                end
             elseif isfield(cfg,'rigidEOMset') && isfield(cfg.rigidEOMset,'euler0')
                 euler0 = cfg.rigidEOMset.euler0(:);
             else
                 euler0 = [0; alpha0; 0];
             end
+            assert(numel(euler0) == 3 && all(isfinite(euler0)), ...
+                'OuterLQR:InvalidTrimEuler', ...
+                'The rigid trim Euler reference must contain three finite values.');
 
             omega0 = zeros(3,1);
 
@@ -820,6 +1294,24 @@ classdef OuterLQR < handle
             end
 
             p.I_B = 0.5*(p.I_B+p.I_B.');
+            if isfield(cfg,'rigidEOMset') && ...
+                    isfield(cfg.rigidEOMset,'massOwnership')
+                ownership = cfg.rigidEOMset.massOwnership;
+                assert(isstruct(ownership) && isfield(ownership,'owner'), ...
+                    'OuterLQR:RigidMassOwnership', ...
+                    'The rigid mass-ownership contract is incomplete.');
+                if string(ownership.owner)== ...
+                        "nonwing_source_owned_wing_reaction"
+                    expected = RigidBody.methods.paramsRigid_PazyUAV();
+                    expected = expected.nonwing;
+                    assert(abs(p.mass-expected.mass)<=1e-14 && ...
+                        norm(p.I_B-expected.J,'fro')<=1e-14, ...
+                        'OuterLQR:MixedRigidMassOwnership', ...
+                        ['Outer LQR must use the same non-wing mass and ', ...
+                         'inertia as the nonlinear runtime.']);
+                end
+                p.massOwnership = ownership;
+            end
 
             if isfield(cfg,'flight') && isfield(cfg.flight,'g')
                 p.g = cfg.flight.g;

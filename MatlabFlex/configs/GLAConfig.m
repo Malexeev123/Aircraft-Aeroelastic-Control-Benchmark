@@ -143,7 +143,7 @@ cfg.sim.storeSens = true;
 
 % the following three lines are ONLY handles; they receive (beam,cfg) later
 cfg.sensorHandle    = @(beam,cfg) AeroFlex.sensor.WingVelSensor(beam,cfg);
-cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHE(cfg);
+cfg.estimatorHandle = @(cfg)      AeroFlex.ctrl.nMHEv2(cfg);
 cfg.controllerHandle= @(cfg)      AeroFlex.ctrl.nMPC(cfg);
 % end
 

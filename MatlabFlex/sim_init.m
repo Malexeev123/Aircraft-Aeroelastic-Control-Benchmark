@@ -3,8 +3,8 @@ function [sim_config, success] = sim_init(sharpy_root_in, varargin)
 %          merge config with defaults, run open-loop test, and export
 %          artifacts for MATLAB and SHARPy HIL.
 %
-% FILE LOCATION (assumed):
-%   Research/MatlabFlex/configs/sim_init.m    <-- this file
+% FILE LOCATION:
+%   Research/MatlabFlex/sim_init.m    <-- this file
 % DIRECTORY LAYOUT:
 %   Research/
 %   ├─ MatlabFlex/    (MATLAB project/sources; this file lives here)
@@ -20,6 +20,10 @@ function [sim_config, success] = sim_init(sharpy_root_in, varargin)
 %   'overwrite'     : logical, default false
 %   'research_root' : optional, defaults to parent of matlab_root
 %   'matlab_root'   : optional, defaults to folder auto-detected from this file
+%   'targetUInf'    : coupled-full target speed [m/s], default 35
+%   'targetAoADeg'  : coupled-full target angle of attack [deg], default 0
+%   'exactNodeOnly' : require a one-hot library source-node selection
+%   'freezeSelectedPackage' : hold the selected package through trim/runtime
 %
 % OUTPUTS
 %   sim_config : struct with cfg/beam/aero/base/trim/idx/x0 and metadata
@@ -36,10 +40,10 @@ function [sim_config, success] = sim_init(sharpy_root_in, varargin)
 %% ------------------------------------------------------------
 %  0) Parse inputs and set flags
 % -------------------------------------------------------------
-% auto-detect matlab_root from this file's location (.../MatlabFlex/configs)
+% Auto-detect matlab_root from this file's location (.../MatlabFlex).
 this_file = mfilename('fullpath');
-this_dir  = fileparts(this_file);        % .../MatlabFlex/configs
-matlab_root_autodetect = fileparts(this_dir);  % .../MatlabFlex
+this_dir  = fileparts(this_file);
+matlab_root_autodetect = this_dir;
 
 p = inputParser;
 p.addRequired('sharpy_root_in', @(s)ischar(s) || isstring(s));
@@ -53,6 +57,17 @@ p.addParameter('body_case', 'wingOnly', @(s)ischar(s) || isstring(s));
 p.addParameter('sim_case', 'openloop', @(s)ischar(s) || isstring(s));
 % p.addParameter('runner', 'SimRunner', @(s)ischar(s) || isstring(s));
 p.addParameter('runner', 'PlantROM', @(s)ischar(s) || isstring(s));
+p.addParameter('schedule', false, @(b)islogical(b) || isnumeric(b));
+p.addParameter('savePathSched',[],  @(s)ischar(s) || isstring(s));
+p.addParameter('run_id', '', @(s)ischar(s) || isstring(s));
+p.addParameter('date_only_runs', true, @(b)islogical(b) || isnumeric(b));
+p.addParameter('gustOn', true, @(b)islogical(b) || isnumeric(b));
+p.addParameter('targetUInf', 35, @(x)isnumeric(x) && isscalar(x) && isfinite(x) && x > 0);
+p.addParameter('targetAoADeg', 0, @(x)isnumeric(x) && isscalar(x) && isfinite(x));
+p.addParameter('exactNodeOnly', false, @(b)islogical(b) || isnumeric(b));
+p.addParameter('freezeSelectedPackage', false, @(b)islogical(b) || isnumeric(b));
+p.addParameter('operatingPointTolU', 1e-9, @(x)isnumeric(x) && isscalar(x) && isfinite(x) && x >= 0);
+p.addParameter('operatingPointTolAlphaDeg', 1e-9, @(x)isnumeric(x) && isscalar(x) && isfinite(x) && x >= 0);
 p.parse(sharpy_root_in, varargin{:});
 opt = p.Results;
 
@@ -79,10 +94,21 @@ case_name = char(opt.case_name);
 debug     = logical(opt.debug);
 overwrite = logical(opt.overwrite);
 
-% Put MatlabFlex project on path
+% Establish the repository's deterministic production path when available.
 if exist(matlab_root,'dir')
-    addpath(genpath(matlab_root));
-    if debug, fprintf('[sim_init] Added MatlabFlex to path: %s\n', matlab_root); end
+    setup_file = fullfile(research_root, 'setupProject.m');
+    if exist(setup_file, 'file') == 2
+        addpath(research_root, '-begin');
+        setupProject();
+    else
+        addpath(matlab_root, '-begin');
+        configs_root = fullfile(matlab_root, 'configs');
+        if exist(configs_root, 'dir') == 7, addpath(configs_root, '-end'); end
+    end
+    assert(strcmpi(string(which('sim_init')), string([this_file '.m'])), ...
+        'sim_init:PathAuthority', ...
+        'sim_init resolved to %s instead of %s.', which('sim_init'), [this_file '.m']);
+    if debug, fprintf('[sim_init] Production MATLAB path configured: %s\n', matlab_root); end
 else
     warning('[sim_init] matlab_root not found: %s', matlab_root);
 end
@@ -105,6 +131,12 @@ roots.matlab_root   = matlab_root;
 roots.sharpy_root   = sharpy_root;                     % you already have this in sim_init
 roots.sim_setup_root= fullfile(sharpy_root,'sim_setup');
 roots.sim_run_root  = fullfile(sharpy_root,'sim_run');
+roots.sourcePaths = struct( ...
+    'sim_init', char(string(which('sim_init'))), ...
+    'sim_run', char(string(which('sim_run'))), ...
+    'coupledTrim', char(string(which('RigidBody.methods.CoupledTrim.TrimRBwFlex'))), ...
+    'plantRunTime', char(string(which('AeroFlex.sim.PlantRunTime'))));
+roots.gitRevision = localGitRevision(research_root);
 
 
 
@@ -131,7 +163,14 @@ end
 %% ------------------------------------------------------------
 %  1) Create timestamped run folder ***UNDER SHARPY ROOT***
 % -------------------------------------------------------------
-[run_dir, paths] = create_run_dirs(sim_root, case_name, body_case_str, overwrite);
+% [run_dir, paths] = create_run_dirs(sim_root, case_name, body_case_str, overwrite);
+[run_dir, paths] = create_run_dirs( ...
+    sim_root, ...
+    case_name, ...
+    body_case_str, ...
+    overwrite, ...
+    logical(opt.date_only_runs), ...
+    char(opt.run_id));
 fprintf('[sim_init] Run folder: %s\n', run_dir);
 
 % Also point at canonical SHARPy output/linear_results (for mirror writes)
@@ -179,7 +218,7 @@ warning('on','backtrace');  % include backtraces in the log
 
 
 hadError = false; MEout = [];
-try
+% try
 
 %% ------------------------------------------------------------
 %  2) Load configs (SHARPy simulation_parameters.mat if available),
@@ -189,6 +228,11 @@ cfg_default = nominalConfig();   % your existing default config
 
 sharpy_param_mat = fullfile(sharpy_root, 'output', case_name, 'linear_results', 'simulation_parameters.mat');
 cfg_loaded = struct();
+source_operating_point = struct( ...
+    'U_inf', NaN, 'alpha_deg', NaN, 'rho', NaN, ...
+    'rhoKnown', false, ...
+    'rhoStatus', 'not recorded in canonical simulation_parameters.mat', ...
+    'file', sharpy_param_mat);
 if exist(sharpy_param_mat, 'file')
     S = load(sharpy_param_mat);
     % disp(fieldnames(S))
@@ -196,12 +240,27 @@ if exist(sharpy_param_mat, 'file')
     cfg_loaded = map_sharpy_sim_params_to_cfg(S);
     cfg_loaded.flight.aoa_deg = double(S.aoa_deg);
     cfg_loaded.flight.U_inf = S.u_inf;
+    source_operating_point.U_inf = double(S.u_inf);
+    source_operating_point.alpha_deg = double(S.aoa_deg);
+    if isfield(S,'rho') && isscalar(S.rho) && isfinite(S.rho)
+        source_operating_point.rho = double(S.rho);
+        source_operating_point.rhoKnown = true;
+        source_operating_point.rhoStatus = 'recorded in canonical simulation_parameters.mat';
+    end
     % disp(cfg_loaded.flight.U_inf);
     % disp(fieldnames(cfg_loaded))
     fprintf('[sim_init] Loaded SHARPy simulation_parameters.mat\n');
     copyfile(sharpy_param_mat, fullfile(paths.from_sharpy, 'simulation_parameters.mat'));
 else
     fprintf('[sim_init] No SHARPy simulation_parameters.mat found. Proceeding with defaults+local.\n');
+end
+
+if ~strcmpi(body_case_str, 'wingOnly')
+    cfg_loaded.flight.aoa_deg = double(opt.targetAoADeg);
+    cfg_loaded.flight.U_inf = double(opt.targetUInf);
+    % 
+    % cfg_loaded.flight.aoa_deg = 2;
+    % cfg_loaded.flight.U_inf = 45;
 end
 
 % cfg.flight.aoa_deg = cfg.aoa_deg;
@@ -216,8 +275,89 @@ cfg = merge_cfg(cfg, cfg_loaded);
 % cfg.flight.Fscale = sqrt(cfg.ctrl.Ts/(cfg.flight.aeroscale*cfg.flight.t_scale)); 
 % disp(cfg.flight.Fscale)
 cfg = ensure_nominal_extras(cfg);
-cfg = AeroFlex.sched.defaultLibraryConfig; % For lookup/interp
+
+cfg.operatingPoint = struct();
+cfg.operatingPoint.requestedTarget = struct( ...
+    'U_inf', double(cfg.flight.U_inf), ...
+    'alpha_deg', double(cfg.flight.aoa_deg), ...
+    'rho', double(cfg.flight.rho));
+cfg.operatingPoint.loadedCanonicalSource = source_operating_point;
+cfg.operatingPoint.initialRuntime = cfg.operatingPoint.requestedTarget;
+cfg.operatingPoint.schedulerQuery = [double(cfg.flight.U_inf), double(cfg.flight.aoa_deg)];
+cfg.operatingPoint.selection = struct( ...
+    'mode', 'canonicalUnscheduled', 'exact', false, ...
+    'sourceNodeId', [], 'sourceNodeName', '', 'weights', [], ...
+    'runtimeUpdateFrozen', true);
+cfg.provenance = struct( ...
+    'sourcePaths', roots.sourcePaths, ...
+    'gitRevision', roots.gitRevision);
+
+if opt.gustOn
+    cfg.gust.on      = true;  % include Dryden gust input
+else
+    cfg.gust.on      = false; 
+end
+
+if opt.schedule
+    % cfg.library.enable = true;
+    % cfg.library.path = opt.savePathSched;
+    % cfg.library.method = 'stage1_direct';
+    % cfg.library.noExtrapolate = true;
+    cfg.library.enable = true;
+    libRoot = fullfile(sharpy_root, 'rom_library', case_name, 'library_U_alpha');
+    if exist(libRoot,'dir') ~= 7
+        mkdir(libRoot);
+    end
+    cfg.library.path = fullfile( ...
+        sharpy_root, ...
+        'rom_library', ...
+        'pazy_krylov_ROM', ...
+        'library_U_alpha', ...
+        'library_stage2_compatible.mat');
+        % 'library_stage1_direct.mat');
+     % cfg.library.path = fullfile(sharpy_root, ...
+     %    'rom_library','pazy_krylov_ROM','library_U_alpha','library_stage1_direct.mat');
+    
+    cfg.library.muNames = {'U_inf','alpha_deg'};
+    cfg.library.U_grid = 20:5:55;
+    cfg.library.alpha_grid_deg = -2:2:10;
+    cfg.library.noExtrapolate = true;
+    % cfg.library.noExtrapolate = false;
+    % cfg.library.updateMode = 'perPlantStep';
+    cfg.library.freezeInOptimizer = true;
+    cfg.library.requireCompatible = true;
+    cfg.library.requireExactNode = logical(opt.exactNodeOnly);
+    cfg.library.schedulerQueryPoint = cfg.operatingPoint.schedulerQuery;
+    if logical(opt.freezeSelectedPackage)
+        cfg.library.updateMode = 'frozenTrim';
+    end
+    
+    % cfg.library.path = fullfile(libRoot, 'library_stage2_compatible.mat');
+    AeroFlex.sched.defaultLibraryConfig; % For lookup/interp
+else
+    cfg.library.enable = false;
+    assertOperatingPointCompatible( ...
+        cfg.operatingPoint.requestedTarget, source_operating_point, ...
+        double(opt.operatingPointTolU), double(opt.operatingPointTolAlphaDeg));
+end
+
+if logical(opt.exactNodeOnly) && ~logical(opt.schedule)
+    error('sim_init:ExactNodeRequiresLibrary', ...
+        'exactNodeOnly=true requires schedule=true so a library node can be selected.');
+end
+% AeroFlex.sched.defaultLibraryConfig; % For lookup/interp
+% cfg = AeroFlex.sched.defaultLibraryConfig; % For lookup/interp
 % cfg = AeroFlex.sched.defaultLibraryConfig(cfg); % For lookup/interp
+
+% Custom Sim Params.
+if cfg.overwrite.doOverwrite
+    if isfield(cfg.overwrite, 't_end')
+        cfg.sim.t_end = cfg.overwrite.t_end;
+    end
+    if isfield(cfg.overwrite, 'dt')
+        cfg.sim.dt = cfg.overwrite.dt;
+    end
+end
 
 validate_cfg(cfg);
 if debug, show_cfg_summary(cfg); end
@@ -299,6 +439,10 @@ fprintf('[sim_init] AeroROM OK: n=%d, m=%d, p=%d, Ts=%.6g\n', n, m, p, aero.ROM_
 % Persist a small bundle for MATLAB-side inspection/reuse
 save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero');
 cfg.Ts = aero.ROM_dsc.Ts;
+if ~opt.debug 
+    cfg.plotOpts.debugPlots = false;
+end
+
 % Plot a minimal aero-only impulse check to verify stability
 if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'debugPlots') && cfg.plotOpts.debugPlots
     try
@@ -389,7 +533,9 @@ S.force.doDamp = cfg.struct.damping;
 cfg.tests.struct = S;
 clear S
 
-
+if ~opt.debug 
+    cfg.tests.struct.enable = false;
+end    
 
 % ---- run structural-only modal test  ----
 if cfg.tests.struct.enable
@@ -468,11 +614,78 @@ fprintf('[sim_init] BASE OK: φξ %dx%d, Dχ %dx%d, Bχ %dx%d\n', ...
 %% Lookup-table setup library
 if isfield(cfg,'library') && cfg.library.enable && exist(cfg.library.path,'file') == 2
   ROMlib = AeroFlex.sched.loadLibrary(cfg.library.path);
-  mu0 = [cfg.flight.U_inf, cfg.flight.aoa_deg];
+  mu0 = cfg.library.schedulerQueryPoint;
   sched0 = AeroFlex.sched.evalLibrary(ROMlib, mu0, cfg.library);
-  base.Gamma_xi = sched0.base.Gamma_xi;
-  base.Gamma_g  = sched0.base.Gamma_g;
-  if isfield(sched0.base,'xi_bar'), base.xi_bar = sched0.base.xi_bar; end
+  isExact = numel(sched0.pointIds) == 1 && numel(sched0.weights) == 1 && ...
+      abs(sched0.weights(1) - 1) <= cfg.library.interpTol && ...
+      norm(sched0.pointMu(1,:) - mu0, inf) <= cfg.library.interpTol;
+  if cfg.library.requireExactNode && ~isExact
+      error('sim_init:ExactNodeNotFound', ...
+          ['No exact compatible source node exists at target U=%.12g m/s, ', ...
+           'alpha=%.12g deg. Interpolation is not permitted for this run.'], ...
+          mu0(1), mu0(2));
+  end
+
+  cfg.operatingPoint.selection.mode = char(string(sched0.info.mode));
+  cfg.operatingPoint.selection.exact = isExact;
+  cfg.operatingPoint.selection.sourceNodeId = sched0.pointIds(:).';
+  cfg.operatingPoint.selection.weights = sched0.weights(:).';
+  cfg.operatingPoint.selection.runtimeUpdateFrozen = ...
+      strcmpi(cfg.library.updateMode, 'frozenTrim');
+
+  if cfg.library.requireExactNode
+      selectedPoint = ROMlib.points(sched0.pointIds(1));
+      cfg.operatingPoint.selection.sourceNodeName = char(string(selectedPoint.name));
+      cfg.operatingPoint.selectedSourceNode = struct( ...
+          'U_inf', double(selectedPoint.mu(1)), ...
+          'alpha_deg', double(selectedPoint.mu(2)), ...
+          'rho', double(selectedPoint.cfgFlight.rho), ...
+          'name', char(string(selectedPoint.name)), ...
+          'source_dir', char(string(selectedPoint.source_dir)));
+      cfg.operatingPoint.selectedSourceNode.rhoKnown = true;
+      cfg.operatingPoint.selectedSourceNode.rhoStatus = ...
+          'recorded in exact library-node metadata';
+
+      selectedSourceDir = char(string(selectedPoint.source_dir));
+      if exist(selectedSourceDir,'dir') ~= 7
+          sourceBodyCase = sanitize_bodycase(char(string(selectedPoint.body_case)));
+          selectedSourceDir = fullfile(sharpy_root, 'sim_setup', case_name, ...
+              sourceBodyCase, char(string(selectedPoint.name)));
+      end
+      selectedMatlabDir = fullfile(selectedSourceDir, 'for_matlab');
+      SaeroSelected = load(fullfile(selectedMatlabDir, 'aero_bundle.mat'), 'aero');
+      SbeamSelected = load(fullfile(selectedMatlabDir, 'beam_bundle.mat'), 'beam');
+      SbaseSelected = load(fullfile(selectedMatlabDir, 'base_bundle.mat'), 'base');
+      aero = SaeroSelected.aero;
+      beam = SbeamSelected.beam;
+      base = SbaseSelected.base;
+
+      validateSelectedPackage(cfg, selectedPoint, sched0, beam, aero, base);
+
+      cfg.sim.dt = double(selectedPoint.cfgSim.dt);
+      cfg.ctrl.Ts = double(selectedPoint.cfgCtrl.Ts);
+      cfg.Ts = cfg.sim.dt;
+      cfg.operatingPoint.sourceTimestep = double(selectedPoint.cfgSim.dt);
+      cfg.operatingPoint.runtimeTimestep = double(cfg.sim.dt);
+      if abs(aero.ROM_dsc.Ts - cfg.sim.dt) > max(eps(cfg.sim.dt)*16, 1e-14)
+          error('sim_init:SelectedNodeTimeStepMismatch', ...
+              'Selected node ROM Ts=%.17g s differs from node cfg.sim.dt=%.17g s.', ...
+              aero.ROM_dsc.Ts, cfg.sim.dt);
+      end
+
+      base.Gamma_xi = sched0.base.Gamma_xi;
+      base.Gamma_g  = sched0.base.Gamma_g;
+      if isfield(sched0.base,'xi_bar'), base.xi_bar = sched0.base.xi_bar; end
+
+      % Replace the provisional canonical bundles with the complete exact-node package.
+      save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero');
+      save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam');
+      save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base');
+  else
+      base.Gamma_xi = sched0.base.Gamma_xi;
+      base.Gamma_g  = sched0.base.Gamma_g;
+      if isfield(sched0.base,'xi_bar'), base.xi_bar = sched0.base.xi_bar; end
+  end
   sim_config.ROMlib = ROMlib;
   sim_config.sched0 = sched0;
 end
@@ -503,9 +716,11 @@ cfg.SwTest =0;
 %     end
 % catch, end
 
-try
+% try
     switch lower(opt.body_case)
         case 'wingonly'
+            cfg.trim.useRateProjection = false;
+
             trim = AeroFlex.sim.trimAircraft(cfg, beam, aero, base);
             x0   = trim.states;
             if ~isfield(trim,'aoa'), trim.aoa = NaN; end
@@ -513,21 +728,39 @@ try
             fprintf('[trim] wingOnly: |x0|=%d, aoa=%.4g deg\n', numel(x0), trim.aoa);
 
         case 'coupledfull'
+            cfg.trim.useRateProjection = true;
+
             % Rigid-body + flexible coupled trim
             trim = RigidBody.methods.CoupledTrim.TrimRBwFlex(cfg, beam, aero, base);
             x0   = trim.states;
-            if ~isfield(trim,'aoa'), trim.aoa = NaN; end
+            % if ~isfield(trim,'aoa'), trim.aoa = NaN; end
             if ~isfield(trim,'u_ctrl'), trim.u_ctrl = zeros(getOr(cfg.ctrl,'Nc',6),1); end
-            fprintf('[trim] coupledFull: |x0|=%d, aoa=%.4g deg\n', numel(x0), trim.aoa);
+            fprintf('[trim] coupledFull: |x0|=%d, aoa=%.4g deg\n', numel(x0), trim.alphaDeg);
 
         otherwise
             error('Invalid opt.body_case="%s". Use "wingOnly" or "coupledFull".', opt.body_case);
     end
-catch ME
-    warning('[trim] Trim failed: %s', ME.message);
-    trim = struct('states', [], 'aoa', NaN, 'u_ctrl', []);
-    x0   = [];  % leave empty; you can still run ROM-only tests below
+
+if strcmpi(opt.body_case, 'coupledFull') && ...
+        (~isfield(trim,'converged') || ~isscalar(trim.converged) || ~logical(trim.converged))
+    hadError = true;
+    warning('sim_init:TrimNotConverged', ...
+        ['Coupled-full trim did not converge. Initialization artifacts are retained ', ...
+         'for diagnosis, but success will be false.']);
 end
+if strcmpi(opt.body_case, 'coupledFull') && isfield(trim,'alphaDeg') && ...
+        isscalar(trim.alphaDeg) && isfinite(trim.alphaDeg)
+    cfg.operatingPoint.initialRuntime = struct( ...
+        'U_inf', double(cfg.flight.U_inf), ...
+        'alpha_deg', double(trim.alphaDeg), ...
+        'rho', double(cfg.flight.rho));
+end
+% catch ME
+%     % warning('[trim] Trim failed: %s', ME.message);
+%     error('[trim] Trim failed: %s', ME.message);
+%     trim = struct('states', [], 'aoa', NaN, 'u_ctrl', []);
+%     x0   = [];  % leave empty;  can still run ROM-only tests below
+% end
 
 cfg.sim.storeSens = false;
 
@@ -543,7 +776,7 @@ end
 try
     simRunner = AeroFlex.sim.SimRunner(cfg, beam, aero, base, trim);
 catch ME
-    warning('[SimRunner] Skipped (%s). Continue with ROM export.', ME.message);
+    % warning('[SimRunner] Skipped (%s). Continue with ROM export.', ME.message);
 end
 
 % % stop logging for trim
@@ -666,12 +899,44 @@ fprintf(fid, 'case_name: %s\n', case_name);
 fprintf(fid, 'linss_path: %s\n', fullfile(paths.from_sharpy,[case_name '.linss.h5']));
 fprintf(fid, 'created: %s\n', datestr(now,'yyyy-mm-dd'));
 fprintf(fid, 'body_case: %s\n', meta_bodycase);
-fprintf(fid, 'note: Open-loop export. Fill deflection later for closed-loop HIL.\n');
-catch ME
-    hadError = true; MEout = ME;
-    fprintf(2, '\n[sim_init] ERROR: %s\n', ME.message);
-    fprintf(2, '%s\n', getReport(ME, 'extended', 'hyperlinks', 'off'));
+fprintf(fid, 'status: %s\n', ternary(~hadError, 'OK', 'FAILED'));
+fprintf(fid, 'git_revision: %s\n', roots.gitRevision);
+fprintf(fid, 'sim_init_path: %s\n', roots.sourcePaths.sim_init);
+fprintf(fid, 'sim_run_path: %s\n', roots.sourcePaths.sim_run);
+fprintf(fid, 'coupled_trim_path: %s\n', roots.sourcePaths.coupledTrim);
+fprintf(fid, 'plant_runtime_path: %s\n', roots.sourcePaths.plantRunTime);
+fprintf(fid, 'target_U_inf_mps: %.17g\n', cfg.operatingPoint.requestedTarget.U_inf);
+fprintf(fid, 'target_alpha_deg: %.17g\n', cfg.operatingPoint.requestedTarget.alpha_deg);
+fprintf(fid, 'target_rho_kgpm3: %.17g\n', cfg.operatingPoint.requestedTarget.rho);
+fprintf(fid, 'canonical_source_rho_known: %d\n', cfg.operatingPoint.loadedCanonicalSource.rhoKnown);
+fprintf(fid, 'canonical_source_rho_status: %s\n', cfg.operatingPoint.loadedCanonicalSource.rhoStatus);
+fprintf(fid, 'source_selection_mode: %s\n', cfg.operatingPoint.selection.mode);
+fprintf(fid, 'source_selection_exact: %d\n', cfg.operatingPoint.selection.exact);
+fprintf(fid, 'source_node_ids: %s\n', mat2str(cfg.operatingPoint.selection.sourceNodeId));
+fprintf(fid, 'source_node_name: %s\n', cfg.operatingPoint.selection.sourceNodeName);
+fprintf(fid, 'source_selection_weights: %s\n', mat2str(cfg.operatingPoint.selection.weights,17));
+fprintf(fid, 'exact_node_tolerance: %.17g\n', ...
+    getOr(cfg.library,'interpTol',NaN));
+fprintf(fid, 'frozen_scheduler_query: %s\n', ...
+    mat2str(getOr(cfg.library,'schedulerQueryPoint', ...
+    cfg.operatingPoint.schedulerQuery),17));
+if isfield(cfg.operatingPoint,'selectedSourceNode')
+    fprintf(fid, 'selected_source_U_inf_mps: %.17g\n', cfg.operatingPoint.selectedSourceNode.U_inf);
+    fprintf(fid, 'selected_source_alpha_deg: %.17g\n', cfg.operatingPoint.selectedSourceNode.alpha_deg);
+    fprintf(fid, 'selected_source_rho_kgpm3: %.17g\n', cfg.operatingPoint.selectedSourceNode.rho);
+    fprintf(fid, 'selected_source_rho_known: %d\n', cfg.operatingPoint.selectedSourceNode.rhoKnown);
 end
+if isfield(cfg.operatingPoint,'sourceTimestep')
+    fprintf(fid, 'source_timestep_s: %.17g\n', cfg.operatingPoint.sourceTimestep);
+    fprintf(fid, 'runtime_timestep_s: %.17g\n', cfg.operatingPoint.runtimeTimestep);
+end
+fprintf(fid, 'runtime_update_frozen: %d\n', cfg.operatingPoint.selection.runtimeUpdateFrozen);
+fprintf(fid, 'note: Open-loop export. Fill deflection later for closed-loop HIL.\n');
+% catch ME
+%     hadError = true; MEout = ME;
+%     fprintf(2, '\n[sim_init] ERROR: %s\n', ME.message);
+%     fprintf(2, '%s\n', getReport(ME, 'extended', 'hyperlinks', 'off'));
+% end
 %% ------------------------------------------------------------
 % 11) Save consolidated MATLAB bundle (for your controllers/sims)
 % ------------------------------------------------------------
@@ -689,6 +954,10 @@ sim_config.sysd   = sysd;
 sim_config.paths  = paths;
 sim_config.case_name = case_name;
 sim_config.body_case = opt.body_case;
+sim_config.initialization = struct( ...
+    'success', ~hadError, ...
+    'trimConverged', isfield(trim,'converged') && logical(trim.converged), ...
+    'operatingPoint', cfg.operatingPoint);
 
 % include ROMlib/sched0 if they exist:
 if exist('ROMlib','var'), sim_config.ROMlib = ROMlib; end
@@ -799,49 +1068,157 @@ function s = strip_trailing_filesep(s)
     if ~isempty(s) && s(end) == filesep, s = s(1:end-1); end
 end
 
-function [run_dir, paths] = create_run_dirs(sim_root, case_name, body_case, overwrite, date_only_runs)
-    if ~exist(sim_root,'dir'), mkdir(sim_root); end
-    case_dir = fullfile(sim_root, case_name);
-    if ~exist(case_dir,'dir'), mkdir(case_dir); end
+% function [run_dir, paths] = create_run_dirs(sim_root, case_name, body_case, overwrite, date_only_runs)
+%     if ~exist(sim_root,'dir'), mkdir(sim_root); end
+%     case_dir = fullfile(sim_root, case_name);
+%     if ~exist(case_dir,'dir'), mkdir(case_dir); end
+% 
+%     % Normalize folder name for body_case
+%     body_case = sanitize_bodycase(body_case);
+%     body_dir  = fullfile(case_dir, body_case);
+%     if ~exist(body_dir,'dir'), mkdir(body_dir); end
+% 
+%     % --- choose stamp style ---
+%     % if date_only_runs
+%         stamp  = datestr(now,'yyyymmdd');           % e.g. 20251110
+%         run_dir = fullfile(body_dir, stamp);
+% 
+%         if exist(run_dir,'dir')
+%             if overwrite
+%                 warning('[create_run_dirs] Reusing existing %s (overwrite=true). Files may be overwritten.', run_dir);
+%             else
+%                 fprintf('[create_run_dirs] Using existing daily folder: %s\n', run_dir);
+%             end
+%         else
+%             mkdir(run_dir);
+%         end
+%     % else
+%     %     stamp  = datestr(now,'yyyymmdd_HHMMSS');    % e.g. 20251110_161245
+%     %     run_dir = fullfile(body_dir, stamp);
+%     %     if exist(run_dir,'dir')
+%     %         if ~overwrite
+%     %             error('Run folder already exists: %s (pass ''overwrite'',true or enable date_only_runs)', run_dir);
+%     %         end
+%     %     else
+%     %         mkdir(run_dir);
+%     %     end
+%     % end
+% 
+%     % Subfolders (under the new run_dir)
+%     paths.run_dir     = run_dir;
+%     paths.from_sharpy = must_mkdir(fullfile(run_dir,'from_sharpy'));
+%     paths.for_matlab  = must_mkdir(fullfile(run_dir,'for_matlab'));
+%     paths.for_sharpy  = must_mkdir(fullfile(run_dir,'for_sharpy'));
+%     paths.plots       = must_mkdir(fullfile(run_dir,'plots'));
+%     paths.logs        = must_mkdir(fullfile(run_dir,'logs'));
+% end
+function [run_dir, paths] = create_run_dirs(sim_root, case_name, body_case, overwrite, date_only_runs, run_id)
+%CREATE_RUN_DIRS Create deterministic setup folders.
+%
+% Library runs should pass run_id, such
+%   pt_U040_alpha_p01
+%
+% Normal exploratory runs can omit run_id and will use either:
+%   YYYYMMDD
+% or:
+%   YYYYMMDD_HHMMSS
+%
+% Folder layout:
+%   sim_root/case_name/body_case/run_id/
+%       from_sharpy/
+%       for_matlab/
+%       for_sharpy/
+%       plots/
+%       logs/
 
-    % Normalize folder name for body_case
+    if nargin < 5 || isempty(date_only_runs)
+        date_only_runs = true;
+    end
+
+    if nargin < 6
+        run_id = '';
+    end
+
+    if ~exist(sim_root,'dir')
+        mkdir(sim_root);
+    end
+
+    case_dir = fullfile(sim_root, case_name);
+    if ~exist(case_dir,'dir')
+        mkdir(case_dir);
+    end
+
     body_case = sanitize_bodycase(body_case);
     body_dir  = fullfile(case_dir, body_case);
-    if ~exist(body_dir,'dir'), mkdir(body_dir); end
+    if ~exist(body_dir,'dir')
+        mkdir(body_dir);
+    end
 
-    % --- choose stamp style ---
-    % if date_only_runs
-        stamp  = datestr(now,'yyyymmdd');           % e.g. 20251110
-        run_dir = fullfile(body_dir, stamp);
+    % ---------------------------------------------------------------------
+    % Folder naming rule.
+    % ---------------------------------------------------------------------
+    if ~isempty(run_id)
+        stamp = sanitize_run_id(run_id);
+    elseif date_only_runs
+        stamp = datestr(now,'yyyymmdd');
+    else
+        stamp = datestr(now,'yyyymmdd_HHMMSS');
+    end
 
-        if exist(run_dir,'dir')
-            if overwrite
-                warning('[create_run_dirs] Reusing existing %s (overwrite=true). Files may be overwritten.', run_dir);
-            else
-                fprintf('[create_run_dirs] Using existing daily folder: %s\n', run_dir);
-            end
+    run_dir = fullfile(body_dir, stamp);
+
+    % ---------------------------------------------------------------------
+    % Overwrite/reuse policy.
+    % ---------------------------------------------------------------------
+    if exist(run_dir,'dir')
+        if overwrite
+            warning('[create_run_dirs] Reusing existing run folder: %s', run_dir);
         else
-            mkdir(run_dir);
+            error(['Run folder already exists:\n  %s\n', ...
+                   'Pass overwrite=true, choose a new run_id, or remove the folder.'], run_dir);
         end
-    % else
-    %     stamp  = datestr(now,'yyyymmdd_HHMMSS');    % e.g. 20251110_161245
-    %     run_dir = fullfile(body_dir, stamp);
-    %     if exist(run_dir,'dir')
-    %         if ~overwrite
-    %             error('Run folder already exists: %s (pass ''overwrite'',true or enable date_only_runs)', run_dir);
-    %         end
-    %     else
-    %         mkdir(run_dir);
-    %     end
-    % end
+    else
+        mkdir(run_dir);
+    end
 
-    % Subfolders (under the new run_dir)
+    % ---------------------------------------------------------------------
+    % Subfolders.
+    % ---------------------------------------------------------------------
     paths.run_dir     = run_dir;
     paths.from_sharpy = must_mkdir(fullfile(run_dir,'from_sharpy'));
     paths.for_matlab  = must_mkdir(fullfile(run_dir,'for_matlab'));
     paths.for_sharpy  = must_mkdir(fullfile(run_dir,'for_sharpy'));
     paths.plots       = must_mkdir(fullfile(run_dir,'plots'));
     paths.logs        = must_mkdir(fullfile(run_dir,'logs'));
+end
+
+function s = sanitize_run_id(s)
+%SANITIZE_RUN_ID Make run_id safe for Windows, Linux, and WSL paths.
+
+    s = char(s);
+    s = strtrim(s);
+
+    if isempty(s)
+        error('sanitize_run_id:EmptyRunId', 'run_id cannot be empty here.');
+    end
+
+    % Replace characters that are problematic in Windows/WSL paths.
+    s = strrep(s, ' ', '_');
+    s = strrep(s, '+', 'p');
+    s = strrep(s, '-', 'm');
+    s = strrep(s, '.', 'p');
+    s = strrep(s, '/', '_');
+    s = strrep(s, '\', '_');
+    s = strrep(s, ':', '_');
+    s = strrep(s, ';', '_');
+    s = strrep(s, ',', '_');
+    s = strrep(s, '=', '_');
+
+    % Keep only conservative filename characters.
+    s = regexprep(s, '[^a-zA-Z0-9_]', '_');
+
+    % Avoid repeated underscores.
+    s = regexprep(s, '_+', '_');
 end
 
 function d = must_mkdir(d)
@@ -1671,4 +2048,91 @@ end
 
 function v = getfieldwithdefault(s, f, default)
     if isfield(s,f); v = s.(f); else; v = default; end
+end
+
+function revision = localGitRevision(repositoryRoot)
+    revision = 'unavailable';
+    gitFolder = fullfile(repositoryRoot, '.git');
+    headFile = fullfile(gitFolder, 'HEAD');
+    if ~isfile(headFile)
+        return;
+    end
+    headValue = strtrim(string(fileread(headFile)));
+    if startsWith(headValue, "ref: ")
+        refName = extractAfter(headValue, "ref: ");
+        refFile = fullfile(gitFolder, replace(refName, "/", filesep));
+        if isfile(refFile)
+            headValue = strtrim(string(fileread(refFile)));
+        else
+            packedRefsFile = fullfile(gitFolder, 'packed-refs');
+            if ~isfile(packedRefsFile)
+                return;
+            end
+            packedLines = splitlines(string(fileread(packedRefsFile)));
+            match = packedLines(endsWith(packedLines, " " + refName));
+            if isempty(match)
+                return;
+            end
+            headValue = extractBefore(match(1), " ");
+        end
+    end
+    if ~isempty(regexp(headValue, "^[0-9a-fA-F]{40}$", "once"))
+        revision = char(lower(headValue));
+    end
+end
+
+function assertOperatingPointCompatible(target, source, tolU, tolAlpha)
+    if ~isfinite(source.U_inf) || ~isfinite(source.alpha_deg)
+        error('sim_init:MissingSourceOperatingPoint', ...
+            ['Library selection is disabled, but the loaded source package does not ', ...
+             'provide finite U_inf and alpha metadata.']);
+    end
+    dU = abs(double(target.U_inf) - double(source.U_inf));
+    dAlpha = abs(double(target.alpha_deg) - double(source.alpha_deg));
+    if dU > tolU || dAlpha > tolAlpha
+        error('sim_init:OperatingPointMismatch', ...
+            ['Library selection is disabled and the source package is incompatible ', ...
+             'with the requested target. Source: U=%.12g m/s, alpha=%.12g deg. ', ...
+             'Target: U=%.12g m/s, alpha=%.12g deg. Tolerances: ', ...
+             'dU<=%.3g m/s, dAlpha<=%.3g deg.'], ...
+            source.U_inf, source.alpha_deg, target.U_inf, target.alpha_deg, ...
+            tolU, tolAlpha);
+    end
+end
+
+function validateSelectedPackage(cfg, point, sched, beam, aero, base)
+    tol = cfg.library.interpTol;
+    target = cfg.operatingPoint.requestedTarget;
+    if abs(point.mu(1) - target.U_inf) > tol || ...
+            abs(point.mu(2) - target.alpha_deg) > tol
+        error('sim_init:SelectedNodeOperatingPointMismatch', ...
+            ['Selected source node is U=%.12g m/s, alpha=%.12g deg; ', ...
+             'target is U=%.12g m/s, alpha=%.12g deg.'], ...
+            point.mu(1), point.mu(2), target.U_inf, target.alpha_deg);
+    end
+    if abs(point.cfgFlight.rho - target.rho) > max(tol, eps(target.rho)*16)
+        error('sim_init:SelectedNodeDensityMismatch', ...
+            'Selected source density %.12g differs from target density %.12g.', ...
+            point.cfgFlight.rho, target.rho);
+    end
+    expectedNx = 3*beam.Nm + 1 + aero.Na + 3;
+    if size(sched.L,1) ~= expectedNx || size(sched.L,2) ~= expectedNx
+        error('sim_init:SelectedNodeDimensionMismatch', ...
+            'Selected L is %dx%d; expected %dx%d from Nm=%d and Na=%d.', ...
+            size(sched.L,1), size(sched.L,2), expectedNx, expectedNx, beam.Nm, aero.Na);
+    end
+    mapTol = 1e-10;
+    if isfield(cfg.library,'beamMapTol'), mapTol = cfg.library.beamMapTol; end
+    dPz = norm(point.beam.Pz - beam.Pz, 'fro');
+    dPr = norm(point.beam.Pr - beam.Pr, 'fro');
+    dPhi1 = norm(point.beam.red.phi1_sA - beam.red.phi1_sA, 'fro');
+    if max([dPz,dPr,dPhi1]) > mapTol
+        error('sim_init:SelectedNodeCoordinateMismatch', ...
+            'Selected package map mismatch: dPz=%.3e, dPr=%.3e, dPhi1=%.3e.', ...
+            dPz, dPr, dPhi1);
+    end
+    if ~isfield(base,'Gamma_xi') || ~isequal(size(base.Gamma_xi), size(point.base.Gamma_xi))
+        error('sim_init:SelectedNodeBaseMismatch', ...
+            'Selected base Gamma_xi is missing or dimensionally incompatible.');
+    end
 end

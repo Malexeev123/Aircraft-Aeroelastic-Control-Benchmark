@@ -1,0 +1,2031 @@
+{
+  "schemaVersion": "pazy-public-release-inventory-v1",
+  "generatedUtc": "2026-08-31T04:18:58.597Z",
+  "sourceFiles": [
+    {
+      "path": ".gitattributes",
+      "sha256": "68f07b59ad2c1f5ec214bae67aaff3ac78429ccb7e3e48c556ac2f40a931d561",
+      "bytes": 616,
+      "passed": true
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "46813ec3c7940a4280b23a3d07cc7d1c9f1c64e90a98c1f111b84f1e8d0473a8",
+      "bytes": 755,
+      "passed": true
+    },
+    {
+      "path": "AUTHORS.md",
+      "sha256": "ebdc9185828d2e40b1432ba62b96daa1b2835bc9d600b8a1ebc4af9d07d9e1d6",
+      "bytes": 285,
+      "passed": true
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "2338edd2ba98f57af8906cfeaa2394dae311f0c99d1e05bc31ba1cc0c35526fb",
+      "bytes": 673,
+      "passed": true
+    },
+    {
+      "path": "docs/cases.md",
+      "sha256": "73ca3613b95498528028ef6adb966a29dc64c86d814a88980fa48ec6cb2fc6a7",
+      "bytes": 3104,
+      "passed": true
+    },
+    {
+      "path": "docs/getting-started.md",
+      "sha256": "878f25d033788535107724f5584fcdc354c4d8079bb92376f7de645bdd0f0a57",
+      "bytes": 3177,
+      "passed": true
+    },
+    {
+      "path": "docs/outputs-and-plots.md",
+      "sha256": "13ae26dd8bf184cbb7032dcf3cd4d1fa9b1dcd4c336d6aed2c9434d1fafc9494",
+      "bytes": 2893,
+      "passed": true
+    },
+    {
+      "path": "docs/release-package.md",
+      "sha256": "ebfb1ff6a46524fe887d0f95f03e2c2db5828b9d7cc7986743a84cb95185a308",
+      "bytes": 3971,
+      "passed": true
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "sha256": "d5adc6cffa8fb3093724096d3ba190d8960b1c265deab6bb357a711b7879c61a",
+      "bytes": 1636,
+      "passed": true
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "102960cac87008e4655f68df9856c94f87b1d51c85696ceb5c1bffcbdd2d7b5f",
+      "bytes": 1550,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+aero/AeroDiscToCont.m",
+      "sha256": "e726530fe16071d18935af9279b87015cc54e6b8d3adc9aac4f571fbebf7693e",
+      "bytes": 15970,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+aero/AeroROM.m",
+      "sha256": "5b9b6d425927d0eed8673acbc47cfecef6d442abd01ab1b6be9b617c918ab5ee",
+      "bytes": 15400,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+aero/buildForceMap.m",
+      "sha256": "d3071a6a88393fca168b45bec0fb1ca23782262454d166b1445443d0f4698e78",
+      "bytes": 3434,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+aero/get_1minuscosine_gust_input.m",
+      "sha256": "2e036df58f6d9d9debafc26c9b59aa02421fec66ce3e7235b62084f948300e51",
+      "bytes": 783,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+aero/readAEROFromH5.m",
+      "sha256": "2cfb4e6d4d99ce326cc1bdd085e0cf8dd5516d418d37be23a9dca3e777509162",
+      "bytes": 1484,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+beam/BeamModel.m",
+      "sha256": "e876aeff8503141b0193be939f16123e57c4cef4052af94d3d1957c7d8ec06d0",
+      "bytes": 43175,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+beam/compute_pazy_redtest.m",
+      "sha256": "e51253ef1ad07b48279643cbd825d5da940a87d4b8d85c56099919638a84c4e6",
+      "bytes": 92591,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+beam/readFEMFromH5.m",
+      "sha256": "c1cbb49b8f7a6019ed2624acc93af8bf4a82e3ddcae80ec04fa2a01aea19ee3c",
+      "bytes": 2724,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+beam/recoverRootWrench.m",
+      "sha256": "c520b82a4a633ba4059ce989ebf2f14eb4a218949cb263e77144ad77b2a2647e",
+      "bytes": 2143,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+beam/runRedtestWrapper.m",
+      "sha256": "5fb43513af9ff8bf70bdd7f0c0fca9b43344b6760a25fdc4ba195258d6285cc9",
+      "bytes": 9371,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/canonicalizeRuntimeSegmentSignaturePaths.m",
+      "sha256": "f5569fa253f5ed0efeb6d226d7bbb7d983f2da54f3d0113a228a0101b05d4f8a",
+      "bytes": 1822,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/customReferenceProvider.m",
+      "sha256": "24cff7fbf2cb3fe200b7fa7f433684a7afef15dfe899d9600bcb1d876d20407e",
+      "bytes": 6166,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/executePlan.m",
+      "sha256": "da5d1a4660596f77d829afc71e76f1d06827fb7d5a8a5058e93308ccef138e90",
+      "bytes": 884,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/recoverExecutionArtifact.m",
+      "sha256": "63dbb8099b577efccd88b08ef8826c39b88979910085fe0d1aa9b0baa4539c4b",
+      "bytes": 897,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runnerArguments.m",
+      "sha256": "f5020005a902e207a3031515f8374741309b0e2d45054e2cf8b4ef854e976b74",
+      "bytes": 3176,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runtimeProfile.m",
+      "sha256": "901d8208ecfb73a24b5abd4429aa2f5037f9e14868d91eb0ae994011e928a683",
+      "bytes": 5334,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/+casea/run_phase18c_v17a_reciprocal_formal_casea_member_v1.m",
+      "sha256": "336c0bcc27d15f6c133156ebf7d8a68fcd9795752918b06f910ca714cdadc489",
+      "bytes": 4575,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/run_phase18c_v17a_caseb_integrated_profile_v1.m",
+      "sha256": "9e66e4c8a0a558bac86153140dc91c2dd014d3a72724c8ef310c1dd9b9d63e6f",
+      "bytes": 109046,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/run_phase18c_v17a_formal_casea_freeflight_attitude_hold_v1.m",
+      "sha256": "9e2dbf2677761728328ea26333b1c6054e511dce8ec840d405360d80ccdd061a",
+      "bytes": 91940,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/caseDefinition.m",
+      "sha256": "61d3cac37bafb94c7894e7e7bf00dd10005920571d85437e77513d12734f8fc6",
+      "bytes": 4517,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/customCaseDefinition.m",
+      "sha256": "d4fec17fcd59e531956826ee4bd736747b4bba5649ebeef202c19d6aa0b860e1",
+      "bytes": 9022,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/finalizeResults.m",
+      "sha256": "2cddf08850624b7dd2831dd68cf56c9a92eb5a1718c656cadef5595a1bf2dcf8",
+      "bytes": 21044,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/outputLayout.m",
+      "sha256": "8346a5604be55309fc1b1bc9c9e569c96235599fa7104c67367b020f584b3a72",
+      "bytes": 1356,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/printBanner.m",
+      "sha256": "b2944c7915ea8b82d776aa65e9f7416ee70b2b569fd49cb957b306d79db7e914",
+      "bytes": 2232,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/resolvePlan.m",
+      "sha256": "5d36a5d71e853f0eb39d684dc2b7ea8f108c7b3f2b1f8cf0a478de6f72f0cb5d",
+      "bytes": 2393,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/simulationOptions.m",
+      "sha256": "3467f6dcdef4215fd899cf4a67e183bf213a2a60bdf7e6d2ba907aa109ffcd47",
+      "bytes": 1957,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/writeManifest.m",
+      "sha256": "589370f1157521cee3a1b53362bdad4b5c588a3d549ab255e850bced35660d20",
+      "bytes": 3799,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/assemble_L_matrix.m",
+      "sha256": "934bb6e53bff6209ea9ece56d06535bb127f6a8985291bef166aabf1a7945b7d",
+      "bytes": 7755,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/build_xi_coupling.m",
+      "sha256": "c1985ca1518c08f1712c2f5607496ba1745f630f688f2aff76f2fbea5b3a8948",
+      "bytes": 12856,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/buildChainFrom3NodeElements.m",
+      "sha256": "303bca47bd77137416716a178c996939511c8a655e0a535319b6105643691ab2",
+      "bytes": 1355,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/buildIndexStruct.m",
+      "sha256": "7eb42c0b2ee78e5d31657cbe2483743cddf57868c53e8c9b6bb922f3e2d53654",
+      "bytes": 268,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/compute_orientation_matrix.m",
+      "sha256": "f4e21cdedf93624fc4cf0352edfa4422468f4a5dbce064d7f6b2fc65c9f49eb0",
+      "bytes": 532,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/halfTangentialOperator.m",
+      "sha256": "6a67a3763b69032aa13b6e9a0baa7d0abe06761f01001700b5e75ad6b8017efc",
+      "bytes": 476,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/localDofIndex.m",
+      "sha256": "3f97ae7c3938022f0da3e23d9bfdabb4672e7ca7a2e8151c5e89c5de2b3d43bb",
+      "bytes": 332,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/skew.m",
+      "sha256": "db35a7e72123a8193a948dec08b0b01e10ae1f83ac9723a31e7cc73e4edc30ef",
+      "bytes": 415,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/solve_baseline_quaternion_xi.m",
+      "sha256": "3e5ce5285d0ccf25a09a4b843a0a1e70e57706295047edb3895eacd3406b6390",
+      "bytes": 27776,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+core/T_phi_quat.m",
+      "sha256": "47bdeec8e92a8712bacdd48ab8bb81f4cd36774aedb24f818f48b13b6ca47993",
+      "bytes": 594,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@ControllerBase/ControllerBase.m",
+      "sha256": "eff8bcd06107419e865ba3f7687991b2d350ae2f44b08fcf6d799d66be7faccc",
+      "bytes": 1361,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@EstimatorBase/EstimatorBase.m",
+      "sha256": "22e55f1fc64becd850844b1b16580c6867edb133c618f73fabff1b7a0cab3f68",
+      "bytes": 1682,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@nMHEv2/nMHEv2.m",
+      "sha256": "e62995506f40f4afdfbb791263ef6df2c21eb12fead3b427c34d31f4e38aaa42",
+      "bytes": 191114,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@nMHEv2/nMHEvold.m",
+      "sha256": "838d7ac653bec84b7f2281459783087820056e4fa3cfe592aec52faf2ef17613",
+      "bytes": 51879,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@nMPC/nMPC.m",
+      "sha256": "bb39e155183951125699051a845279e72fab34891a541aa17f1fc684aceef1c6",
+      "bytes": 172131,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@nMPC/nMPCold.m",
+      "sha256": "9a89a12140c14b45644a5508378e0e8be2e20c3c2139640917a79d30811b504d",
+      "bytes": 5121,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/@OuterLQR/OuterLQR.m",
+      "sha256": "48985647ee635d6f450ea5d14939dee32b381e2b8724cac4ffbd0766e2847757",
+      "bytes": 61665,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/ActuatorChain.m",
+      "sha256": "393d9b4de48da3d2786ecf7128789a0d71a8bf2d528f224b1ef39e0fa21c3cce",
+      "bytes": 6758,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/buildFixedReciprocalIntervalPacketAudit.m",
+      "sha256": "6243334c59985f564164fa518d0c2ad8cedddbd1d275ee2bd3af86565ca1f598",
+      "bytes": 3863,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/buildScheduledReciprocalHorizonPacketAudit.m",
+      "sha256": "69a10a175a78e7d2e48473f5be63d2fdb6681938caecd079cff5a9216d41a8fe",
+      "bytes": 2286,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/buildScheduledReciprocalIntervalPacketAudit.m",
+      "sha256": "14a76f4d5a3ef67fda7827a7ed5309a18ac88f78e5b52616401ef86377c9092e",
+      "bytes": 5655,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/ComplementaryCommandFusion.m",
+      "sha256": "b6b53ff799f039694e2259f0e4ec99f330be6728f657de1da6cd21fd9ccbb01e",
+      "bytes": 6325,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/CoupledRtiAllocatorAudit.m",
+      "sha256": "dc446fb84855c2c206ceae2b5356030616ab6cfdf1f22b4932442222f6e010e9",
+      "bytes": 249086,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/fixedReciprocalIntervalKernelAudit.m",
+      "sha256": "0cdb2bf13281f81565675be4ff4ecd04f9390eedf67daf677f56466ef3cbdc43",
+      "bytes": 10512,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/interpolateScheduledEquilibriumTrimAudit.m",
+      "sha256": "8aabc70414d6caccdaac009e92087d217da72e37e734406aa765cc46983610da",
+      "bytes": 5349,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/realizeVirtualDemandAudit.m",
+      "sha256": "1c0ad01e47553f003a5388c9f8bf3abcb8e8ed907c57418f5285790691663e8a",
+      "bytes": 6114,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/ReciprocalControllerModelProvider.m",
+      "sha256": "7194f30cc9d62c8c94d2ca3cd5e2f71f757ac6e4c71c5df5eda6e88718b95912",
+      "bytes": 39294,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalCausalRolloutCoreAudit.m",
+      "sha256": "75836b967f9d9c54420010351f9bd6abd24c667a70757b30599340cfcab351e1",
+      "bytes": 5610,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalControllerCausalRolloutAudit.m",
+      "sha256": "655998ccee25c4d31233879b1a27bd091faba8ed3d0b4ab56debb07c9b315170",
+      "bytes": 703,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalControllerHorizonKernelAudit.m",
+      "sha256": "d016df7ed366679dc82506a27e8aab768b427319f6e6b6d4c48c255bcf818a59",
+      "bytes": 834,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/ScheduledReciprocalControllerModelProvider.m",
+      "sha256": "d18f045f6bbcd201f2c68c71236f8b2e8fe3e8ff123334e85a9eb3dcd3772c4a",
+      "bytes": 86211,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalControllerReducedTangentHorizonAudit.m",
+      "sha256": "bb6c460b425a077c9fcc8b0eae118d33ba1c2aa8dbaa8994ae221f0a6babfbdd",
+      "bytes": 1200,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalControllerValueHorizonAudit.m",
+      "sha256": "480c83f3d07d8fc4c0b584a64415e138d6bdcd1a2b0652f079367c8b5a277951",
+      "bytes": 699,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalEstimatorCausalRolloutAudit.m",
+      "sha256": "06269602d3a7dc401f59912aa73b576f1aadc460a321c5bf07d05b06c3581b62",
+      "bytes": 698,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalEstimatorHorizonKernelAudit.m",
+      "sha256": "7e077b2c892fc33958f95223804622af2b6b78803dd8b5013cfe95bdde629fae",
+      "bytes": 829,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalEstimatorReducedTangentHorizonAudit.m",
+      "sha256": "782257b21392329b2d2ee3aeef771de0f9984d66ef05551cddddd31f02942ff8",
+      "bytes": 1161,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalEstimatorValueHorizonAudit.m",
+      "sha256": "795cb9584fad0d20da993dc7afe1aac461053818e0f2f1bb31b4c6ce61d865d5",
+      "bytes": 694,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalHorizonKernelCoreAudit.m",
+      "sha256": "e2fc4471f7c938c80523f00353bcd1068382e23308b80ef74ad7cf8bed6ab195",
+      "bytes": 2699,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalIntervalKernelAudit.m",
+      "sha256": "415f347e479cf8b2918547e1be4fd0988909ff7b03b1b3d3e7a417c12169e682",
+      "bytes": 13109,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalReducedTangentHorizonCoreAudit.m",
+      "sha256": "7f4a840ba5fc6b29c6f5b45ab5f9877bb55f4aaf0dd35da09c384be26d211051",
+      "bytes": 12667,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalValueHorizonCoreAudit.m",
+      "sha256": "1d3c254c0acf383132a429776220e4e1b44c90548bd38c33900af0e0e1d0996f",
+      "bytes": 5675,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+ctrl/SourceCoordinateOuterFeedback.m",
+      "sha256": "d480c3b429c48e0803f03bb2d521d3d5547ac778aa0e346924e26c5c27dae65c",
+      "bytes": 10157,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+optim/@SQPSolver/SQPSolver.m",
+      "sha256": "bc0c82e767452bc22c59168b1c7cd4e08cc49f647213ff7bc842c0bb17b30984",
+      "bytes": 136361,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+optim/@SQPSolver/SQPSolverOld.m",
+      "sha256": "c941aefedc452c35b822c3c8016c9efb5f8a22d25afeed2a0211aa5f6ac7b5af",
+      "bytes": 2696,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/applySymmetricLongitudinalReciprocalAudit.m",
+      "sha256": "0f824971b957778aeda1379af196644f1f5ba111277a0e7dcb6c94b4e055296b",
+      "bytes": 4238,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/applyToPlant.m",
+      "sha256": "3e0f5eafa016c14cfc84f5d133852c6aac8f7e1cd9da88fadcc252df2377dfa1",
+      "bytes": 10952,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/applyToROMIntegrator.m",
+      "sha256": "edd0c711d9f42303d64986e3ad01f4a8bd5b1675b477ffe2038ad89382694ad0",
+      "bytes": 5815,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/assertPackageConsistency.m",
+      "sha256": "312741dd08e97e26cf8bf7f0ae63e506c81260c9d33374edb0b42f4911602ab5",
+      "bytes": 3549,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/assertR2AnchorProvenance.m",
+      "sha256": "2f997ba1a6c3d915c2b41901c668b16e91177334d77c540f3f30e526c3ec794e",
+      "bytes": 4366,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildAlignedReducedRealization.m",
+      "sha256": "1db9f23bb2d0e818d8df14f6c2f5e95d1e4be6061e81e3941e0f1ad79d2ff577",
+      "bytes": 6939,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildAtomicCommonRealization.m",
+      "sha256": "2eca0f15ad3fd94aae8de84db6ffb7ab725444db27ed6147b3c672875ea10ef4",
+      "bytes": 10373,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildEquilibriumCenteredPackage.m",
+      "sha256": "89658e7b3263835565d22b4577a2445069955caaceedac1c045be0d9c0d5684a",
+      "bytes": 4727,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildExactSourceIntrinsicPortPackage.m",
+      "sha256": "00a8252f11a3a05b6fb20a0ad4b993c3a0037055c0e3ba6c7526feab41677a57",
+      "bytes": 13488,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildFixedBasisQueryRealization.m",
+      "sha256": "b0b2ffa69d33ede60369030f6291d63f43cbfb1cf4fb53f1e2e095b7127c7708",
+      "bytes": 8734,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildFrequencyLimitedGlobalParallelQueryRealization.m",
+      "sha256": "c113c7fd0f364231431beb18bbd2ca12d0f92370cb837e96e3d7cfbb4f96a6f1",
+      "bytes": 9918,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildFullCoordinateQueryRealization.m",
+      "sha256": "d6205af6d5d52c91c48244d7aaa722b728c9bc773347b564766d91cfdaa58ce0",
+      "bytes": 61154,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildParConst.m",
+      "sha256": "9e5af72507bca41b67ea89f8727ac51489bea2c405522bbf9cfcd1bebbcae265",
+      "bytes": 1860,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildPhysicalChartPackage.m",
+      "sha256": "6f53dff92c60aa73fc589402ba0595c4821baaf6035657629e988a79d6ea2082",
+      "bytes": 43277,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildPhysicalStructuralChart.m",
+      "sha256": "0a536f111eaebf23e7d30a14508dd68c1aa513720d2d81a02f8307c594b2bdcf",
+      "bytes": 22019,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildScheduledReciprocalPacket.m",
+      "sha256": "57a6f484120aad94d0480d91f811b5fb2856832a7b6ee7a7700dcad9a53ae670",
+      "bytes": 50270,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/defaultLibraryConfig.m",
+      "sha256": "ec66b1de89d93d5e647ce6f4278c4c0112dc9b24218025f676cb8508ac875138",
+      "bytes": 2820,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/evalLibrary.m",
+      "sha256": "eebc6edf46c92bced6bafc002e6775eb7cdc964e5be8e88a1111247066887afb",
+      "bytes": 31836,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/evaluateClampReactionContract.m",
+      "sha256": "d411720763122c03d1f4c6a81cf55cae1afac459511b01a1c4fc44d26beebc23",
+      "bytes": 4708,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/evaluateInternalCoupledNonlinearJacobian.m",
+      "sha256": "31981dc287470b90ced059e7a362b4273ad0c22ae9601efbf3e6ca79390faf0a",
+      "bytes": 1086,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/evaluateInternalCoupledNonlinearTerms.m",
+      "sha256": "9a60772e4762ebf6491a5fa14ecd637b7bd54e70b7e4a09eedc09e2733c56bd2",
+      "bytes": 1033,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/installP5R2T2Anchor.m",
+      "sha256": "aa14710dafa19bb2c535c5864fea0f93e708e4eb7ced1f614bde87265971e1a7",
+      "bytes": 4701,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/interpParConst.m",
+      "sha256": "b086efa16259227abadfed68cde08ca65579ddd0bc47f0d0ae516a09f043d904",
+      "bytes": 1704,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/interpWeights.m",
+      "sha256": "bad609dc74a18b23ae430ccf5e01fb21f07d8e99fa25ef19750224ba81d24837",
+      "bytes": 7449,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/lincombNumeric.m",
+      "sha256": "5778535d35e041bdaba21424ab0c7a0762a00377a6d412b92a122a5d1d00c799",
+      "bytes": 216,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/loadLibrary.m",
+      "sha256": "664068c41474764dcb18a7f3084ffc9c5f3e2d9193bed2c6777f7b6635a2940b",
+      "bytes": 461,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/procrustesLocalToRef.m",
+      "sha256": "4e6f4aef5f35427a4ed12641dcd71c497a2149e0ef3ed15ba16c9ca057004329",
+      "bytes": 1321,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/recoverCenteredRootWrench.m",
+      "sha256": "7902342d3985cc10107ad02f85c5186e16c353f60d4b7363db08134d51ffce54",
+      "bytes": 2397,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/resolveActiveCellPhysicalRecoveryCertificate.m",
+      "sha256": "3d67ce5f87be57e048a1cc739de0a708d890f9b0e1fcb2ddc3652bfcbd4f27c9",
+      "bytes": 3619,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/resolveSourceContractRegistry.m",
+      "sha256": "d70b49246eea4d9bdfbca430415c303a349aa4c411e349c5548e2b01a47851c1",
+      "bytes": 6138,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/runtimeRateProjectionPolicy.m",
+      "sha256": "382944bcde3a981c90739b670be47166a0222df1989862c24923b85df3d69234",
+      "bytes": 866,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformParConstToReference.m",
+      "sha256": "3eeb23f92fe2e2092505e9c58a339a80b6dad4f9be65bc666056aa7bd87ab096",
+      "bytes": 1340,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformPointByPhysicalChart.m",
+      "sha256": "30cf2fe06402dcd9969ecd6d285651b3581d4c7fcbc2973d6ec984ca1a50ee81",
+      "bytes": 3008,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformTensor3.m",
+      "sha256": "8859efb9d63af624eda40c136553be2da0f75c9071b299207a1e1fad3798e6f9",
+      "bytes": 2004,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/validateLibrary.m",
+      "sha256": "08f07793fa88fd0485a2839fd3b12b77e8e2e3a9afcf7dab32684cd5f439c8e3",
+      "bytes": 956,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sensor/@WingVelSensor/WingVelSensor.m",
+      "sha256": "4beae8d798d9380d78bd14480e19fb6c6fd6ae2d4b85614c9d31966a43a44a96",
+      "bytes": 4398,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sensor/buildLongitudinalPhysicalOutputAudit.m",
+      "sha256": "3b83d122269e835183b303462dd765fdbf33d96a9af0f0bf6446122accc49cb2",
+      "bytes": 15758,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sensor/buildSignedWingtipOutput.m",
+      "sha256": "15c6e4b4aff58e4a14af61d518e3244c455c304a120e942c45cb243d29583135",
+      "bytes": 7168,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/buildScheduledReciprocalPlantIntervalPacketAudit.m",
+      "sha256": "8632ebb0ce921b44efe8e226e51e0bed9c87fcecdd1c83859de5a792c7bf71d2",
+      "bytes": 14912,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/nonlinear_terms.m",
+      "sha256": "9a62349dd14b88e855a7f09033634909ea4051b376054e8ee5bb2ee25c11a930",
+      "bytes": 12238,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/nonlinearJacobian.m",
+      "sha256": "3e5b92543a99b380bfa6e716be59b1a499b58aa922482d9001d16e0acb920ba9",
+      "bytes": 12327,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/PlantRunTime.m",
+      "sha256": "65fde4e7156961ca0b1a293fda01f4401e14603efca1bc779be6f2aeadacc4f7",
+      "bytes": 262545,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/postProcess.m",
+      "sha256": "c6d93263955031b6d800fe31ed43bd7388507aafe68f7f79945554b349146206",
+      "bytes": 55136,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/readPlantIO_case.m",
+      "sha256": "27b844358e4de49712eb00b04b29c58260e94197f36eb7a124f28065d928ebac",
+      "bytes": 1591,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/rigidRk4Tangent.m",
+      "sha256": "96ac950fae985492943c2432fb63a6cf90122d14c4fd0b22a02f953d8befa4ce",
+      "bytes": 4690,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/ROMIntegrator.m",
+      "sha256": "a97a30ed9105bb0e59e1aee2fcc5cc6609d2d350e254692a86dd6d4451d38713",
+      "bytes": 12579,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/scheduledReciprocalPlantIntervalCoreAudit.m",
+      "sha256": "b72d68743c95571d9b091ead2f09b9b24ed81185890dcb68dc9ba7bebd0a9864",
+      "bytes": 19812,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/SimRunner.m",
+      "sha256": "2788b6792ca7fb9200dc8aae363e9bb4743e7661315f327afd5cbe6f7dffb037",
+      "bytes": 33628,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sim/trimAircraft.m",
+      "sha256": "2d23c95efcf362c4e0e17a02eb7b62f8c52b00d93e09f7cd78bc286e9aa0a8bf",
+      "bytes": 27847,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+RigidBody/+methods/+CoupledTrim/TrimRBwFlex.m",
+      "sha256": "c0b94dbad21c957fcab1095a213bf15664be9b8e41b97a9f3a739049e153ebfc",
+      "bytes": 56197,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+RigidBody/+methods/applyRuntimeMassOwner.m",
+      "sha256": "c986ad37729d50b679608251f7bdafb25db5aa1a1f622055f9a0bfdc9a854f0d",
+      "bytes": 2447,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+RigidBody/+methods/paramsRigid_PazyUAV.m",
+      "sha256": "6952ee0745c2bd9141c1bb112aa54e91bdb51c601a5598f62b8b6e11f8b0a352",
+      "bytes": 14908,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+RigidBody/localTailAeroForceMoment.m",
+      "sha256": "62e69ccdf17194ec9f564dd053a7516fd8719f7d58b1e94e4b0dcdf593244927",
+      "bytes": 5474,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/README.md",
+      "sha256": "4d3b99343400cf47c99b06f16084efc863c9ec02f8a6a361d48c69cd2686dca0",
+      "bytes": 502,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/phase18c_v17a_release_asset_manifest_v1.json",
+      "sha256": "7ae4c11ac7640dc188c274c30bc83fa0c6aa6046bc6369739d5b61adf199bb3f",
+      "bytes": 6659,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/FlutterConfig.m",
+      "sha256": "d8f515ebcb4b5cee27559230b9816d0d3477493790edf8f5b3f598b1ab5b9acc",
+      "bytes": 519,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/GLAConfig.m",
+      "sha256": "9046041830bbf1c9ea8d5741024f5d7d05e9796d1e301a4403c2ac2c9e4049af",
+      "bytes": 6555,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/LQRConfig.m",
+      "sha256": "8291ad7a79b010889b2e1046d0625d40402b1633ba742c00e7735f244cdea396",
+      "bytes": 32252,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/nominalConfig.m",
+      "sha256": "33bf54df2b5feb9d0bc0c76240c01143e643d8e6431de6bf8b864e882fce9bae",
+      "bytes": 12721,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/SQPconfig.m",
+      "sha256": "3db021035b08b182199fb3048bd136c8cc98113c865bd8becf5014270d797ceb",
+      "bytes": 3999,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/runBenchmarkCase.m",
+      "sha256": "953bfd417119fa13a59c34b2ac46cbbe1d39b239682b6261e25a44b443789049",
+      "bytes": 6944,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/runCustomBenchmarkCase.m",
+      "sha256": "d39047f85329c729227b7b830917d4064801fdc8cd5c6a5cdeae755062f60a22",
+      "bytes": 8657,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/runPazyModelWorkflow.m",
+      "sha256": "cf40d28efabcae2789ee60c2678080e035c5cb6ec80f5fb5b733d973f19f59cf",
+      "bytes": 8097,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/sim_init.m",
+      "sha256": "bda420b9b9157fc1e7dce3db8d43eabc9b38f400b2d780028afb22dcf0b63e64",
+      "bytes": 86118,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/sim_run.m",
+      "sha256": "7d154f90c04404336b632247e4b1ae606b62824880eea6d49b48cd3f36d29cfb",
+      "bytes": 553527,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/verifyBenchmarkInstallation.m",
+      "sha256": "fef2188945739ae6bc3ff8c03faae876c6f60b3ecc90789c392d3de17c187667",
+      "bytes": 6989,
+      "passed": true
+    },
+    {
+      "path": "README.md",
+      "sha256": "b337dbd79f7edcf7169e41b7b46b5458523a14d4a44240ff3e7c5c44ae056fdc",
+      "bytes": 16944,
+      "passed": true
+    },
+    {
+      "path": "references/LICENSING.md",
+      "sha256": "fe4397a0c48740728a4e3b7a0562d4e700c519728f6323adb423793baa679c33",
+      "bytes": 935,
+      "passed": true
+    },
+    {
+      "path": "references/manual-metadata.json",
+      "sha256": "433f41d093261fc802ee4fa0194256b586be5fb864f4daebf2fd11c97431503e",
+      "bytes": 55177,
+      "passed": true
+    },
+    {
+      "path": "references/REFERENCE_INDEX.md",
+      "sha256": "19dc6791a05d6d8763bce8d9bbaa60c37061b3f490883c9dc6416c102570d083",
+      "bytes": 18072,
+      "passed": true
+    },
+    {
+      "path": "references/references.bib",
+      "sha256": "e41e48d5f07a6b738bc10095aa7e52d3b66fcb8c440e25100b222382bef14f81",
+      "bytes": 15854,
+      "passed": true
+    },
+    {
+      "path": "references/references.json",
+      "sha256": "c68ae4fa8af0dcc95e564b15d96f049c52f9b1fef21502d65f4c6b025e0033ee",
+      "bytes": 61382,
+      "passed": true
+    },
+    {
+      "path": "Run_Pazy_Benchmark.m",
+      "sha256": "e34bd46d4859ab02327560dfd6396631a682c6c545bd0fb94c3969115fe5a64a",
+      "bytes": 5092,
+      "passed": true
+    },
+    {
+      "path": "setupProject.m",
+      "sha256": "d520ce2f47cd4d53c3b8cf4ba5c403e058551afa82a5994d5c3920e493ab04b7",
+      "bytes": 22593,
+      "passed": true
+    },
+    {
+      "path": "tests/README.md",
+      "sha256": "0c9f5376a1e7ea7cab3c40e0f5bf19c9c33c1e8a3bc2021e8344177b5c2d0058",
+      "bytes": 1672,
+      "passed": true
+    },
+    {
+      "path": "tests/Run_Extended_Validation.m",
+      "sha256": "16b9b587271f55e881cb76d7144032fefe6dd5d2a139cca3dff179e9770ad075",
+      "bytes": 12716,
+      "passed": true
+    },
+    {
+      "path": "tests/Run_Linear_Validation.m",
+      "sha256": "2984256f226dc11a7a6d76715bd220373fd494cde9985f20fa9248a7a978d235",
+      "bytes": 10086,
+      "passed": true
+    },
+    {
+      "path": "tests/test_native_tools.m",
+      "sha256": "8860cf5e3c72f31e9ae7c81b2c92d026cf476f69c7fed500f9207c18b6c6041b",
+      "bytes": 2851,
+      "passed": true
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "f7ad170af6bb023b248a6945efbae88b2abe54b36fa596b3b94df2b76ca306a7",
+      "bytes": 1057,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildBenchmarkTools.m",
+      "sha256": "11c90f4c7e5168e59ba5dffa8150cc0ed738c1f503eae21c51d0b7a0dabb50a8",
+      "bytes": 11378,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildPhase18CompiledControlKernels.m",
+      "sha256": "d2f32376e882dab7ee91ac36214c434bb52e85caaa6eb7da0af5aa416cb0bebc",
+      "bytes": 8768,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildPhase18ScheduledCompiledCausalRolloutKernels.m",
+      "sha256": "f2e653e678ae4635337d127fbdeebdaf339f030ade4358bed1b50bc10dad3a2d",
+      "bytes": 11518,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildPhase18ScheduledCompiledControlKernel.m",
+      "sha256": "b18790e64548f9c5cb56056f844f62c2adbfb3d516835c6442f7b4e8dbf8a7bd",
+      "bytes": 9844,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildPhase18ScheduledCompiledHorizonKernels.m",
+      "sha256": "4136a93fa059bfcd356c1dc8dbd7bd576da335283997c7dc7caa9ef918791649",
+      "bytes": 18950,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/buildPhase18ScheduledCompiledValueHorizonKernels.m",
+      "sha256": "8b262fe1d9c6065698caa89d7682a5bebade4b78660cfdaa543e49301ec0215b",
+      "bytes": 11690,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/loadBenchmarkNativeBuildFixture.m",
+      "sha256": "9d29e95d06141bc4b99e0c578e56eb7467325915f5c005510b6e224d3dc7b66b",
+      "bytes": 4019,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/prepareBenchmarkReleaseAssets.m",
+      "sha256": "6262be8e5546c02f00e6f9af57e85229c67f8ebf8823f0cbc5b47d1fda981c32",
+      "bytes": 9834,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/prepareBenchmarkReleasePackage.m",
+      "sha256": "f5cc03440054b87acf94c873e2b8ed21ccf5f79ce499419cef065c960269f352",
+      "bytes": 13055,
+      "passed": true
+    }
+  ],
+  "runtimeAssets": [
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/V17_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "expectedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "role": "v17_registry",
+      "exists": true,
+      "observedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-corrected-nonwing-trim-lqr-owner-v1/PHASE18C_V17A_CASEA_CORRECTED_NONWING_LQR_BUNDLE_V1.mat",
+      "expectedSha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec",
+      "role": "casea_corrected_nonwing_bundle",
+      "exists": true,
+      "observedSha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_bank_v1.json",
+      "expectedSha256": "8636c5183954e5ba52401c4e61072781c73d8eb5c36cc6e3cff5586d53604da0",
+      "role": "casea_shared_wing_gain_bank",
+      "exists": true,
+      "observedSha256": "8636c5183954e5ba52401c4e61072781c73d8eb5c36cc6e3cff5586d53604da0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_v1.json",
+      "expectedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "role": "casea_shared_wing_gain",
+      "exists": true,
+      "observedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_casebc_longitudinal_lqr_gain_bank_v1.json",
+      "expectedSha256": "c806bb3c2914c834c9b5246ae2e4810793da28e8e6b6558917fb327968d14222",
+      "role": "casebc_gain_bank",
+      "exists": true,
+      "observedSha256": "c806bb3c2914c834c9b5246ae2e4810793da28e8e6b6558917fb327968d14222",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_ops_u015_alpha_p10_v1.json",
+      "expectedSha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4",
+      "role": "caseb_start_gain",
+      "exists": true,
+      "observedSha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_sgt16_v1.json",
+      "expectedSha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece",
+      "role": "caseb_terminal_gain",
+      "exists": true,
+      "observedSha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_casec_nominal_v1.json",
+      "expectedSha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa",
+      "role": "casec_nominal_gain",
+      "exists": true,
+      "observedSha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.json",
+      "expectedSha256": "126d891f02543e7d078ca92316511ca1be9aaee15ce16d5ebdc17f845f04791a",
+      "role": "casebc_input_contract",
+      "exists": true,
+      "observedSha256": "126d891f02543e7d078ca92316511ca1be9aaee15ce16d5ebdc17f845f04791a",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.mat",
+      "expectedSha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd",
+      "role": "casebc_input_data",
+      "exists": true,
+      "observedSha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/attempts/v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1/source-domain-pulse-envelope-v1/PHASE18C_V17A_CASEB_SOURCE_DOMAIN_PULSE_ENVELOPE_V1.json",
+      "expectedSha256": "91bcb3302d4d0b5153cdd751d59d4c45da27b4f4c5ff62052a288d38800e664f",
+      "role": "caseb_source_domain_envelope",
+      "exists": true,
+      "observedSha256": "91bcb3302d4d0b5153cdd751d59d4c45da27b4f4c5ff62052a288d38800e664f",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17a_casea_source_coordinate_dynamic_output_feedback_v1.mat",
+      "expectedSha256": "04e685ffbfad300581ecc57e9d7c031e343f1ed914c120403dac47f06a4cf369",
+      "role": "casea_source_coordinate_controller",
+      "exists": true,
+      "observedSha256": "04e685ffbfad300581ecc57e9d7c031e343f1ed914c120403dac47f06a4cf369",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casea-reciprocal-gust-path-discriminator-v1/PHASE18C_V17A_CASEA_RECIPROCAL_REACTION_REPLACEMENT_CANDIDATE_V1.mat",
+      "expectedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
+      "role": "casea_reciprocal_runtime_candidate",
+      "exists": true,
+      "observedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
+      "expectedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
+      "role": "casea_nonwing_approval",
+      "exists": true,
+      "observedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
+      "expectedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
+      "role": "casea_structured_pitch_approval",
+      "exists": true,
+      "observedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
+      "expectedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
+      "role": "casea_reciprocal_reaction_approval",
+      "exists": true,
+      "observedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
+      "expectedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
+      "role": "casea_reciprocal_provider_approval",
+      "exists": true,
+      "observedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_fixed_interval_build_fixture_v1.mat",
+      "expectedSha256": "7e7dcb82bca0aa3d867f880b100c6e6b45e435c2b4ad95f6271eab9c6858a648",
+      "role": "native_fixed_interval_build_fixture",
+      "exists": true,
+      "observedSha256": "7e7dcb82bca0aa3d867f880b100c6e6b45e435c2b4ad95f6271eab9c6858a648",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_scheduled_build_fixture_v1.mat",
+      "expectedSha256": "4d32586a5ccee22cc5c166e1c332a6bd19b4e1b83e91fa22328e15925779d2b5",
+      "role": "native_scheduled_build_fixture",
+      "exists": true,
+      "observedSha256": "4d32586a5ccee22cc5c166e1c332a6bd19b4e1b83e91fa22328e15925779d2b5",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "expectedSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+      "role": "v17a_source_registry",
+      "exists": true,
+      "observedSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
+      "expectedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "role": "v17a_source_package:SGT16",
+      "exists": true,
+      "observedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/source_certification.json",
+      "expectedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
+      "role": "v17a_source_certificate:SGT16",
+      "exists": true,
+      "observedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/p5_trim.mat",
+      "expectedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
+      "role": "v17a_source_package:SGH07",
+      "exists": true,
+      "observedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/source_certification.json",
+      "expectedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
+      "role": "v17a_source_certificate:SGH07",
+      "exists": true,
+      "observedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/p5_trim.mat",
+      "expectedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
+      "role": "v17a_source_package:SGT29",
+      "exists": true,
+      "observedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/source_certification.json",
+      "expectedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
+      "role": "v17a_source_certificate:SGT29",
+      "exists": true,
+      "observedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/p5_trim.mat",
+      "expectedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
+      "role": "v17a_source_package:node35",
+      "exists": true,
+      "observedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/source_certification.json",
+      "expectedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
+      "role": "v17a_source_certificate:node35",
+      "exists": true,
+      "observedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/p5_trim.mat",
+      "expectedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
+      "role": "v17a_source_package:SGT03",
+      "exists": true,
+      "observedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/source_certification.json",
+      "expectedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
+      "role": "v17a_source_certificate:SGT03",
+      "exists": true,
+      "observedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/p5_trim.mat",
+      "expectedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
+      "role": "v17a_source_package:SGT14",
+      "exists": true,
+      "observedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/source_certification.json",
+      "expectedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
+      "role": "v17a_source_certificate:SGT14",
+      "exists": true,
+      "observedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+      "expectedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+      "role": "v17a_source_package:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/source_certification.json",
+      "expectedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+      "role": "v17a_source_certificate:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/p5_trim.mat",
+      "expectedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/source_certification.json",
+      "expectedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/p5_trim.mat",
+      "expectedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/source_certification.json",
+      "expectedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
+      "expectedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/source_certification.json",
+      "expectedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/p5_trim.mat",
+      "expectedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/source_certification.json",
+      "expectedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/p5_trim.mat",
+      "expectedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/source_certification.json",
+      "expectedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/p5_trim.mat",
+      "expectedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/source_certification.json",
+      "expectedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/p5_trim.mat",
+      "expectedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
+      "role": "v17a_source_package:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/source_certification.json",
+      "expectedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
+      "role": "v17a_source_certificate:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/p5_trim.mat",
+      "expectedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
+      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/source_certification.json",
+      "expectedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
+      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/p5_trim.mat",
+      "expectedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
+      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/source_certification.json",
+      "expectedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
+      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/p5_trim.mat",
+      "expectedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
+      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/source_certification.json",
+      "expectedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
+      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/p5_trim.mat",
+      "expectedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
+      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/source_certification.json",
+      "expectedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
+      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+      "expectedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "role": "v17a_source_package:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/source_certification.json",
+      "expectedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+      "role": "v17a_source_certificate:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/p5_trim.mat",
+      "expectedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
+      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/source_certification.json",
+      "expectedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
+      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/p5_trim.mat",
+      "expectedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
+      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/source_certification.json",
+      "expectedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
+      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/p5_trim.mat",
+      "expectedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
+      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/source_certification.json",
+      "expectedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
+      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/p5_trim.mat",
+      "expectedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
+      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/source_certification.json",
+      "expectedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
+      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/p5_trim.mat",
+      "expectedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
+      "role": "v17a_source_package:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/source_certification.json",
+      "expectedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
+      "role": "v17a_source_certificate:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/p5_trim.mat",
+      "expectedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
+      "role": "v17a_source_package:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/source_certification.json",
+      "expectedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
+      "role": "v17a_source_certificate:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/p5_trim.mat",
+      "expectedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
+      "role": "v17a_source_package:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/source_certification.json",
+      "expectedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
+      "role": "v17a_source_certificate:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/p5_trim.mat",
+      "expectedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
+      "role": "v17a_source_package:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/source_certification.json",
+      "expectedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
+      "role": "v17a_source_certificate:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/p5_trim.mat",
+      "expectedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
+      "role": "v17a_source_package:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/source_certification.json",
+      "expectedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
+      "role": "v17a_source_certificate:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/p5_trim.mat",
+      "expectedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
+      "role": "v17a_source_package:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/source_certification.json",
+      "expectedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
+      "role": "v17a_source_certificate:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields.json",
+      "expectedSha256": "c23098938c5b24cd0b86a10b7801c29a7ce39eff0e40ca1c55b559f29dbadef4",
+      "role": "transitive_manifest",
+      "exists": true,
+      "observedSha256": "c23098938c5b24cd0b86a10b7801c29a7ce39eff0e40ca1c55b559f29dbadef4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT16.h5",
+      "expectedSha256": "03daf43becd96d91037037b0879984cf0194cec8e2d3ed93354121a59fc92cdc",
+      "role": "transitive_asset:SGT16",
+      "exists": true,
+      "observedSha256": "03daf43becd96d91037037b0879984cf0194cec8e2d3ed93354121a59fc92cdc",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGH07.h5",
+      "expectedSha256": "a74030772982a3f5eff3061775dde6f3e365b58261e895142a734c66f2ac555d",
+      "role": "transitive_asset:SGH07",
+      "exists": true,
+      "observedSha256": "a74030772982a3f5eff3061775dde6f3e365b58261e895142a734c66f2ac555d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT29.h5",
+      "expectedSha256": "d7e1f8c3e8be7064cc72938f11c2d1d18bbf22028a58d771984a0e4938694d1b",
+      "role": "transitive_asset:SGT29",
+      "exists": true,
+      "observedSha256": "d7e1f8c3e8be7064cc72938f11c2d1d18bbf22028a58d771984a0e4938694d1b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/node35.h5",
+      "expectedSha256": "896beefb3bceaddcd2b4065a01436cd9ec7b65234fff3b0dc5a33a6b7908a0d9",
+      "role": "transitive_asset:node35",
+      "exists": true,
+      "observedSha256": "896beefb3bceaddcd2b4065a01436cd9ec7b65234fff3b0dc5a33a6b7908a0d9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT03.h5",
+      "expectedSha256": "807519b0d5633b7d4eb152e442ac1f3135a8c72a85497691ad8f885285094c77",
+      "role": "transitive_asset:SGT03",
+      "exists": true,
+      "observedSha256": "807519b0d5633b7d4eb152e442ac1f3135a8c72a85497691ad8f885285094c77",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT14.h5",
+      "expectedSha256": "7c4e2789b4e6004563b2468842800a3919efe8b4fac30ac7cc21cfb685d045a6",
+      "role": "transitive_asset:SGT14",
+      "exists": true,
+      "observedSha256": "7c4e2789b4e6004563b2468842800a3919efe8b4fac30ac7cc21cfb685d045a6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/CASEA_U040_ALPHA_P01.h5",
+      "expectedSha256": "969753e40eff5f472877a251497eeea152b4c99b7df6a601505d1dcfc6ecceae",
+      "role": "transitive_asset:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "969753e40eff5f472877a251497eeea152b4c99b7df6a601505d1dcfc6ecceae",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P06.h5",
+      "expectedSha256": "8cdfa4c797fbd101ef790fe1366efe25b5dc7ed0b9b5cfb282b656b1967a4a68",
+      "role": "transitive_asset:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "8cdfa4c797fbd101ef790fe1366efe25b5dc7ed0b9b5cfb282b656b1967a4a68",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P08.h5",
+      "expectedSha256": "12813003743c0034d39877c5fc00fb8f0956814d356df67530cc05f08f46c930",
+      "role": "transitive_asset:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "12813003743c0034d39877c5fc00fb8f0956814d356df67530cc05f08f46c930",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P10.h5",
+      "expectedSha256": "d2f4949638adf3424c851cb67c523a9acd2fa3a512a0cb98944ea63e5a41df3d",
+      "role": "transitive_asset:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "d2f4949638adf3424c851cb67c523a9acd2fa3a512a0cb98944ea63e5a41df3d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P06.h5",
+      "expectedSha256": "d5b343a9a89c7b9ad2cdb451257e86d6f4bbe76082c412951bc61bbf6f969842",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "d5b343a9a89c7b9ad2cdb451257e86d6f4bbe76082c412951bc61bbf6f969842",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P08.h5",
+      "expectedSha256": "8e82764d35ad80fe6c4fd66dd2aaa137fbde6e2e5a1feb2645863feb3fd53444",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "8e82764d35ad80fe6c4fd66dd2aaa137fbde6e2e5a1feb2645863feb3fd53444",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P10.h5",
+      "expectedSha256": "3a75a1c137cbf78b2fc0c67fe81f3916bbdef1b210a9e1f1ea632fabecc94d40",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "3a75a1c137cbf78b2fc0c67fe81f3916bbdef1b210a9e1f1ea632fabecc94d40",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE_U018P75_ALPHA_P075.h5",
+      "expectedSha256": "bece544b92533442f9eac1a0d59442f67697ff808ba93e8e16965c91e4be0be8",
+      "role": "transitive_asset:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "bece544b92533442f9eac1a0d59442f67697ff808ba93e8e16965c91e4be0be8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U018P125_ALPHA_P0675.h5",
+      "expectedSha256": "7b1dde209ddaf6d5bed92d1a5cfeabcd9e14ec0a3383f5278cccae29d872fb46",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "7b1dde209ddaf6d5bed92d1a5cfeabcd9e14ec0a3383f5278cccae29d872fb46",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U018P125_ALPHA_P0775.h5",
+      "expectedSha256": "384d60ac398c585d8e92573cca1ac7962293151f00f9e7a4f9d797db9ee6eb9b",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "384d60ac398c585d8e92573cca1ac7962293151f00f9e7a4f9d797db9ee6eb9b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U019P375_ALPHA_P0625.h5",
+      "expectedSha256": "2dae386601281dbf86e7911df476b5c2c73cafe29b1c836ef53151e40b6cd234",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "2dae386601281dbf86e7911df476b5c2c73cafe29b1c836ef53151e40b6cd234",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U019P375_ALPHA_P0875.h5",
+      "expectedSha256": "df0f6ea893b6988111e93a217cd5a9d1a27a4737b80cf84b468a1b2afae31d5a",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "df0f6ea893b6988111e93a217cd5a9d1a27a4737b80cf84b468a1b2afae31d5a",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/CASEC_NOMINAL.h5",
+      "expectedSha256": "28b26b5ce416b5f2baa8352daee404b4ea15cb49b5bbfd9d11cbee1c9a8e51a5",
+      "role": "transitive_asset:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "28b26b5ce416b5f2baa8352daee404b4ea15cb49b5bbfd9d11cbee1c9a8e51a5",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U017P75_ALPHA_P0675.h5",
+      "expectedSha256": "43f6bda254454855e8458c669d2e5672a1839915c31a5d7e1a32af95b8f08f50",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "43f6bda254454855e8458c669d2e5672a1839915c31a5d7e1a32af95b8f08f50",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U017P75_ALPHA_P0700.h5",
+      "expectedSha256": "3e23c75a05bfc281ab6516bd1bc2fd4b838a7e6c6946694deb3720dc1275a3d9",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "3e23c75a05bfc281ab6516bd1bc2fd4b838a7e6c6946694deb3720dc1275a3d9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U018P25_ALPHA_P0700.h5",
+      "expectedSha256": "5aa73d48f475f27f409d8b4c9ab5bd3b4148ffe06763706c08f11b4c933f8a20",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "5aa73d48f475f27f409d8b4c9ab5bd3b4148ffe06763706c08f11b4c933f8a20",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U018P25_ALPHA_P0725.h5",
+      "expectedSha256": "eab5abf7a13c1de92d1b0498aa5e176a6e8e83d42c008a0e4942adddb636519c",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "eab5abf7a13c1de92d1b0498aa5e176a6e8e83d42c008a0e4942adddb636519c",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/V10_SUBSPACE_U018P25_ALPHA_P07125.h5",
+      "expectedSha256": "b6f66c36690b6b44f8baf06d78c522d29c5dc5e3b3a98bde89e10bf0165967c9",
+      "role": "transitive_asset:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "b6f66c36690b6b44f8baf06d78c522d29c5dc5e3b3a98bde89e10bf0165967c9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/V11_BRANCH_U018P25_ALPHA_P071875.h5",
+      "expectedSha256": "beabe1df47737aff3c8c5a43a62bb739c24e85ef06ebd071e20687c628fbbff6",
+      "role": "transitive_asset:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "beabe1df47737aff3c8c5a43a62bb739c24e85ef06ebd071e20687c628fbbff6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEB_AB_MID.h5",
+      "expectedSha256": "d410847070f57e84862d1d525d8f908857ba7e4d1b22d55d7e6c554fd63b3039",
+      "role": "transitive_asset:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "d410847070f57e84862d1d525d8f908857ba7e4d1b22d55d7e6c554fd63b3039",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_AB_MID.h5",
+      "expectedSha256": "f008a45177b83fef69c8c71e242edf94f473ff1c0a11e4a4563b1e132024b8c4",
+      "role": "transitive_asset:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "f008a45177b83fef69c8c71e242edf94f473ff1c0a11e4a4563b1e132024b8c4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_BC_MID.h5",
+      "expectedSha256": "adbf38be7928ae3a4b3b2a15a774bb98512a19240fac876189c0d8e6ead850e4",
+      "role": "transitive_asset:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "adbf38be7928ae3a4b3b2a15a774bb98512a19240fac876189c0d8e6ead850e4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_CA_MID.h5",
+      "expectedSha256": "9b4fee05dfc0bdbfc533944051efd8afdab546ae3842f26706ad2cda5da754e0",
+      "role": "transitive_asset:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "9b4fee05dfc0bdbfc533944051efd8afdab546ae3842f26706ad2cda5da754e0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/PHASE18C_V17A_CASEBC_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_BANK_V2.json",
+      "expectedSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+      "role": "transitive_manifest",
+      "exists": true,
+      "observedSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/CASEC_NOMINAL/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "role": "transitive_asset:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U017P75_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U018P25_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U018P125_ALPHA_P0675/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U019P375_ALPHA_P0625/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "role": "transitive_asset:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "role": "transitive_asset:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P10/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "role": "transitive_asset:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/SGT16/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "role": "transitive_asset:SGT16",
+      "exists": true,
+      "observedSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEB_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "role": "transitive_asset:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "role": "transitive_asset:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_CA_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "role": "transitive_asset:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "passed": true
+    }
+  ],
+  "matlabProducts": [
+    "MATLAB",
+    "Control System Toolbox",
+    "Optimization Toolbox",
+    "MATLAB Coder",
+    "Automated Driving Toolbox",
+    "Lidar Toolbox",
+    "Navigation Toolbox",
+    "Robotics System Toolbox",
+    "ROS Toolbox",
+    "UAV Toolbox",
+    "Simulink",
+    "Simulink Real-Time",
+    "Stateflow"
+  ],
+  "excludedCategories": [
+    "private development context and conversations",
+    "campaign audit scripts, checkpoints, logs, and rejected candidates",
+    "ordinary simulation histories and local result directories",
+    "MATLAB MEX binaries, codegen products, and first-call caches",
+    "Python bytecode, virtual environments, and test caches",
+    "editor, operating-system, credential, and machine-local state",
+    "publisher PDFs without verified redistribution permission",
+    "obsolete standalone launchers outside the documented interface"
+  ]
+}

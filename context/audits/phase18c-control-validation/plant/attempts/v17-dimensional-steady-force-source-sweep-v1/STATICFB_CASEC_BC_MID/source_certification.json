@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "caseId": "STATICFB_CASEC_BC_MID_NORMALIZED_STEADY",
+  "mu": [
+    18.1875,
+    7.5
+  ],
+  "role": "qualification_pilot",
+  "gridLevel": "prepromotion_pilot",
+  "gridSpecSha256": "a44f4674254ef02e26e88a55a483ad2cad1ced87628c2861b4841c7b6da6030d",
+  "modelOrder": 10,
+  "negativeThrustAttempted": false,
+  "validationTruthUsed": false,
+  "executionStatus": "complete_aircraft_certified",
+  "initializationMode": "PHYSICAL_CHART_TEMPLATE_PLUS_EXACT_SOURCE_ARTIFACT",
+  "trimAttempts": {
+    "nested": {
+      "converged": true,
+      "alphaDeg": 7.4982572169853059,
+      "deltaWingDeg": -0.80957933791984349,
+      "deltaElevDeg": -6.0664107432690653,
+      "thrustN": 1.7407589855349035,
+      "residual": [
+        0,
+        5.3912862930438621E-5,
+        -1.1653133848987807E-6
+      ],
+      "residualScaledNorm": 7.4004450854487236E-6,
+      "qGammaResidual": 3.554447978966673E-16
+    }
+  },
+  "trimRepair": {},
+  "templateAssembly": {
+    "method": "persistent exact-source T2 package plus exact source artifact",
+    "weightMode": "EXACT_PERSISTENT_TEMPLATE",
+    "insideCurrentHull": true,
+    "activeSourceIds": [
+      "\\\\wsl.localhost\\ubuntu\\home\\maxal\\Aircraft-Aeroelastic-Control-Benchmark\\TestBenchPazy\\diagnostics\\phase18\\static_feedback_source_placement_v1\\STATICFB_CASEC_BC_MID\\matlab_complete\\p5_trim.mat"
+    ],
+    "activeSourceMu": [
+      18.1875,
+      7.5
+    ],
+    "weights": 1,
+    "coordinatePrediction": [
+      18.1875,
+      7.5
+    ],
+    "coordinateResidual": [
+      0,
+      0
+    ],
+    "referenceSourceId": "\\\\wsl.localhost\\ubuntu\\home\\maxal\\Aircraft-Aeroelastic-Control-Benchmark\\TestBenchPazy\\diagnostics\\phase18\\static_feedback_source_placement_v1\\STATICFB_CASEC_BC_MID\\matlab_complete\\p5_trim.mat",
+    "targetMu": [
+      18.1875,
+      7.5
+    ],
+    "chartCondition": 1,
+    "chartVirtualPowerError": 0,
+    "negativeThrustAttempted": false,
+    "normalizeDimensionalSteadyForces": true,
+    "validationTruthUsed": false,
+    "physicalEquationsChanged": false,
+    "physicalBoundsChanged": false
+  },
+  "eligibleForTrainingLibrary": false,
+  "holdoutIsolation": {
+    "comparisonOnly": false,
+    "enteredInterpolationWeights": false,
+    "enteredBasisConstruction": false,
+    "enteredHyperparameterSelection": false,
+    "enteredSourceSelection": false
+  },
+  "physicalFeasibility": "FEASIBLE",
+  "trim": {
+    "converged": true,
+    "alphaDeg": 7.4982572169853059,
+    "deltaWingDeg": -0.80957933791984349,
+    "deltaElevDeg": -6.0664107432690653,
+    "thrustN": 1.7407589855349035,
+    "residual": [
+      0,
+      5.3912862930438621E-5,
+      -1.1653133848987807E-6
+    ],
+    "residualScaledNorm": 7.4004450854487236E-6
+  },
+  "staticRootWrench": [
+    0.067071749590427471,
+    0,
+    -0.0081257608829843,
+    0,
+    3.9170027376774761,
+    0
+  ],
+  "staticRootWrenchIdentityError": 0,
+  "physicalChart": {
+    "translationRotationResidual": 0,
+    "orientationResidual": 3.9348030277220179E-17,
+    "stateRoundTripError": 0,
+    "virtualPowerAbsoluteError": 0,
+    "virtualPowerRelativeError": 0,
+    "forceRoundTripError": 0
+  },
+  "qGammaResidual": 3.554447978966673E-16,
+  "projectedQ1Residual": 1.2882491403092813E-15,
+  "propagatedResidual": 1.3363857421640715E-15,
+  "jacobian": {
+    "stateRelativeError": 7.6691896943726276E-10,
+    "inputRelativeError": 4.0499461069763826E-11,
+    "coupledStateHalvingError": 3.852392458143471E-11,
+    "coupledInputHalvingError": 0
+  },
+  "replay": {
+    "oneStepDefect": 6.7833640229954282E-18,
+    "twentyStepDefect": 1.2191515105908166E-16
+  },
+  "modal": [
+    {
+      "frequencyHz": 11.096182714662602,
+      "growthRate": -2790.1613089909297,
+      "dampingRatio": 0.9996879566004947,
+      "flexibleParticipation": 0.0066320031696980985,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 30.81775179936643,
+      "growthRate": -2692.2713325489817,
+      "dampingRatio": 0.99742360117249473,
+      "flexibleParticipation": 0.002277029452496073,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 46.512050266216313,
+      "growthRate": -1699.4156567517061,
+      "dampingRatio": 0.98553370967653831,
+      "flexibleParticipation": 0.0086894838906600956,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 30.783359782876953,
+      "growthRate": -1547.7263969322116,
+      "dampingRatio": 0.99228168318807219,
+      "flexibleParticipation": 0.028663562818709135,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 43.185801889435083,
+      "growthRate": -2.1495026050085841,
+      "dampingRatio": 0.007921428254088066,
+      "flexibleParticipation": 0.42528655005642868,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 38.597833280178627,
+      "growthRate": -1118.0066043693214,
+      "dampingRatio": 0.97727199367553064,
+      "flexibleParticipation": 0.0017826800485764855,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 25.24761528228532,
+      "growthRate": -1085.69884898755,
+      "dampingRatio": 0.98949333303743292,
+      "flexibleParticipation": 0.0056037099998411328,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 39.949255582589622,
+      "growthRate": -1.7887459963291805,
+      "dampingRatio": 0.0071260536571878677,
+      "flexibleParticipation": 0.82432931922603525,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 9.7037866948519422,
+      "growthRate": -751.53905663113255,
+      "dampingRatio": 0.9967252982538044,
+      "flexibleParticipation": 0.018809214658211136,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 14.343435547844711,
+      "growthRate": -3.4224617946317979,
+      "dampingRatio": 0.03794832578734357,
+      "flexibleParticipation": 0.0034390486006602,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 7.4725341784508856,
+      "growthRate": -178.02193212004397,
+      "dampingRatio": 0.96693611767573018,
+      "flexibleParticipation": 0.014320147489942531,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 2.1799301543659553,
+      "growthRate": -279.094660037572,
+      "dampingRatio": 0.99879793426085883,
+      "flexibleParticipation": 0.0094332693978063844,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 6.3638641654346815,
+      "growthRate": -3.116827783455355,
+      "dampingRatio": 0.077713527663480969,
+      "flexibleParticipation": 0.091527545131240451,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 2.6571408456941059,
+      "growthRate": -5.8263679863151649,
+      "dampingRatio": 0.32949432554217289,
+      "flexibleParticipation": 4.7368888594751814E-13,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 0.00019470899625323085,
+      "growthRate": 0.00082306989863216548,
+      "dampingRatio": -0.55820482779611758,
+      "flexibleParticipation": 3.7169159496451378E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 0.00018910946380566574,
+      "growthRate": -0.00086330054682468981,
+      "dampingRatio": 0.587792200448005,
+      "flexibleParticipation": 3.7623041819148009E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 1.0246858045157714E-5,
+      "growthRate": 0.00035926377734217172,
+      "dampingRatio": -0.9843189716685915,
+      "flexibleParticipation": 5.1043491057781666E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 1.0311477721068516E-5,
+      "growthRate": -0.00035942013565627939,
+      "dampingRatio": 0.98413875142623131,
+      "flexibleParticipation": 5.1813662384655159E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 2.7443549816556366E-5,
+      "growthRate": 3.1714098530713051E-7,
+      "dampingRatio": -0.001839210686516362,
+      "flexibleParticipation": 1.2949545619229568E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 1.3422076990249948E-6,
+      "growthRate": 1.0431325668367509E-8,
+      "dampingRatio": -0.0012369142080713195,
+      "flexibleParticipation": 2.9641206485055908E-9,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 4.4040712801125291E-7,
+      "growthRate": 1.6910919845590479E-8,
+      "dampingRatio": -0.0061111777166513569,
+      "flexibleParticipation": 7.2600134490650819E-10,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 4.4786010048677362E-7,
+      "growthRate": -4.57962273962688E-9,
+      "dampingRatio": 0.0016274471212742649,
+      "flexibleParticipation": 4.5266382005568448E-10,
+      "falseUnstable": false
+    }
+  ],
+  "falseUnstableModes": 0,
+  "physicalDeformationNorm": 0,
+  "r2": {
+    "equilibriumIdentity": 0,
+    "dynamicsInvariance": 0,
+    "feedsBackIntoDynamics": false,
+    "anchorProvenance": "SOURCE_TRAINING_T2_ANCHOR"
+  },
+  "package": {
+    "packageHash": "6bb674424371477b38ba1634421da2864459e5f4b3c926cc555d4b36b93b8df0",
+    "artifactPath": "context\\audits\\phase18b-kkt-path-closure\\static-feedback-source-placement-v1\\fixed-node27-contracts\\STATICFB_CASEC_BC_MID\\fixed_node27_contract.h5",
+    "artifactSha256": "70b8081cdf8a82b29b8d9cfeece9307c618202685edad9b457e6d7b0479fccca",
+    "seedPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\STATICFB_CASEC_BC_MID\\coupled_trim.mat",
+    "p5TrimPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\STATICFB_CASEC_BC_MID\\p5_trim.mat",
+    "validationPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\STATICFB_CASEC_BC_MID\\p5_validation.mat"
+  },
+  "acceptance": {
+    "physicalTrim": true,
+    "nonnegativeThrust": true,
+    "physicalChart": true,
+    "virtualPower": true,
+    "forceRoundTrip": true,
+    "rootReactionIdentity": true,
+    "qGamma": true,
+    "projectedResidual": true,
+    "jacobian": true,
+    "oneStepReplay": true,
+    "twentyStepReplay": true,
+    "falseUnstableModes": true,
+    "r2OutputOnly": true,
+    "r2DynamicsInvariant": true,
+    "sourceAnchor": true,
+    "package": true
+  },
+  "errorIdentifier": "",
+  "errorMessage": "",
+  "pass": true,
+  "startedUtc": "2026-08-15T20:36:32Z",
+  "completedUtc": "2026-08-15T20:36:52Z",
+  "wallClockS": 20.1783728
+}

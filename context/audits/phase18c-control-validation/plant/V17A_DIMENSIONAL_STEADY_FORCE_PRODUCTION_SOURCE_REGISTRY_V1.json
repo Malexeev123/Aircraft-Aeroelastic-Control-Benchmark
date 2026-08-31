@@ -1,0 +1,1080 @@
+{
+  "approvedProductionRegistryPreserved": "operational-source-extension/OPERATIONAL_SOURCE_REGISTRY_V2.json",
+  "baseDiagnosticRegistryPath": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/DIAGNOSTIC_SOURCE_REGISTRY_V7.json",
+  "baseDiagnosticRegistrySha256": "1e210ada32f4e14f0b0cccf61841a077e6cad8b765c498afed2fe070ee05c5b4",
+  "changeControlPath": "context/change-control/phase18c-v17-dimensional-steady-force-normalization-promotion-v1.json",
+  "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+  "holdoutTruthOpenedDuringConstruction": false,
+  "implementationArchitecture": "frequency_limited_global_parallel_transfer_function_diagnostic_v17",
+  "passedCount": 29,
+  "productionArchitecture": "frequency_limited_global_parallel_transfer_function_v17",
+  "productionPromotionApproved": true,
+  "productionRegistryModified": true,
+  "registryVersion": "phase18c-v17a-dimensional-steady-force-production-registry-v1",
+  "schemaVersion": 1,
+  "sourceCount": 29,
+  "sourceOnly": true,
+  "sources": [
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
+        "sha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/source_certification.json",
+        "sha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT16/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "be3fad9740bcdd4c3f39752d32e461cb73171c3cf27ea61e40e614b5f02a5c4d"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT16/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "e7def37cf4f3e5e81f8907a4028784389aee0888e02944539f393c15ccecac54"
+      },
+      "sourceId": "SGT16",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/p5_trim.mat",
+        "sha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/source_certification.json",
+        "sha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        10
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGH07/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "8ed29d90798288a109a97cad586404f356b9118ebb5f8cedd920b783010ca2fb"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGH07/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "98c567c856cc04f4b674e276703f1a797f2ca452801356c6707141b46a818bc0"
+      },
+      "sourceId": "SGH07",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/p5_trim.mat",
+        "sha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/source_certification.json",
+        "sha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        2
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT29/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "5c79424133018ed45e9055b546ed2733b5c40614fe377de41cbbd7adeeba8864"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT29/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "81d559c20411b74aa4d7b43fa952bd1d969f1143ed09601812479385aebb7e02"
+      },
+      "sourceId": "SGT29",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/p5_trim.mat",
+        "sha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/source_certification.json",
+        "sha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        40,
+        0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "context/audits/phase18b-comprehensive-closure/checkpoints/source-extraction/rank10/node35/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e5ced075772ace79861a82f28a44b374b0b6d7bce339d84ef70e99e4d966e598"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/node35/fixed_node27_contract_v4c.h5",
+        "schema": 4,
+        "selectionReason": "recovered source contract uses the existing complete dimensional schema-4 package convention",
+        "sha256": "72a4a0034a801890b9f838bdd990e7e9be8e678d525603eeba4ea98bda1cde95"
+      },
+      "sourceId": "node35",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/p5_trim.mat",
+        "sha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/source_certification.json",
+        "sha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        38.75,
+        1
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT03/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "d5e654345edb707ce62a0af23ffced6f52fbb244d220f9704e81a7ee70838c3a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT03/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "1be990d4daff97eecc4d21aa5b9b88a2e28618c8a5875b313aeb89a407ce3d2f"
+      },
+      "sourceId": "SGT03",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/p5_trim.mat",
+        "sha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/source_certification.json",
+        "sha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        38.75,
+        0.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT14/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "fcbea9eedbf59fba5d9948e669532d09caf721da6df186bf114f8eb15acfb049"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT14/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "e6a25baf233779fd4d4e1166e9f98cf39e123ecac8c26d36b27a346e759edfb8"
+      },
+      "sourceId": "SGT14",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+        "sha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/source_certification.json",
+        "sha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        40,
+        1
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/CASEA_U040_ALPHA_P01/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e092e29ab39e82699350d2c98d5dcf9332fd079e21814afdd67943a4c03f5d31"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/CASEA_U040_ALPHA_P01/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "bd27e879119de35b6a1e8457756837c3f2d238c2c86dd6a6e0ff08b51665cede"
+      },
+      "sourceId": "CASEA_U040_ALPHA_P01",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/p5_trim.mat",
+        "sha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/source_certification.json",
+        "sha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15,
+        6
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 836,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P06/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e6bf66854b4e8fdf9fea3b39e634ea34b35009bc703c308080dc2740b008da3f"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P06/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "a791ef747572223fd3ab6f8216adc6a99dce2cab3738d5295d0c4ebb8986ed39"
+      },
+      "sourceId": "OPS_U015_ALPHA_P06",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/p5_trim.mat",
+        "sha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/source_certification.json",
+        "sha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15,
+        8
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 836,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P08/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ead38c9b9c10e9c6b1a4d4e7c2103e198c8b71e68b1aa3ffe4d6c652051b494a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P08/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "118545c35208bebeb6c5f80e61b501b1a857a171b3aa81fb3ea8e8ce41679071"
+      },
+      "sourceId": "OPS_U015_ALPHA_P08",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
+        "sha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/source_certification.json",
+        "sha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15,
+        10
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P10/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "1d96716edfa14fc287585b3434b94fff06ff77ee85e950b175ce8e56dcc9989b"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P10/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "43186ea8f7a1f91f8241b926e64fbd3d26cc50b1e90d615a8d79230dac32de24"
+      },
+      "sourceId": "OPS_U015_ALPHA_P10",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/p5_trim.mat",
+        "sha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/source_certification.json",
+        "sha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        6
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P06/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "84a98438b8c275af446a0da33a4b2a59912ab52d5deacc55f162fd4f0f93da5b"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P06/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "1147d19c3db86f3e1e3a998f6373ee2166595a135153455ab8c67b63b12d6266"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P06",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/p5_trim.mat",
+        "sha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/source_certification.json",
+        "sha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        8
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P08/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "6172dbacd8656cb34126f2e1477357142d03b19c745380ed58cb545c502a1fd6"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P08/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "f77c61533e31ce9a5a9241c21550cefaeca676b1e436e5323c79eb3be82c2d0c"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P08",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/p5_trim.mat",
+        "sha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/source_certification.json",
+        "sha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        10
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P10/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ce4df1f129c39b0ece6e7317023a719dd062a6e68b0fea7880b42e85cedada4d"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P10/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "ae95d08ee4eeb9b46acdee016dfa3db761b618232056ad1fd743df9c6cdb5d54"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P10",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/p5_trim.mat",
+        "sha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/source_certification.json",
+        "sha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.75,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v1/OPS_REFINE_U018P75_ALPHA_P075/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "fe51352aa9e971340a7e741b47ff35d92b13a56fd0b484b38a8f11ba594ce803"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/fixed-node27-contracts/OPS_REFINE_U018P75_ALPHA_P075/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic midpoint fixed-node27 contract",
+        "sha256": "304152ec97b10c0346efe6f445d8333d943ea1f88ffe9d129c2bea3a341183be"
+      },
+      "sourceId": "OPS_REFINE_U018P75_ALPHA_P075",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/p5_trim.mat",
+        "sha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/source_certification.json",
+        "sha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.125,
+        6.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0675/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "873a8f9feee65305616bccc0240cb96b050776058044192a66f506130842e5f1"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0675/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "0b4fdf29fd0693682faca5f2ec225a63dab680e9c19b2ee3cc1f5183457cb0b4"
+      },
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0675",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/p5_trim.mat",
+        "sha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/source_certification.json",
+        "sha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.125,
+        7.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0775/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "f128ea0747b0c0e63b428270d0b1f311c3a3bd3d4c31fcec60476f5ba2149f31"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0775/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "3dd0ff07e73a9355f05629cd9df64d3eaf70010130ecfb468832a56af1a8b665"
+      },
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0775",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/p5_trim.mat",
+        "sha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/source_certification.json",
+        "sha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        19.375,
+        6.25
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0625/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "3daea521917960a20f3445f6f629d0b55ef59865643d4921763a369dca837816"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0625/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "40eac7d91636528568dcf246fd17ca3c6060000bf407ad70df53312822c2d556"
+      },
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0625",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/p5_trim.mat",
+        "sha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/source_certification.json",
+        "sha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        19.375,
+        8.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0875/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "b2d7ce2036460bb0aec9e23c72b432feaf4345e63aac5bb98b6279737488605c"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0875/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "ab3b1827ae69f3ef0d18052314100dbfd561e62071674f107de1e92706f9ea22"
+      },
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0875",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+        "sha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/source_certification.json",
+        "sha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18,
+        7
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/holdouts/CASEC_NOMINAL/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ae5a38238d4d29a5ccfe0033f83cf687c95e72369c4e9d48c1582a61c28cc5d9"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/benchmark-anchor-corridor/fixed-node27-contract/CASEC_NOMINAL/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "exact certified Case-C benchmark anchor",
+        "sha256": "034b508e5a20e415d8bd4e32b29d40a0ac1707462dc685cb85c47f5709913a4c"
+      },
+      "sourceId": "CASEC_NOMINAL",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/p5_trim.mat",
+        "sha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/source_certification.json",
+        "sha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.75,
+        6.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0675/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "7503941a2275a20c861ee8da615295e99f057965c2a48058a7580aee81f1239a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0675/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "65bf94610ebf96a7ba924c2bbc6cf6f7e6eefeb42bec63e5605cb36a22cf43a9"
+      },
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0675",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/p5_trim.mat",
+        "sha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/source_certification.json",
+        "sha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.75,
+        7
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0700/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "a2028e497a0b794ff4611a0e977a3395c7baebe1937fb617131133ed08f1ecac"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0700/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "8a313251bf6c568ccaf1953384ffbec93bb8ab3f198011d158da56a0b96d1d52"
+      },
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0700",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/p5_trim.mat",
+        "sha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/source_certification.json",
+        "sha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0700/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e55fd176fc597195d181fdd1caf937e26bf3408cb62532dbe8eb008c9a611d29"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0700/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "0ab7489b614e5716205d3baa4ea8c351c3dfbce3a9de4db816e69665ccdb8204"
+      },
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0700",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/p5_trim.mat",
+        "sha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/source_certification.json",
+        "sha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.25
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0725/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "5ba3d3f35376a6c38c1981b2caa5113f9467a6c00ebdae35635a4918a647bbfc"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0725/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "3d15ad52dbd1dbda6799b83d8f5b30e0bbbf8ab43ce9f2413c948dfa5bd07bf3"
+      },
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0725",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/p5_trim.mat",
+        "sha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/source_certification.json",
+        "sha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.125
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v10/V10_SUBSPACE_U018P25_ALPHA_P07125/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "58a47a26dc38d2d53aa04bbc187aa0e82de1cf1e815e98761a740e652b0a6f30"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/source-view/fixed-node27-contracts/V10_SUBSPACE_U018P25_ALPHA_P07125/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "40eab69d5980727ec6d7280afc3028632b74fd6b4c39c42e6d21eaddc89941aa"
+      },
+      "sourceId": "V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/p5_trim.mat",
+        "sha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/source_certification.json",
+        "sha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.1875
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v11/V11_BRANCH_U018P25_ALPHA_P071875/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "071481b0afeb7371ce43580f2569dfe3f4bcc23b0f3013024127250b232a60e2"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/branch-bisection-v11/source-view/fixed-node27-contracts/V11_BRANCH_U018P25_ALPHA_P071875/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "2a816657f75601e8bb2adc719d505707eb15d1167a02526788d12ff472aefbf8"
+      },
+      "sourceId": "V11_BRANCH_U018P25_ALPHA_P071875",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/p5_trim.mat",
+        "sha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/source_certification.json",
+        "sha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.625,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEB_AB_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "c4d6de9d0174933cbca5e161eecdff15ca27a91ddab96790323cf87fae1cc2aa"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEB_AB_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "2175a023f60124f87f0012674139523e9087f35995f5ae12175e2b4840717547"
+      },
+      "sourceId": "STATICFB_CASEB_AB_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/p5_trim.mat",
+        "sha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/source_certification.json",
+        "sha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18,
+        7.125
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_AB_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "733f6137209cd44b6675f5607f1a8bbe16de38ffe36b23b55f3fcf7f96753f5c"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_AB_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "00a615def9ce7ea151f16ae0478672c1cedab13017d0e5fd305ac82f01b1c614"
+      },
+      "sourceId": "STATICFB_CASEC_AB_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/p5_trim.mat",
+        "sha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/source_certification.json",
+        "sha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.1875,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_BC_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "d058c5fa8e7855d71f592e525d8410f43b4a63042d4da128e576e417754fdafc"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_BC_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "70b8081cdf8a82b29b8d9cfeece9307c618202685edad9b457e6d7b0479fccca"
+      },
+      "sourceId": "STATICFB_CASEC_BC_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/p5_trim.mat",
+        "sha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b"
+      },
+      "certification": {
+        "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/source_certification.json",
+        "sha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.9375,
+        7.375
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_CA_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "4f3144404e88ae4b29ca52bde308adf7e88e04f82e181161376cc8c089adf883"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_CA_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "164f13e35b85e0fb663e1ccd60c7e254dcc994d151cf475c8e42fc2825197627"
+      },
+      "sourceId": "STATICFB_CASEC_CA_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    }
+  ],
+  "status": "PASS",
+  "validationTruthUsed": false,
+  "parentRegistryPath": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/V17_PRODUCTION_SOURCE_REGISTRY_V1.json",
+  "parentRegistrySha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+  "sourceSweepPath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/PHASE18C_V17_DIMENSIONAL_STEADY_FORCE_SOURCE_SWEEP_V1.json",
+  "modelRevision": "V17A",
+  "nonProductionDiagnostic": false,
+  "candidateRegistryPath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V17_DIMENSIONAL_STEADY_FORCE_CANDIDATE_REGISTRY_V1.json",
+  "candidateRegistrySha256": "ca173112ddb10566fcf845890584f73a01e9d1e2756b7840fb923fed8cfd9cb5",
+  "changeControlSha256": "72e3caf06fdbea9c638806a2f02fc199f610abd57fc34b5e3d3c82b11c745ac1",
+  "productionBehavior": "exactly-once dimensional steady generalized and root force scaling",
+  "protectedV17Preserved": true,
+  "nonlinearTermsModified": false,
+  "nonlinearJacobianModified": false,
+  "generatedUtc": "2026-08-15T21:14:19Z",
+  "matlabRelease": "2025b",
+  "gitRevision": "34dd7c08214b863a8a3d1ce6f0d8dd7e784727b6"
+}

@@ -111,5 +111,66 @@ classdef ComplementaryCommandFusion < handle
             info.uCmd = uCmd;
             info.wc = obj.wc;
         end
+
+        function uBase = previewOuterBaseHorizon(obj,uOuter,nHorizon)
+        %PREVIEWOUTERBASEHORIZON Non-mutating low-pass outer-command preview.
+            assert(isscalar(nHorizon) && isfinite(nHorizon) && ...
+                nHorizon >= 1 && nHorizon == round(nHorizon), ...
+                'ComplementaryCommandFusion:Horizon', ...
+                'nHorizon must be a positive integer.');
+            if isvector(uOuter)
+                uOuter = repmat(obj.validateCommand(uOuter,'uOuter'),1,nHorizon);
+            else
+                assert(isnumeric(uOuter) && isreal(uOuter) && ...
+                    isequal(size(uOuter),[numel(obj.uTrim),nHorizon]) && ...
+                    all(isfinite(uOuter),'all'), ...
+                    'ComplementaryCommandFusion:OuterPreviewSequence', ...
+                    ['A varying outer-command preview must have one finite ', ...
+                     'command column per horizon interval.']);
+            end
+
+            yOuter = obj.yOuterLP;
+            uBase = zeros(numel(obj.uTrim),nHorizon);
+            for j = 1:nHorizon
+                dOuter = uOuter(:,j) - obj.uTrim;
+                yOuter = obj.a*yOuter + (1-obj.a)*dOuter;
+                uBase(:,j) = obj.uTrim + yOuter;
+            end
+        end
+
+        function [uInner,info] = rawInnerForApplied(obj,uApplied,uOuter)
+        %RAWINNERFORAPPLIED Invert the next fusion step without mutation.
+            uApplied = obj.validateCommand(uApplied,'uApplied');
+            uOuter = obj.validateCommand(uOuter,'uOuter');
+            assert(isfinite(obj.a) && obj.a > 0 && obj.a <= 1, ...
+                'ComplementaryCommandFusion:Coefficient', ...
+                'The fusion coefficient must lie in (0,1].');
+
+            uBase = obj.previewOuterBaseHorizon(uOuter,1);
+            dInner = obj.yInnerLP + (uApplied-uBase(:,1))/obj.a;
+            if obj.innerIsDeviation
+                uInner = dInner;
+            else
+                uInner = obj.uTrim + dInner;
+            end
+            assert(all(isfinite(uInner)), ...
+                'ComplementaryCommandFusion:NonfiniteInverse', ...
+                'The reconstructed raw inner command must be finite.');
+
+            info = struct('uApplied',uApplied,'uOuter',uOuter, ...
+                'uBase',uBase(:,1),'uInner',uInner);
+        end
+    end
+
+    methods(Access=private)
+        function u = validateCommand(obj,u,name)
+            u = u(:);
+            assert(numel(u) == numel(obj.uTrim), ...
+                'ComplementaryCommandFusion:Dimension', ...
+                '%s length %d does not match uTrim length %d.', ...
+                name,numel(u),numel(obj.uTrim));
+            assert(all(isfinite(u)), 'ComplementaryCommandFusion:Nonfinite', ...
+                '%s must contain only finite values.',name);
+        end
     end
 end

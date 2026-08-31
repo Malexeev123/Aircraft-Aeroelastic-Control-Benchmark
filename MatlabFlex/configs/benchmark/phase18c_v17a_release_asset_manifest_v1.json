@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "pazy-benchmark-release-assets-v1",
+  "status": "LOCKED_SOURCE_EQUIVALENT_SELECTION",
+  "modelRevision": "V17A",
+  "stagingPolicy": "preserve_repository_relative_paths",
+  "validationTruthUsedForSelection": false,
+  "sourceGroups": {
+    "v17aSources": {
+      "manifestPath": "context/audits/phase18c-control-validation/plant/V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "manifestSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+      "expectedSourceCount": 29,
+      "pathFields": ["acceptedMatlabPackage", "certification"]
+    },
+    "fullCoordinateFields": {
+      "manifestPath": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields.json",
+      "manifestSha256": "c23098938c5b24cd0b86a10b7801c29a7ce39eff0e40ca1c55b559f29dbadef4",
+      "expectedSourceCount": 29,
+      "recordField": "sources"
+    },
+    "scheduledReciprocalBank": {
+      "manifestPath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/PHASE18C_V17A_CASEBC_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_BANK_V2.json",
+      "manifestSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+      "expectedSourceCount": 14,
+      "recordField": "records"
+    }
+  },
+  "directAssets": [
+    {
+      "role": "v17_registry",
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/V17_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "sha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f"
+    },
+    {
+      "role": "casea_corrected_nonwing_bundle",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-corrected-nonwing-trim-lqr-owner-v1/PHASE18C_V17A_CASEA_CORRECTED_NONWING_LQR_BUNDLE_V1.mat",
+      "sha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec"
+    },
+    {
+      "role": "casea_shared_wing_gain_bank",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_bank_v1.json",
+      "sha256": "8636c5183954e5ba52401c4e61072781c73d8eb5c36cc6e3cff5586d53604da0"
+    },
+    {
+      "role": "casea_shared_wing_gain",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_v1.json",
+      "sha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db"
+    },
+    {
+      "role": "casebc_gain_bank",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_casebc_longitudinal_lqr_gain_bank_v1.json",
+      "sha256": "c806bb3c2914c834c9b5246ae2e4810793da28e8e6b6558917fb327968d14222"
+    },
+    {
+      "role": "caseb_start_gain",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_ops_u015_alpha_p10_v1.json",
+      "sha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4"
+    },
+    {
+      "role": "caseb_terminal_gain",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_sgt16_v1.json",
+      "sha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece"
+    },
+    {
+      "role": "casec_nominal_gain",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_casec_nominal_v1.json",
+      "sha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa"
+    },
+    {
+      "role": "casebc_input_contract",
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.json",
+      "sha256": "126d891f02543e7d078ca92316511ca1be9aaee15ce16d5ebdc17f845f04791a"
+    },
+    {
+      "role": "casebc_input_data",
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.mat",
+      "sha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd"
+    },
+    {
+      "role": "caseb_source_domain_envelope",
+      "path": "context/audits/phase18c-control-validation/cases/attempts/v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1/source-domain-pulse-envelope-v1/PHASE18C_V17A_CASEB_SOURCE_DOMAIN_PULSE_ENVELOPE_V1.json",
+      "sha256": "91bcb3302d4d0b5153cdd751d59d4c45da27b4f4c5ff62052a288d38800e664f"
+    },
+    {
+      "role": "casea_source_coordinate_controller",
+      "path": "MatlabFlex/configs/control/phase18c_v17a_casea_source_coordinate_dynamic_output_feedback_v1.mat",
+      "sha256": "04e685ffbfad300581ecc57e9d7c031e343f1ed914c120403dac47f06a4cf369"
+    },
+    {
+      "role": "casea_reciprocal_runtime_candidate",
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casea-reciprocal-gust-path-discriminator-v1/PHASE18C_V17A_CASEA_RECIPROCAL_REACTION_REPLACEMENT_CANDIDATE_V1.mat",
+      "sha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a"
+    },
+    {
+      "role": "casea_nonwing_approval",
+      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
+      "sha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389"
+    },
+    {
+      "role": "casea_structured_pitch_approval",
+      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
+      "sha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d"
+    },
+    {
+      "role": "casea_reciprocal_reaction_approval",
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
+      "sha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e"
+    },
+    {
+      "role": "casea_reciprocal_provider_approval",
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
+      "sha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128"
+    },
+    {
+      "role": "native_fixed_interval_build_fixture",
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_fixed_interval_build_fixture_v1.mat",
+      "sha256": "7e7dcb82bca0aa3d867f880b100c6e6b45e435c2b4ad95f6271eab9c6858a648"
+    },
+    {
+      "role": "native_scheduled_build_fixture",
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_scheduled_build_fixture_v1.mat",
+      "sha256": "4d32586a5ccee22cc5c166e1c332a6bd19b4e1b83e91fa22328e15925779d2b5"
+    }
+  ]
+}

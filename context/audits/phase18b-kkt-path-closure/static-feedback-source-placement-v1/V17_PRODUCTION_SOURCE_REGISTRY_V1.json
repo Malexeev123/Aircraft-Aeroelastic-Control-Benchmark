@@ -1,0 +1,1066 @@
+{
+  "approvedProductionRegistryPreserved": "operational-source-extension/OPERATIONAL_SOURCE_REGISTRY_V2.json",
+  "baseDiagnosticRegistryPath": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/DIAGNOSTIC_SOURCE_REGISTRY_V7.json",
+  "baseDiagnosticRegistrySha256": "1e210ada32f4e14f0b0cccf61841a077e6cad8b765c498afed2fe070ee05c5b4",
+  "changeControlPath": "context/change-control/phase18b-v17-frequency-limited-global-parallel-promotion.json",
+  "changeControlSha256": "4909dae3014d471ef78c4cad5ea9e7fbe56e809dc2c39f600bdff120f2af5305",
+  "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+  "holdoutTruthOpenedDuringConstruction": false,
+  "implementationArchitecture": "frequency_limited_global_parallel_transfer_function_diagnostic_v17",
+  "passedCount": 29,
+  "productionArchitecture": "frequency_limited_global_parallel_transfer_function_v17",
+  "productionPromotionApproved": true,
+  "productionRegistryModified": true,
+  "registryVersion": "phase18b-v17-production-source-registry-v1",
+  "schemaVersion": 1,
+  "sourceCount": 29,
+  "sourceOnly": true,
+  "sources": [
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT16/matlab_complete/p5_trim.mat",
+        "sha256": "c1eb12b9b4668c22c69b1bae7bada7db6875d2968e0dd108fce25e76447d3dcc"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT16/certificate.json",
+        "sha256": "75d5fa56e6aa7dbfe1fa6954aebe7f613cdc68695bfdde7a6c8da79f8e601baf"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT16/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "be3fad9740bcdd4c3f39752d32e461cb73171c3cf27ea61e40e614b5f02a5c4d"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT16/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "e7def37cf4f3e5e81f8907a4028784389aee0888e02944539f393c15ccecac54"
+      },
+      "sourceId": "SGT16",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGH07/matlab_complete/p5_trim.mat",
+        "sha256": "317a3ed622c07cf553b3004a16ed1d5ca1f61efc760c2b316fdb42bcb1d53141"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGH07/certificate.json",
+        "sha256": "2205f22680bdbb240fb46b8ca269b3a0a1b9e9bcff2b7c307d9135e6a0a31cf3"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        10
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGH07/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "8ed29d90798288a109a97cad586404f356b9118ebb5f8cedd920b783010ca2fb"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGH07/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "98c567c856cc04f4b674e276703f1a797f2ca452801356c6707141b46a818bc0"
+      },
+      "sourceId": "SGH07",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT29/matlab_complete/p5_trim.mat",
+        "sha256": "6516833f5d324e908cbcef68095b7814501d53c858797503802b0133ce2e9a64"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT29/certificate.json",
+        "sha256": "7b986bb2452f6dcdcc62e5cdf2031a033405ab7aa9799130cdac99152b59abaa"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        20,
+        2
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT29/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "5c79424133018ed45e9055b546ed2733b5c40614fe377de41cbbd7adeeba8864"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT29/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "81d559c20411b74aa4d7b43fa952bd1d969f1143ed09601812479385aebb7e02"
+      },
+      "sourceId": "SGT29",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "context/audits/phase18b-physical-chart-loo/guard-p6/node35/p5_trim.mat",
+        "sha256": "33b04f7029c113c88a0a8769595597f3b31650e4f5e1152c7e5f8c2be584ef0d"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/node35/certificate.json",
+        "sha256": "f50d0b2a0e72bb5dd7693f020faecd1f80cd583b2cdae0881c883775ee429c66"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        40,
+        0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "context/audits/phase18b-comprehensive-closure/checkpoints/source-extraction/rank10/node35/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e5ced075772ace79861a82f28a44b374b0b6d7bce339d84ef70e99e4d966e598"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/node35/fixed_node27_contract_v4c.h5",
+        "schema": 4,
+        "selectionReason": "recovered source contract uses the existing complete dimensional schema-4 package convention",
+        "sha256": "72a4a0034a801890b9f838bdd990e7e9be8e678d525603eeba4ea98bda1cde95"
+      },
+      "sourceId": "node35",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT03/matlab_complete/p5_trim.mat",
+        "sha256": "3feeee56a10e72c43f3b5e22ad5c45fb257eabd38dcb2dbab8e7d5a6132365ef"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT03/certificate.json",
+        "sha256": "54e9fda2f9cf076779d1af3f12a9ae39b63b604637e283f0a17f4859926a1094"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        38.75,
+        1
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT03/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "d5e654345edb707ce62a0af23ffced6f52fbb244d220f9704e81a7ee70838c3a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT03/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "1be990d4daff97eecc4d21aa5b9b88a2e28618c8a5875b313aeb89a407ce3d2f"
+      },
+      "sourceId": "SGT03",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT14/matlab_complete/p5_trim.mat",
+        "sha256": "ff477919a12eb4c7b3c0d6b9abe4f1a9e64984c5de52ec679f641d543a7699d5"
+      },
+      "certification": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT14/certificate.json",
+        "sha256": "9a497c992289761bd0fa6ecb436e7a42e59b7936e30c3d62700373d3dcc3e490"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        38.75,
+        0.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/source_grid_closure/sources/SGT14/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "fcbea9eedbf59fba5d9948e669532d09caf721da6df186bf114f8eb15acfb049"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT14/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "legacy accepted package uses the established schema-2 dimensional convention",
+        "sha256": "e6a25baf233779fd4d4e1166e9f98cf39e123ecac8c26d36b27a346e759edfb8"
+      },
+      "sourceId": "SGT14",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/CASEA_U040_ALPHA_P01/matlab_complete/p5_trim.mat",
+        "sha256": "959e03069f51e8e39409bf0d9c56aa0789b9c300e50fa7ce10c0b92d5a6ae1d0"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/CASEA_U040_ALPHA_P01/matlab_complete/source_certification.json",
+        "sha256": "b49ae0b1ed343967fcd2c6f5c6860db3a142b066917b33836bf0493fcf47cc2f"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        40.0,
+        1.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/CASEA_U040_ALPHA_P01/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e092e29ab39e82699350d2c98d5dcf9332fd079e21814afdd67943a4c03f5d31"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/CASEA_U040_ALPHA_P01/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "bd27e879119de35b6a1e8457756837c3f2d238c2c86dd6a6e0ff08b51665cede"
+      },
+      "sourceId": "CASEA_U040_ALPHA_P01",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P06/matlab_complete/p5_trim.mat",
+        "sha256": "4197c0951cf28fa135cc17d17ae3d99c0dddc54633b6a59aeb0647c258987eb5"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P06/matlab_complete/source_certification.json",
+        "sha256": "97e60530977560c0ca02a8384fad72b260590ba51ae9e4aedd29be8f96721abf"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15.0,
+        6.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 836,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P06/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e6bf66854b4e8fdf9fea3b39e634ea34b35009bc703c308080dc2740b008da3f"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P06/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "a791ef747572223fd3ab6f8216adc6a99dce2cab3738d5295d0c4ebb8986ed39"
+      },
+      "sourceId": "OPS_U015_ALPHA_P06",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P08/matlab_complete/p5_trim.mat",
+        "sha256": "38bdf9f206ebe576f4a0748472b82d94955f7ee72bde70ae234204942af8f401"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P08/matlab_complete/source_certification.json",
+        "sha256": "ee842b0f4aa88ba7963ccfbe4dc166c2f075d38e615eb6b3c61d9b01db6c06b5"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15.0,
+        8.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 836,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P08/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ead38c9b9c10e9c6b1a4d4e7c2103e198c8b71e68b1aa3ffe4d6c652051b494a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P08/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "118545c35208bebeb6c5f80e61b501b1a857a171b3aa81fb3ea8e8ce41679071"
+      },
+      "sourceId": "OPS_U015_ALPHA_P08",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P10/matlab_complete/p5_trim.mat",
+        "sha256": "88f9007ca9017724e1713b997a78474a2dba7e3313335d15dadb2ff639d55ae3"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P10/matlab_complete/source_certification.json",
+        "sha256": "e31e88144ded267adada31e446cad6ffc05c36a0c814aa1569d2385a0d774cb6"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        15.0,
+        10.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U015_ALPHA_P10/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "1d96716edfa14fc287585b3434b94fff06ff77ee85e950b175ce8e56dcc9989b"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P10/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "43186ea8f7a1f91f8241b926e64fbd3d26cc50b1e90d615a8d79230dac32de24"
+      },
+      "sourceId": "OPS_U015_ALPHA_P10",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P06/matlab_complete/p5_trim.mat",
+        "sha256": "50bca4379e5dda982bd7f9aa46febdb2a40047272cde2924d33fba6ce3608f30"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P06/matlab_complete/source_certification.json",
+        "sha256": "fece7625ce22ddb213d49038199c06256ef7ec82b6317ca8ae44fc7b927214ee"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        6.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P06/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "84a98438b8c275af446a0da33a4b2a59912ab52d5deacc55f162fd4f0f93da5b"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P06/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "1147d19c3db86f3e1e3a998f6373ee2166595a135153455ab8c67b63b12d6266"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P06",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P08/matlab_complete/p5_trim.mat",
+        "sha256": "f8cf9b5227fff5d1b166e252d42c956dab30d0bcb1b9a9987e387d9446656296"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P08/matlab_complete/source_certification.json",
+        "sha256": "6d7a36f9b4a9581fff081f4307a9c4621c7c3c5b69be6d98785d0886280c59b5"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        8.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P08/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "6172dbacd8656cb34126f2e1477357142d03b19c745380ed58cb545c502a1fd6"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P08/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "f77c61533e31ce9a5a9241c21550cefaeca676b1e436e5323c79eb3be82c2d0c"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P08",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P10/matlab_complete/p5_trim.mat",
+        "sha256": "307c5d6670b2e6c5a61e7a56a9c83b1a8ef9391cf3fc65209234143240634b61"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P10/matlab_complete/source_certification.json",
+        "sha256": "e69250469107813af51f7cde590483faa676bf05d37f2a58edf306b4accb7144"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.5,
+        10.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/OPS_U017P5_ALPHA_P10/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ce4df1f129c39b0ece6e7317023a719dd062a6e68b0fea7880b42e85cedada4d"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P10/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "approved operational source contract",
+        "sha256": "ae95d08ee4eeb9b46acdee016dfa3db761b618232056ad1fd743df9c6cdb5d54"
+      },
+      "sourceId": "OPS_U017P5_ALPHA_P10",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v1/OPS_REFINE_U018P75_ALPHA_P075/matlab_complete/p5_trim.mat",
+        "sha256": "942c452e298f48500f201ef02214530fe8541649b5328b8a6da9dcf5c413a2ec"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v1/OPS_REFINE_U018P75_ALPHA_P075/matlab_complete/source_certification.json",
+        "sha256": "851a75d1f8925ac802420e2c2c099b63bf5cafdb82041b2e2014c48ed70a9d86"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.75,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v1/OPS_REFINE_U018P75_ALPHA_P075/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "fe51352aa9e971340a7e741b47ff35d92b13a56fd0b484b38a8f11ba594ce803"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/fixed-node27-contracts/OPS_REFINE_U018P75_ALPHA_P075/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic midpoint fixed-node27 contract",
+        "sha256": "304152ec97b10c0346efe6f445d8333d943ea1f88ffe9d129c2bea3a341183be"
+      },
+      "sourceId": "OPS_REFINE_U018P75_ALPHA_P075",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0675/matlab_complete/p5_trim.mat",
+        "sha256": "8a0de1618b125c5b50f83400b9f0a061d03c535a54de31aebfabc3d5e3188314"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0675/matlab_complete/source_certification.json",
+        "sha256": "ac97b2bfe47f0b6562480b1be717df210337a1eda146a1bc018c7f47254c2850"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.125,
+        6.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0675/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "873a8f9feee65305616bccc0240cb96b050776058044192a66f506130842e5f1"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0675/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "0b4fdf29fd0693682faca5f2ec225a63dab680e9c19b2ee3cc1f5183457cb0b4"
+      },
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0675",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0775/matlab_complete/p5_trim.mat",
+        "sha256": "ac1c280c0decb0e5392b2de89963e90c6389a62a0530849ad1e378760972fcf8"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0775/matlab_complete/source_certification.json",
+        "sha256": "e0be1d7e6ee27c04bcf28c26c7aab00c066accaf812d1930f643124b20a85849"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.125,
+        7.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U018P125_ALPHA_P0775/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "f128ea0747b0c0e63b428270d0b1f311c3a3bd3d4c31fcec60476f5ba2149f31"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0775/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "3dd0ff07e73a9355f05629cd9df64d3eaf70010130ecfb468832a56af1a8b665"
+      },
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0775",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0625/matlab_complete/p5_trim.mat",
+        "sha256": "5b354ad270d8d19dc3c25321a99a5079d8817d9d809f99214be7a7a103350c20"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0625/matlab_complete/source_certification.json",
+        "sha256": "3b34a4c4cc71b307cb7104b362a8653ae52df43a431d6c4833ef6baa73f100d4"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        19.375,
+        6.25
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0625/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "3daea521917960a20f3445f6f629d0b55ef59865643d4921763a369dca837816"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0625/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "40eac7d91636528568dcf246fd17ca3c6060000bf407ad70df53312822c2d556"
+      },
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0625",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0875/matlab_complete/p5_trim.mat",
+        "sha256": "73dfb014e54c16d9607bd87eaab79f102540527ca91681bec9b0dbe0b0d257bc"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0875/matlab_complete/source_certification.json",
+        "sha256": "8fb3286b2ed7c5ac2201323def7c45e62822cd9051f9040f3bd911071b9603e7"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        19.375,
+        8.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_refinement_v2/OPS_REFINE2_U019P375_ALPHA_P0875/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "b2d7ce2036460bb0aec9e23c72b432feaf4345e63aac5bb98b6279737488605c"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0875/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "diagnostic source-only edge-bisection contract",
+        "sha256": "ab3b1827ae69f3ef0d18052314100dbfd561e62071674f107de1e92706f9ea22"
+      },
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0875",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/holdouts/CASEC_NOMINAL/matlab_complete/p5_trim.mat",
+        "sha256": "97af2a2efe5386d743a838f37f7213e0faae745320d8fbdc828cc2e02918b665"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/holdouts/CASEC_NOMINAL/matlab_complete/source_certification.json",
+        "sha256": "6cad9dc6e62d9aad0ff4d521e24f495b1841c6c71f0e9beb89d331d842cf43a2"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.0,
+        7.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/operational_source_extension_v1/holdouts/CASEC_NOMINAL/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "ae5a38238d4d29a5ccfe0033f83cf687c95e72369c4e9d48c1582a61c28cc5d9"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/benchmark-anchor-corridor/fixed-node27-contract/CASEC_NOMINAL/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "exact certified Case-C benchmark anchor",
+        "sha256": "034b508e5a20e415d8bd4e32b29d40a0ac1707462dc685cb85c47f5709913a4c"
+      },
+      "sourceId": "CASEC_NOMINAL",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0675/matlab_complete/p5_trim.mat",
+        "sha256": "744c039941bf9ee4d14f89db4ac0709cb8c67831b429bba2cb26c421ac57358f"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0675/matlab_complete/source_certification.json",
+        "sha256": "1aa7f4b58be99ca14f28cde9edd124e80ea4258cee4a5f72cb6658c358c99235"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.75,
+        6.75
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0675/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "7503941a2275a20c861ee8da615295e99f057965c2a48058a7580aee81f1239a"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0675/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "65bf94610ebf96a7ba924c2bbc6cf6f7e6eefeb42bec63e5605cb36a22cf43a9"
+      },
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0675",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0700/matlab_complete/p5_trim.mat",
+        "sha256": "95a4731f87cbc2d38a1c54d81253706c8ba588d850cb5363b929923090c64c5e"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0700/matlab_complete/source_certification.json",
+        "sha256": "de3c0028fa5aeb25c0f838732d0bc77b9f681b0a27b7621c974439737df8fc23"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.75,
+        7.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U017P75_ALPHA_P0700/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "a2028e497a0b794ff4611a0e977a3395c7baebe1937fb617131133ed08f1ecac"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0700/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "8a313251bf6c568ccaf1953384ffbec93bb8ab3f198011d158da56a0b96d1d52"
+      },
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0700",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0700/matlab_complete/p5_trim.mat",
+        "sha256": "3252601d68294bc2347bbf9b72d33aea9c3ddec5edc5628c4309a93a8df6b11f"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0700/matlab_complete/source_certification.json",
+        "sha256": "7c35028acf2f0a1eded097d1080fb02749366eaf4f6c44e43a6526fa4dd1ec45"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.0
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0700/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "e55fd176fc597195d181fdd1caf937e26bf3408cb62532dbe8eb008c9a611d29"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0700/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "0ab7489b614e5716205d3baa4ea8c351c3dfbce3a9de4db816e69665ccdb8204"
+      },
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0700",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0725/matlab_complete/p5_trim.mat",
+        "sha256": "16b1eef667d839d84dee1bb61a49c9e45793d0d4e86721f87ed8fcae44760285"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0725/matlab_complete/source_certification.json",
+        "sha256": "308ad03ba4b4251d1b43982a6bc862859b31aaf318dd47ba50b44874bf506641"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.25
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/modal_gap_source_placement_v1/MODALGAP_U018P25_ALPHA_P0725/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "5ba3d3f35376a6c38c1981b2caa5113f9467a6c00ebdae35635a4918a647bbfc"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0725/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "3d15ad52dbd1dbda6799b83d8f5b30e0bbbf8ab43ce9f2413c948dfa5bd07bf3"
+      },
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0725",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v10/V10_SUBSPACE_U018P25_ALPHA_P07125/matlab_complete/p5_trim.mat",
+        "sha256": "d31d558be9943c4ef77856832fbe851444e0fb06550ad9b723ee0562954c2dbc"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v10/V10_SUBSPACE_U018P25_ALPHA_P07125/matlab_complete/source_certification.json",
+        "sha256": "fe020aa7e0d85acdc4070f9a74ee0acb0828198b3ca52f621272a207f075f84b"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.125
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v10/V10_SUBSPACE_U018P25_ALPHA_P07125/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "58a47a26dc38d2d53aa04bbc187aa0e82de1cf1e815e98761a740e652b0a6f30"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/source-view/fixed-node27-contracts/V10_SUBSPACE_U018P25_ALPHA_P07125/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "40eab69d5980727ec6d7280afc3028632b74fd6b4c39c42e6d21eaddc89941aa"
+      },
+      "sourceId": "V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v11/V11_BRANCH_U018P25_ALPHA_P071875/matlab_complete/p5_trim.mat",
+        "sha256": "4aa368f22f2833e31d29c4803a2f5a01f8f332c7ecda7100b27d159ba38466f7"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v11/V11_BRANCH_U018P25_ALPHA_P071875/matlab_complete/source_certification.json",
+        "sha256": "67ce1447bb15468eff821bf61a0e1e4d6e84ed56fcd251c68d46f4af33cf16dc"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.25,
+        7.1875
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/coupled_cluster_v11/V11_BRANCH_U018P25_ALPHA_P071875/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "071481b0afeb7371ce43580f2569dfe3f4bcc23b0f3013024127250b232a60e2"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/branch-bisection-v11/source-view/fixed-node27-contracts/V11_BRANCH_U018P25_ALPHA_P071875/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "2a816657f75601e8bb2adc719d505707eb15d1167a02526788d12ff472aefbf8"
+      },
+      "sourceId": "V11_BRANCH_U018P25_ALPHA_P071875",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEB_AB_MID/matlab_complete/p5_trim.mat",
+        "sha256": "5d37cdb436899da435ee30542124a110edad7cc64933a4cc4472a29703becd64"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEB_AB_MID/matlab_complete/source_certification.json",
+        "sha256": "e9d74881e4b806817085c0b049531a8219a783d2bd42f46eed54438c48bd312f"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.625,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEB_AB_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "c4d6de9d0174933cbca5e161eecdff15ca27a91ddab96790323cf87fae1cc2aa"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEB_AB_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "2175a023f60124f87f0012674139523e9087f35995f5ae12175e2b4840717547"
+      },
+      "sourceId": "STATICFB_CASEB_AB_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_AB_MID/matlab_complete/p5_trim.mat",
+        "sha256": "584d67912c834fceca7e0cec67ef1f892da2fcc7cda407e825534ff8beb6bf94"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_AB_MID/matlab_complete/source_certification.json",
+        "sha256": "9257928c7fae456bfccc903fa44bfad0010231fccd2f71230dbfc84476520afd"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.0,
+        7.125
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_AB_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "733f6137209cd44b6675f5607f1a8bbe16de38ffe36b23b55f3fcf7f96753f5c"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_AB_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "00a615def9ce7ea151f16ae0478672c1cedab13017d0e5fd305ac82f01b1c614"
+      },
+      "sourceId": "STATICFB_CASEC_AB_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_BC_MID/matlab_complete/p5_trim.mat",
+        "sha256": "419d7f64f385223bccfa506252623a2888550019a0769afd941a3eb1b219939a"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_BC_MID/matlab_complete/source_certification.json",
+        "sha256": "45c1ea79f962fd3860108da9a336cfe0b8f12778317bb9eecf349070eb15d1c9"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        18.1875,
+        7.5
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_BC_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "d058c5fa8e7855d71f592e525d8410f43b4a63042d4da128e576e417754fdafc"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_BC_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "70b8081cdf8a82b29b8d9cfeece9307c618202685edad9b457e6d7b0479fccca"
+      },
+      "sourceId": "STATICFB_CASEC_BC_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    },
+    {
+      "acceptedMatlabPackage": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_CA_MID/matlab_complete/p5_trim.mat",
+        "sha256": "1b4b21e59551eeec0479020b548c7838fafe8cc6b19f05a94860d6114d0b51ad"
+      },
+      "certification": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_CA_MID/matlab_complete/source_certification.json",
+        "sha256": "2a670f75982e60b584fa9838220608da8badde1cf642a605724b35cb4f32af41"
+      },
+      "contractFamily": "ACCEPTED_FIXED_NODE27_FIXED10",
+      "coordinates": [
+        17.9375,
+        7.375
+      ],
+      "dimensions": {
+        "commonPremodal": 1017,
+        "inputs": 25,
+        "nativePremodal": 837,
+        "outputs": 10,
+        "reduced": 40
+      },
+      "fullPhysicalSource": {
+        "path": "TestBenchPazy/diagnostics/phase18/static_feedback_source_placement_v1/STATICFB_CASEC_CA_MID/output/pazy_krylov_ROM/phase18_premodal/premodal_contract.h5",
+        "sha256": "4f3144404e88ae4b29ca52bde308adf7e88e04f82e181161376cc8c089adf883"
+      },
+      "selectedContract": {
+        "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_CA_MID/fixed_node27_contract.h5",
+        "schema": 2,
+        "selectionReason": "source-only modal-gap qualification contract",
+        "sha256": "164f13e35b85e0fb663e1ccd60c7e254dcc994d151cf475c8e42fc2825197627"
+      },
+      "sourceId": "STATICFB_CASEC_CA_MID",
+      "sourceOnly": true,
+      "status": "PASS",
+      "validationTruthUsed": false
+    }
+  ],
+  "status": "PASS",
+  "validationTruthUsed": false
+}

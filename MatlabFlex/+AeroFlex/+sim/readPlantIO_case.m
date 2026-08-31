@@ -25,9 +25,17 @@ function io = readPlantIO_case(plant, cfg, Ssim, bodyCase)
             %   io.alpha
             %   io.Uinf
             %
-            % Temporary fallback if your current PlantRunTime only has
-            % readSensors:
-            [z_k, t_k] = plant.readSensors(cfg, Ssim.y);
+            % Coupled propagation advances xFlex, whereas x is retained for
+            % the wing-only path. A real measurement must use the propagated
+            % coupled q1 coordinates; retained logged sensing uses its
+            % existing PlantRunTime fallback.
+            if cfg.forceRealSense
+                q1 = plant.xFlex(plant.model.idx.q1);
+                z_k = plant.sensor.measure(q1);
+                t_k = plant.t;
+            else
+                [z_k, t_k] = plant.readSensors(cfg, Ssim.y);
+            end
 
             io = struct();
             io.t     = t_k;

@@ -1,0 +1,1840 @@
+{
+  "schemaVersion": 1,
+  "catalog": "Aircraft Aeroelastic Control Benchmark Reference Library",
+  "description": "Canonical metadata for local project references. PDF files are local-only and excluded from Git.",
+  "groups": [
+    {
+      "id": "project-synthesis",
+      "title": "Project Synthesis"
+    },
+    {
+      "id": "nonlinear-modal-control",
+      "title": "Nonlinear Modal Aeroelastic Control"
+    },
+    {
+      "id": "intrinsic-structure",
+      "title": "Intrinsic Structural Theory"
+    },
+    {
+      "id": "parametric-rom",
+      "title": "Parametric ROM Interpolation"
+    },
+    {
+      "id": "broader-context",
+      "title": "Broader Aeroelastic and Control Context"
+    },
+    {
+      "id": "numerical-methods",
+      "title": "Numerical Integration and Optimal-Control Methods"
+    }
+  ],
+  "references": [
+    {
+      "id": "alexeev-benchmark",
+      "title": "Pazy-Winged Aircraft Aeroelastic Control Benchmark",
+      "authors": [
+        "Maxim Alexeev",
+        "Juan López Muro",
+        "Laurent Burlion"
+      ],
+      "year": 2026,
+      "type": "manuscript",
+      "bibtexType": "unpublished",
+      "group": "project-synthesis",
+      "containerTitle": null,
+      "institution": "Rutgers University",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/alexeev-benchmark.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "control_engineering_practice_Pazy_Winged_Aircraft-FINAL.pdf"
+      ],
+      "related": [
+        {
+          "id": "alexeev-thesis",
+          "relation": "extends"
+        }
+      ],
+      "tags": [
+        "Pazy",
+        "benchmark",
+        "rigid-flexible coupling",
+        "nMHE",
+        "nMPC",
+        "LQR",
+        "HIL"
+      ],
+      "metadataStatus": "project-source",
+      "licenseStatus": "author-controlled manuscript"
+    },
+    {
+      "id": "alexeev-thesis",
+      "title": "Nonlinear Modal Aeroelastic Control Co-Design for Gust Load Alleviation in a Highly Flexible Pazy-Wing Aircraft",
+      "authors": [
+        "Maxim Alexeev"
+      ],
+      "year": 2025,
+      "type": "masters-thesis",
+      "bibtexType": "mastersthesis",
+      "group": "project-synthesis",
+      "containerTitle": null,
+      "institution": "Rutgers, The State University of New Jersey",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/alexeev-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Master_Thesis___Maxim_Final.pdf"
+      ],
+      "related": [
+        {
+          "id": "alexeev-benchmark",
+          "relation": "project-foundation"
+        }
+      ],
+      "tags": [
+        "Pazy",
+        "nonlinear modal model",
+        "trim",
+        "nMHE",
+        "nMPC",
+        "LQR",
+        "control co-design"
+      ],
+      "metadataStatus": "project-source",
+      "licenseStatus": "author-controlled thesis"
+    },
+    {
+      "id": "artola-2021-journal",
+      "title": "Aeroelastic Control and Estimation with a Minimal Nonlinear Modal Description",
+      "authors": [
+        "Marc Artola",
+        "Norberto Goizueta",
+        "Andrew Wynn",
+        "Rafael Palacios"
+      ],
+      "year": 2021,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "nonlinear-modal-control",
+      "containerTitle": "AIAA Journal",
+      "volume": "59",
+      "number": "7",
+      "pages": "2697--2713",
+      "institution": null,
+      "doi": "10.2514/1.J060018",
+      "url": "https://doi.org/10.2514/1.J060018",
+      "localFiles": [
+        {
+          "path": "references/pdf/artola-2021-journal.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "artola-et-al-2021-aeroelastic-control-and-estimation-with-a-minimal-nonlinear-modal-descriptio1.pdf"
+      ],
+      "related": [
+        {
+          "id": "artola-2021-thesis",
+          "relation": "thesis-context"
+        },
+        {
+          "id": "artola-2021-hil",
+          "relation": "companion-paper"
+        }
+      ],
+      "tags": [
+        "nonlinear modal aeroelasticity",
+        "MHE",
+        "MPC",
+        "intrinsic beam",
+        "UVLM"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "artola-2021-thesis",
+      "title": "Minimal Nonlinear Modal Aeroelastic Descriptions for Highly Flexible Aircraft Control",
+      "authors": [
+        "Marc Artola"
+      ],
+      "year": 2021,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "nonlinear-modal-control",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/artola-2021-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Artola-M-2021-PhD-Thesis.pdf"
+      ],
+      "related": [
+        {
+          "id": "artola-2021-journal",
+          "relation": "contains-expanded-treatment"
+        },
+        {
+          "id": "artola-2021-hil",
+          "relation": "contains-expanded-treatment"
+        }
+      ],
+      "tags": [
+        "nonlinear modal control",
+        "MHE",
+        "MPC",
+        "multiple shooting",
+        "aeroelastic control"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "CC BY-NC 4.0 stated in thesis"
+    },
+    {
+      "id": "artola-2021-hil",
+      "title": "Proof of Concept for a Hardware-in-the-Loop Nonlinear Control Framework for Very Flexible Aircraft",
+      "authors": [
+        "Marc Artola",
+        "Norberto Goizueta",
+        "Andrew Wynn",
+        "Rafael Palacios"
+      ],
+      "year": 2021,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "nonlinear-modal-control",
+      "containerTitle": "AIAA SciTech 2021 Forum",
+      "institution": null,
+      "doi": "10.2514/6.2021-1392",
+      "url": "https://doi.org/10.2514/6.2021-1392",
+      "localFiles": [
+        {
+          "path": "references/pdf/artola-2021-hil.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Proof of Concept for a Hardware-in-the-Loop Nonlinear Control Framework for Very Flexible Aircraft2.pdf"
+      ],
+      "related": [
+        {
+          "id": "artola-2021-journal",
+          "relation": "companion-paper"
+        }
+      ],
+      "tags": [
+        "hardware-in-the-loop",
+        "HIL",
+        "nonlinear control",
+        "very flexible aircraft"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "hodges-2003",
+      "title": "Geometrically Exact, Intrinsic Theory for Dynamics of Curved and Twisted Anisotropic Beams",
+      "authors": [
+        "Dewey H. Hodges"
+      ],
+      "year": 2003,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": "AIAA Journal",
+      "volume": "41",
+      "number": "6",
+      "pages": "1131--1137",
+      "institution": null,
+      "doi": "10.2514/2.2054",
+      "url": "https://doi.org/10.2514/2.2054",
+      "localFiles": [
+        {
+          "path": "references/pdf/hodges-2003.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "hodges2003.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "intrinsic beam",
+        "geometrically exact beam",
+        "anisotropic beam"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "wynn-2013-energy",
+      "title": "An Energy-Preserving Description of Nonlinear Beam Vibrations in Modal Coordinates",
+      "authors": [
+        "Andrew Wynn",
+        "Yinan Wang",
+        "Rafael Palacios",
+        "Paul J. Goulart"
+      ],
+      "year": 2013,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": "Journal of Sound and Vibration",
+      "volume": "332",
+      "number": "21",
+      "pages": "5543--5558",
+      "institution": null,
+      "doi": "10.1016/j.jsv.2013.05.021",
+      "url": "https://doi.org/10.1016/j.jsv.2013.05.021",
+      "localFiles": [
+        {
+          "path": "references/pdf/wynn-2013-energy.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "An_energy-preserving_description_of_nonlinear_beam.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-normal-modes",
+          "relation": "structural-foundation"
+        }
+      ],
+      "tags": [
+        "energy preservation",
+        "modal beam equations",
+        "nonlinear tensors"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "wang-2015-normal-modes",
+      "title": "A Method for Normal-Mode-Based Model Reduction in Nonlinear Dynamics of Slender Structures",
+      "authors": [
+        "Yinan Wang",
+        "Rafael Palacios",
+        "Andrew Wynn"
+      ],
+      "year": 2015,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": "Computers & Structures",
+      "volume": "159",
+      "number": null,
+      "pages": "26--40",
+      "institution": null,
+      "doi": "10.1016/j.compstruc.2015.07.001",
+      "url": "https://doi.org/10.1016/j.compstruc.2015.07.001",
+      "localFiles": [
+        {
+          "path": "references/pdf/wang-2015-normal-modes.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "A_method_for_normal-mode-based_model_reduction_in_.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-thesis",
+          "relation": "thesis-context"
+        }
+      ],
+      "tags": [
+        "normal modes",
+        "nonlinear model reduction",
+        "slender structures"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "CC BY 4.0 stated in article"
+    },
+    {
+      "id": "wang-2015-thesis",
+      "title": "Aeroelastic Modelling and Control of Very Flexible Air Vehicles Using a Nonlinear Modal Formulation",
+      "authors": [
+        "Yinan Wang"
+      ],
+      "year": 2015,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "intrinsic-structure",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/wang-2015-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Wang-Y-2015-PhD-Thesis.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-normal-modes",
+          "relation": "contains-expanded-treatment"
+        },
+        {
+          "id": "wynn-2013-energy",
+          "relation": "contains-expanded-treatment"
+        }
+      ],
+      "tags": [
+        "nonlinear modal aeroelasticity",
+        "intrinsic formulation",
+        "control"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "CC BY-NC-ND stated in thesis"
+    },
+    {
+      "id": "goizueta-2022-thesis",
+      "title": "Parametric Reduced-Order Aeroelastic Modelling for Analysis, Dynamic System Interpolation and Control of Flexible Aircraft",
+      "authors": [
+        "Norberto Goizueta Alfaro"
+      ],
+      "year": 2022,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "parametric-rom",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/goizueta-2022-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "GoizuetaAlfaro-N-2022-PhD-Thesis.pdf"
+      ],
+      "related": [
+        {
+          "id": "goizueta-2022-chapter5",
+          "relation": "contains"
+        }
+      ],
+      "tags": [
+        "parametric ROM",
+        "state-space interpolation",
+        "basis compatibility",
+        "adaptive sampling"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "thesis copy; license review required"
+    },
+    {
+      "id": "goizueta-2022-chapter5",
+      "title": "Dynamic State-Space Interpolation of Parametric Aeroelastic Models",
+      "authors": [
+        "Norberto Goizueta Alfaro"
+      ],
+      "year": 2022,
+      "type": "thesis-extract",
+      "bibtexType": "incollection",
+      "group": "parametric-rom",
+      "containerTitle": "Parametric Reduced-Order Aeroelastic Modelling for Analysis, Dynamic System Interpolation and Control of Flexible Aircraft",
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/goizueta-2022-chapter5.pdf",
+          "relation": "extract"
+        }
+      ],
+      "aliases": [
+        "GoizuetaAlfaroPhD-ThesisChpt5.pdf"
+      ],
+      "related": [
+        {
+          "id": "goizueta-2022-thesis",
+          "relation": "extractOf"
+        }
+      ],
+      "tags": [
+        "state-space interpolation",
+        "compatible coordinates",
+        "basis alignment",
+        "Delaunay interpolation"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "extract of locally held thesis"
+    },
+    {
+      "id": "amsallem-2008",
+      "title": "Interpolation Method for Adapting Reduced-Order Models and Application to Aeroelasticity",
+      "authors": [
+        "David Amsallem",
+        "Charbel Farhat"
+      ],
+      "year": 2008,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "AIAA Journal",
+      "volume": "46",
+      "number": "7",
+      "pages": "1803--1813",
+      "institution": null,
+      "doi": "10.2514/1.35374",
+      "url": "https://doi.org/10.2514/1.35374",
+      "localFiles": [
+        {
+          "path": "references/pdf/amsallem-2008.pdf",
+          "relation": "canonical",
+          "required": true
+        },
+        {
+          "path": "references/pdf/amsallem-2008-short.pdf",
+          "relation": "alternate-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "Interpolation_Method_for_Adapting_Reduced-Order_Mo.pdf",
+        "amsallem2008.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "ROM interpolation",
+        "basis transformation",
+        "aeroelasticity"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "amsallem-2009",
+      "title": "A Method for Interpolating on Manifolds Structural Dynamics Reduced-Order Models",
+      "authors": [
+        "David Amsallem",
+        "Julien Cortial",
+        "Kevin Carlberg",
+        "Charbel Farhat"
+      ],
+      "year": 2009,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "International Journal for Numerical Methods in Engineering",
+      "volume": "80",
+      "number": null,
+      "pages": "1241--1258",
+      "institution": null,
+      "doi": "10.1002/nme.2681",
+      "url": "https://doi.org/10.1002/nme.2681",
+      "localFiles": [
+        {
+          "path": "references/pdf/amsallem-2009.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "amsallem2009.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "manifold interpolation",
+        "structural ROM",
+        "basis compatibility"
+      ],
+      "metadataStatus": "review-doi",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "amsallem-2011",
+      "title": "An Online Method for Interpolating Linear Parametric Reduced-Order Models",
+      "authors": [
+        "David Amsallem",
+        "Charbel Farhat"
+      ],
+      "year": 2011,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "SIAM Journal on Scientific Computing",
+      "volume": "33",
+      "number": "5",
+      "pages": "2169--2198",
+      "institution": null,
+      "doi": "10.1137/100813051",
+      "url": "https://doi.org/10.1137/100813051",
+      "localFiles": [
+        {
+          "path": "references/pdf/amsallem-2011.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "An Online Method for Interpolating Linear Parametric Reduced-Order Models.pdf",
+        "amsallem2011.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "online interpolation",
+        "parametric ROM",
+        "compatible reduced coordinates"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "degroote-2009",
+      "title": "Interpolation Among Reduced-Order Matrices to Obtain Parameterized Models for Design, Optimization and Probabilistic Analysis",
+      "authors": [
+        "Joris Degroote",
+        "Jan Vierendeels",
+        "Karen Willcox"
+      ],
+      "year": 2010,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "International Journal for Numerical Methods in Fluids",
+      "volume": "63",
+      "number": null,
+      "pages": "207--230",
+      "institution": null,
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/degroote-2009.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "degroote2009.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "matrix interpolation",
+        "parameterized models",
+        "design optimization"
+      ],
+      "metadataStatus": "review-doi",
+      "licenseStatus": "publisher copy; redistribution not audited",
+      "notes": "Canonical ID retains the local 2009 naming; publication metadata indicates 2010."
+    },
+    {
+      "id": "panzer-2010",
+      "title": "Parametric Model Order Reduction by Matrix Interpolation",
+      "authors": [
+        "Holger Panzer",
+        "Jens Mohring",
+        "Rami Eid",
+        "Boris Lohmann"
+      ],
+      "year": 2010,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "at - Automatisierungstechnik",
+      "volume": "58",
+      "number": "8",
+      "pages": "475--484",
+      "institution": null,
+      "doi": "10.1524/auto.2010.0863",
+      "url": "https://doi.org/10.1524/auto.2010.0863",
+      "localFiles": [
+        {
+          "path": "references/pdf/panzer-2010.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "panzer2010.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "matrix interpolation",
+        "parametric model reduction",
+        "basis transformation"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "maraniello-2020",
+      "title": "Parametric Reduced-Order Modeling of the Unsteady Vortex-Lattice Method",
+      "authors": [
+        "Salvatore Maraniello",
+        "Rafael Palacios"
+      ],
+      "year": 2020,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "AIAA Journal",
+      "volume": "58",
+      "number": "5",
+      "pages": "2206--2220",
+      "institution": null,
+      "doi": "10.2514/1.J058894",
+      "url": "https://doi.org/10.2514/1.J058894",
+      "localFiles": [
+        {
+          "path": "references/pdf/maraniello-2020.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "maraniello2020.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "UVLM",
+        "parametric ROM",
+        "aerodynamic model reduction"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "cea-esteban-thesis",
+      "title": "A Geometrically Nonlinear Approach for the Aeroelastic Analysis of Commercial Transport Aircraft",
+      "authors": [
+        "Álvaro Cea Esteban"
+      ],
+      "year": 2020,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/cea-esteban-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Cea-Esteban-A-2021-PhD-Thesis2.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "commercial transport aircraft",
+        "nonlinear aeroelasticity",
+        "intrinsic formulation"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "CC BY-NC-ND stated in thesis"
+    },
+    {
+      "id": "maraniello-thesis",
+      "title": "Optimal Manoeuvres and Aeroservoelastic Co-Design of Very Flexible Wings",
+      "authors": [
+        "Salvatore Maraniello"
+      ],
+      "year": 2016,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/maraniello-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Maraniello-S-2017-PhD-Thesis.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "optimal manoeuvres",
+        "aeroservoelasticity",
+        "control co-design"
+      ],
+      "metadataStatus": "verified-title",
+      "licenseStatus": "thesis copy; license review required"
+    },
+    {
+      "id": "del-carre-thesis",
+      "title": "Aeroelasticity of Very Flexible Aircraft at Low Altitudes",
+      "authors": [
+        "Arturo del Carre de la Portilla"
+      ],
+      "year": 2020,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/del-carre-thesis.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "DelCarre-A-2021-PhD-Thesis.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "SHARPy",
+        "very flexible aircraft",
+        "low-altitude turbulence"
+      ],
+      "metadataStatus": "verified-title",
+      "licenseStatus": "thesis copy; license review required"
+    },
+    {
+      "id": "constrained-control-thesis",
+      "title": "Constrained Control for Load Alleviation in Very Flexible Aircraft",
+      "authors": [
+        "Mateus de Freitas Virgilio Pereira"
+      ],
+      "year": 2022,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "University of Michigan",
+      "doi": null,
+      "url": null,
+      "localFiles": [
+        {
+          "path": "references/pdf/constrained-control-thesis.pdf",
+          "relation": "canonical",
+          "required": true
+        },
+        {
+          "path": "references/pdf/pereira-2022.pdf",
+          "relation": "alternate-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "Constrained Control for Load Alleviation in Very Flexible Aircraft.pdf",
+        "mfvp_1.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "constrained control",
+        "load alleviation",
+        "very flexible aircraft",
+        "MPC"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "dissertation copy; redistribution review required"
+    },
+    {
+      "id": "garcia-sanz-2019",
+      "title": "Control Co-Design: An Engineering Game Changer",
+      "authors": [
+        "Mario Garcia-Sanz"
+      ],
+      "year": 2019,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "broader-context",
+      "containerTitle": "Advanced Control for Applications",
+      "volume": "1",
+      "number": "1",
+      "pages": "e18",
+      "institution": null,
+      "doi": "10.1002/adc2.18",
+      "url": "https://doi.org/10.1002/adc2.18",
+      "localFiles": [
+        {
+          "path": "references/pdf/garcia-sanz-2019.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "Garcia-Sanz_2019_Control_Co-Design-_An_engineering_game_changer.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "control co-design",
+        "concurrent engineering",
+        "co-optimization"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "control-codesign-rutgers",
+      "title": "Wind Turbine Tower Thickness and Blade Pitch Control Co-Design Optimization",
+      "authors": [
+        "Juan López Muro",
+        "Xiaoyu Du",
+        "Jean-Pierre Condomines",
+        "Onur Bilgen",
+        "Laurent Burlion"
+      ],
+      "year": 2022,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "broader-context",
+      "containerTitle": "AIAA SciTech 2022 Forum",
+      "institution": null,
+      "doi": "10.2514/6.2022-1150",
+      "url": "https://doi.org/10.2514/6.2022-1150",
+      "localFiles": [
+        {
+          "path": "references/pdf/control-codesign-rutgers.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "AIAA_Control_Co_Design_Paper_Juan.pdf"
+      ],
+      "related": [
+        {
+          "id": "garcia-sanz-2019",
+          "relation": "methodological-context"
+        }
+      ],
+      "tags": [
+        "control co-design",
+        "LQR",
+        "wind turbine",
+        "optimization"
+      ],
+      "metadataStatus": "verified-title",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "bayesian-optimization",
+      "title": "Practical Bayesian Optimization of Machine Learning Algorithms",
+      "authors": [
+        "Jasper Snoek",
+        "Hugo Larochelle",
+        "Ryan P. Adams"
+      ],
+      "year": 2012,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "broader-context",
+      "containerTitle": "Advances in Neural Information Processing Systems",
+      "volume": "25",
+      "number": null,
+      "pages": "2951--2959",
+      "institution": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/1206.2944",
+      "localFiles": [
+        {
+          "path": "references/pdf/bayesian-optimization.pdf",
+          "relation": "canonical"
+        }
+      ],
+      "aliases": [
+        "PRACTICAL BAYESIAN OPTIMIZATION OF MACHINE LEARNING.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "Bayesian optimization",
+        "adaptive sampling",
+        "Gaussian process"
+      ],
+      "metadataStatus": "verified-title",
+      "licenseStatus": "arXiv/local author copy; review before redistribution"
+    },
+    {
+      "id": "goizueta-2022-adaptive-interpolation",
+      "title": "Adaptive Sampling for Interpolation of Reduced-Order Aeroelastic Systems",
+      "authors": [
+        "Norberto Goizueta",
+        "Andrew Wynn",
+        "Rafael Palacios"
+      ],
+      "year": 2022,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "AIAA Journal",
+      "volume": null,
+      "number": null,
+      "pages": null,
+      "institution": null,
+      "doi": "10.2514/1.J062050",
+      "url": "https://doi.org/10.2514/1.J062050",
+      "projectRole": "supporting",
+      "useCases": [
+        "adaptive ROM-library sampling",
+        "interpolation-domain construction",
+        "offline library refinement"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/goizueta-2022-adaptive-interpolation.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "_Interpolation_of_Aeroelastic_Systems.pdf"
+      ],
+      "related": [
+        {
+          "id": "goizueta-2022-thesis",
+          "relation": "companion-publication"
+        }
+      ],
+      "tags": [
+        "adaptive sampling",
+        "parametric ROM",
+        "aeroelastic interpolation",
+        "library construction"
+      ],
+      "metadataStatus": "verified-from-project-bibliography",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "wang-2016-modal-aeroservoelastic",
+      "title": "Nonlinear Modal Aeroservoelastic Analysis Framework for Flexible Aircraft",
+      "authors": [
+        "Yinan Wang",
+        "Andrew Wynn",
+        "Rafael Palacios"
+      ],
+      "year": 2016,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "nonlinear-modal-control",
+      "containerTitle": "AIAA Journal",
+      "volume": "54",
+      "number": "10",
+      "pages": "3075--3090",
+      "institution": null,
+      "doi": "10.2514/1.J054537",
+      "url": "https://doi.org/10.2514/1.J054537",
+      "projectRole": "primary",
+      "useCases": [
+        "nonlinear modal aeroservoelastic assembly",
+        "rigid-flexible coupling",
+        "gravity and thrust modal forcing",
+        "linearization and open-loop analysis"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/wang-2016-modal-aeroservoelastic.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "A Nonlinear Modal Aeroservoelastic Analysis.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-thesis",
+          "relation": "derived-from"
+        },
+        {
+          "id": "wang-2015-normal-modes",
+          "relation": "structural-foundation"
+        }
+      ],
+      "tags": [
+        "aeroservoelasticity",
+        "nonlinear modal formulation",
+        "rigid-body dynamics",
+        "flexible aircraft"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "ritter-2024-pazy-workshop",
+      "title": "Collaborative Pazy Wing Analyses for the Third Aeroelastic Prediction Workshop",
+      "authors": [
+        "M. Ritter et al."
+      ],
+      "year": 2024,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "broader-context",
+      "containerTitle": "AIAA SciTech 2024 Forum",
+      "volume": null,
+      "number": null,
+      "pages": null,
+      "institution": null,
+      "doi": "10.2514/6.2024-0419",
+      "url": "https://doi.org/10.2514/6.2024-0419",
+      "projectRole": "primary",
+      "useCases": [
+        "Pazy benchmark validation",
+        "cross-code comparison",
+        "flutter and static-aeroelastic reference results"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/ritter-2024-pazy-workshop.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "AIAA_SciTech_2024_LDWG_PazyWing_Paper.pdf"
+      ],
+      "related": [
+        {
+          "id": "alexeev-benchmark",
+          "relation": "benchmark-context"
+        },
+        {
+          "id": "goizueta-2022-flutter-predictions",
+          "relation": "Pazy-validation-context"
+        }
+      ],
+      "tags": [
+        "Pazy wing",
+        "Aeroelastic Prediction Workshop",
+        "flutter",
+        "collaborative benchmark"
+      ],
+      "metadataStatus": "review-author-list",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "murua-2012-uvlm",
+      "title": "Applications of the Unsteady Vortex-Lattice Method in Aircraft Aeroelasticity and Flight Dynamics",
+      "authors": [
+        "Joseba Murua",
+        "Rafael Palacios",
+        "J. Michael R. Graham"
+      ],
+      "year": 2012,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "broader-context",
+      "containerTitle": "Progress in Aerospace Sciences",
+      "volume": "55",
+      "number": null,
+      "pages": "46--72",
+      "institution": null,
+      "doi": "10.1016/j.paerosci.2012.06.001",
+      "url": "https://doi.org/10.1016/j.paerosci.2012.06.001",
+      "projectRole": "primary",
+      "useCases": [
+        "UVLM formulation",
+        "unsteady aerodynamic state definitions",
+        "aeroelastic and flight-dynamics coupling"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/murua-2012-uvlm.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Applicationsoftheunsteadyvortex-latticemethodinaircraftaeroelasticity.pdf"
+      ],
+      "related": [
+        {
+          "id": "maraniello-2019-potential-flow",
+          "relation": "state-space-extension"
+        }
+      ],
+      "tags": [
+        "UVLM",
+        "unsteady aerodynamics",
+        "flight dynamics",
+        "aeroelasticity"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "artola-2021-kelvin-voigt",
+      "title": "Generalized Kelvin-Voigt Damping for Geometrically Nonlinear Beams",
+      "authors": [
+        "Marc Artola",
+        "Andrew Wynn",
+        "Rafael Palacios"
+      ],
+      "year": 2021,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": "AIAA Journal",
+      "volume": "59",
+      "number": "1",
+      "pages": "356--365",
+      "institution": null,
+      "doi": "10.2514/1.J059767",
+      "url": "https://doi.org/10.2514/1.J059767",
+      "projectRole": "primary",
+      "useCases": [
+        "modal structural damping",
+        "Kelvin-Voigt damping construction",
+        "nonlinear energy and dissipation checks"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/artola-2021-kelvin-voigt.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "artola2020.pdf"
+      ],
+      "related": [
+        {
+          "id": "artola-2021-thesis",
+          "relation": "thesis-context"
+        }
+      ],
+      "tags": [
+        "Kelvin-Voigt damping",
+        "nonlinear beams",
+        "modal damping",
+        "energy dissipation"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher or prepublication copy; redistribution not audited"
+    },
+    {
+      "id": "cesnik-flexible-aircraft-textbook",
+      "title": "Dynamics of Flexible Aircraft: Coupled Flight Dynamics, Aeroelasticity and Control",
+      "authors": [],
+      "year": null,
+      "type": "book",
+      "bibtexType": "book",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": null,
+      "doi": null,
+      "url": null,
+      "projectRole": "background",
+      "useCases": [
+        "flexible-aircraft modeling background",
+        "coupled flight-dynamics conventions",
+        "UM/NAST context"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/cesnik-flexible-aircraft-textbook.pdf",
+          "relation": "canonical-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "BOOK_CESNIK_FLEXIBLE_AIRCRAFT.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "flexible aircraft",
+        "flight dynamics",
+        "aeroelasticity",
+        "control"
+      ],
+      "metadataStatus": "review-title-page",
+      "licenseStatus": "local book copy; redistribution prohibited unless permission is verified",
+      "notes": "Confirm complete author list, publisher, edition, ISBN, and year from the title and copyright pages."
+    },
+    {
+      "id": "dillsaver-2013-command-governor",
+      "title": "Constrained Control of Very Flexible Aircraft Using Reference and Extended Command Governors",
+      "authors": [
+        "Michael J. Dillsaver",
+        "Uros V. Kalabic",
+        "Ilya V. Kolmanovsky",
+        "Carlos E. S. Cesnik"
+      ],
+      "year": 2013,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "broader-context",
+      "containerTitle": "2013 American Control Conference",
+      "volume": null,
+      "number": null,
+      "pages": "1608--1613",
+      "institution": null,
+      "doi": null,
+      "url": null,
+      "projectRole": "supporting",
+      "useCases": [
+        "reference governors",
+        "extended command governors",
+        "constraint enforcement",
+        "flexible-aircraft command limiting"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/dillsaver-2013-command-governor.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Dillsaver.pdf"
+      ],
+      "related": [
+        {
+          "id": "constrained-control-thesis",
+          "relation": "control-context"
+        }
+      ],
+      "tags": [
+        "reference governor",
+        "extended command governor",
+        "constraints",
+        "very flexible aircraft"
+      ],
+      "metadataStatus": "review-doi",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "ascher-1997-imex",
+      "title": "Implicit-Explicit Runge-Kutta Methods for Time-Dependent Partial Differential Equations",
+      "authors": [
+        "Uri M. Ascher",
+        "Steven J. Ruuth",
+        "Raymond J. Spiteri"
+      ],
+      "year": 1997,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "numerical-methods",
+      "containerTitle": "Applied Numerical Mathematics",
+      "volume": "25",
+      "number": "2--3",
+      "pages": "151--167",
+      "institution": null,
+      "doi": "10.1016/S0168-9274(97)00056-1",
+      "url": "https://doi.org/10.1016/S0168-9274(97)00056-1",
+      "projectRole": "primary",
+      "useCases": [
+        "IMEX integration",
+        "stiff linear operator treatment",
+        "explicit nonlinear-stage treatment"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/ascher-1997-imex.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Implicit-explicit Runge-Kutta methods for time-dependent.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "IMEX",
+        "Runge-Kutta",
+        "stiff systems",
+        "time integration"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "touze-2021-nonlinear-mor-review",
+      "title": "Model Order Reduction Methods for Geometrically Nonlinear Structures: A Review of Nonlinear Techniques",
+      "authors": [
+        "Cyril Touzé",
+        "Alessandra Vizzaccaro",
+        "Olivier Thomas"
+      ],
+      "year": 2021,
+      "type": "preprint",
+      "bibtexType": "misc",
+      "group": "intrinsic-structure",
+      "containerTitle": "arXiv",
+      "volume": null,
+      "number": null,
+      "pages": null,
+      "institution": null,
+      "doi": null,
+      "url": "https://arxiv.org/abs/2107.05077",
+      "projectRole": "background",
+      "useCases": [
+        "nonlinear structural MOR survey",
+        "nonlinear normal modes",
+        "modal derivatives",
+        "invariant-manifold methods"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/touze-2021-nonlinear-mor-review.pdf",
+          "relation": "canonical-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "Model_order_reduction_methods_for_geometrically_no.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-normal-modes",
+          "relation": "broader-methodological-context"
+        }
+      ],
+      "tags": [
+        "nonlinear MOR",
+        "invariant manifolds",
+        "modal derivatives",
+        "geometric nonlinearity"
+      ],
+      "metadataStatus": "verified-preprint",
+      "licenseStatus": "preprint; verify local copy license before redistribution"
+    },
+    {
+      "id": "bock-1984-multiple-shooting",
+      "title": "A Multiple Shooting Method for Numerical Computation of Open and Closed Loop Controls in Nonlinear Systems",
+      "authors": [
+        "Hans Georg Bock",
+        "Peter Krämer-Eis"
+      ],
+      "year": 1984,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "numerical-methods",
+      "containerTitle": "IFAC Proceedings Volumes",
+      "volume": "17",
+      "number": "2",
+      "pages": "411--415",
+      "institution": null,
+      "doi": "10.1016/S1474-6670(17)61005-X",
+      "url": "https://doi.org/10.1016/S1474-6670(17)61005-X",
+      "projectRole": "primary",
+      "useCases": [
+        "multiple shooting",
+        "nonlinear optimal control",
+        "continuity constraints",
+        "nMHE and nMPC formulation"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/bock-1984-multiple-shooting.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "multipleShootingRef.pdf"
+      ],
+      "related": [],
+      "tags": [
+        "multiple shooting",
+        "nonlinear optimal control",
+        "continuity constraints"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "wynn-2022-physics-constrained-control",
+      "title": "Nonlinear Optimal Control for Gust Load Alleviation with a Physics-Constrained Data-Driven Internal Model",
+      "authors": [
+        "Andrew Wynn",
+        "Marc Artola",
+        "Rafael Palacios"
+      ],
+      "year": 2022,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "nonlinear-modal-control",
+      "containerTitle": "AIAA SciTech 2022 Forum",
+      "volume": null,
+      "number": null,
+      "pages": null,
+      "institution": null,
+      "doi": "10.2514/6.2022-0442",
+      "url": "https://doi.org/10.2514/6.2022-0442",
+      "projectRole": "supporting",
+      "useCases": [
+        "physics-constrained data-driven models",
+        "gust-load alleviation",
+        "nonlinear optimal control",
+        "model mismatch compensation"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/wynn-2022-physics-constrained-control.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Nonlinear optimal control for gust load alleviation with a.pdf"
+      ],
+      "related": [
+        {
+          "id": "artola-2021-journal",
+          "relation": "control-extension"
+        }
+      ],
+      "tags": [
+        "gust load alleviation",
+        "nonlinear optimal control",
+        "data-driven internal model"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "tashakorian-2018-nonlocal-intrinsic",
+      "title": "Nonlocal Fully Intrinsic Equations for Free Vibrations",
+      "authors": [],
+      "year": 2018,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": null,
+      "volume": null,
+      "number": null,
+      "pages": null,
+      "institution": null,
+      "doi": null,
+      "url": null,
+      "projectRole": "background",
+      "useCases": [
+        "intrinsic beam formulations",
+        "nonlocal structural theory",
+        "free-vibration comparison"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/tashakorian-2018-nonlocal-intrinsic.pdf",
+          "relation": "canonical-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "Nonlocal_fully_intrinsic_equations_for_free_vibrat.pdf"
+      ],
+      "related": [
+        {
+          "id": "hodges-2003",
+          "relation": "intrinsic-theory-context"
+        }
+      ],
+      "tags": [
+        "intrinsic equations",
+        "nonlocal theory",
+        "free vibration"
+      ],
+      "metadataStatus": "review-title-page",
+      "licenseStatus": "publisher copy; redistribution not audited",
+      "notes": "Confirm exact title, author list, journal, pages, and DOI from the first page."
+    },
+    {
+      "id": "palacios-2011-nonlinear-normal-modes",
+      "title": "Nonlinear Normal Modes in an Intrinsic Theory of Anisotropic Beams",
+      "authors": [
+        "Rafael Palacios"
+      ],
+      "year": 2011,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "intrinsic-structure",
+      "containerTitle": "Journal of Sound and Vibration",
+      "volume": "330",
+      "number": "8",
+      "pages": "1772--1792",
+      "institution": null,
+      "doi": "10.1016/j.jsv.2010.10.023",
+      "url": "https://doi.org/10.1016/j.jsv.2010.10.023",
+      "projectRole": "primary",
+      "useCases": [
+        "intrinsic nonlinear normal modes",
+        "modal reduction",
+        "anisotropic-beam nonlinear dynamics"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/palacios-2011-nonlinear-normal-modes.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "palacios2011.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-normal-modes",
+          "relation": "methodological-foundation"
+        }
+      ],
+      "tags": [
+        "nonlinear normal modes",
+        "intrinsic beams",
+        "anisotropic beams"
+      ],
+      "metadataStatus": "verified-assuming-local-file-match",
+      "licenseStatus": "publisher copy; redistribution not audited",
+      "notes": "Confirm that palacios2011.pdf is this journal article rather than the separate 2011 Palacios-Epureanu conference paper."
+    },
+    {
+      "id": "palacios-2012-industrial-intrinsic",
+      "title": "Intrinsic Models for Nonlinear Flexible-Aircraft Dynamics Using Industrial Finite-Element and Loads Packages",
+      "authors": [
+        "Rafael Palacios",
+        "Yinan Wang",
+        "M. Karpel"
+      ],
+      "year": 2012,
+      "type": "conference-paper",
+      "bibtexType": "inproceedings",
+      "group": "intrinsic-structure",
+      "containerTitle": "53rd AIAA/ASME/ASCE/AHS/ASC Structures, Structural Dynamics and Materials Conference",
+      "volume": null,
+      "number": null,
+      "pages": "1--18",
+      "institution": null,
+      "doi": "10.2514/6.2012-1401",
+      "url": "https://doi.org/10.2514/6.2012-1401",
+      "projectRole": "supporting",
+      "useCases": [
+        "finite-element to intrinsic-model conversion",
+        "industrial loads-package integration",
+        "rigid-flexible model assembly"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/palacios-2012-industrial-intrinsic.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "palacios2012.pdf"
+      ],
+      "related": [
+        {
+          "id": "wang-2015-thesis",
+          "relation": "methodological-context"
+        }
+      ],
+      "tags": [
+        "industrial finite elements",
+        "intrinsic models",
+        "flexible-aircraft dynamics"
+      ],
+      "metadataStatus": "verified-assuming-local-file-match",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "goizueta-2022-flutter-predictions",
+      "title": "Flutter Predictions for Very Flexible Wing Wind Tunnel Test",
+      "authors": [
+        "Norberto Goizueta",
+        "A. Drachinsky",
+        "Andrew Wynn",
+        "D. E. Raveh",
+        "Rafael Palacios"
+      ],
+      "year": 2022,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "broader-context",
+      "containerTitle": "Journal of Aircraft",
+      "volume": "59",
+      "number": "4",
+      "pages": "1082--1097",
+      "institution": null,
+      "doi": "10.2514/1.C036710",
+      "url": "https://doi.org/10.2514/1.C036710",
+      "projectRole": "primary",
+      "useCases": [
+        "Pazy flutter validation",
+        "wind-tunnel model comparison",
+        "linear and nonlinear stability checks"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/goizueta-2022-flutter-predictions.pdf",
+          "relation": "canonical-or-conference-version",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Pazy Flutter Predictions of a Very Flexible Wing.pdf"
+      ],
+      "related": [
+        {
+          "id": "ritter-2024-pazy-workshop",
+          "relation": "benchmark-context"
+        }
+      ],
+      "tags": [
+        "Pazy wing",
+        "flutter",
+        "wind tunnel",
+        "stability"
+      ],
+      "metadataStatus": "review-local-version",
+      "licenseStatus": "publisher copy; redistribution not audited",
+      "notes": "Confirm whether the local PDF is the 2022 journal article or the earlier conference version."
+    },
+    {
+      "id": "simpson-2016-thesis",
+      "title": "Unsteady Aerodynamics, Reduced-Order Modelling, and Predictive Control in Linear and Nonlinear Aeroelasticity with Arbitrary Kinematics",
+      "authors": [
+        "R. J. S. Simpson"
+      ],
+      "year": 2016,
+      "type": "phd-thesis",
+      "bibtexType": "phdthesis",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "Imperial College London",
+      "doi": null,
+      "url": null,
+      "projectRole": "supporting",
+      "useCases": [
+        "unsteady aerodynamic reduction",
+        "predictive gust-load control",
+        "arbitrary-kinematics aeroelastic models"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/simpson-2016-thesis.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "Simpson-R-2016-PhD-Thesis.pdf"
+      ],
+      "related": [
+        {
+          "id": "murua-2012-uvlm",
+          "relation": "aerodynamic-foundation"
+        }
+      ],
+      "tags": [
+        "predictive control",
+        "unsteady aerodynamics",
+        "reduced-order modeling",
+        "gust load alleviation"
+      ],
+      "metadataStatus": "verified-from-project-thesis-bibliography",
+      "licenseStatus": "thesis copy; license review required"
+    },
+    {
+      "id": "maraniello-2019-potential-flow",
+      "title": "State-Space Realizations and Internal Balancing in Potential-Flow Aerodynamics with Arbitrary Kinematics",
+      "authors": [
+        "Salvatore Maraniello",
+        "Rafael Palacios"
+      ],
+      "year": 2019,
+      "type": "journal-article",
+      "bibtexType": "article",
+      "group": "parametric-rom",
+      "containerTitle": "AIAA Journal",
+      "volume": "57",
+      "number": "6",
+      "pages": "2308--2321",
+      "institution": null,
+      "doi": "10.2514/1.J058153",
+      "url": "https://doi.org/10.2514/1.J058153",
+      "projectRole": "primary",
+      "useCases": [
+        "aerodynamic state-space realization",
+        "internal balancing",
+        "potential-flow model reduction",
+        "arbitrary kinematics"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/maraniello-2019-potential-flow.pdf",
+          "relation": "canonical",
+          "required": true
+        }
+      ],
+      "aliases": [
+        "State-Space Realizations and Internal Balancing in Potential-Flow.pdf"
+      ],
+      "related": [
+        {
+          "id": "maraniello-2020",
+          "relation": "parametric-extension"
+        }
+      ],
+      "tags": [
+        "potential flow",
+        "state-space realization",
+        "balancing",
+        "aerodynamic ROM"
+      ],
+      "metadataStatus": "verified",
+      "licenseStatus": "publisher copy; redistribution not audited"
+    },
+    {
+      "id": "orourke-2019-vfa-control",
+      "title": "Very Flexible Aircraft Control",
+      "authors": [],
+      "year": 2019,
+      "type": "report-or-thesis",
+      "bibtexType": "misc",
+      "group": "broader-context",
+      "containerTitle": null,
+      "institution": "University of Michigan",
+      "doi": null,
+      "url": null,
+      "projectRole": "background",
+      "useCases": [
+        "University of Michigan flexible-aircraft control background",
+        "UM/NAST control architecture",
+        "comparison with outer-loop and constraint-handling methods"
+      ],
+      "localFiles": [
+        {
+          "path": "references/pdf/orourke-2019-vfa-control.pdf",
+          "relation": "canonical-local-copy",
+          "required": false
+        }
+      ],
+      "aliases": [
+        "Very_Flexible_Aircraft_Control_Umich.pdf"
+      ],
+      "related": [
+        {
+          "id": "constrained-control-thesis",
+          "relation": "Michigan-control-context"
+        }
+      ],
+      "tags": [
+        "very flexible aircraft",
+        "flight control",
+        "University of Michigan",
+        "UM/NAST"
+      ],
+      "metadataStatus": "review-title-page",
+      "licenseStatus": "local copy; redistribution not audited",
+      "notes": "Confirm exact title, author, document type, department, and year from the title page."
+    }
+  ]
+}

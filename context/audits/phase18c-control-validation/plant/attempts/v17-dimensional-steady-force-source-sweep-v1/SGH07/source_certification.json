@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "caseId": "SGH07_NORMALIZED_STEADY",
+  "mu": [
+    20,
+    10
+  ],
+  "role": "qualification_pilot",
+  "gridLevel": "prepromotion_pilot",
+  "gridSpecSha256": "a44f4674254ef02e26e88a55a483ad2cad1ced87628c2861b4841c7b6da6030d",
+  "modelOrder": 10,
+  "negativeThrustAttempted": false,
+  "validationTruthUsed": false,
+  "executionStatus": "complete_aircraft_certified",
+  "initializationMode": "PHYSICAL_CHART_TEMPLATE_PLUS_EXACT_SOURCE_ARTIFACT",
+  "trimAttempts": {
+    "nested": {
+      "converged": true,
+      "alphaDeg": 9.9765245850062918,
+      "deltaWingDeg": -0.48328873510657583,
+      "deltaElevDeg": -1.1500108466064503,
+      "thrustN": 1.9715607431678146,
+      "residual": [
+        -4.4408920985006262E-16,
+        8.8343143467284335E-8,
+        1.8159069958834095E-5
+      ],
+      "residualScaledNorm": 2.436373603677707E-5,
+      "qGammaResidual": 0
+    }
+  },
+  "trimRepair": {},
+  "templateAssembly": {
+    "method": "persistent exact-source T2 package plus exact source artifact",
+    "weightMode": "EXACT_PERSISTENT_TEMPLATE",
+    "insideCurrentHull": true,
+    "activeSourceIds": [
+      "\\\\wsl.localhost\\ubuntu\\home\\maxal\\Aircraft-Aeroelastic-Control-Benchmark\\TestBenchPazy\\diagnostics\\phase18\\source_grid_closure\\sources\\SGH07\\matlab_complete\\p5_trim.mat"
+    ],
+    "activeSourceMu": [
+      20,
+      10
+    ],
+    "weights": 1,
+    "coordinatePrediction": [
+      20,
+      10
+    ],
+    "coordinateResidual": [
+      0,
+      0
+    ],
+    "referenceSourceId": "\\\\wsl.localhost\\ubuntu\\home\\maxal\\Aircraft-Aeroelastic-Control-Benchmark\\TestBenchPazy\\diagnostics\\phase18\\source_grid_closure\\sources\\SGH07\\matlab_complete\\p5_trim.mat",
+    "targetMu": [
+      20,
+      10
+    ],
+    "chartCondition": 1,
+    "chartVirtualPowerError": 0,
+    "negativeThrustAttempted": false,
+    "normalizeDimensionalSteadyForces": true,
+    "validationTruthUsed": false,
+    "physicalEquationsChanged": false,
+    "physicalBoundsChanged": false
+  },
+  "eligibleForTrainingLibrary": false,
+  "holdoutIsolation": {
+    "comparisonOnly": false,
+    "enteredInterpolationWeights": false,
+    "enteredBasisConstruction": false,
+    "enteredHyperparameterSelection": false,
+    "enteredSourceSelection": false
+  },
+  "physicalFeasibility": "FEASIBLE",
+  "trim": {
+    "converged": true,
+    "alphaDeg": 9.9765245850062918,
+    "deltaWingDeg": -0.48328873510657583,
+    "deltaElevDeg": -1.1500108466064503,
+    "thrustN": 1.9715607431678146,
+    "residual": [
+      -4.4408920985006262E-16,
+      8.8343143467284335E-8,
+      1.8159069958834095E-5
+    ],
+    "residualScaledNorm": 2.436373603677707E-5
+  },
+  "staticRootWrench": [
+    0.027069059253390124,
+    0,
+    -0.02023684442012802,
+    0,
+    3.8848769350459693,
+    0
+  ],
+  "staticRootWrenchIdentityError": 0,
+  "physicalChart": {
+    "translationRotationResidual": 0,
+    "orientationResidual": 2.7762351258972907E-17,
+    "stateRoundTripError": 0,
+    "virtualPowerAbsoluteError": 0,
+    "virtualPowerRelativeError": 0,
+    "forceRoundTripError": 0
+  },
+  "qGammaResidual": 0,
+  "projectedQ1Residual": 1.7073466742999828E-15,
+  "propagatedResidual": 1.7073466742999828E-15,
+  "jacobian": {
+    "stateRelativeError": 4.2462168744962382E-10,
+    "inputRelativeError": 2.3764598200013011E-11,
+    "coupledStateHalvingError": 3.6552398864003314E-11,
+    "coupledInputHalvingError": 0
+  },
+  "replay": {
+    "oneStepDefect": 1.049632507136883E-17,
+    "twentyStepDefect": 1.9822617381398221E-16
+  },
+  "modal": [
+    {
+      "frequencyHz": 34.659543701061757,
+      "growthRate": -3278.3256951836224,
+      "dampingRatio": 0.99780094126962371,
+      "flexibleParticipation": 0.0045514500876886509,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 43.197625651819855,
+      "growthRate": -2.3103403501716251,
+      "dampingRatio": 0.0085117818648086669,
+      "flexibleParticipation": 0.42561225612343312,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 36.4022490977757,
+      "growthRate": -1751.9442455092669,
+      "dampingRatio": 0.99158533406003857,
+      "flexibleParticipation": 0.039964301570810087,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 41.625118925134409,
+      "growthRate": -1233.9151312590664,
+      "dampingRatio": 0.97826649870740945,
+      "flexibleParticipation": 0.0040487363635331747,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 39.845497838564384,
+      "growthRate": -1.9109353970315219,
+      "dampingRatio": 0.0076326303280761249,
+      "flexibleParticipation": 0.73818650005920727,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 25.91415014012501,
+      "growthRate": -795.47228864873523,
+      "dampingRatio": 0.97968755975945032,
+      "flexibleParticipation": 0.017480442679094994,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 26.448142107768636,
+      "growthRate": -1188.6370734003988,
+      "dampingRatio": 0.99036811198896879,
+      "flexibleParticipation": 0.00496089482051777,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 14.360088505387301,
+      "growthRate": -3.826116167882629,
+      "dampingRatio": 0.04236732453574843,
+      "flexibleParticipation": 0.0034063193761067474,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 6.8675125260562595,
+      "growthRate": -189.31322966301747,
+      "dampingRatio": 0.97499452072129422,
+      "flexibleParticipation": 0.015098471626733169,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 6.3930022371204283,
+      "growthRate": -3.4110338963420155,
+      "dampingRatio": 0.084613771778822122,
+      "flexibleParticipation": 0.088564156145699763,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 2.9242161240254041,
+      "growthRate": -6.2832236376570192,
+      "dampingRatio": 0.32357655089570275,
+      "flexibleParticipation": 2.1691018725488828E-13,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 1.3487704539413634E-5,
+      "growthRate": -0.0011170868183046434,
+      "dampingRatio": 0.99713475142175756,
+      "flexibleParticipation": 2.8283297593666117E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 4.8071364350443982E-5,
+      "growthRate": -0.000223403739166996,
+      "dampingRatio": 0.594659271078295,
+      "flexibleParticipation": 5.5288167443299572E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 4.7975384327578152E-5,
+      "growthRate": 0.00022393171262608571,
+      "dampingRatio": -0.5963345899706024,
+      "flexibleParticipation": 5.5012515611896864E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 6.0059211606097989E-5,
+      "growthRate": -2.0828666684354034E-7,
+      "dampingRatio": 0.00055195275915570139,
+      "flexibleParticipation": 8.579584423197821E-8,
+      "falseUnstable": false
+    },
+    {
+      "frequencyHz": 3.0812925507610188E-7,
+      "growthRate": 1.1066836974626375E-10,
+      "dampingRatio": -5.7162433524570605E-5,
+      "flexibleParticipation": 6.1447353961422385E-10,
+      "falseUnstable": false
+    }
+  ],
+  "falseUnstableModes": 0,
+  "physicalDeformationNorm": 0,
+  "r2": {
+    "equilibriumIdentity": 0,
+    "dynamicsInvariance": 0,
+    "feedsBackIntoDynamics": false,
+    "anchorProvenance": "SOURCE_TRAINING_T2_ANCHOR"
+  },
+  "package": {
+    "packageHash": "3165636e7c3931bdda3d27376f90dd36563157db83bb9767c27e57ee30044b84",
+    "artifactPath": "context\\audits\\phase18b-fixed-basis-closure\\checkpoints\\fixed-node27-contracts\\SGH07\\fixed_node27_contract.h5",
+    "artifactSha256": "98c567c856cc04f4b674e276703f1a797f2ca452801356c6707141b46a818bc0",
+    "seedPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\SGH07\\coupled_trim.mat",
+    "p5TrimPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\SGH07\\p5_trim.mat",
+    "validationPath": "context\\audits\\phase18c-control-validation\\plant\\attempts\\v17-dimensional-steady-force-source-sweep-v1\\SGH07\\p5_validation.mat"
+  },
+  "acceptance": {
+    "physicalTrim": true,
+    "nonnegativeThrust": true,
+    "physicalChart": true,
+    "virtualPower": true,
+    "forceRoundTrip": true,
+    "rootReactionIdentity": true,
+    "qGamma": true,
+    "projectedResidual": true,
+    "jacobian": true,
+    "oneStepReplay": true,
+    "twentyStepReplay": true,
+    "falseUnstableModes": true,
+    "r2OutputOnly": true,
+    "r2DynamicsInvariant": true,
+    "sourceAnchor": true,
+    "package": true
+  },
+  "errorIdentifier": "",
+  "errorMessage": "",
+  "pass": true,
+  "startedUtc": "2026-08-15T20:26:15Z",
+  "completedUtc": "2026-08-15T20:26:23Z",
+  "wallClockS": 8.0262516
+}

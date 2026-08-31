@@ -117,6 +117,57 @@ classdef ActuatorChain < handle
             info.deltaDot = obj.deltaDot;
             info.uAct = uAct;
         end
+
+        function [uCmd,info] = previewCommandForEndpoint(obj,uTarget)
+        %PREVIEWCOMMANDFORENDPOINT Invert one unsaturated actuator sample.
+        %
+        % uTarget is the desired next actuator output in the existing
+        % [deflection; rate] ordering.  The preview is non-mutating and
+        % accepts only targets reproduced by the current first-order actuator
+        % without command, position, or rate saturation.
+            uTarget = uTarget(:);
+            assert(obj.varPer == 2 && numel(uTarget) == obj.nu, ...
+                'ActuatorChain:EndpointTarget', ...
+                ['Endpoint realization requires a finite [deflection; rate] ', ...
+                 'target with the active actuator ordering.']);
+            assert(all(isfinite(uTarget)), 'ActuatorChain:EndpointNonfinite', ...
+                'Endpoint realization target must be finite.');
+
+            targetDelta = uTarget(1:obj.nSurf);
+            targetRate = uTarget(obj.nSurf+1:end);
+            commandDelta = obj.delta + targetRate/obj.omega;
+            commandRate = targetRate;
+            uCmd = [commandDelta; commandRate];
+
+            tolerance = 100 * eps(max(1, norm(uTarget,inf)));
+            commandWithinPosition = all(commandDelta >= obj.deltaL-tolerance & ...
+                commandDelta <= obj.deltaU+tolerance);
+            targetWithinPosition = all(targetDelta >= obj.deltaL-tolerance & ...
+                targetDelta <= obj.deltaU+tolerance);
+            targetWithinRate = all(targetRate >= obj.rateL-tolerance & ...
+                targetRate <= obj.rateU+tolerance);
+
+            commandSat = min(max(commandDelta,obj.deltaL),obj.deltaU);
+            rateUnsat = obj.omega*(commandSat-obj.delta);
+            realizedRate = min(max(rateUnsat,obj.rateL),obj.rateU);
+            realizedDelta = min(max(obj.delta+obj.Ts*realizedRate, ...
+                obj.deltaL),obj.deltaU);
+            realized = [realizedDelta; realizedRate];
+            endpointError = norm(realized-uTarget,inf);
+            rateEqualityError = norm(realizedDelta-obj.delta- ...
+                obj.Ts*realizedRate,inf);
+            accepted = commandWithinPosition && targetWithinPosition && ...
+                targetWithinRate && endpointError <= tolerance;
+
+            info = struct('accepted',accepted,'target',uTarget, ...
+                'command',uCmd,'realized',realized, ...
+                'endpointErrorInfinity',endpointError, ...
+                'rateEqualityInfinity',rateEqualityError, ...
+                'commandWithinPosition',commandWithinPosition, ...
+                'targetWithinPosition',targetWithinPosition, ...
+                'targetWithinRate',targetWithinRate, ...
+                'tolerance',tolerance);
+        end
     end
 
     methods (Access = private)

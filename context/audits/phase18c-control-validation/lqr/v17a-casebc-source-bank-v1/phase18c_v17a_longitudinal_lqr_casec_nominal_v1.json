@@ -1,0 +1,336 @@
+{
+  "schemaVersion": "phase18c-v17a-longitudinal-lqr-source-v1",
+  "auditOnly": true,
+  "enabledByDefault": false,
+  "modelId": "V17A_DIMENSIONAL_STEADY_FORCE_LOCKED",
+  "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+  "sourceId": "CASEC_NOMINAL",
+  "sourceCoordinate": [
+    18,
+    7
+  ],
+  "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+  "sourcePackageSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+  "sourceCertificatePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/source_certification.json",
+  "sourceCertificateSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+  "baselineMethodArtifactSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
+  "sampleTimeSeconds": 0.04,
+  "stateOrder": [
+    "u",
+    "v",
+    "w",
+    "phi",
+    "theta",
+    "psi",
+    "p",
+    "q",
+    "r"
+  ],
+  "commandOrder": [
+    "elevator",
+    "aileron",
+    "rudder",
+    "thrust"
+  ],
+  "designStateIdx": [
+    1,
+    3,
+    5,
+    8
+  ],
+  "designInputIdx": [
+    1,
+    4
+  ],
+  "designStateOrder": [
+    "u",
+    "w",
+    "theta",
+    "q"
+  ],
+  "designInputOrder": [
+    "elevator",
+    "thrust"
+  ],
+  "A": [
+    [
+      -0.0658161854685918,
+      0,
+      -0.48414341620982604,
+      0,
+      -9.7339024887049419,
+      0,
+      0,
+      -2.4427054895437017,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      9.7339024887049419,
+      0,
+      0,
+      2.19361261058314,
+      0,
+      -17.865835097041803
+    ],
+    [
+      -0.79929716893945535,
+      0,
+      -2.3489293930874164,
+      0,
+      -1.1951532706660475,
+      0,
+      0,
+      16.688141272140296,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0.12278253989629374
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      -0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1.0075095791620965
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      -6.0067258678626292,
+      0,
+      -17.644101779452647,
+      0,
+      0,
+      0,
+      0,
+      -8.8461290273283311,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "B": [
+    [
+      8.5052512228988455,
+      0,
+      0,
+      1.3157894736842106
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      40.212236842105277,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      302.05018321506338,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "xMax": [
+    2,
+    0.5,
+    1,
+    0.17453292519943295,
+    0.13962634015954636,
+    0.26179938779914941,
+    0.3490658503988659,
+    0.3490658503988659,
+    0.3490658503988659
+  ],
+  "uMax": [
+    0.17453292519943295,
+    0.13962634015954636,
+    0.17453292519943295,
+    0.5
+  ],
+  "R": [
+    [
+      184.60576732088975,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      51.2938492189335,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      32.828063500117445,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      126.49110640673517
+    ]
+  ],
+  "uTrim": [
+    -0.11963082752468034,
+    0,
+    0,
+    1.7022537582384896
+  ],
+  "expectedReducedGain": [
+    [
+      -0.048582528219148255,
+      -0.052860771885085756,
+      0.59044152951252493,
+      0.0627766382837599
+    ],
+    [
+      0.041159929835544874,
+      -0.10317769334758621,
+      1.9008334607613704,
+      0.011796799464281339
+    ]
+  ],
+  "expectedFullGain": [
+    [
+      -0.048582528219148255,
+      0,
+      -0.052860771885085756,
+      0,
+      0.59044152951252493,
+      0,
+      0,
+      0.0627766382837599,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0.041159929835544874,
+      0,
+      -0.10317769334758621,
+      0,
+      1.9008334607613704,
+      0,
+      0,
+      0.011796799464281339,
+      0
+    ]
+  ],
+  "gainAgreementTolerance": 1E-10,
+  "trimCheckToleranceInfinity": 1E-6,
+  "flightCheckTolerance": 1E-10,
+  "usesValidationTruthForSelection": false,
+  "outerWingSurfaceAllocationEnabled": false,
+  "lateralAuthorityClaimed": false,
+  "linearization": {
+    "controlCoordinateTrimResidualTwoNorm": 0.00011272326062111948,
+    "fourStateControllabilityRank": 4,
+    "riccatiRelativeResidual": 2.8252842831447471E-15,
+    "maximumDiscreteClosedLoopPole": 0.99901132142664317,
+    "fullClosureSignificantUnstableCount": 0,
+    "fullClosureMaximumGrowthPerSecond": 4.6798233460334504E-6,
+    "significantGrowthThresholdPerSecond": 0.0001
+  }
+}

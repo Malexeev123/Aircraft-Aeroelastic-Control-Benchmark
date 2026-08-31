@@ -1,0 +1,992 @@
+{
+  "schemaVersion": "pazy-benchmark-asset-inventory-v1",
+  "generatedUtc": "2026-08-31T04:18:58.392Z",
+  "selectionManifestSha256": "7ae4c11ac7640dc188c274c30bc83fa0c6aa6046bc6369739d5b61adf199bb3f",
+  "assetCount": 123,
+  "records": [
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/V17_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "expectedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "role": "v17_registry",
+      "exists": true,
+      "observedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-corrected-nonwing-trim-lqr-owner-v1/PHASE18C_V17A_CASEA_CORRECTED_NONWING_LQR_BUNDLE_V1.mat",
+      "expectedSha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec",
+      "role": "casea_corrected_nonwing_bundle",
+      "exists": true,
+      "observedSha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_bank_v1.json",
+      "expectedSha256": "8636c5183954e5ba52401c4e61072781c73d8eb5c36cc6e3cff5586d53604da0",
+      "role": "casea_shared_wing_gain_bank",
+      "exists": true,
+      "observedSha256": "8636c5183954e5ba52401c4e61072781c73d8eb5c36cc6e3cff5586d53604da0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_v1.json",
+      "expectedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "role": "casea_shared_wing_gain",
+      "exists": true,
+      "observedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_casebc_longitudinal_lqr_gain_bank_v1.json",
+      "expectedSha256": "c806bb3c2914c834c9b5246ae2e4810793da28e8e6b6558917fb327968d14222",
+      "role": "casebc_gain_bank",
+      "exists": true,
+      "observedSha256": "c806bb3c2914c834c9b5246ae2e4810793da28e8e6b6558917fb327968d14222",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_ops_u015_alpha_p10_v1.json",
+      "expectedSha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4",
+      "role": "caseb_start_gain",
+      "exists": true,
+      "observedSha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_sgt16_v1.json",
+      "expectedSha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece",
+      "role": "caseb_terminal_gain",
+      "exists": true,
+      "observedSha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casebc-source-bank-v1/phase18c_v17a_longitudinal_lqr_casec_nominal_v1.json",
+      "expectedSha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa",
+      "role": "casec_nominal_gain",
+      "exists": true,
+      "observedSha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.json",
+      "expectedSha256": "126d891f02543e7d078ca92316511ca1be9aaee15ce16d5ebdc17f845f04791a",
+      "role": "casebc_input_contract",
+      "exists": true,
+      "observedSha256": "126d891f02543e7d078ca92316511ca1be9aaee15ce16d5ebdc17f845f04791a",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.mat",
+      "expectedSha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd",
+      "role": "casebc_input_data",
+      "exists": true,
+      "observedSha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/cases/attempts/v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1/source-domain-pulse-envelope-v1/PHASE18C_V17A_CASEB_SOURCE_DOMAIN_PULSE_ENVELOPE_V1.json",
+      "expectedSha256": "91bcb3302d4d0b5153cdd751d59d4c45da27b4f4c5ff62052a288d38800e664f",
+      "role": "caseb_source_domain_envelope",
+      "exists": true,
+      "observedSha256": "91bcb3302d4d0b5153cdd751d59d4c45da27b4f4c5ff62052a288d38800e664f",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17a_casea_source_coordinate_dynamic_output_feedback_v1.mat",
+      "expectedSha256": "04e685ffbfad300581ecc57e9d7c031e343f1ed914c120403dac47f06a4cf369",
+      "role": "casea_source_coordinate_controller",
+      "exists": true,
+      "observedSha256": "04e685ffbfad300581ecc57e9d7c031e343f1ed914c120403dac47f06a4cf369",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casea-reciprocal-gust-path-discriminator-v1/PHASE18C_V17A_CASEA_RECIPROCAL_REACTION_REPLACEMENT_CANDIDATE_V1.mat",
+      "expectedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
+      "role": "casea_reciprocal_runtime_candidate",
+      "exists": true,
+      "observedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
+      "expectedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
+      "role": "casea_nonwing_approval",
+      "exists": true,
+      "observedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
+      "expectedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
+      "role": "casea_structured_pitch_approval",
+      "exists": true,
+      "observedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
+      "expectedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
+      "role": "casea_reciprocal_reaction_approval",
+      "exists": true,
+      "observedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
+      "passed": true
+    },
+    {
+      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
+      "expectedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
+      "role": "casea_reciprocal_provider_approval",
+      "exists": true,
+      "observedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_fixed_interval_build_fixture_v1.mat",
+      "expectedSha256": "7e7dcb82bca0aa3d867f880b100c6e6b45e435c2b4ad95f6271eab9c6858a648",
+      "role": "native_fixed_interval_build_fixture",
+      "exists": true,
+      "observedSha256": "7e7dcb82bca0aa3d867f880b100c6e6b45e435c2b4ad95f6271eab9c6858a648",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/benchmark/native-build-fixtures/phase18c_v17a_scheduled_build_fixture_v1.mat",
+      "expectedSha256": "4d32586a5ccee22cc5c166e1c332a6bd19b4e1b83e91fa22328e15925779d2b5",
+      "role": "native_scheduled_build_fixture",
+      "exists": true,
+      "observedSha256": "4d32586a5ccee22cc5c166e1c332a6bd19b4e1b83e91fa22328e15925779d2b5",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
+      "expectedSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+      "role": "v17a_source_registry",
+      "exists": true,
+      "observedSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
+      "expectedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "role": "v17a_source_package:SGT16",
+      "exists": true,
+      "observedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/source_certification.json",
+      "expectedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
+      "role": "v17a_source_certificate:SGT16",
+      "exists": true,
+      "observedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/p5_trim.mat",
+      "expectedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
+      "role": "v17a_source_package:SGH07",
+      "exists": true,
+      "observedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/source_certification.json",
+      "expectedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
+      "role": "v17a_source_certificate:SGH07",
+      "exists": true,
+      "observedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/p5_trim.mat",
+      "expectedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
+      "role": "v17a_source_package:SGT29",
+      "exists": true,
+      "observedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/source_certification.json",
+      "expectedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
+      "role": "v17a_source_certificate:SGT29",
+      "exists": true,
+      "observedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/p5_trim.mat",
+      "expectedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
+      "role": "v17a_source_package:node35",
+      "exists": true,
+      "observedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/source_certification.json",
+      "expectedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
+      "role": "v17a_source_certificate:node35",
+      "exists": true,
+      "observedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/p5_trim.mat",
+      "expectedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
+      "role": "v17a_source_package:SGT03",
+      "exists": true,
+      "observedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/source_certification.json",
+      "expectedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
+      "role": "v17a_source_certificate:SGT03",
+      "exists": true,
+      "observedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/p5_trim.mat",
+      "expectedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
+      "role": "v17a_source_package:SGT14",
+      "exists": true,
+      "observedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/source_certification.json",
+      "expectedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
+      "role": "v17a_source_certificate:SGT14",
+      "exists": true,
+      "observedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+      "expectedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+      "role": "v17a_source_package:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/source_certification.json",
+      "expectedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+      "role": "v17a_source_certificate:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/p5_trim.mat",
+      "expectedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/source_certification.json",
+      "expectedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/p5_trim.mat",
+      "expectedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/source_certification.json",
+      "expectedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
+      "expectedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "role": "v17a_source_package:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/source_certification.json",
+      "expectedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
+      "role": "v17a_source_certificate:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/p5_trim.mat",
+      "expectedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/source_certification.json",
+      "expectedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/p5_trim.mat",
+      "expectedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/source_certification.json",
+      "expectedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/p5_trim.mat",
+      "expectedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
+      "role": "v17a_source_package:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/source_certification.json",
+      "expectedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
+      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/p5_trim.mat",
+      "expectedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
+      "role": "v17a_source_package:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/source_certification.json",
+      "expectedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
+      "role": "v17a_source_certificate:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/p5_trim.mat",
+      "expectedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
+      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/source_certification.json",
+      "expectedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
+      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/p5_trim.mat",
+      "expectedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
+      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/source_certification.json",
+      "expectedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
+      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/p5_trim.mat",
+      "expectedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
+      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/source_certification.json",
+      "expectedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
+      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/p5_trim.mat",
+      "expectedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
+      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/source_certification.json",
+      "expectedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
+      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+      "expectedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "role": "v17a_source_package:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/source_certification.json",
+      "expectedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+      "role": "v17a_source_certificate:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/p5_trim.mat",
+      "expectedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
+      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/source_certification.json",
+      "expectedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
+      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/p5_trim.mat",
+      "expectedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
+      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/source_certification.json",
+      "expectedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
+      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/p5_trim.mat",
+      "expectedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
+      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/source_certification.json",
+      "expectedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
+      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/p5_trim.mat",
+      "expectedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
+      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/source_certification.json",
+      "expectedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
+      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/p5_trim.mat",
+      "expectedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
+      "role": "v17a_source_package:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/source_certification.json",
+      "expectedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
+      "role": "v17a_source_certificate:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/p5_trim.mat",
+      "expectedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
+      "role": "v17a_source_package:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/source_certification.json",
+      "expectedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
+      "role": "v17a_source_certificate:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/p5_trim.mat",
+      "expectedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
+      "role": "v17a_source_package:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/source_certification.json",
+      "expectedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
+      "role": "v17a_source_certificate:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/p5_trim.mat",
+      "expectedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
+      "role": "v17a_source_package:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/source_certification.json",
+      "expectedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
+      "role": "v17a_source_certificate:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/p5_trim.mat",
+      "expectedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
+      "role": "v17a_source_package:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/source_certification.json",
+      "expectedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
+      "role": "v17a_source_certificate:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/p5_trim.mat",
+      "expectedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
+      "role": "v17a_source_package:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/source_certification.json",
+      "expectedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
+      "role": "v17a_source_certificate:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields.json",
+      "expectedSha256": "c23098938c5b24cd0b86a10b7801c29a7ce39eff0e40ca1c55b559f29dbadef4",
+      "role": "transitive_manifest",
+      "exists": true,
+      "observedSha256": "c23098938c5b24cd0b86a10b7801c29a7ce39eff0e40ca1c55b559f29dbadef4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT16.h5",
+      "expectedSha256": "03daf43becd96d91037037b0879984cf0194cec8e2d3ed93354121a59fc92cdc",
+      "role": "transitive_asset:SGT16",
+      "exists": true,
+      "observedSha256": "03daf43becd96d91037037b0879984cf0194cec8e2d3ed93354121a59fc92cdc",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGH07.h5",
+      "expectedSha256": "a74030772982a3f5eff3061775dde6f3e365b58261e895142a734c66f2ac555d",
+      "role": "transitive_asset:SGH07",
+      "exists": true,
+      "observedSha256": "a74030772982a3f5eff3061775dde6f3e365b58261e895142a734c66f2ac555d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT29.h5",
+      "expectedSha256": "d7e1f8c3e8be7064cc72938f11c2d1d18bbf22028a58d771984a0e4938694d1b",
+      "role": "transitive_asset:SGT29",
+      "exists": true,
+      "observedSha256": "d7e1f8c3e8be7064cc72938f11c2d1d18bbf22028a58d771984a0e4938694d1b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/node35.h5",
+      "expectedSha256": "896beefb3bceaddcd2b4065a01436cd9ec7b65234fff3b0dc5a33a6b7908a0d9",
+      "role": "transitive_asset:node35",
+      "exists": true,
+      "observedSha256": "896beefb3bceaddcd2b4065a01436cd9ec7b65234fff3b0dc5a33a6b7908a0d9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT03.h5",
+      "expectedSha256": "807519b0d5633b7d4eb152e442ac1f3135a8c72a85497691ad8f885285094c77",
+      "role": "transitive_asset:SGT03",
+      "exists": true,
+      "observedSha256": "807519b0d5633b7d4eb152e442ac1f3135a8c72a85497691ad8f885285094c77",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/SGT14.h5",
+      "expectedSha256": "7c4e2789b4e6004563b2468842800a3919efe8b4fac30ac7cc21cfb685d045a6",
+      "role": "transitive_asset:SGT14",
+      "exists": true,
+      "observedSha256": "7c4e2789b4e6004563b2468842800a3919efe8b4fac30ac7cc21cfb685d045a6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/CASEA_U040_ALPHA_P01.h5",
+      "expectedSha256": "969753e40eff5f472877a251497eeea152b4c99b7df6a601505d1dcfc6ecceae",
+      "role": "transitive_asset:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "969753e40eff5f472877a251497eeea152b4c99b7df6a601505d1dcfc6ecceae",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P06.h5",
+      "expectedSha256": "8cdfa4c797fbd101ef790fe1366efe25b5dc7ed0b9b5cfb282b656b1967a4a68",
+      "role": "transitive_asset:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "8cdfa4c797fbd101ef790fe1366efe25b5dc7ed0b9b5cfb282b656b1967a4a68",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P08.h5",
+      "expectedSha256": "12813003743c0034d39877c5fc00fb8f0956814d356df67530cc05f08f46c930",
+      "role": "transitive_asset:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "12813003743c0034d39877c5fc00fb8f0956814d356df67530cc05f08f46c930",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U015_ALPHA_P10.h5",
+      "expectedSha256": "d2f4949638adf3424c851cb67c523a9acd2fa3a512a0cb98944ea63e5a41df3d",
+      "role": "transitive_asset:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "d2f4949638adf3424c851cb67c523a9acd2fa3a512a0cb98944ea63e5a41df3d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P06.h5",
+      "expectedSha256": "d5b343a9a89c7b9ad2cdb451257e86d6f4bbe76082c412951bc61bbf6f969842",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "d5b343a9a89c7b9ad2cdb451257e86d6f4bbe76082c412951bc61bbf6f969842",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P08.h5",
+      "expectedSha256": "8e82764d35ad80fe6c4fd66dd2aaa137fbde6e2e5a1feb2645863feb3fd53444",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "8e82764d35ad80fe6c4fd66dd2aaa137fbde6e2e5a1feb2645863feb3fd53444",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_U017P5_ALPHA_P10.h5",
+      "expectedSha256": "3a75a1c137cbf78b2fc0c67fe81f3916bbdef1b210a9e1f1ea632fabecc94d40",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "3a75a1c137cbf78b2fc0c67fe81f3916bbdef1b210a9e1f1ea632fabecc94d40",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE_U018P75_ALPHA_P075.h5",
+      "expectedSha256": "bece544b92533442f9eac1a0d59442f67697ff808ba93e8e16965c91e4be0be8",
+      "role": "transitive_asset:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "bece544b92533442f9eac1a0d59442f67697ff808ba93e8e16965c91e4be0be8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U018P125_ALPHA_P0675.h5",
+      "expectedSha256": "7b1dde209ddaf6d5bed92d1a5cfeabcd9e14ec0a3383f5278cccae29d872fb46",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "7b1dde209ddaf6d5bed92d1a5cfeabcd9e14ec0a3383f5278cccae29d872fb46",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U018P125_ALPHA_P0775.h5",
+      "expectedSha256": "384d60ac398c585d8e92573cca1ac7962293151f00f9e7a4f9d797db9ee6eb9b",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "384d60ac398c585d8e92573cca1ac7962293151f00f9e7a4f9d797db9ee6eb9b",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U019P375_ALPHA_P0625.h5",
+      "expectedSha256": "2dae386601281dbf86e7911df476b5c2c73cafe29b1c836ef53151e40b6cd234",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "2dae386601281dbf86e7911df476b5c2c73cafe29b1c836ef53151e40b6cd234",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/OPS_REFINE2_U019P375_ALPHA_P0875.h5",
+      "expectedSha256": "df0f6ea893b6988111e93a217cd5a9d1a27a4737b80cf84b468a1b2afae31d5a",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "df0f6ea893b6988111e93a217cd5a9d1a27a4737b80cf84b468a1b2afae31d5a",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/CASEC_NOMINAL.h5",
+      "expectedSha256": "28b26b5ce416b5f2baa8352daee404b4ea15cb49b5bbfd9d11cbee1c9a8e51a5",
+      "role": "transitive_asset:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "28b26b5ce416b5f2baa8352daee404b4ea15cb49b5bbfd9d11cbee1c9a8e51a5",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U017P75_ALPHA_P0675.h5",
+      "expectedSha256": "43f6bda254454855e8458c669d2e5672a1839915c31a5d7e1a32af95b8f08f50",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "43f6bda254454855e8458c669d2e5672a1839915c31a5d7e1a32af95b8f08f50",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U017P75_ALPHA_P0700.h5",
+      "expectedSha256": "3e23c75a05bfc281ab6516bd1bc2fd4b838a7e6c6946694deb3720dc1275a3d9",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "3e23c75a05bfc281ab6516bd1bc2fd4b838a7e6c6946694deb3720dc1275a3d9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U018P25_ALPHA_P0700.h5",
+      "expectedSha256": "5aa73d48f475f27f409d8b4c9ab5bd3b4148ffe06763706c08f11b4c933f8a20",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "5aa73d48f475f27f409d8b4c9ab5bd3b4148ffe06763706c08f11b4c933f8a20",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/MODALGAP_U018P25_ALPHA_P0725.h5",
+      "expectedSha256": "eab5abf7a13c1de92d1b0498aa5e176a6e8e83d42c008a0e4942adddb636519c",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "eab5abf7a13c1de92d1b0498aa5e176a6e8e83d42c008a0e4942adddb636519c",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/V10_SUBSPACE_U018P25_ALPHA_P07125.h5",
+      "expectedSha256": "b6f66c36690b6b44f8baf06d78c522d29c5dc5e3b3a98bde89e10bf0165967c9",
+      "role": "transitive_asset:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "b6f66c36690b6b44f8baf06d78c522d29c5dc5e3b3a98bde89e10bf0165967c9",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/V11_BRANCH_U018P25_ALPHA_P071875.h5",
+      "expectedSha256": "beabe1df47737aff3c8c5a43a62bb739c24e85ef06ebd071e20687c628fbbff6",
+      "role": "transitive_asset:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "beabe1df47737aff3c8c5a43a62bb739c24e85ef06ebd071e20687c628fbbff6",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEB_AB_MID.h5",
+      "expectedSha256": "d410847070f57e84862d1d525d8f908857ba7e4d1b22d55d7e6c554fd63b3039",
+      "role": "transitive_asset:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "d410847070f57e84862d1d525d8f908857ba7e4d1b22d55d7e6c554fd63b3039",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_AB_MID.h5",
+      "expectedSha256": "f008a45177b83fef69c8c71e242edf94f473ff1c0a11e4a4563b1e132024b8c4",
+      "role": "transitive_asset:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "f008a45177b83fef69c8c71e242edf94f473ff1c0a11e4a4563b1e132024b8c4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_BC_MID.h5",
+      "expectedSha256": "adbf38be7928ae3a4b3b2a15a774bb98512a19240fac876189c0d8e6ead850e4",
+      "role": "transitive_asset:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "adbf38be7928ae3a4b3b2a15a774bb98512a19240fac876189c0d8e6ead850e4",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields/STATICFB_CASEC_CA_MID.h5",
+      "expectedSha256": "9b4fee05dfc0bdbfc533944051efd8afdab546ae3842f26706ad2cda5da754e0",
+      "role": "transitive_asset:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "9b4fee05dfc0bdbfc533944051efd8afdab546ae3842f26706ad2cda5da754e0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/PHASE18C_V17A_CASEBC_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_BANK_V2.json",
+      "expectedSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+      "role": "transitive_manifest",
+      "exists": true,
+      "observedSha256": "05f6a5ed782abf4de2a49cef9f3684c66d0a0360f8adb40b36794d15772a687d",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/CASEC_NOMINAL/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "role": "transitive_asset:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U017P75_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "role": "transitive_asset:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U018P25_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "role": "transitive_asset:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U018P125_ALPHA_P0675/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "role": "transitive_asset:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U019P375_ALPHA_P0625/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "role": "transitive_asset:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "role": "transitive_asset:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "role": "transitive_asset:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P10/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "role": "transitive_asset:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "role": "transitive_asset:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/SGT16/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "role": "transitive_asset:SGT16",
+      "exists": true,
+      "observedSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEB_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "role": "transitive_asset:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "role": "transitive_asset:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_CA_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "expectedSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "role": "transitive_asset:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "passed": true
+    }
+  ]
+}

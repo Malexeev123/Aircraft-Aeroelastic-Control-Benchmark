@@ -1,7 +1,7 @@
 classdef SimRunner
     properties
         cfg, beam, aero, base
-        L                       % linear operator
+        L, Ldyn                       % linear operator
         Lfac, Ufac, piv                 % LU factors of (I-γΔt L)   (implicit solve)
         sens                    % sensitivity matrix S (optional)
         controller              % (optional)
@@ -10,10 +10,13 @@ classdef SimRunner
 
         idx
         parConst
+        gamma
+        delta
         useRateProjection logical = false
         Pz   % projector for q1 (Nm×Nm)
         Pz_q2
         Pz_qGam
+        dt
 
         log, buff, cache_file
         debug      logical = false          % master switch, true, false
@@ -60,8 +63,11 @@ classdef SimRunner
             % --- IMEX DIRK(2,3,2) coefficients (Kennedy–Carpenter 2003) ----
 
             gamma = (2 - sqrt(2))/2;
+            obj. gamma = gamma;
+            obj.delta = -2*sqrt(2)/3;
+            obj.dt = cfg.sim.dt;
             % delta = -2*sqrt(2)/3;
-
+        
             I   = speye(size(obj.L));
             A  = I - gamma*cfg.sim.dt*obj.L;
             [obj.Lfac, obj.Ufac, obj.piv] = lu(A,'vector');
@@ -155,16 +161,28 @@ classdef SimRunner
             else
                 obj.useRateProjection = false;
             end
+            obj.useRateProjection = ...
+                AeroFlex.sched.runtimeRateProjectionPolicy( ...
+                cfg,obj.useRateProjection);
             obj.Pz   = beam.Pz;
             % obj.Pz_q2   = beam.Pz_phi2;
             obj.Pz_q2   = eye(cfg.Nm,cfg.Nm);
             % obj.Pz_qGam = aero.DataMatrix.aeroPzT;
             obj.Pz_qGam = eye(cfg.Na,cfg.Na);
-            obj.parConst.RateProject = struct('projSet',obj.useRateProjection, 'Pz', obj.Pz);
+            % obj.parConst.RateProject = struct('projSet',obj.useRateProjection, 'Pz', obj.Pz);
+            % obj = obj.rebuildConstrainedOperator();
             % if obj.useRateProjection
             %     obj.L(obj.idx.q1,:) = obj.Pz * obj.L(obj.idx.q1,:);
             % 
             % end
+            obj.parConst.RateProject = struct( ...
+            'projSet', obj.useRateProjection, ...
+            'Pz', obj.Pz);
+        
+            % The constructor initially factors the raw operator before parConst exists.
+            % Rebuild here so open-loop, trim, and scheduled runs all use the same
+            % projected operator convention.
+            obj = obj.rebuildConstrainedOperator();
         end   % constructor
 %───────────────────────────────────────────────────────────────────────────
         % function [t,X,log,S] = run(obj,x0,tEnd,storeSens)
@@ -192,6 +210,11 @@ classdef SimRunner
         % ---------- helper handles ----------------------------------------
             gamma = (2-sqrt(2))/2;  delta = -2*sqrt(2)/3;
             Nx    = size(obj.L,1);
+            if isempty(obj.Ldyn) || size(obj.Ldyn,1) ~= size(obj.L,1)
+                obj = obj.rebuildConstrainedOperator();
+            end
+            
+            Lprop = obj.Ldyn;
             if ~strcmpi(cfg.case,'openLoop')
 
                 Nint  = max(1,round(cfg.ctrl.Ts/dt));   % samples per Ts
@@ -264,85 +287,140 @@ classdef SimRunner
                 % disp('true gust'); disp(obj.parConst.gust_input(k));
 
                 if storeSens, Sn = S(:,:,k); end
-
-                % ---------- IMEX–DIRK integrator --------------------------
-                % stage 1: explicit N
+                
+                % ---------- IMEX-DIRK integrator ---------------------------------------
+                % Explicit nonlinear increments are projected.  Implicit increments are
+                % solved with Ldyn = Q*L, so they are not projected again after the solve.
+                
                 k1N = obj.Nonlinear(x_n,obj.idx,obj.parConst)*dt;
-                % project the stage increment for q1
                 k1N = obj.projectStage(k1N);
-
+                
                 if storeSens
-                    [Nq1,Nu1]=AeroFlex.sim.nonlinearJacobian(x_n,obj.idx,obj.parConst);
+                    [Nq1,Nu1] = AeroFlex.sim.nonlinearJacobian(x_n,obj.idx,obj.parConst);
                     j1N = dt*(Nq1*Sn + Nu1);
-                     if obj.useRateProjection
-                        j1N(obj.idx.q1,:) = obj.Pz * j1N(obj.idx.q1,:);
-                        % j1N(obj.idx.q2,:) = obj.Pz_q2 * j1N(obj.idx.q2,:);
-                        % j1N(obj.idx.qGam,:) = obj.Pz_qGam * j1N(obj.idx.qGam,:);
-
-                     end
-                    rhsS = obj.L*(Sn + gamma*j1N)*dt;
+                    j1N = obj.projectSense(j1N);
+                
+                    rhsS = Lprop*(Sn + gamma*j1N)*dt;
                     j1L  = obj.solveImplicit(rhsS);
-                    j1L = obj.projectSense(j1L);
-
-                    S1   = Sn + gamma*(j1L+j1N);
+                
+                    S1 = Sn + gamma*(j1L + j1N);
                 end
-                % implicit solve for k1L
-                k1L = obj.solveImplicit(obj.L*(x_n+gamma*k1N)*dt);
-                k1L = obj.projectStage(k1L);       
-
-                y1  = x_n + gamma*(k1L+k1N);
-
-                % stage 2
+                
+                k1L = obj.solveImplicit(Lprop*(x_n + gamma*k1N)*dt);
+                y1  = x_n + gamma*(k1L + k1N);
+                
+                % Stage 2
                 k2N = obj.Nonlinear(y1,obj.idx,obj.parConst)*dt;
-                k2N = obj.projectStage(k2N);        
-
+                k2N = obj.projectStage(k2N);
+                
                 if storeSens
                     [Nq2,Nu2] = AeroFlex.sim.nonlinearJacobian(y1,obj.idx,obj.parConst);
-                    j2N = dt*(Nq2*S1+Nu2);
-                    if obj.useRateProjection
-                        j2N(obj.idx.q1,:) = obj.Pz * j2N(obj.idx.q1,:);
-                        % j2N(obj.idx.q2,:) = obj.Pz_q2 * j2N(obj.idx.q2,:);
-                        % j2N(obj.idx.qGam,:) = obj.Pz_qGam * j2N(obj.idx.qGam,:);
-                    end
-                    rhsS = obj.L*(Sn+(1-gamma)*j1L+delta*j1N+(1-delta)*j2N)*dt;
+                    j2N = dt*(Nq2*S1 + Nu2);
+                    j2N = obj.projectSense(j2N);
+                
+                    rhsS = Lprop*(Sn + (1-gamma)*j1L + delta*j1N + (1-delta)*j2N)*dt;
                     j2L  = obj.solveImplicit(rhsS);
-                    j2L = obj.projectSense(j2L);    
-
-                    S2   = Sn+(1-gamma)*j1L+gamma*j2L+delta*j1N+(1-delta)*j2N;
+                
+                    S2 = Sn + (1-gamma)*j1L + gamma*j2L + delta*j1N + (1-delta)*j2N;
                 end
-                k2L = obj.solveImplicit(obj.L*(x_n+(1-gamma)*k1L+delta*k1N+(1-delta)*k2N)*dt);
-                k2L = obj.projectStage(k2L);        
-
-                % stage 3
-                y2  = x_n+(1-gamma)*k1L+gamma*k2L+delta*k1N+(1-delta)*k2N;
+                
+                k2L = obj.solveImplicit( ...
+                    Lprop*(x_n + (1-gamma)*k1L + delta*k1N + (1-delta)*k2N)*dt);
+                
+                % Stage 3
+                y2  = x_n + (1-gamma)*k1L + gamma*k2L + delta*k1N + (1-delta)*k2N;
                 k3N = obj.Nonlinear(y2,obj.idx,obj.parConst)*dt;
-                k3N = obj.projectStage(k3N);        % << NEW
-
+                k3N = obj.projectStage(k3N);
+                
                 if storeSens
-                    [Nq3,Nu3]=AeroFlex.sim.nonlinearJacobian(y2,obj.idx,obj.parConst);
-                    j3N = dt*(Nq3*S2+Nu3);
-                     if obj.useRateProjection
-                        j3N(obj.idx.q1,:) = obj.Pz * j3N(obj.idx.q1,:);
-                        % j3N(obj.idx.q2,:) = obj.Pz_q2 * j3N(obj.idx.q2,:);
-                        % j3N(obj.idx.qGam,:) = obj.Pz_qGam * j3N(obj.idx.qGam,:);
-
-                     end
-                    S_np1 = Sn +(1-gamma)*(j1L+j2N)+gamma*(j2L+j3N);
+                    [Nq3,Nu3] = AeroFlex.sim.nonlinearJacobian(y2,obj.idx,obj.parConst);
+                    j3N = dt*(Nq3*S2 + Nu3);
+                    j3N = obj.projectSense(j3N);
+                
+                    S_np1 = Sn + (1-gamma)*(j1L + j2N) + gamma*(j2L + j3N);
                     S(:,:,k+1) = S_np1;
                     obj.buff.S(:,:,k+1) = S_np1;
                 end
-                % if obj.useRateProjection
-                %     x_n(obj.idx.q1) = obj.Pz * x_n(obj.idx.q1);
+                
+                x_np1 = x_n + (1-gamma)*(k1L + k2N) + gamma*(k2L + k3N);
+                % % ---------- IMEX–DIRK integrator --------------------------
+                % % stage 1: explicit N
+                % k1N = obj.Nonlinear(x_n,obj.idx,obj.parConst)*dt;
+                % % project the stage increment for q1
+                % k1N = obj.projectStage(k1N);
                 % 
-                %     x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
-                % else
-                %     x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
+                % if storeSens
+                %     [Nq1,Nu1]=AeroFlex.sim.nonlinearJacobian(x_n,obj.idx,obj.parConst);
+                %     j1N = dt*(Nq1*Sn + Nu1);
+                %      if obj.useRateProjection
+                %         j1N(obj.idx.q1,:) = obj.Pz * j1N(obj.idx.q1,:);
+                %         % j1N(obj.idx.q2,:) = obj.Pz_q2 * j1N(obj.idx.q2,:);
+                %         % j1N(obj.idx.qGam,:) = obj.Pz_qGam * j1N(obj.idx.qGam,:);
                 % 
+                %      end
+                %     rhsS = obj.L*(Sn + gamma*j1N)*dt;
+                %     j1L  = obj.solveImplicit(rhsS);
+                %     j1L = obj.projectSense(j1L);
+                % 
+                %     S1   = Sn + gamma*(j1L+j1N);
                 % end
-                x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
-                % if obj.useRateProjection
-                %     x_np1(obj.idx.q1) = obj.Pz * x_np1(obj.idx.q1);
+                % % implicit solve for k1L
+                % k1L = obj.solveImplicit(obj.L*(x_n+gamma*k1N)*dt);
+                % k1L = obj.projectStage(k1L);       
+                % 
+                % y1  = x_n + gamma*(k1L+k1N);
+                % 
+                % % stage 2
+                % k2N = obj.Nonlinear(y1,obj.idx,obj.parConst)*dt;
+                % k2N = obj.projectStage(k2N);        
+                % 
+                % if storeSens
+                %     [Nq2,Nu2] = AeroFlex.sim.nonlinearJacobian(y1,obj.idx,obj.parConst);
+                %     j2N = dt*(Nq2*S1+Nu2);
+                %     if obj.useRateProjection
+                %         j2N(obj.idx.q1,:) = obj.Pz * j2N(obj.idx.q1,:);
+                %         % j2N(obj.idx.q2,:) = obj.Pz_q2 * j2N(obj.idx.q2,:);
+                %         % j2N(obj.idx.qGam,:) = obj.Pz_qGam * j2N(obj.idx.qGam,:);
+                %     end
+                %     rhsS = obj.L*(Sn+(1-gamma)*j1L+delta*j1N+(1-delta)*j2N)*dt;
+                %     j2L  = obj.solveImplicit(rhsS);
+                %     j2L = obj.projectSense(j2L);    
+                % 
+                %     S2   = Sn+(1-gamma)*j1L+gamma*j2L+delta*j1N+(1-delta)*j2N;
                 % end
+                % k2L = obj.solveImplicit(obj.L*(x_n+(1-gamma)*k1L+delta*k1N+(1-delta)*k2N)*dt);
+                % k2L = obj.projectStage(k2L);        
+                % 
+                % % stage 3
+                % y2  = x_n+(1-gamma)*k1L+gamma*k2L+delta*k1N+(1-delta)*k2N;
+                % k3N = obj.Nonlinear(y2,obj.idx,obj.parConst)*dt;
+                % k3N = obj.projectStage(k3N);        % << NEW
+                % 
+                % if storeSens
+                %     [Nq3,Nu3]=AeroFlex.sim.nonlinearJacobian(y2,obj.idx,obj.parConst);
+                %     j3N = dt*(Nq3*S2+Nu3);
+                %      if obj.useRateProjection
+                %         j3N(obj.idx.q1,:) = obj.Pz * j3N(obj.idx.q1,:);
+                %         % j3N(obj.idx.q2,:) = obj.Pz_q2 * j3N(obj.idx.q2,:);
+                %         % j3N(obj.idx.qGam,:) = obj.Pz_qGam * j3N(obj.idx.qGam,:);
+                % 
+                %      end
+                %     S_np1 = Sn +(1-gamma)*(j1L+j2N)+gamma*(j2L+j3N);
+                %     S(:,:,k+1) = S_np1;
+                %     obj.buff.S(:,:,k+1) = S_np1;
+                % end
+                % % if obj.useRateProjection
+                % %     x_n(obj.idx.q1) = obj.Pz * x_n(obj.idx.q1);
+                % % 
+                % %     x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
+                % % else
+                % %     x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
+                % % 
+                % % end
+                % x_np1 = x_n + (1-gamma)*(k1L+k2N) + gamma*(k2L+k3N);
+                % % if obj.useRateProjection
+                % %     x_np1(obj.idx.q1) = obj.Pz * x_np1(obj.idx.q1);
+                % % end
                 % ---------- ring-buffer push every sample -----------------
                 kBuf = mod(k-1, size(obj.buff.X,2)) + 1;
                 obj.buff.X(:,kBuf) = x_n;
@@ -512,6 +590,136 @@ classdef SimRunner
         % function gust_k = gustSignal(k, gust)
         %     gust_k = gust(k);
         % end
+        % function applySchedule(obj,sched)
+        %     obj.L = sched.L;
+        %     obj.idx = sched.idx;
+        %     obj.parConst = sched.parConst;
+        %     gamma = (2 - sqrt(2))/2;
+        %     A = speye(size(obj.L)) - gamma*obj.cfg.sim.dt*obj.L;
+        %     [obj.Lfac,obj.Ufac,obj.piv] = lu(A,'vector');
+        %     % obj = obj.rebuildConstrainedOperator();
+        %     if isfield(sched.beam,'Pz')
+        %         obj.Pz = sched.beam.Pz;
+        %     end
+        %     if isfield(sched.beam,'Pr')
+        %         obj.beam.Pr = sched.beam.Pr;
+        %     end
+        %     if isfield(sched.beam,'red')
+        %         obj.beam.red = sched.beam.red;
+        %     end
+        % end
+        function obj = applySchedule(obj,sched,cfg)
+        %APPLYSCHEDULE Install scheduled matrices into SimRunner.
         
+        if nargin < 3
+            cfg = obj.cfg;
+        end
+        
+        obj.L        = sched.L;
+        obj.idx      = sched.idx;
+        obj.parConst = sched.parConst;
+        
+        if isfield(cfg,'sim') && isfield(cfg.sim,'dt') && ~isempty(cfg.sim.dt)
+            obj.dt = cfg.sim.dt;
+            obj.parConst.dt = cfg.sim.dt;
+        end
+        
+        if isfield(sched,'beam')
+            if isfield(sched.beam,'Pz')
+                obj.Pz = sched.beam.Pz;
+                obj.beam.Pz = sched.beam.Pz;
+            end
+            if isfield(sched.beam,'Pr')
+                obj.beam.Pr = sched.beam.Pr;
+            end
+            if isfield(sched.beam,'red')
+                obj.beam.red = sched.beam.red;
+            end
+        end
+        
+        obj.useRateProjection = AeroFlex.sched.runtimeRateProjectionPolicy( ...
+            cfg,obj.useRateProjection);
+        
+        obj.parConst.RateProject = struct( ...
+            'projSet', obj.useRateProjection, ...
+            'Pz', obj.Pz);
+        
+        obj = obj.rebuildConstrainedOperator();
+        end
+
+        function obj = rebuildConstrainedOperator(obj)
+        %REBUILDCONSTRAINEDOPERATOR Build projected propagation operator for SimRunner.
+        %
+        % obj.L remains the raw assembled ROM operator.
+        % obj.Ldyn is the operator used by the IMEX propagation in run().
+        %
+        % If RateProject.projSet is true:
+        %
+        %     obj.Ldyn(q1,:) = Pz*obj.L(q1,:);
+        %
+        % This implements:
+        %
+        %     xdot = Q*(L*x + N)
+        %
+        % where Q only modifies the q1-rate rows.
+        
+            if isempty(obj.L)
+                error('SimRunner:MissingL', ...
+                      'Cannot rebuild constrained operator because obj.L is empty.');
+            end
+        
+            if isempty(obj.idx) || ~isfield(obj.idx,'q1')
+                error('SimRunner:MissingIndex', ...
+                      'Cannot rebuild constrained operator because obj.idx.q1 is missing.');
+            end
+        
+            n = size(obj.L,1);
+        
+            if size(obj.L,2) ~= n
+                error('SimRunner:BadLSize', ...
+                      'obj.L must be square. Got %d x %d.', size(obj.L,1), size(obj.L,2));
+            end
+        
+            obj.Ldyn = obj.L;
+        
+            useProjection = false;
+        
+            if isfield(obj,'parConst') && ~isempty(obj.parConst) && ...
+                    isfield(obj.parConst,'RateProject') && ...
+                    isfield(obj.parConst.RateProject,'projSet') && ...
+                    logical(obj.parConst.RateProject.projSet)
+        
+                useProjection = true;
+            end
+        
+            if useProjection
+                if ~isfield(obj.parConst.RateProject,'Pz') || isempty(obj.parConst.RateProject.Pz)
+                    error('SimRunner:MissingPz', ...
+                          'RateProject.projSet is true, but RateProject.Pz is missing.');
+                end
+        
+                Pz = obj.parConst.RateProject.Pz;
+                q1 = obj.idx.q1(:);
+        
+                nq1 = numel(q1);
+        
+                if ~isequal(size(Pz), [nq1, nq1])
+                    error('SimRunner:BadPzSize', ...
+                          'Pz must be %d x %d for q1 rows. Got %d x %d.', ...
+                          nq1, nq1, size(Pz,1), size(Pz,2));
+                end
+        
+                obj.Ldyn(q1,:) = Pz*obj.L(q1,:);
+            end
+        
+            A = speye(n) - obj.gamma*obj.dt*obj.Ldyn;
+        
+            if any(~isfinite(A(:)))
+                error('SimRunner:BadImplicitMatrix', ...
+                      'Implicit matrix contains NaN or Inf.');
+            end
+        
+            [obj.Lfac, obj.Ufac, obj.piv] = lu(A,'vector');
+        end
     end
 end

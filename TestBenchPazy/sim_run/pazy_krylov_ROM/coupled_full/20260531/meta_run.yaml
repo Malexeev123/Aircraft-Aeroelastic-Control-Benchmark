@@ -1,6 +1,0 @@
-case_name: pazy_krylov_ROM
-body_case: coupled_full
-setup_dir: \\wsl.localhost\ubuntu\home\maxal\Aircraft-Aeroelastic-Control-Benchmark\TestBenchPazy\sim_setup\pazy_krylov_ROM\coupled_full\20260531
-created:   2026-05-31
-sim_case:  openloop
-runner:    plantrom

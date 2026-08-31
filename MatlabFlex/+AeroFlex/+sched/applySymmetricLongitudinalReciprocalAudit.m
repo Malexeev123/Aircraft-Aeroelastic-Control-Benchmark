@@ -1,0 +1,93 @@
+function packet = applySymmetricLongitudinalReciprocalAudit(packet,request)
+%APPLYSYMMETRICLONGITUDINALRECIPROCALAUDIT Restrict one packet to Case B.
+%   The projection acts in the established runtime physical chart. Flexible
+%   and aerodynamic coordinates remain unchanged; only lateral rigid-body,
+%   differential-surface, and lateral root-wrench components are excluded.
+
+arguments
+    packet (1,1) struct
+    request (1,1) struct = struct()
+end
+
+if isempty(fieldnames(request)) || ~isfield(request,"enable") || ...
+        ~logical(request.enable)
+    return
+end
+assert(isfield(request,"auditOnly") && logical(request.auditOnly) && ...
+    isfield(request,"changeId") && string(request.changeId)== ...
+        "phase18c-v17a-caseb-symmetric-longitudinal-reciprocal-runtime-domain-owner-v1", ...
+    "AeroFlex:sched:SymmetricReciprocalApproval", ...
+    "The symmetric-longitudinal reciprocal request is not approved.");
+assert(isfield(packet,"plantCandidate") && ...
+    string(packet.schemaVersion)== ...
+        "phase18c-v17a-scheduled-reciprocal-packet-v1", ...
+    "AeroFlex:sched:SymmetricReciprocalPacket", ...
+    "The scheduled reciprocal packet contract changed.");
+
+candidate = packet.plantCandidate;
+assert(candidate.visible.count==69 && ...
+    candidate.runtimeState.count==83 && candidate.input.count==7, ...
+    "AeroFlex:sched:SymmetricReciprocalDimensions", ...
+    "The scheduled reciprocal state or input order changed.");
+
+[candidate,contract] = localProjectCandidate(candidate,request);
+if isfield(packet,"members")
+    for memberIndex = 1:numel(packet.members)
+        packet.members(memberIndex).candidate = localProjectCandidate( ...
+            packet.members(memberIndex).candidate,request);
+    end
+end
+packet.plantCandidate = candidate;
+packet.symmetricLongitudinalReciprocalAudit = contract;
+end
+
+function [candidate,contract] = localProjectCandidate(candidate,request)
+stateProjector = eye(candidate.runtimeState.count);
+visibleProjector = eye(candidate.visible.count);
+inputProjector = eye(candidate.input.count);
+rootProjector = diag([1,0,1,0,1,0]);
+
+% Source rigid order is [v_B, omega_B, Euler].  Retain u, w, pitch rate,
+% and pitch attitude.  The two flexible-orientation blocks retain their
+% native modal meaning; chi is restricted to its pitch component.
+rigidKeep = candidate.visible.rigid([1,3,5,8]);
+rigidReject = setdiff(candidate.visible.rigid,rigidKeep);
+stateProjector(rigidReject,rigidReject) = 0;
+visibleProjector(rigidReject,rigidReject) = 0;
+chiReject = candidate.runtimeState.chi([1,3]);
+stateProjector(chiReject,chiReject) = 0;
+
+% Equal physical left/right signs are the qualified symmetric command.
+inputProjector(2:3,2:3) = 0.5*ones(2);
+inputProjector(4:5,4:5) = 0.5*ones(2);
+
+candidate.correction.deltaAFullState = visibleProjector* ...
+    candidate.correction.deltaAFullState*stateProjector;
+candidate.correction.deltaBv = visibleProjector* ...
+    candidate.correction.deltaBv*inputProjector;
+candidate.partition.Avh = visibleProjector*candidate.partition.Avh;
+candidate.partition.hiddenFromFullState = ...
+    candidate.partition.hiddenFromFullState*stateProjector;
+candidate.partition.Bh = candidate.partition.Bh*inputProjector;
+
+hiddenCount = candidate.hidden.count;
+stateAndMemoryProjector = blkdiag(stateProjector,eye(hiddenCount));
+candidate.rootWrenchOutput.equilibrium = rootProjector* ...
+    candidate.rootWrenchOutput.equilibrium(:);
+candidate.rootWrenchOutput.runtimeStateMap = rootProjector* ...
+    candidate.rootWrenchOutput.runtimeStateMap*stateAndMemoryProjector;
+candidate.rootWrenchOutput.runtimeInputMap = rootProjector* ...
+    candidate.rootWrenchOutput.runtimeInputMap*inputProjector;
+candidate.schemaVersion = ...
+    "phase18c-v17a-scheduled-reciprocal-tangent-symmetric-audit-v1";
+contract = struct( ...
+    "enabled",true,"changeId",string(request.changeId), ...
+    "stateProjector",stateProjector, ...
+    "visibleProjector",visibleProjector, ...
+    "inputProjector",inputProjector, ...
+    "rootWrenchProjector",rootProjector, ...
+    "rigidKeep",rigidKeep,"rigidReject",rigidReject, ...
+    "source","declared_runtime_physical_longitudinal_chart", ...
+    "validationFittingUsed",false);
+candidate.symmetricLongitudinalAudit = contract;
+end

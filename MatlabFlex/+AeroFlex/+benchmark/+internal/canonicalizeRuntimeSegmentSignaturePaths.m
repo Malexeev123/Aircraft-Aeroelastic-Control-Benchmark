@@ -1,0 +1,39 @@
+function [previousPaths,currentPaths] = ...
+        canonicalizeRuntimeSegmentSignaturePaths(previous,current)
+%CANONICALIZERUNTIMESEGMENTSIGNATUREPATHS Rebind one relocated Case-B owner.
+%   Legacy checkpoints may name the retained private runner. The alias is
+%   accepted only when that saved hash equals the production-runner hash.
+
+arguments
+    previous (1,1) struct
+    current (1,1) struct
+end
+
+required = ["relativePaths","sha256"];
+assert(all(isfield(previous,required)) && all(isfield(current,required)), ...
+    "AeroFlex:RuntimeSegmentSignatureFields", ...
+    "Runtime signatures require relativePaths and sha256 fields.");
+previousPaths = string(previous.relativePaths);
+currentPaths = string(current.relativePaths);
+previousHashes = string(previous.sha256);
+currentHashes = string(current.sha256);
+assert(isequal(size(previousPaths),size(previousHashes)) && ...
+    isequal(size(currentPaths),size(currentHashes)), ...
+    "AeroFlex:RuntimeSegmentSignatureDimensions", ...
+    "Each runtime-signature path must have one SHA-256 value.");
+
+legacyRunner = "context/audits/phase18c-control-validation/cases/" + ...
+    "run_phase18c_v17a_caseb_integrated_profile_v1.m";
+productionRunner = "MatlabFlex/+AeroFlex/+benchmark/+runtime/" + ...
+    "run_phase18c_v17a_caseb_integrated_profile_v1.m";
+legacyIndex = find(previousPaths==legacyRunner);
+if ~isempty(legacyIndex)
+    currentIndex = find(currentPaths==productionRunner);
+    assert(isscalar(legacyIndex) && isscalar(currentIndex) && ...
+        previousHashes(legacyIndex)==currentHashes(currentIndex), ...
+        "AeroFlex:RuntimeSegmentLegacyRunnerHash", ...
+        "The legacy Case-B runner path may be aliased only when its " + ...
+        "saved hash equals the production runner hash.");
+    previousPaths(legacyIndex) = productionRunner;
+end
+end

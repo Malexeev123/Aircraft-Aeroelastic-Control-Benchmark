@@ -1,0 +1,20 @@
+# Preserve the byte-locked source and runtime-asset inventory across clones.
+* -text
+
+# Several accepted MATLAB sources retain established CRLF and spacing. Their
+# bytes are protected; new and release-owned MATLAB files are checked before
+# packaging.
+*.m whitespace=-trailing-space,cr-at-eol
+*.md whitespace=-trailing-space,cr-at-eol
+*.json whitespace=-trailing-space,cr-at-eol
+references/LICENSING.md whitespace=-trailing-space,cr-at-eol
+
+# Keep generated numerical and figure products out of textual diffs.
+*.mlx binary
+*.mat binary
+*.pdf binary
+*.h5 binary
+*.hdf5 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
