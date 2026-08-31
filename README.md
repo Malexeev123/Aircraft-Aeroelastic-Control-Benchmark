@@ -15,12 +15,12 @@ validation, and post-processing are project-owned.
 
 | Scenario | Description | Status |
 | --- | --- | --- |
-| `A1` | Commanded attitude, no gust | Qualified |
-| `A2` | Attitude hold under gust | Qualified |
-| `A3` | Commanded attitude under gust | Qualified |
-| `B1` | Thrust-led speed transition, no gust | Experimental scheduled case |
-| `B2` | Matched speed transition under gust | Experimental scheduled case |
-| `C` | Longitudinal trajectory tracking under gust | Deferred; maneuver not frozen |
+| `A1` | Commanded attitude, no gust 
+| `A2` | Attitude hold under gust 
+| `A3` | Commanded attitude under gust 
+| `B1` | Thrust-led speed transition, no gust 
+| `B2` | Matched speed transition under gust 
+| `C` | Longitudinal trajectory tracking under gust
 
 The Case-B interface retains the complete V90 scheduled runtime, including
 scheduled package/history ownership, current-package forecast context, state transport,
@@ -410,8 +410,7 @@ pass.
 
 Case B is distributed as an experimental scheduled workflow with the same
 physical, solver, actuator, thrust, and source-domain acceptance thresholds as
-the qualified cases. Case C remains deferred until its maneuver definition is
-frozen.
+the qualified cases.
 
 ## License and attribution
 
