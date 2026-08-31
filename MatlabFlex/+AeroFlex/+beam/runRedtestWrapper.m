@@ -191,7 +191,7 @@ end
 %     Mred = S.Mred; Kred = S.Kred;
 % else
 %     % [Kred,Mred] = buildReducedKM(fem); % user helper
-%     save(redCache,'Kred','Mred','-v7.3');
+%     save(redCache,'Kred','Mred','-v7');
 % end
 % % Mred = obj.Mhat; 
 % % Kred = obj.Khat;

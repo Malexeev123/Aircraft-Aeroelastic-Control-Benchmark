@@ -22,6 +22,8 @@ BSD 3-Clause License.
 
 - Project: <https://github.com/ImperialCollegeLondon/xbeam>
 
-The benchmark's generated runtime libraries, MATLAB interfaces, and native
-acceleration kernels are project-owned release products. Their hashes and
-provenance are recorded in the release inventory and model-library manifest.
+The benchmark distributes a compact set of generated SHARPy/XBeam model data,
+but not either upstream source tree. The generated runtime libraries, MATLAB
+interfaces, and native acceleration kernels are project-owned release
+products. Their hashes and provenance are recorded in the release inventory
+and model-library manifests.

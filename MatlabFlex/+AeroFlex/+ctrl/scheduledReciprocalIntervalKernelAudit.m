@@ -49,7 +49,7 @@ useReducedSensitivity = needJacobian && ~all(sourceMask);
 if useReducedSensitivity
     activeHidden = localActiveHiddenIndices(sourceMask,sourceCounts);
     activeState = [reshape(1:74,[],1);74+activeHidden];
-    inactiveHidden = setdiff(reshape(1:546,[],1),activeHidden,'stable');
+    inactiveHidden = localInactiveHiddenIndices(activeHidden);
     assert(norm(packet.Avh(:,inactiveHidden),inf)<=1e-14 && ...
         norm(packet.Ahh(activeHidden,inactiveHidden),inf)<=1e-14 && ...
         norm(packet.Ahh(inactiveHidden,activeHidden),inf)<=1e-14 && ...
@@ -146,6 +146,20 @@ if useReducedSensitivity
     sensitivity(activeState,622:625) = wingSensitivity;
 else
     sensitivity = [stateSensitivity,disturbanceSensitivity,wingSensitivity];
+end
+end
+
+function indices = localInactiveHiddenIndices(activeIndices)
+% Preserve ascending source-memory order without a generated set operation.
+active = false(546,1);
+active(activeIndices) = true;
+indices = zeros(546-numel(activeIndices),1);
+cursor = 0;
+for index = 1:546
+    if ~active(index)
+        cursor = cursor+1;
+        indices(cursor) = index;
+    end
 end
 end
 

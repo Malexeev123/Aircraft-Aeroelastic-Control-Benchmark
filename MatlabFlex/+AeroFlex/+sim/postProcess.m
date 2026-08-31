@@ -663,7 +663,8 @@ coords = beam.fem.coordinates;
 %     end
 % end
 %%
-if ~isfolder("timeseries"), mkdir("timeseries"), end
+timeseries_dir = local_get_timeseries_dir(cfg);
+if ~isfolder(timeseries_dir), mkdir(timeseries_dir), end
 
 node_xyz_H = zeros(size(length(t),3));
 coords_hist_time = cell(1, Nnode+1);
@@ -683,13 +684,13 @@ for k = 1:Nnode
 
     T = table(coords_hist_time{k}(:,1), coords_hist_time{k}(:,2), coords_hist_time{k}(:,3), t(:),...
               'VariableNames', {'x','y','z','time'});
-    writetable(T, "timeseries/" + int2str(k)+".csv");
+    writetable(T, fullfile(timeseries_dir,int2str(k)+".csv"));
     % end
 end
 
 T = table(zeros(length(t),1), zeros(length(t),1),zeros(length(t),1), t(:), ...
               'VariableNames', {'x','y','z','time'});
-    writetable(T, "timeseries/0.csv");
+    writetable(T, fullfile(timeseries_dir,"0.csv"));
 %%
 coord_hist1 = coords_hist_time{1};
   % writematrix(coords_hist{1},   "coords_hist1.csv");
@@ -993,6 +994,22 @@ if out.hasRigidBody
     metrics.pitch_rms_deg = sqrt(mean(rad2deg(eul(2,:)).^2,'omitnan'));
     metrics.yaw_rms_deg   = sqrt(mean(rad2deg(eul(3,:)).^2,'omitnan'));
 
+    finiteEuler = all(isfinite(eul),1);
+    if any(finiteEuler)
+        firstEuler = find(finiteEuler,1,'first');
+        eulerDeparture = eul(:,finiteEuler)-eul(:,firstEuler);
+        metrics.roll_departure_rms_deg = sqrt(mean( ...
+            rad2deg(eulerDeparture(1,:)).^2));
+        metrics.pitch_departure_rms_deg = sqrt(mean( ...
+            rad2deg(eulerDeparture(2,:)).^2));
+        metrics.yaw_departure_rms_deg = sqrt(mean( ...
+            rad2deg(eulerDeparture(3,:)).^2));
+    else
+        metrics.roll_departure_rms_deg = nan;
+        metrics.pitch_departure_rms_deg = nan;
+        metrics.yaw_departure_rms_deg = nan;
+    end
+
     metrics.U_mean = mean(out.rb.U,'omitnan');
     metrics.U_peak_dev = max(abs(out.rb.U - metrics.U_mean),[],'omitnan');
 else
@@ -1002,6 +1019,9 @@ else
     metrics.roll_rms_deg = nan;
     metrics.pitch_rms_deg = nan;
     metrics.yaw_rms_deg = nan;
+    metrics.roll_departure_rms_deg = nan;
+    metrics.pitch_departure_rms_deg = nan;
+    metrics.yaw_departure_rms_deg = nan;
     metrics.U_mean = nan;
     metrics.U_peak_dev = nan;
 end
@@ -1138,8 +1158,12 @@ fprintf('  Control RMS           : %10.4f deg\n', metrics.u_rms_deg);
 fprintf('  Control rate peak     : %10.4f deg/s\n', metrics.udot_peak_deg_s);
 fprintf('  Control rate RMS      : %10.4f deg/s\n', metrics.udot_rms_deg_s);
 if out.hasRigidBody
-fprintf('  Roll/Pitch/Yaw RMS    : %10.4f / %10.4f / %10.4f deg\n', ...
+fprintf('  Absolute attitude RMS : %10.4f / %10.4f / %10.4f deg\n', ...
         metrics.roll_rms_deg, metrics.pitch_rms_deg, metrics.yaw_rms_deg);
+fprintf('  Attitude departure RMS: %10.4f / %10.4f / %10.4f deg\n', ...
+        metrics.roll_departure_rms_deg, ...
+        metrics.pitch_departure_rms_deg, ...
+        metrics.yaw_departure_rms_deg);
 end
 fprintf('  MHE success           : %10.2f %%\n', metrics.mhe_success_pct);
 fprintf('  MPC success           : %10.2f %%\n', metrics.mpc_success_pct);
@@ -1197,9 +1221,22 @@ end
 plots_dir = fullfile(pwd,'plots');
 end
 
+function timeseries_dir = local_get_timeseries_dir(cfg)
+% Keep node histories with the run so separate executions never overwrite.
+if isfield(cfg,'paths') && isfield(cfg.paths,'run_dir') && ...
+        ~isempty(cfg.paths.run_dir)
+    timeseries_dir = fullfile(cfg.paths.run_dir,'timeseries');
+else
+    timeseries_dir = fullfile(pwd,'timeseries');
+end
+end
+
 function local_export_fig(fh, fullbase)
 % Save PNG (300 dpi), PDF (vector), and FIG. Robust to MATLAB version.
-png = [fullbase '.png']; pdf = [fullbase '.pdf']; fig = [fullbase '.fig'];
+fullbase = string(fullbase);
+png = char(fullbase+".png");
+pdf = char(fullbase+".pdf");
+fig = char(fullbase+".fig");
 try
     exportgraphics(fh, png, 'Resolution', 300);
 catch

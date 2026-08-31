@@ -62,6 +62,8 @@ p.addParameter('savePathSched',[],  @(s)ischar(s) || isstring(s));
 p.addParameter('run_id', '', @(s)ischar(s) || isstring(s));
 p.addParameter('date_only_runs', true, @(b)islogical(b) || isnumeric(b));
 p.addParameter('gustOn', true, @(b)islogical(b) || isnumeric(b));
+p.addParameter('durationSeconds', NaN, @(x)isnumeric(x) && isscalar(x) && ...
+    (isnan(x) || (isfinite(x) && x > 0)));
 p.addParameter('targetUInf', 35, @(x)isnumeric(x) && isscalar(x) && isfinite(x) && x > 0);
 p.addParameter('targetAoADeg', 0, @(x)isnumeric(x) && isscalar(x) && isfinite(x));
 p.addParameter('exactNodeOnly', false, @(b)islogical(b) || isnumeric(b));
@@ -181,10 +183,8 @@ if ~exist(sharpy_output_linear,'dir')
 end
 
 % Save a copy next to the other MATLAB bundles (and at run root for convenience)
-% save(fullfile(paths.for_matlab,'roots.mat'),'roots','-v7.3');
-save(fullfile(paths.for_matlab,'roots.mat'),'roots');
-% save(fullfile(paths.run_dir,'roots.mat'),'roots','-v7.3');
-save(fullfile(paths.run_dir,'roots.mat'),'roots');
+save(fullfile(paths.for_matlab,'roots.mat'),'roots','-v7');
+save(fullfile(paths.run_dir,'roots.mat'),'roots','-v7');
 
 %% ===== Console log capture (start) =======================================
 % One log per run; captures ALL Command Window output (fprintf, warnings, errors).
@@ -358,6 +358,9 @@ if cfg.overwrite.doOverwrite
         cfg.sim.dt = cfg.overwrite.dt;
     end
 end
+if isfinite(opt.durationSeconds)
+    cfg.sim.t_end = double(opt.durationSeconds);
+end
 
 validate_cfg(cfg);
 if debug, show_cfg_summary(cfg); end
@@ -437,7 +440,7 @@ n = size(aero.ROM_dsc.A,1); m = size(aero.ROM_dsc.B,2); p = size(aero.ROM_dsc.C,
 fprintf('[sim_init] AeroROM OK: n=%d, m=%d, p=%d, Ts=%.6g\n', n, m, p, aero.ROM_dsc.Ts);
 % disp(fieldnames(aero))
 % Persist a small bundle for MATLAB-side inspection/reuse
-save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero');
+save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero','-v7');
 cfg.Ts = aero.ROM_dsc.Ts;
 if ~opt.debug 
     cfg.plotOpts.debugPlots = false;
@@ -485,7 +488,7 @@ fprintf('[sim_init] BeamModel OK: nDofs=%d, nFlex=%d, Nm=%d, first ω=%.3f rad/s
 % beam.Gamma2 = zeros(beam.Nm, beam.Nm,beam.Nm);
 
 % Persist for MATLAB-side use
-save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam');
+save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam','-v7');
 % S = load(fullfile(paths.for_matlab,'beam_bundle.mat'),'beam'); B=S.beam;
 % fprintf('Beam φ0 size = %dx%d, Ω(1)=%.3f rad/s\n', size(B.phi0,1), size(B.phi0,2), B.Omega(1,1));
 % disp(fieldnames(S.beam))
@@ -585,7 +588,7 @@ fprintf('[sim_init] Building BASE (ξ-coupling)...\n');
 base = AeroFlex.core.build_xi_coupling(beam, aero, cfg);
 
 % Save alongside the others (for MATLAB-side inspection/reuse)
-save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base');
+save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base','-v7');
 
 % Quick diagnostics
 fprintf('[sim_init] BASE OK: φξ %dx%d, Dχ %dx%d, Bχ %dx%d\n', ...
@@ -678,9 +681,9 @@ if isfield(cfg,'library') && cfg.library.enable && exist(cfg.library.path,'file'
       if isfield(sched0.base,'xi_bar'), base.xi_bar = sched0.base.xi_bar; end
 
       % Replace the provisional canonical bundles with the complete exact-node package.
-      save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero');
-      save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam');
-      save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base');
+      save(fullfile(paths.for_matlab,'aero_bundle.mat'), 'aero','-v7');
+      save(fullfile(paths.for_matlab,'beam_bundle.mat'), 'beam','-v7');
+      save(fullfile(paths.for_matlab,'base_bundle.mat'), 'base','-v7');
   else
       base.Gamma_xi = sched0.base.Gamma_xi;
       base.Gamma_g  = sched0.base.Gamma_g;
@@ -964,7 +967,8 @@ if exist('ROMlib','var'), sim_config.ROMlib = ROMlib; end
 if exist('sched0','var'), sim_config.sched0 = sched0; end
 
 save(fullfile(paths.for_matlab,'sim_bundle.mat'), ...
-    'sim_config','state_space_system','input_settings','t','U','y','tip_deflection','deflection','deflection_rate');
+    'sim_config','state_space_system','input_settings','t','U','y', ...
+    'tip_deflection','deflection','deflection_rate','-v7');
 
 % S = load(fullfile(paths.for_matlab,'sim_bundle.mat'),'sim_config'); 
 % disp(fieldnames(S.sim_config))
@@ -1004,13 +1008,13 @@ run_settings.x0 = sim_config.x0;
 % Save L-matrix if available (guarded)
 try
     [L, blk] = AeroFlex.core.assemble_L_matrix(cfg, beam, aero, base);
-    save(fullfile(paths.for_matlab,'L_bundle.mat'),'L','blk');
+    save(fullfile(paths.for_matlab,'L_bundle.mat'),'L','blk','-v7');
 catch ME
     warning('[sim_init] assemble_L_matrix skipped: %s', ME.message);
 end
 
 % Save runner settings alongside other for_matlab artifacts
-save(fullfile(paths.for_matlab,'run_settings.mat'),'run_settings');
+save(fullfile(paths.for_matlab,'run_settings.mat'),'run_settings','-v7');
 
 
 %% ------------------------------------------------------------

@@ -19,12 +19,26 @@ cache/
 # Run products
 results/*
 !results/README.md
+!results/validation/
+results/validation/*
+!results/validation/sharpy-wingtip-comparison/
+!results/validation/sharpy-wingtip-comparison/README.md
+!results/validation/sharpy-wingtip-comparison/data/
+!results/validation/sharpy-wingtip-comparison/data/wingtip_comparison.csv
+!results/validation/sharpy-wingtip-comparison/wingtip_comparison.png
+!results/validation/sharpy-wingtip-comparison/wingtip_comparison_summary.json
 generated/*
 !generated/README.md
 logs/*
 !logs/README.md
 *.npy
 *.npz
+
+# Shared model-workflow run products. Curated cases/output inputs are tracked.
+TestBenchPazy/sim_setup/
+TestBenchPazy/sim_run/
+TestBenchPazy/plots/
+TestBenchPazy/timeseries/
 
 # Local reference documents and archives
 references/pdf/*.pdf

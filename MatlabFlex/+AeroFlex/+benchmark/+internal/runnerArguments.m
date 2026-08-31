@@ -15,7 +15,7 @@ switch plan.runnerKind
             "fmincon","fmincon",0,true,plan.holdNmpcAtTrim, ...
             true,struct(),struct(),plan.runtimeAcceleration};
 
-    case {"experimental_case_b_v90","custom_scheduled_v17a"}
+    case {"scheduled_case_b_v90","custom_scheduled_v17a"}
         owner = plan.protectedRuntime.caseB;
         tracePath = string(fullfile(runRoot,"logs","caseb_trace.jsonl"));
         customScenario = struct();

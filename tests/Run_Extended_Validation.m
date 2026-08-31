@@ -1,5 +1,5 @@
 %% Pazy benchmark: extended source validation
-% Validate the accepted V17 source packages directly. The suite checks source
+% Validate the accepted production source packages directly. The suite checks source
 % hashes, trim ownership, nonlinear residuals, and flexible/aerodynamic poles,
 % then saves a checkpoint after every source.
 
@@ -24,15 +24,15 @@ expectedRegistryHash = ...
     "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f";
 
 assert(isfile(registryPath),"PazyValidation:MissingRegistry", ...
-    "The locked V17 source registry is unavailable.");
+    "The locked production source registry is unavailable.");
 assert(fileSha256(registryPath) == expectedRegistryHash, ...
     "PazyValidation:RegistryHashMismatch", ...
-    "The V17 registry hash does not match the locked production value.");
+    "The source registry hash does not match the locked production value.");
 
 registry = jsondecode(fileread(registryPath));
 assert(registry.sourceCount == 29 && numel(registry.sources) == 29, ...
     "PazyValidation:RegistryCountMismatch", ...
-    "The V17 registry must contain exactly 29 accepted sources.");
+    "The production registry must contain exactly 29 accepted sources.");
 
 sourceIndices = double(validationSettings.sourceIndices(:).');
 assert(all(isfinite(sourceIndices)) && ...
@@ -52,7 +52,7 @@ jsonPath = fullfile(outputRoot,"source_validation_summary.json");
 plotPath = fullfile(outputRoot,"source_validation_trends.png");
 
 fprintf("\nPazy Aeroelastic Control Benchmark\n");
-fprintf("Extended V17 source trim and linearization validation\n");
+fprintf("Extended production-source trim and linearization validation\n");
 fprintf("  Mode       : %s\n",validationSettings.mode);
 fprintf("  Sources    : %s\n",mat2str(sourceIndices));
 fprintf("  Runtime    : typically under two minutes after setup\n");
@@ -264,10 +264,10 @@ frequency = [rows.maximumPoleFrequencyHz];
 elapsed = [rows.elapsedSeconds];
 
 figureHandle = figure("Visible","off","Color","w", ...
-    "Name","Pazy V17 source validation");
+    "Name","Pazy production-source validation");
 layout = tiledlayout(figureHandle,2,2,"TileSpacing","compact", ...
     "Padding","compact");
-title(layout,"V17 exact-source validation trends");
+title(layout,"Production exact-source validation trends");
 
 ax = nexttile(layout,1);
 scatter(ax,coordinates(:,1),coordinates(:,2),55,log10(max(residual,eps)), ...

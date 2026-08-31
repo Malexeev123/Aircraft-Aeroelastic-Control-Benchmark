@@ -883,7 +883,7 @@ end
 %                 data.fem = AeroFlex.beam.readFEMFromH5(femLoc);
 %                 obj.fem = data.fem; %fem =obj.fem;
 %                 obj.aero = data.aero; %aero = obj.aero;
-%                 % save(obj.cacheFile,"fem", "aero", "-v7.3");
+%                 % save(obj.cacheFile,"fem", "aero", "-v7");
 %             else
 %                 obj.fem = AeroFlex.beam.readFEMFromH5(obj.femFile);
 %                 obj.aero = AeroFlex.aero.readAEROFromH5(obj.aeroFile);
@@ -893,7 +893,7 @@ end
 %                 % Save ONLY the fem struct for now (step 3‑A)
 %                 % fem = obj.fem;
 %                 % aero = obj.aero;
-%                 % save(obj.cacheFile,"fem", "aero", "-v7.3");
+%                 % save(obj.cacheFile,"fem", "aero", "-v7");
 %             end
 %             dofPerNode = 6;
 %             allDofs    = 1:(obj.fem.num_node*dofPerNode);
@@ -913,7 +913,7 @@ end
 %             obj.fem.keepDofs = keepDofs;
 %             fem = obj.fem;
 %             aero = obj.aero;
-%             save(obj.cacheFile,"fem", "aero", "-v7.3");
+%             save(obj.cacheFile,"fem", "aero", "-v7");
 %         end
 % 
 %         %% ---------- Step 3‑B: modal import or build ---------------------

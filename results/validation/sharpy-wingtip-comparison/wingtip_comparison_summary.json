@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "status": "QUALIFIED_REFERENCE_COMPARISON",
+  "description": "Matched trim-relative symmetric wingtip response for the unchanged SHARPy reference and the MATLAB reduced-order wing-only model.",
+  "flightCondition": {
+    "speedMetersPerSecond": 40,
+    "angleOfAttackDegrees": 1,
+    "bodyCase": "wing_only_clamped"
+  },
+  "gust": {
+    "shape": "one_minus_cosine",
+    "peakMetersPerSecond": 0.8,
+    "spatialLengthMeters": 10,
+    "durationSeconds": 0.25,
+    "onsetSeconds": 0
+  },
+  "sampleCount": 100,
+  "timeRangeSeconds": [0, 0.99],
+  "comparisonFrame": "initial_trim_relative_tip_displacement",
+  "projectionPolicy": "disabled_for_wing_only_replay",
+  "semiSpanMeters": 0.55,
+  "metrics": {
+    "sharpyPeakMeters": 0.032942602004092221,
+    "matlabPeakMeters": 0.03297783343640355,
+    "peakRatioMatlabToSharpy": 1.0010694793418855,
+    "rmsErrorMeters": 0.0013046585306711637,
+    "peakAbsoluteErrorMeters": 0.0041000301165033818
+  },
+  "integrityTolerance": {
+    "timeSeconds": 1e-14,
+    "metricAbsolute": 1e-13,
+    "ratioAbsolute": 1e-13
+  },
+  "sourceDataSha256": "ee1ed11b805a42c74f94a3418f87e5269e819d185bbf7968134a835fdf10e5c7",
+  "interpretation": "Compare transient displacement about each model's own equilibrium. Absolute tip coordinates are not compared because the clamped SHARPy equilibrium and the coupled MATLAB source equilibrium use different absolute-coordinate contracts."
+}

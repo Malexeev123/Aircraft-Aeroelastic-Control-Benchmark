@@ -7,21 +7,22 @@
 | A1 | commanded attitude, no gust | qualified |
 | A2 | attitude hold, frozen gust | qualified |
 | A3 | commanded attitude, frozen gust | qualified |
-| B1 | thrust-led scheduled speed transition, no gust | experimental scheduled case |
-| B2 | matched scheduled speed transition, frozen gust | experimental scheduled case |
+| B1 | thrust-led scheduled speed transition, no gust | production runtime; qualification pending |
+| B2 | matched scheduled speed transition, frozen gust | production runtime; qualification pending |
 | C | longitudinal trajectory and attitude tracking under gust | deferred; definition not frozen |
 
-The Case-A execution owner is unchanged. The Case-B plan binds the executed
-V90 experimental profile. Its `auditDisposition` field is the machine-readable
-record of retained speedups and intentionally disabled experiments.
+The Case-A execution owner is unchanged. The Case-B plan binds the retained
+production scheduled profile. Its protected runtime record identifies
+retained speedups and intentionally disabled runtime candidates without
+exposing those implementation details as user-selectable case settings.
 
-V90 retains compiled estimator/controller kernels, active-stencil
-sensitivities, condensed RTI, packet reuse, native reduced horizons, the P1
-plant interval, rigid-wrench refinement, safe endpoint realization, and the
+The production profile retains compiled estimator/controller kernels, active-stencil
+sensitivities, condensed RTI, packet reuse, native reduced horizons, the
+accelerated plant interval, rigid-wrench refinement, safe endpoint realization, and the
 corrected reciprocal `qGam` bound owner. It deliberately keeps
 prepared-horizon reuse, accepted-replay reuse, full online fmincon correction,
 future scheduled-package sequencing, and the later standalone condensation
-experiments disabled. These selections are part of the retained executable
+runtime candidates disabled. These selections are part of the retained executable
 profile; the facade does not infer or reactivate discarded speed experiments.
 
 ## General model workflows
@@ -50,13 +51,13 @@ The formal Case-A and Case-B initial conditions are not interchangeable. If a
 requested phase boundary cannot be reached continuously inside the scheduled
 domain, it must be represented as two separately manifested runs or supplied
 with a separately qualified transition. The scheduled coupled-full speed/pitch
-adapter executes only with `AllowUnqualified=true`; altitude/lateral guidance
-and nonzero initial perturbations remain fail-closed.
+adapter executes directly; altitude/lateral guidance and nonzero initial
+perturbations remain fail-closed.
 
 ## Qualification rule
 
 A trajectory that appears useful or stable is not automatically a benchmark
 pass. Qualification also requires the declared estimator/controller success,
 constraint, actuator, thrust, loads, source-domain, and fallback gates. An
-experimental Case-B run preserves and plots failed evidence instead of
+A Case-B run preserves and plots failed qualification evidence instead of
 discarding it or relabeling it.

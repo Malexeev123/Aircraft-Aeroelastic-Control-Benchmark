@@ -23,8 +23,10 @@ assert(installation.passed)
 
 The verification resolves the Beam, Aero, Core/Base, plant, scheduling,
 control, actuator, trim, general `sim_init`/`sim_run`, and benchmark-facade
-entry points. It also checks the production Case-A/Case-B runners, locked V17
-registry, and native binaries.
+entry points. It also checks the production Case-A/Case-B runners, locked
+production registry, every manifest-owned dynamic runtime asset, and native
+binaries. Missing or changed physical-chart contracts therefore fail during
+installation verification rather than during the first scheduled setup.
 
 ## Runtime model assets
 
@@ -72,9 +74,18 @@ the resolved plan, then opt in to execution. Programmatic use is:
 summary = runBenchmarkCase("A1",NativeKernelPolicy="required");
 ```
 
-Case B remains experimental and requires `AllowUnqualified=true`. That flag
-does not relax any physical or numerical acceptance threshold.
+Case B is available through the production scheduled runtime. Its execution
+status and full-duration benchmark qualification are reported separately;
+no physical or numerical acceptance threshold is relaxed.
 
 For wing-only or general coupled workflows, select `model_workflow` in the
 top-level script or call `runPazyModelWorkflow`. Plan-only mode verifies the
 request without loading a model or creating output.
+
+The release contains the eight hash-locked inputs required by the shared
+`wingOnly` and `coupledFull` workflows. Their exact status appears under
+`status.generalWorkflows.modelAssets` in `verifyBenchmarkInstallation`.
+The shared model workflow uses the supplied source operating point by
+default. Advanced users may set both `TargetSpeedMps` and
+`TargetAngleOfAttackDeg`; unscheduled source mismatches are rejected before
+trim or propagation.

@@ -736,6 +736,18 @@ beam = Sbem.beam;
 base = Sbas.base;
 trim = Ssim.sim_config.trim;
 idx  = Ssim.sim_config.idx;
+% Runtime products belong to this invocation, not to the reusable setup.
+% Preserve setup provenance separately while redirecting plots, logs, and
+% post-processing products to the unique run directory.
+if ~isfield(cfg,'paths') || ~isstruct(cfg.paths)
+    cfg.paths = struct();
+end
+cfg.paths.setup_dir = setup_dir;
+runPathFields = fieldnames(paths);
+for runPathIndex = 1:numel(runPathFields)
+    runPathField = runPathFields{runPathIndex};
+    cfg.paths.(runPathField) = paths.(runPathField);
+end
 if isfield(Ssim.sim_config,'x0')
     x0 = Ssim.sim_config.x0;
 else
@@ -1051,6 +1063,9 @@ switch sim_case
                 if ~isempty(ROMlib) & cfg.library.enable
                     plant.attachROMLibrary(ROMlib);
                 end
+                if plant.useRigidBody
+                    rbHist(:,1) = localRigidStateVector(plant);
+                end
 
                 % Read-only local load derivatives at the trimmed state.
                 % This should be checked before trusting any open-loop divergence.
@@ -1075,7 +1090,12 @@ switch sim_case
                     switch lower(string(body_case))
                         case "wingonly"
                             cfg.sim.rigidToWingMode = "fixed";
-                            xk = plant.step(uk, gk, "ROM");
+                            assert(cfg.sim.commandsAreTrimIncrements, ...
+                                'sim_run:WingOnlyOpenLoopCommandFrame', ...
+                                ['Wing-only open-loop propagation requires ', ...
+                                 'the trim-relative command contract.']);
+                            xk = plant.step( ...
+                                plant.trimWingControl+uk,gk,"ROM");
 
                         case "coupledfull"
                             cfg.sim.rigidToWingMode = "alpha_gust";
@@ -1245,6 +1265,29 @@ switch sim_case
                     outerCtrl = [];
                 end
 
+                sharedIncrementActuatorFrame = ...
+                    isfield(cfg,'sharedModelWorkflow') && ...
+                    isstruct(cfg.sharedModelWorkflow) && ...
+                    isfield(cfg.sharedModelWorkflow,'enabled') && ...
+                    logical(cfg.sharedModelWorkflow.enabled) && ...
+                    isfield(cfg.sharedModelWorkflow,'actuatorCommandFrame') && ...
+                    string(cfg.sharedModelWorkflow.actuatorCommandFrame) == ...
+                    "trim_relative_increment";
+                if sharedIncrementActuatorFrame
+                    assert(strlength(benchmarkControlProfileName)==0, ...
+                        'sim_run:SharedActuatorFormalProfile', ...
+                        ['The shared actuator-frame owner cannot replace ', ...
+                         'a formal benchmark profile owner.']);
+                    assert(isfield(cfg,'sim') && ...
+                        isfield(cfg.sim,'commandsAreTrimIncrements') && ...
+                        logical(cfg.sim.commandsAreTrimIncrements), ...
+                        'sim_run:SharedActuatorCommandFrame', ...
+                        ['The shared actuator-frame owner requires the ', ...
+                         'trim-relative command contract.']);
+                    cfg.trim.Uinpt = zeros( ...
+                        cfg.ctrl.n_surf*cfg.ctrl.var_per,1);
+                end
+
 
                 if isfield(cfg,'fusion') && isfield(cfg.fusion,'enable') && cfg.fusion.enable
                     fuser = AeroFlex.ctrl.ComplementaryCommandFusion(cfg, trim);
@@ -1377,7 +1420,40 @@ switch sim_case
                 cfg.trim.Uinpt = zeros(4,1);
 
                 % Instantiate
-                cfg.modelHandle = @(cfg, beam, aero, base) modelFcn(cfg, beam, aero, base);
+                sharedExactPackagePrediction = ...
+                    isfield(cfg,'sharedModelWorkflow') && ...
+                    isstruct(cfg.sharedModelWorkflow) && ...
+                    isfield(cfg.sharedModelWorkflow,'enabled') && ...
+                    logical(cfg.sharedModelWorkflow.enabled) && ...
+                    isfield(cfg.sharedModelWorkflow, ...
+                        'exactPackagePrediction') && ...
+                    logical(cfg.sharedModelWorkflow. ...
+                        exactPackagePrediction);
+                if sharedExactPackagePrediction
+                    assert(strlength(benchmarkControlProfileName)==0, ...
+                        'sim_run:SharedExactPackageFormalProfile', ...
+                        ['The shared exact-package predictor owner cannot ', ...
+                         'replace a formal benchmark profile owner.']);
+                    assert(isfield(cfg,'library') && cfg.library.enable && ...
+                        isfield(cfg.library,'frozenPackage') && ...
+                        ~isempty(cfg.library.frozenPackage), ...
+                        'sim_run:SharedExactPackageMissing', ...
+                        ['The shared prediction owner requires the exact ', ...
+                         'package already attached to the plant.']);
+                    predictionPackage = cfg.library.frozenPackage;
+                    assert(isfield(predictionPackage,'name') && ...
+                        string(predictionPackage.name)== ...
+                        string(cfg.sharedModelWorkflow.sourceId), ...
+                        'sim_run:SharedExactPackageSource', ...
+                        ['The shared prediction package and declared source ', ...
+                         'identity differ.']);
+                    cfg.modelHandle = @(runtimeCfg,beamModel,aeroModel,baseModel) ...
+                        modelFcn(runtimeCfg,beamModel,aeroModel,baseModel, ...
+                            predictionPackage);
+                else
+                    cfg.modelHandle = @(runtimeCfg,beamModel,aeroModel,baseModel) ...
+                        modelFcn(runtimeCfg,beamModel,aeroModel,baseModel);
+                end
                 % -------------- 1.  SENSOR / DIMENSIONS ----------------------------
                 sensor = sensorFcn(beam, cfg);
                 cfg.ny        = size(sensor.PhiY,1);
@@ -1406,6 +1482,9 @@ switch sim_case
                 % Lookup
                 if ~isempty(ROMlib) & cfg.library.enable
                     plant.attachROMLibrary(ROMlib);
+                end
+                if plant.useRigidBody
+                    rbHist(:,1) = localRigidStateVector(plant);
                 end
                 if strlength(benchmarkControlProfileName) > 0
                     cfg.sim.dt = plant.dt;
@@ -2419,6 +2498,9 @@ switch sim_case
                         x0(1:nxFlex));
                 end
                 rbHist = nan(12,Nctrl+1);
+                if plant.useRigidBody
+                    rbHist(:,1) = localRigidStateVector(plant);
+                end
                 Clamp6Hist = nan(6,Nctrl);
                 sourceRootWrenchHist = nan(6,Nctrl);
                 sourceRootLoadQualifiedHist = false(1,Nctrl);
@@ -3195,7 +3277,7 @@ switch sim_case
                     scheduleModelSyncTimer = tic;
                     modelIdentity = synchronizePredictionModels( ...
                         est,ctrl,predictionPackage,cfg,plant.model, ...
-                        scheduledReciprocalPacket);
+                        scheduledReciprocalPacket,body_case);
                     scheduleModelSyncTime = toc(scheduleModelSyncTimer);
                     if isfield(scheduleInfo,'stateTransport') && ...
                             isstruct(scheduleInfo.stateTransport) && ...
@@ -3670,7 +3752,7 @@ switch sim_case
                             coordinateNmpcHorizon,'outerHoldInf', ...
                             norm(u_outer_hold,inf), ...
                             'fusionOuterLowPassInf', ...
-                            norm(fuser.yOuterLP,inf), ...
+                            localFusionOuterLowPassInf(fuser), ...
                             'baseHorizonFirstInf', ...
                             localFirstColumnNorm(uBaseHorizon)));
                         [u_inner, Uinfo] = ctrl.computeControl( ...
@@ -4756,12 +4838,12 @@ switch sim_case
                     switch lower(string(body_case))
                         case "wingonly"
                             cfg.sim.rigidToWingMode = "fixed";
-                            if benchmarkControlProfile.enabled
-                                wingPlantInput = plant.trimWingControl + ...
-                                    uIntervalApplied;
-                            else
-                                wingPlantInput = uIntervalApplied;
-                            end
+                            assert(cfg.sim.commandsAreTrimIncrements, ...
+                                'sim_run:WingOnlyControlledCommandFrame', ...
+                                ['Wing-only controlled propagation requires ', ...
+                                 'the trim-relative command contract.']);
+                            wingPlantInput = plant.trimWingControl + ...
+                                uIntervalApplied;
                             xk = plant.step(wingPlantInput,gk,"ROM");
 
                         case "coupledfull"
@@ -5365,7 +5447,7 @@ switch sim_case
                     sim_hist = struct('t',t(validNodes), ...
                         'x',x(:,validNodes),'cfg',cfg,'beam',beam, ...
                         'aero',aero,'base',base,'trim',trim, ...
-                        'log',partialLog);
+                        'log',partialLog,'paths',paths);
                     success = true;
                     return
                 end
@@ -5616,7 +5698,7 @@ end
 log.body_case = body_case;
 %Temp to run in RunBenchmark.m
 sim_hist = struct('t',t,'x',x,'cfg',cfg,'beam',beam,'aero',aero, ...
-    'base',base,'trim',trim,'log',log);
+    'base',base,'trim',trim,'log',log,'paths',paths);
 deferredOutputAudit = localDeferredOutputAuditRequest(cfg);
 if deferredOutputAudit.enabled
     % Keep the complete raw history; presentation output is regenerated explicitly.
@@ -5673,7 +5755,7 @@ if ~deferredOutputAudit.enabled
     fm_dir    = paths.for_matlab;                          if ~exist(fm_dir,'dir'),    mkdir(fm_dir);    end
 
     % 1) MAT bundle for MATLAB analysis
-    save(fullfile(fm_dir,'post_out.mat'), 'out');
+    save(fullfile(fm_dir,'post_out.mat'), 'out','-v7');
 
     % 2) CSVs (time, tip, angles [deg], energies)
     writematrix(out.t,                       fullfile(post_dir,'time.csv'));
@@ -5738,7 +5820,8 @@ if ~deferredOutputAudit.enabled
     % ------------------- Save run bundle -------------------
     try
         save(fullfile(paths.for_matlab,'run_bundle.mat'), ...
-            'results','cfg','aero','beam','base','trim','idx','run_settings');
+            'results','cfg','aero','beam','base','trim','idx', ...
+            'run_settings','-v7');
     catch ME
         warning('[sim_run] Could not save run_bundle: %s', ME.message);
     end
@@ -5976,6 +6059,16 @@ else
 end
 end
 
+function value = localFusionOuterLowPassInf(fuser)
+%LOCALFUSIONOUTERLOWPASSINF Report zero when fusion is not configured.
+
+if isempty(fuser)
+    value = 0;
+else
+    value = norm(fuser.yOuterLP,inf);
+end
+end
+
 function clamp = localBenchmarkWingClampReaction( ...
     plant,state,totalWingInput,gust)
 % Recover the physical trim-relative clamp reaction from the raw q1 equation.
@@ -5998,11 +6091,14 @@ assert(numel(clamp) == 6 && all(isfinite(clamp)), ...
 end
 
 function identity = synchronizePredictionModels( ...
-    estimator,controller,package,cfg,plantModel,scheduledPacket)
+    estimator,controller,package,cfg,plantModel,scheduledPacket,bodyCase)
 %SYNCHRONIZEPREDICTIONMODELS Install the active plant package in both models.
 
 if nargin < 6
     scheduledPacket = struct();
+end
+if nargin < 7
+    bodyCase = "unspecified";
 end
 
 estimator.model = AeroFlex.sched.applyToROMIntegrator( ...
@@ -6029,24 +6125,40 @@ predictionModels = {estimator.model,controller.model};
 identity = struct();
 identity.lRelativeError = zeros(2,1);
 identity.parConstMatch = false(2,1);
+identity.parConstDifferingFields = cell(2,1);
+identity.rateProjection = strings(3,1);
 identity.modelStepSeconds = [estimator.dt;controller.dt];
 identity.substepsPerControlSample = round( ...
     [estimator.Ts/estimator.dt;controller.Ts/controller.dt]);
 identity.coveredSeconds = identity.substepsPerControlSample .* ...
     identity.modelStepSeconds;
 plantParConst = functionalParConst(plantModel.parConst);
+identity.rateProjection(3) = localRateProjectionSummary(plantParConst);
 for modelIndex = 1:2
     model = predictionModels{modelIndex};
     identity.lRelativeError(modelIndex) = norm( ...
         model.L-plantModel.L,'fro')/max(norm(plantModel.L,'fro'),eps);
     identity.parConstMatch(modelIndex) = isequaln( ...
         functionalParConst(model.parConst),plantParConst);
+    identity.parConstDifferingFields{modelIndex} = ...
+        localDifferingStructFields( ...
+        functionalParConst(model.parConst),plantParConst);
+    identity.rateProjection(modelIndex) = localRateProjectionSummary( ...
+        functionalParConst(model.parConst));
 end
 assert(all(identity.lRelativeError == 0) && ...
     all(identity.parConstMatch), ...
     'sim_run:PredictionModelMismatch', ...
-    ['The plant, nMHE, and nMPC must use the same functional V17 ', ...
-    'package during each control sample.']);
+    ['The plant, nMHE, and nMPC must use the same active functional ', ...
+    'package during each control sample. Body case: %s. Relative L ', ...
+    'errors: [%g, %g]. Differing nMHE fields: %s. Differing nMPC ', ...
+    'fields: %s. Rate projection [nMHE; nMPC; plant]: [%s; %s; %s].'], ...
+    char(string(bodyCase)),identity.lRelativeError(1), ...
+    identity.lRelativeError(2), ...
+    strjoin(identity.parConstDifferingFields{1},', '), ...
+    strjoin(identity.parConstDifferingFields{2},', '), ...
+    identity.rateProjection(1),identity.rateProjection(2), ...
+    identity.rateProjection(3));
 timeTolerance = 100*eps(max([1,cfg.ctrl.Ts,plantModel.dt, ...
     identity.modelStepSeconds(:).']));
 assert(all(identity.modelStepSeconds == plantModel.dt) && ...
@@ -6054,6 +6166,44 @@ assert(all(identity.modelStepSeconds == plantModel.dt) && ...
     'sim_run:PredictionSampleTimeMismatch', ...
     ['The plant, nMHE, and nMPC must cover exactly one controller ', ...
     'sample using the same active scheduled-model step.']);
+end
+
+function summary = localRateProjectionSummary(parConst)
+%LOCALRATEPROJECTIONSUMMARY Format the projection state for diagnostics.
+
+if ~isfield(parConst,'RateProject') || ~isstruct(parConst.RateProject)
+    summary = "missing";
+    return
+end
+projection = parConst.RateProject;
+enabled = isfield(projection,'projSet') && logical(projection.projSet);
+if isfield(projection,'Pz')
+    pzSize = size(projection.Pz);
+    pzNorm = norm(projection.Pz,'fro');
+else
+    pzSize = [0 0];
+    pzNorm = nan;
+end
+summary = sprintf('enabled=%d,size=%dx%d,norm=%.9g',enabled, ...
+    pzSize(1),pzSize(2),pzNorm);
+end
+
+function differingFields = localDifferingStructFields(left,right)
+%LOCALDIFFERINGSTRUCTFIELDS Name top-level fields that are not identical.
+
+allFields = union(string(fieldnames(left)),string(fieldnames(right)), ...
+    'stable');
+isDifferent = false(size(allFields));
+for fieldIndex = 1:numel(allFields)
+    fieldName = char(allFields(fieldIndex));
+    isDifferent(fieldIndex) = ~isfield(left,fieldName) || ...
+        ~isfield(right,fieldName) || ...
+        ~isequaln(left.(fieldName),right.(fieldName));
+end
+differingFields = cellstr(allFields(isDifferent));
+if isempty(differingFields)
+    differingFields = {'none'};
+end
 end
 
 function [info,previousState,measurement,outputContract] = ...
@@ -6112,6 +6262,17 @@ for fieldIndex = 1:numel(runtimeFields)
         parConst = rmfield(parConst,runtimeFields{fieldIndex});
     end
 end
+
+% A dormant projection map does not participate in either the explicit
+% nonlinear terms or the rebuilt implicit operator. Normalize its storage
+% so fixed-wing models compare by functional behavior, while an enabled
+% projection still requires exact Pz equality.
+if isfield(parConst,'RateProject') && ...
+        isstruct(parConst.RateProject) && ...
+        isfield(parConst.RateProject,'projSet') && ...
+        ~logical(parConst.RateProject.projSet)
+    parConst.RateProject.Pz = [];
+end
 end
 
 function intervalCommand = intervalAppliedCommand( ...
@@ -6143,7 +6304,11 @@ switch lower(string(bodyCase))
 
     case "wingonly"
         % Existing flexible-wing-only ROM propagation.
-        xk = plant.step(u_cmd, gk, "ROM");
+        assert(cfg.sim.commandsAreTrimIncrements, ...
+            'sim_run:WingOnlyCommandFrame', ...
+            ['Wing-only propagation requires the trim-relative command ', ...
+             'contract.']);
+        xk = plant.step(plant.trimWingControl+u_cmd,gk,"ROM");
 
     case "coupledfull"
         % Preferred future API:
@@ -10093,4 +10258,18 @@ if numel(tail) ~= 12
 end
 
 rb = tail;
+end
+
+function state = localRigidStateVector(plant)
+%LOCALRIGIDSTATEVECTOR Return the current inertial/body rigid state.
+required = {'r_I','v_B','euler','omega_B'};
+assert(isprop(plant,'rb') && isstruct(plant.rb) && ...
+    all(isfield(plant.rb,required)), ...
+    'sim_run:RigidInitialState', ...
+    'The coupled plant did not expose a complete rigid initial state.');
+state = [plant.rb.r_I(:);plant.rb.v_B(:); ...
+    plant.rb.euler(:);plant.rb.omega_B(:)];
+assert(numel(state)==12 && all(isfinite(state)), ...
+    'sim_run:RigidInitialState', ...
+    'The coupled rigid initial state must be finite and 12-dimensional.');
 end

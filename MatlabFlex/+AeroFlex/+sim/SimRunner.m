@@ -514,7 +514,7 @@ classdef SimRunner
 
             if strcmpi(cfg.case,'openLoop') & ~cfg.trim.do
                 logfile = fullfile(obj.cache_file, 'log');
-                save(logfile, "log")
+                save(logfile,"log","-v7")
             end
         end
 %───────────────────────────────────────────────────────────────────────────

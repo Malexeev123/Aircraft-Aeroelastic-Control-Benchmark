@@ -11,7 +11,7 @@ arguments
 end
 
 % A runner writes the authoritative history before its final qualification
-% assertion. Recovering that file lets failed experimental runs remain useful
+% assertion. Recovering that file lets failed validation runs remain useful
 % without changing their status or rerunning the plant.
 artifact = AeroFlex.benchmark.internal.recoverExecutionArtifact(layout.runRoot);
 if artifact.available

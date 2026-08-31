@@ -7,6 +7,8 @@
 *.m whitespace=-trailing-space,cr-at-eol
 *.md whitespace=-trailing-space,cr-at-eol
 *.json whitespace=-trailing-space,cr-at-eol
+*.py whitespace=trailing-space,cr-at-eol
+*.csv whitespace=trailing-space,cr-at-eol
 references/LICENSING.md whitespace=-trailing-space,cr-at-eol
 
 # Keep generated numerical and figure products out of textual diffs.

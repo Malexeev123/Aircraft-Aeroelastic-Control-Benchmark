@@ -26,10 +26,13 @@ status = prepareBenchmarkReleasePackage(Action="check");
 ```
 
 The command computes the MATLAB dependency closure of the documented entry
-points and combines it with the locked runtime-asset manifest. This is
+points and combines it with the locked runtime-asset manifest and the eight
+explicitly declared general-workflow model files. This is
 important because a small number of production numerical owners retain
 historical filenames; they are included when the executable call graph
-requires them and are not discarded by a filename heuristic.
+requires them and are not discarded by a filename heuristic. Dynamic MAT/HDF5
+loads are manifest-owned because static dependency analysis cannot discover
+their filenames.
 
 After reviewing the package inventory, stage a clean candidate into an empty
 directory outside the source repository:
@@ -47,8 +50,13 @@ hash.
 The staged `.gitattributes` preserves those byte-locked hashes across Git
 clones, including accepted MATLAB sources whose established line endings are
 intentionally unchanged by release packaging.
-Required MAT/HDF5 libraries are tracked explicitly; generated run, cache, and
-code-generation directories remain excluded by the public `.gitignore`.
+Required MAT/HDF5 libraries are tracked explicitly; `results/` and the
+general-workflow run directories contain generated outputs and remain visible
+through tracked README files. The compact SHARPy/MATLAB wingtip dataset,
+summary, and figure under `results/validation/sharpy-wingtip-comparison/` are
+the sole selected reference-result exception. Timestamped reproduction runs,
+caches, and code-generation directories remain excluded by the public
+`.gitignore`.
 
 ## Clean native build
 
@@ -88,3 +96,9 @@ scripts remain included because they document the pole, frequency-response,
 step-response, source identity, and physical-linearization checks used by the
 benchmark. Long validation runs write their results to versioned output
 directories rather than the source tree.
+
+The release also retains the plan-safe SHARPy sweep, its four settings
+modules, the optional premodal extractor, and the notebook walkthrough.
+Historical source-placement campaigns, error-budget studies, profiler data,
+and their generated source grids are excluded because they are development
+evidence rather than inputs to the supported generation or runtime workflow.

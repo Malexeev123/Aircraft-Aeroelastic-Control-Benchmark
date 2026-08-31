@@ -1,23 +1,29 @@
 {
   "schemaVersion": "pazy-public-release-inventory-v1",
-  "generatedUtc": "2026-08-31T04:18:58.597Z",
+  "generatedUtc": "2026-08-31T10:53:14.640Z",
   "sourceFiles": [
     {
       "path": ".gitattributes",
-      "sha256": "68f07b59ad2c1f5ec214bae67aaff3ac78429ccb7e3e48c556ac2f40a931d561",
-      "bytes": 616,
+      "sha256": "0800815ada466e3b2cffc28e5acec6aa6c7554c42a202b80028fe49392aeaee2",
+      "bytes": 699,
       "passed": true
     },
     {
       "path": ".gitignore",
-      "sha256": "46813ec3c7940a4280b23a3d07cc7d1c9f1c64e90a98c1f111b84f1e8d0473a8",
-      "bytes": 755,
+      "sha256": "c7d691fbb01740d1e0fdf12844014d3c2d9bdcef0c763e294ad0c73346d686a4",
+      "bytes": 1348,
       "passed": true
     },
     {
       "path": "AUTHORS.md",
       "sha256": "ebdc9185828d2e40b1432ba62b96daa1b2835bc9d600b8a1ebc4af9d07d9e1d6",
       "bytes": 285,
+      "passed": true
+    },
+    {
+      "path": "Benchmark.ipynb",
+      "sha256": "81384d15f613e1ef1f9a4f9d976718a89f59e7ca47e24da2630585524f3791cf",
+      "bytes": 4474,
       "passed": true
     },
     {
@@ -28,26 +34,26 @@
     },
     {
       "path": "docs/cases.md",
-      "sha256": "73ca3613b95498528028ef6adb966a29dc64c86d814a88980fa48ec6cb2fc6a7",
-      "bytes": 3104,
+      "sha256": "6af8b643625c76b18461eccd228cef4072cd3add8d770fd2f2e19889e17aff2a",
+      "bytes": 3212,
       "passed": true
     },
     {
       "path": "docs/getting-started.md",
-      "sha256": "878f25d033788535107724f5584fcdc354c4d8079bb92376f7de645bdd0f0a57",
-      "bytes": 3177,
+      "sha256": "ced76199f057e83b2c4487008e5253d301f18e696a93a057f4f3f4bf1124041f",
+      "bytes": 3879,
       "passed": true
     },
     {
       "path": "docs/outputs-and-plots.md",
-      "sha256": "13ae26dd8bf184cbb7032dcf3cd4d1fa9b1dcd4c336d6aed2c9434d1fafc9494",
-      "bytes": 2893,
+      "sha256": "feb433d721359b0bfd0c592814cd9dd8a794da375f069afdb7463c29d94cde80",
+      "bytes": 2881,
       "passed": true
     },
     {
       "path": "docs/release-package.md",
-      "sha256": "ebfb1ff6a46524fe887d0f95f03e2c2db5828b9d7cc7986743a84cb95185a308",
-      "bytes": 3971,
+      "sha256": "7af3a4051c9a344432bb9e3844ed1c4ec9e1f336268732e44fbb8baf73e2cdf9",
+      "bytes": 4827,
       "passed": true
     },
     {
@@ -70,8 +76,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+aero/AeroROM.m",
-      "sha256": "5b9b6d425927d0eed8673acbc47cfecef6d442abd01ab1b6be9b617c918ab5ee",
-      "bytes": 15400,
+      "sha256": "4956fce4a75cd2cc7f301e6bbf71988c1b1056c689dfc219d8cad9bab4caa3f9",
+      "bytes": 15397,
       "passed": true
     },
     {
@@ -94,8 +100,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+beam/BeamModel.m",
-      "sha256": "e876aeff8503141b0193be939f16123e57c4cef4052af94d3d1957c7d8ec06d0",
-      "bytes": 43175,
+      "sha256": "04b9ab2731ceb8d785d30d26b0cea9299dd3bf89a8bf4a85ed932ec7301b426c",
+      "bytes": 43166,
       "passed": true
     },
     {
@@ -118,14 +124,20 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+beam/runRedtestWrapper.m",
-      "sha256": "5fb43513af9ff8bf70bdd7f0c0fca9b43344b6760a25fdc4ba195258d6285cc9",
-      "bytes": 9371,
+      "sha256": "544bb4f98b5f72a0fb037a03505346872b1ab9573c1cf9b7eccc73db02cde469",
+      "bytes": 9368,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/canonicalizeRuntimeSegmentSignaturePaths.m",
       "sha256": "f5569fa253f5ed0efeb6d226d7bbb7d983f2da54f3d0113a228a0101b05d4f8a",
       "bytes": 1822,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/customInitialConditionStatus.m",
+      "sha256": "d8008d51b6ccaf964293b3cdfdc64444dbdeb0a2dc2061628a518b4ab2b8f24b",
+      "bytes": 2388,
       "passed": true
     },
     {
@@ -136,8 +148,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/executePlan.m",
-      "sha256": "da5d1a4660596f77d829afc71e76f1d06827fb7d5a8a5058e93308ccef138e90",
-      "bytes": 884,
+      "sha256": "f52fb13df05ff8b984e84f235a503142692ddef74fde0d729a326571e368071e",
+      "bytes": 881,
       "passed": true
     },
     {
@@ -148,14 +160,14 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runnerArguments.m",
-      "sha256": "f5020005a902e207a3031515f8374741309b0e2d45054e2cf8b4ef854e976b74",
-      "bytes": 3176,
+      "sha256": "2698fa4e2a605ed9d5ee2892de3d323a1247c07ab99f8710b77b0fbbc1eea894",
+      "bytes": 3173,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runtimeProfile.m",
-      "sha256": "901d8208ecfb73a24b5abd4429aa2f5037f9e14868d91eb0ae994011e928a683",
-      "bytes": 5334,
+      "sha256": "171787a524cd20f7fe4b9fa46f7aaaf7af0105a54c6375072dccb33970f7cbb6",
+      "bytes": 5268,
       "passed": true
     },
     {
@@ -166,8 +178,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/run_phase18c_v17a_caseb_integrated_profile_v1.m",
-      "sha256": "9e66e4c8a0a558bac86153140dc91c2dd014d3a72724c8ef310c1dd9b9d63e6f",
-      "bytes": 109046,
+      "sha256": "1c981c5fea5ae79c6b96a8c2b642e0a9b3c0c6200ebc4ea122bbcdd4048ca4b4",
+      "bytes": 109037,
       "passed": true
     },
     {
@@ -178,26 +190,38 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/caseDefinition.m",
-      "sha256": "61d3cac37bafb94c7894e7e7bf00dd10005920571d85437e77513d12734f8fc6",
-      "bytes": 4517,
+      "sha256": "4a896c469dbc276dfd4800ab63b0f3bc8bec2b97009f734e42bcf7bbd2b6ba9d",
+      "bytes": 5813,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/customCaseDefinition.m",
-      "sha256": "d4fec17fcd59e531956826ee4bd736747b4bba5649ebeef202c19d6aa0b860e1",
-      "bytes": 9022,
+      "sha256": "98194e5e7e02036ec5e10f39b0a3faf047ad04307c4d9a238ae1e6ffb206d550",
+      "bytes": 13183,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/finalizeResults.m",
-      "sha256": "2cddf08850624b7dd2831dd68cf56c9a92eb5a1718c656cadef5595a1bf2dcf8",
-      "bytes": 21044,
+      "sha256": "1562059f759bf8c5858a2aa987bf11bcd9b41344a549109698444f0b8eee117c",
+      "bytes": 21042,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/loadProductionScheduledLibrary.m",
+      "sha256": "6fd2ebe82cd12d7e27461e566943993ac3c82f244527f8572f915ee6bb45fd55",
+      "bytes": 9903,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/outputLayout.m",
       "sha256": "8346a5604be55309fc1b1bc9c9e569c96235599fa7104c67367b020f584b3a72",
       "bytes": 1356,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/prepareProductionModelSetup.m",
+      "sha256": "fa51a6a1e80c15693d24190f0de924390c350c559c7ee0594dc5ada40f42364d",
+      "bytes": 9993,
       "passed": true
     },
     {
@@ -208,14 +232,20 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/resolvePlan.m",
-      "sha256": "5d36a5d71e853f0eb39d684dc2b7ea8f108c7b3f2b1f8cf0a478de6f72f0cb5d",
-      "bytes": 2393,
+      "sha256": "a5fb37e3fc953645364ae4784f77cee536104803bda1c9a2fcd6db94c838fac7",
+      "bytes": 2564,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/simulationOptions.m",
       "sha256": "3467f6dcdef4215fd899cf4a67e183bf213a2a60bdf7e6d2ba907aa109ffcd47",
       "bytes": 1957,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+benchmark/verifyGeneralModelAssets.m",
+      "sha256": "f7a70cb3d98a623bf533bcc12535abaa2424ecf975644fa97f0b40f879182070",
+      "bytes": 2658,
       "passed": true
     },
     {
@@ -232,8 +262,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+core/build_xi_coupling.m",
-      "sha256": "c1985ca1518c08f1712c2f5607496ba1745f630f688f2aff76f2fbea5b3a8948",
-      "bytes": 12856,
+      "sha256": "00a75620c001e7ce7a11d51d04e58c3f00e403b9d0bb1fdd07cf27b042171e98",
+      "bytes": 12853,
       "passed": true
     },
     {
@@ -454,8 +484,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+ctrl/scheduledReciprocalIntervalKernelAudit.m",
-      "sha256": "415f347e479cf8b2918547e1be4fd0988909ff7b03b1b3d3e7a417c12169e682",
-      "bytes": 13109,
+      "sha256": "870d2124af2c2c7b1f2c4e896b4da89a0473937ae66cef21e65c1278e4735d3a",
+      "bytes": 13463,
       "passed": true
     },
     {
@@ -574,8 +604,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+sched/buildPhysicalStructuralChart.m",
-      "sha256": "0a536f111eaebf23e7d30a14508dd68c1aa513720d2d81a02f8307c594b2bdcf",
-      "bytes": 22019,
+      "sha256": "fe1d40b0d5acf31cf756a74241976e5d772fa2389af3496a17ac6327bce58842",
+      "bytes": 22161,
       "passed": true
     },
     {
@@ -742,8 +772,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+sim/postProcess.m",
-      "sha256": "c6d93263955031b6d800fe31ed43bd7388507aafe68f7f79945554b349146206",
-      "bytes": 55136,
+      "sha256": "b94e4d6ea4c22d3e347cc14d4103400034cf8fdda7c8ca8df031f07f39364a0e",
+      "bytes": 56556,
       "passed": true
     },
     {
@@ -772,8 +802,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+sim/SimRunner.m",
-      "sha256": "2788b6792ca7fb9200dc8aae363e9bb4743e7661315f327afd5cbe6f7dffb037",
-      "bytes": 33628,
+      "sha256": "f55b0ce1dbcfd7ebf4f436d731284685df140cf52ab1c51bd7118df4a26c43ee",
+      "bytes": 33629,
       "passed": true
     },
     {
@@ -813,9 +843,15 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/configs/benchmark/pazy_general_model_assets_v1.json",
+      "sha256": "18f7147c71b6c1bcda0743115bf7f062fc34b3ac819e988dea724e64e8fb592f",
+      "bytes": 1770,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/configs/benchmark/phase18c_v17a_release_asset_manifest_v1.json",
-      "sha256": "7ae4c11ac7640dc188c274c30bc83fa0c6aa6046bc6369739d5b61adf199bb3f",
-      "bytes": 6659,
+      "sha256": "3f511765470f75c30d227c1d08fdb4fcb6721094e75c758a97f0fbab59aa301f",
+      "bytes": 6711,
       "passed": true
     },
     {
@@ -850,44 +886,44 @@
     },
     {
       "path": "MatlabFlex/runBenchmarkCase.m",
-      "sha256": "953bfd417119fa13a59c34b2ac46cbbe1d39b239682b6261e25a44b443789049",
-      "bytes": 6944,
+      "sha256": "ce5271bc00b7d10b8148183b79daebd8dc55176809132f05cae3312b3b806115",
+      "bytes": 8601,
       "passed": true
     },
     {
       "path": "MatlabFlex/runCustomBenchmarkCase.m",
-      "sha256": "d39047f85329c729227b7b830917d4064801fdc8cd5c6a5cdeae755062f60a22",
-      "bytes": 8657,
+      "sha256": "ce7725e775e2ceacec77fdde4e8bac503517612e1be7e902c27b7162cac830c0",
+      "bytes": 8492,
       "passed": true
     },
     {
       "path": "MatlabFlex/runPazyModelWorkflow.m",
-      "sha256": "cf40d28efabcae2789ee60c2678080e035c5cb6ec80f5fb5b733d973f19f59cf",
-      "bytes": 8097,
+      "sha256": "e8fbbeedc020eadd73bd37759288d60aea7a6275cd4c264e4c340764cd6e6347",
+      "bytes": 15627,
       "passed": true
     },
     {
       "path": "MatlabFlex/sim_init.m",
-      "sha256": "bda420b9b9157fc1e7dce3db8d43eabc9b38f400b2d780028afb22dcf0b63e64",
-      "bytes": 86118,
+      "sha256": "a57ac9e3b8382a85656203c8f5fdd317f0b57e9897dc336b7a234e1d2f9fda8e",
+      "bytes": 86258,
       "passed": true
     },
     {
       "path": "MatlabFlex/sim_run.m",
-      "sha256": "7d154f90c04404336b632247e4b1ae606b62824880eea6d49b48cd3f36d29cfb",
-      "bytes": 553527,
+      "sha256": "8402bd222ca2026c4e28bb515d9083a955e7d0a2e0561431a1f3b9d6b015231f",
+      "bytes": 562079,
       "passed": true
     },
     {
       "path": "MatlabFlex/verifyBenchmarkInstallation.m",
-      "sha256": "fef2188945739ae6bc3ff8c03faae876c6f60b3ecc90789c392d3de17c187667",
-      "bytes": 6989,
+      "sha256": "e461416e172c40e68c2b3697235ca92bc2249b51f5d831046e997c389cb8af9c",
+      "bytes": 7851,
       "passed": true
     },
     {
       "path": "README.md",
-      "sha256": "b337dbd79f7edcf7169e41b7b46b5458523a14d4a44240ff3e7c5c44ae056fdc",
-      "bytes": 16944,
+      "sha256": "da7f08559e7b62ec688ad48868815393ee2dc4385f25d7c7a35f08eb86b06795",
+      "bytes": 18016,
       "passed": true
     },
     {
@@ -921,9 +957,39 @@
       "passed": true
     },
     {
+      "path": "results/README.md",
+      "sha256": "15a25322271e76ea57d0f773d3a6fcd59d124b3822b354799eddabd6c77ff0c2",
+      "bytes": 621,
+      "passed": true
+    },
+    {
+      "path": "results/validation/sharpy-wingtip-comparison/data/wingtip_comparison.csv",
+      "sha256": "ee1ed11b805a42c74f94a3418f87e5269e819d185bbf7968134a835fdf10e5c7",
+      "bytes": 25002,
+      "passed": true
+    },
+    {
+      "path": "results/validation/sharpy-wingtip-comparison/README.md",
+      "sha256": "37188c54452b3c41a839fd5734cb9ba80fa740fdf94e7d0c9af784e9200e1579",
+      "bytes": 944,
+      "passed": true
+    },
+    {
+      "path": "results/validation/sharpy-wingtip-comparison/wingtip_comparison.png",
+      "sha256": "54ccc6b5fd8fbacfdb9201ccb78111a91a46bafdb73c72034eb14e5db249a26e",
+      "bytes": 179106,
+      "passed": true
+    },
+    {
+      "path": "results/validation/sharpy-wingtip-comparison/wingtip_comparison_summary.json",
+      "sha256": "f1f0fb024f29d26b8f4a8e5fbcd3861e68f4e7ae4970d6f38d008d2e7da26b4b",
+      "bytes": 1432,
+      "passed": true
+    },
+    {
       "path": "Run_Pazy_Benchmark.m",
-      "sha256": "e34bd46d4859ab02327560dfd6396631a682c6c545bd0fb94c3969115fe5a64a",
-      "bytes": 5092,
+      "sha256": "3167a74a64b2ac4a968174e10190dfa699653346b938a3ea9d1b2a56ead32f7e",
+      "bytes": 5933,
       "passed": true
     },
     {
@@ -933,21 +999,129 @@
       "passed": true
     },
     {
+      "path": "TestBenchPazy/cases/pazy_krylov_ROM/pazy_krylov_ROM.aero.h5",
+      "sha256": "1c9a24e51ccf575737181c9d428b5a6fcf3cd56aecd302518ebef6b2fcf88fa0",
+      "bytes": 160776,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/cases/pazy_krylov_ROM/pazy_krylov_ROM.fem.h5",
+      "sha256": "fd26aa525e88cdb5def27c2167043de3824acabc883424c849851f895abf5070",
+      "bytes": 12112,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/get_settings_krylov.py",
+      "sha256": "caea20c90a14c6b3d14f34e891e83e05a5485c1a298c4ef347913eda3c60900d",
+      "bytes": 19172,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/get_settings_modal.py",
+      "sha256": "7bb402f67e37abfe04cc8cd760d7987f422d3e01a3378fb02df809e048c85966",
+      "bytes": 18608,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/get_settings_structTest.py",
+      "sha256": "3852977ff9061e7cfa2e937b9d31d33c23fad0a08a41566c8333cb41d95e522c",
+      "bytes": 22895,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/get_settings_udp.py",
+      "sha256": "e6a41859ff45f79f1a3610f19579507117bdf405698fc845112b3f9f9cb73990",
+      "bytes": 18981,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/beam_modal_analysis/Kglobal.dat",
+      "sha256": "3d38904f66a8185a545a1e1767b9d2867f2b1aa58dd3c8bc09aaecb460484564",
+      "bytes": 148868,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/beam_modal_analysis/Mglobal.dat",
+      "sha256": "c83390dd516dd4e7f3d753bf0d6a5d326e5b7ef1f084ef13ae394e4df13bfdd4",
+      "bytes": 139175,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/linear_results/simulation_parameters.mat",
+      "sha256": "4d3702ff6d437581075cc503cfe4557b71619f988ebdfdc0c0906c9a3a82155f",
+      "bytes": 18840,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/savedata/pazy_krylov_ROM.data.h5",
+      "sha256": "10292b643f631fabe601716b210d02aef46c042facb939a635f550b9dac618a2",
+      "bytes": 1.0738536E+7,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/savedata/pazy_krylov_ROM.linss.h5",
+      "sha256": "892d55890bfcfc9a119cef0010491c18aa8ae66e7c36a8518189b9d42adc0989",
+      "bytes": 161264,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/savedata/pazy_krylov_ROM_krylov.rom.h5",
+      "sha256": "2c53cc12f280e75a50021ad5ee0c2dc552cfd0890292a4df4a316996b99c70e2",
+      "bytes": 61232,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/phase18_premodal_extractor.py",
+      "sha256": "64c452cfece1a68a5a52d87acb19b7edb190032dc376fd1c14dad0521280d6cc",
+      "bytes": 13354,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/README.md",
+      "sha256": "4eca1f2e199ad6cfaad25890f1d3d288133120e6dd3ff8535d0c82e678d4a02f",
+      "bytes": 5272,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/requirements-generation.txt",
+      "sha256": "dbced9d14ea1d58df1fd28a6092713b747aaf90288fa84800f5660e86adb0e2b",
+      "bytes": 99,
+      "passed": true
+    },
+    {
+      "path": "TestBenchPazy/sweep_pazy_rom_library.py",
+      "sha256": "955ae2a966eb954b73a8cdc65ef22b81ad281c21c32297834635b6496f51e548",
+      "bytes": 11906,
+      "passed": true
+    },
+    {
       "path": "tests/README.md",
-      "sha256": "0c9f5376a1e7ea7cab3c40e0f5bf19c9c33c1e8a3bc2021e8344177b5c2d0058",
-      "bytes": 1672,
+      "sha256": "fdd21eef5678288d1ef4fc9efe41e7ab7bf24ca1b00044a2807e3106fd187676",
+      "bytes": 2407,
       "passed": true
     },
     {
       "path": "tests/Run_Extended_Validation.m",
-      "sha256": "16b9b587271f55e881cb76d7144032fefe6dd5d2a139cca3dff179e9770ad075",
-      "bytes": 12716,
+      "sha256": "591a6543bdc19cb55faf4c10bc57c2e24a1056550a66617f3b0449deabbd37c1",
+      "bytes": 12761,
       "passed": true
     },
     {
       "path": "tests/Run_Linear_Validation.m",
-      "sha256": "2984256f226dc11a7a6d76715bd220373fd494cde9985f20fa9248a7a978d235",
-      "bytes": 10086,
+      "sha256": "15e06e8083572c2fa8f8c9bfed3bb85f6743eebc7bd2e5f75e807f11619bbab7",
+      "bytes": 10090,
+      "passed": true
+    },
+    {
+      "path": "tests/Run_SHARPy_Wingtip_Comparison.m",
+      "sha256": "c311b03a5440c0ac69eb654af6bf5f1416e53435f2188ff1babc7a0a3990d2ac",
+      "bytes": 7316,
+      "passed": true
+    },
+    {
+      "path": "tests/test_general_model_workflows.m",
+      "sha256": "235388b79de2fc3e79c79c091ebadb31ed9985645f0e7a37c43f3fbef42da1c4",
+      "bytes": 7161,
       "passed": true
     },
     {
@@ -957,9 +1131,15 @@
       "passed": true
     },
     {
+      "path": "tests/test_sharpy_wingtip_comparison.m",
+      "sha256": "8735d1c9d62fe325b5c6f48108ed0e17bfc27a1b97a336a25d5f478933fd47ba",
+      "bytes": 2294,
+      "passed": true
+    },
+    {
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "f7ad170af6bb023b248a6945efbae88b2abe54b36fa596b3b94df2b76ca306a7",
-      "bytes": 1057,
+      "sha256": "6217da9f496b329b81fed080c04a9b15aa8dd96dd858516901906bc3ea0e7de0",
+      "bytes": 1161,
       "passed": true
     },
     {
@@ -1006,14 +1186,14 @@
     },
     {
       "path": "tools/matlab/prepareBenchmarkReleaseAssets.m",
-      "sha256": "6262be8e5546c02f00e6f9af57e85229c67f8ebf8823f0cbc5b47d1fda981c32",
-      "bytes": 9834,
+      "sha256": "100afda53e7d751576548ee2c3e936e90afd7d2d4c461a2ab83112ca7b90e21f",
+      "bytes": 10179,
       "passed": true
     },
     {
       "path": "tools/matlab/prepareBenchmarkReleasePackage.m",
-      "sha256": "f5cc03440054b87acf94c873e2b8ed21ccf5f79ce499419cef065c960269f352",
-      "bytes": 13055,
+      "sha256": "f03c12b8af655682739d112e41a3445cfe09ed9e3a145624e6c83ab4790478b0",
+      "bytes": 14489,
       "passed": true
     }
   ],
@@ -1181,7 +1361,7 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
       "expectedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
-      "role": "v17a_source_package:SGT16",
+      "role": "v17a_source_acceptedMatlabPackage:SGT16",
       "exists": true,
       "observedSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
       "passed": true
@@ -1189,15 +1369,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/source_certification.json",
       "expectedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
-      "role": "v17a_source_certificate:SGT16",
+      "role": "v17a_source_certification:SGT16",
       "exists": true,
       "observedSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT16/fixed_node27_contract.h5",
+      "expectedSha256": "e7def37cf4f3e5e81f8907a4028784389aee0888e02944539f393c15ccecac54",
+      "role": "v17a_source_selectedContract:SGT16",
+      "exists": true,
+      "observedSha256": "e7def37cf4f3e5e81f8907a4028784389aee0888e02944539f393c15ccecac54",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/p5_trim.mat",
       "expectedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
-      "role": "v17a_source_package:SGH07",
+      "role": "v17a_source_acceptedMatlabPackage:SGH07",
       "exists": true,
       "observedSha256": "1b7d6b208654746c00f155ab6983f07a1dfe8e7692f8ddfd875c467295d2ffaf",
       "passed": true
@@ -1205,15 +1393,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGH07/source_certification.json",
       "expectedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
-      "role": "v17a_source_certificate:SGH07",
+      "role": "v17a_source_certification:SGH07",
       "exists": true,
       "observedSha256": "f765d0ae3b5274d1af9bf3341d0c75e64d41b87c2f1017c9a97213a28ac3dc52",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGH07/fixed_node27_contract.h5",
+      "expectedSha256": "98c567c856cc04f4b674e276703f1a797f2ca452801356c6707141b46a818bc0",
+      "role": "v17a_source_selectedContract:SGH07",
+      "exists": true,
+      "observedSha256": "98c567c856cc04f4b674e276703f1a797f2ca452801356c6707141b46a818bc0",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/p5_trim.mat",
       "expectedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
-      "role": "v17a_source_package:SGT29",
+      "role": "v17a_source_acceptedMatlabPackage:SGT29",
       "exists": true,
       "observedSha256": "1a167bb039773c1688b7b983473c12ea3cf34f977fa7cb7548e5d8f93b42bd47",
       "passed": true
@@ -1221,15 +1417,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT29/source_certification.json",
       "expectedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
-      "role": "v17a_source_certificate:SGT29",
+      "role": "v17a_source_certification:SGT29",
       "exists": true,
       "observedSha256": "cb6dc7f47eb332b76e80c93e9b1c39d28b3ec3c4bf5fd2fb5fe2a8c7013a018d",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT29/fixed_node27_contract.h5",
+      "expectedSha256": "81d559c20411b74aa4d7b43fa952bd1d969f1143ed09601812479385aebb7e02",
+      "role": "v17a_source_selectedContract:SGT29",
+      "exists": true,
+      "observedSha256": "81d559c20411b74aa4d7b43fa952bd1d969f1143ed09601812479385aebb7e02",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/p5_trim.mat",
       "expectedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
-      "role": "v17a_source_package:node35",
+      "role": "v17a_source_acceptedMatlabPackage:node35",
       "exists": true,
       "observedSha256": "d659524d20c8fcc9de1a042019df756cecb4329b0b3f6b43173aeb854ac5d7f3",
       "passed": true
@@ -1237,15 +1441,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/node35/source_certification.json",
       "expectedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
-      "role": "v17a_source_certificate:node35",
+      "role": "v17a_source_certification:node35",
       "exists": true,
       "observedSha256": "7723d12856b7c0993fae523549e7767e1a5b515288301767681f33825db6d855",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/node35/fixed_node27_contract_v4c.h5",
+      "expectedSha256": "72a4a0034a801890b9f838bdd990e7e9be8e678d525603eeba4ea98bda1cde95",
+      "role": "v17a_source_selectedContract:node35",
+      "exists": true,
+      "observedSha256": "72a4a0034a801890b9f838bdd990e7e9be8e678d525603eeba4ea98bda1cde95",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/p5_trim.mat",
       "expectedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
-      "role": "v17a_source_package:SGT03",
+      "role": "v17a_source_acceptedMatlabPackage:SGT03",
       "exists": true,
       "observedSha256": "23a37ce653805c5b845c28ab11f5f3b9d9fb6e60265b0eb0ce6fedc6e8c9448e",
       "passed": true
@@ -1253,15 +1465,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT03/source_certification.json",
       "expectedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
-      "role": "v17a_source_certificate:SGT03",
+      "role": "v17a_source_certification:SGT03",
       "exists": true,
       "observedSha256": "8ac26f431d9e3b79bb76b1f98f0b62c08f34e3766c01260a140fd7b435e2e57e",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT03/fixed_node27_contract.h5",
+      "expectedSha256": "1be990d4daff97eecc4d21aa5b9b88a2e28618c8a5875b313aeb89a407ce3d2f",
+      "role": "v17a_source_selectedContract:SGT03",
+      "exists": true,
+      "observedSha256": "1be990d4daff97eecc4d21aa5b9b88a2e28618c8a5875b313aeb89a407ce3d2f",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/p5_trim.mat",
       "expectedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
-      "role": "v17a_source_package:SGT14",
+      "role": "v17a_source_acceptedMatlabPackage:SGT14",
       "exists": true,
       "observedSha256": "88a6a105bc9c210beef2a0b3eb0e52a726add1194fb8a2542c765986e5079a44",
       "passed": true
@@ -1269,15 +1489,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT14/source_certification.json",
       "expectedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
-      "role": "v17a_source_certificate:SGT14",
+      "role": "v17a_source_certification:SGT14",
       "exists": true,
       "observedSha256": "9ad4047603670cbc360df7af542eed363c820a6ad9c88ca62caa8dff6dfee580",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-fixed-basis-closure/checkpoints/fixed-node27-contracts/SGT14/fixed_node27_contract.h5",
+      "expectedSha256": "e6a25baf233779fd4d4e1166e9f98cf39e123ecac8c26d36b27a346e759edfb8",
+      "role": "v17a_source_selectedContract:SGT14",
+      "exists": true,
+      "observedSha256": "e6a25baf233779fd4d4e1166e9f98cf39e123ecac8c26d36b27a346e759edfb8",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
       "expectedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
-      "role": "v17a_source_package:CASEA_U040_ALPHA_P01",
+      "role": "v17a_source_acceptedMatlabPackage:CASEA_U040_ALPHA_P01",
       "exists": true,
       "observedSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
       "passed": true
@@ -1285,15 +1513,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/source_certification.json",
       "expectedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
-      "role": "v17a_source_certificate:CASEA_U040_ALPHA_P01",
+      "role": "v17a_source_certification:CASEA_U040_ALPHA_P01",
       "exists": true,
       "observedSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/CASEA_U040_ALPHA_P01/fixed_node27_contract.h5",
+      "expectedSha256": "bd27e879119de35b6a1e8457756837c3f2d238c2c86dd6a6e0ff08b51665cede",
+      "role": "v17a_source_selectedContract:CASEA_U040_ALPHA_P01",
+      "exists": true,
+      "observedSha256": "bd27e879119de35b6a1e8457756837c3f2d238c2c86dd6a6e0ff08b51665cede",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/p5_trim.mat",
       "expectedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
-      "role": "v17a_source_package:OPS_U015_ALPHA_P06",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U015_ALPHA_P06",
       "exists": true,
       "observedSha256": "e7b527c6164860733d23848af352996864c99dc834ff59d66f411ae1902019f1",
       "passed": true
@@ -1301,15 +1537,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P06/source_certification.json",
       "expectedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
-      "role": "v17a_source_certificate:OPS_U015_ALPHA_P06",
+      "role": "v17a_source_certification:OPS_U015_ALPHA_P06",
       "exists": true,
       "observedSha256": "c176a040e315f4044acb2bff7dbf371cd9cc849146b2d598c35f7e806ca19beb",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P06/fixed_node27_contract.h5",
+      "expectedSha256": "a791ef747572223fd3ab6f8216adc6a99dce2cab3738d5295d0c4ebb8986ed39",
+      "role": "v17a_source_selectedContract:OPS_U015_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "a791ef747572223fd3ab6f8216adc6a99dce2cab3738d5295d0c4ebb8986ed39",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/p5_trim.mat",
       "expectedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
-      "role": "v17a_source_package:OPS_U015_ALPHA_P08",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U015_ALPHA_P08",
       "exists": true,
       "observedSha256": "3c26c8ed9af8742c239a06cc7477470a6a3ca81a417e7b527be36c2abd5f9d18",
       "passed": true
@@ -1317,15 +1561,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P08/source_certification.json",
       "expectedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
-      "role": "v17a_source_certificate:OPS_U015_ALPHA_P08",
+      "role": "v17a_source_certification:OPS_U015_ALPHA_P08",
       "exists": true,
       "observedSha256": "9c868ac9fe3ee72b1e475a5fa663152f98afa7a32554f8fad4188d564628e45d",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P08/fixed_node27_contract.h5",
+      "expectedSha256": "118545c35208bebeb6c5f80e61b501b1a857a171b3aa81fb3ea8e8ce41679071",
+      "role": "v17a_source_selectedContract:OPS_U015_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "118545c35208bebeb6c5f80e61b501b1a857a171b3aa81fb3ea8e8ce41679071",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
       "expectedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
-      "role": "v17a_source_package:OPS_U015_ALPHA_P10",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U015_ALPHA_P10",
       "exists": true,
       "observedSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
       "passed": true
@@ -1333,15 +1585,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/source_certification.json",
       "expectedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
-      "role": "v17a_source_certificate:OPS_U015_ALPHA_P10",
+      "role": "v17a_source_certification:OPS_U015_ALPHA_P10",
       "exists": true,
       "observedSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U015_ALPHA_P10/fixed_node27_contract.h5",
+      "expectedSha256": "43186ea8f7a1f91f8241b926e64fbd3d26cc50b1e90d615a8d79230dac32de24",
+      "role": "v17a_source_selectedContract:OPS_U015_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "43186ea8f7a1f91f8241b926e64fbd3d26cc50b1e90d615a8d79230dac32de24",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/p5_trim.mat",
       "expectedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
-      "role": "v17a_source_package:OPS_U017P5_ALPHA_P06",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U017P5_ALPHA_P06",
       "exists": true,
       "observedSha256": "0c994e3506d71e1681c52d81ce1fe0ac3e69db25411fef0a033f2582b50425da",
       "passed": true
@@ -1349,15 +1609,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P06/source_certification.json",
       "expectedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
-      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P06",
+      "role": "v17a_source_certification:OPS_U017P5_ALPHA_P06",
       "exists": true,
       "observedSha256": "0f633d2f87710da420cfd8e16ed892844dc1fa234f3195a2521a6c1b2f685fb8",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P06/fixed_node27_contract.h5",
+      "expectedSha256": "1147d19c3db86f3e1e3a998f6373ee2166595a135153455ab8c67b63b12d6266",
+      "role": "v17a_source_selectedContract:OPS_U017P5_ALPHA_P06",
+      "exists": true,
+      "observedSha256": "1147d19c3db86f3e1e3a998f6373ee2166595a135153455ab8c67b63b12d6266",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/p5_trim.mat",
       "expectedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
-      "role": "v17a_source_package:OPS_U017P5_ALPHA_P08",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U017P5_ALPHA_P08",
       "exists": true,
       "observedSha256": "533c849e34db03e06a7150213eb55f72741993db935fc114282ab55e91e879b3",
       "passed": true
@@ -1365,15 +1633,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P08/source_certification.json",
       "expectedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
-      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P08",
+      "role": "v17a_source_certification:OPS_U017P5_ALPHA_P08",
       "exists": true,
       "observedSha256": "d7053ebb98635c301437e4726ba18affba72e9559209084c0d413d0b5f51c787",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P08/fixed_node27_contract.h5",
+      "expectedSha256": "f77c61533e31ce9a5a9241c21550cefaeca676b1e436e5323c79eb3be82c2d0c",
+      "role": "v17a_source_selectedContract:OPS_U017P5_ALPHA_P08",
+      "exists": true,
+      "observedSha256": "f77c61533e31ce9a5a9241c21550cefaeca676b1e436e5323c79eb3be82c2d0c",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/p5_trim.mat",
       "expectedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
-      "role": "v17a_source_package:OPS_U017P5_ALPHA_P10",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_U017P5_ALPHA_P10",
       "exists": true,
       "observedSha256": "0b24a6276a3ac129095ed70285b1d08e0955c2c3320dd7ea526a2d3dd041d339",
       "passed": true
@@ -1381,15 +1657,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U017P5_ALPHA_P10/source_certification.json",
       "expectedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
-      "role": "v17a_source_certificate:OPS_U017P5_ALPHA_P10",
+      "role": "v17a_source_certification:OPS_U017P5_ALPHA_P10",
       "exists": true,
       "observedSha256": "0af20eb825029ba7529888f75cc7bee92447e321db37ac7c9384cf4dd6d7d5f6",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-extension/fixed-node27-contracts/OPS_U017P5_ALPHA_P10/fixed_node27_contract.h5",
+      "expectedSha256": "ae95d08ee4eeb9b46acdee016dfa3db761b618232056ad1fd743df9c6cdb5d54",
+      "role": "v17a_source_selectedContract:OPS_U017P5_ALPHA_P10",
+      "exists": true,
+      "observedSha256": "ae95d08ee4eeb9b46acdee016dfa3db761b618232056ad1fd743df9c6cdb5d54",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/p5_trim.mat",
       "expectedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
-      "role": "v17a_source_package:OPS_REFINE_U018P75_ALPHA_P075",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_REFINE_U018P75_ALPHA_P075",
       "exists": true,
       "observedSha256": "786b3b20145a94bb88829ef14677f2088741faf36d80f79abbd070a18f9e72e9",
       "passed": true
@@ -1397,15 +1681,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE_U018P75_ALPHA_P075/source_certification.json",
       "expectedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
-      "role": "v17a_source_certificate:OPS_REFINE_U018P75_ALPHA_P075",
+      "role": "v17a_source_certification:OPS_REFINE_U018P75_ALPHA_P075",
       "exists": true,
       "observedSha256": "e076bc9ea45806e95dbb16442e2611d498036d4338eb7f84625dc8caef41e67b",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/fixed-node27-contracts/OPS_REFINE_U018P75_ALPHA_P075/fixed_node27_contract.h5",
+      "expectedSha256": "304152ec97b10c0346efe6f445d8333d943ea1f88ffe9d129c2bea3a341183be",
+      "role": "v17a_source_selectedContract:OPS_REFINE_U018P75_ALPHA_P075",
+      "exists": true,
+      "observedSha256": "304152ec97b10c0346efe6f445d8333d943ea1f88ffe9d129c2bea3a341183be",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/p5_trim.mat",
       "expectedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
-      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_REFINE2_U018P125_ALPHA_P0675",
       "exists": true,
       "observedSha256": "e1755aea09a5668b6fdbeff9699142cb7bc715bd5c2eb72d75837626fae3b24f",
       "passed": true
@@ -1413,15 +1705,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0675/source_certification.json",
       "expectedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
-      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "role": "v17a_source_certification:OPS_REFINE2_U018P125_ALPHA_P0675",
       "exists": true,
       "observedSha256": "f1f715335a6666edc65e033b8c6bc8257e86f815bf523ce0547be49d8669feec",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0675/fixed_node27_contract.h5",
+      "expectedSha256": "0b4fdf29fd0693682faca5f2ec225a63dab680e9c19b2ee3cc1f5183457cb0b4",
+      "role": "v17a_source_selectedContract:OPS_REFINE2_U018P125_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "0b4fdf29fd0693682faca5f2ec225a63dab680e9c19b2ee3cc1f5183457cb0b4",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/p5_trim.mat",
       "expectedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
-      "role": "v17a_source_package:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_REFINE2_U018P125_ALPHA_P0775",
       "exists": true,
       "observedSha256": "bc79cf2dcc1009eed3fb99b6ad48dc565f048a034ecdb70a7539d4f72877b041",
       "passed": true
@@ -1429,15 +1729,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U018P125_ALPHA_P0775/source_certification.json",
       "expectedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
-      "role": "v17a_source_certificate:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "role": "v17a_source_certification:OPS_REFINE2_U018P125_ALPHA_P0775",
       "exists": true,
       "observedSha256": "d8d375e5bb3b5cdd4932f4748c157126e8c68ef1f6d27e079ad5016fa33c9bb3",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U018P125_ALPHA_P0775/fixed_node27_contract.h5",
+      "expectedSha256": "3dd0ff07e73a9355f05629cd9df64d3eaf70010130ecfb468832a56af1a8b665",
+      "role": "v17a_source_selectedContract:OPS_REFINE2_U018P125_ALPHA_P0775",
+      "exists": true,
+      "observedSha256": "3dd0ff07e73a9355f05629cd9df64d3eaf70010130ecfb468832a56af1a8b665",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/p5_trim.mat",
       "expectedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
-      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_REFINE2_U019P375_ALPHA_P0625",
       "exists": true,
       "observedSha256": "37540fca887617dc5cc0341d343b96e30c3249a10089c80ef03cb06fc9fa4052",
       "passed": true
@@ -1445,15 +1753,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0625/source_certification.json",
       "expectedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
-      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "role": "v17a_source_certification:OPS_REFINE2_U019P375_ALPHA_P0625",
       "exists": true,
       "observedSha256": "bafc3c9785cbf4d62e4a4ffc4429ff192079f82e1bc1c2c6be5a8fe0a094c9e9",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0625/fixed_node27_contract.h5",
+      "expectedSha256": "40eac7d91636528568dcf246fd17ca3c6060000bf407ad70df53312822c2d556",
+      "role": "v17a_source_selectedContract:OPS_REFINE2_U019P375_ALPHA_P0625",
+      "exists": true,
+      "observedSha256": "40eac7d91636528568dcf246fd17ca3c6060000bf407ad70df53312822c2d556",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/p5_trim.mat",
       "expectedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
-      "role": "v17a_source_package:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "role": "v17a_source_acceptedMatlabPackage:OPS_REFINE2_U019P375_ALPHA_P0875",
       "exists": true,
       "observedSha256": "e059d6ce4ffe8176d938bff2429829504cb817ac76ff6e654a725b55b9cae6e9",
       "passed": true
@@ -1461,15 +1777,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_REFINE2_U019P375_ALPHA_P0875/source_certification.json",
       "expectedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
-      "role": "v17a_source_certificate:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "role": "v17a_source_certification:OPS_REFINE2_U019P375_ALPHA_P0875",
       "exists": true,
       "observedSha256": "b2c9eca4269923e1a51b66b0f19e9de12e764036e59b4f7f378a0631aebe5764",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/operational-source-refinement/batch-v2/fixed-node27-contracts/OPS_REFINE2_U019P375_ALPHA_P0875/fixed_node27_contract.h5",
+      "expectedSha256": "ab3b1827ae69f3ef0d18052314100dbfd561e62071674f107de1e92706f9ea22",
+      "role": "v17a_source_selectedContract:OPS_REFINE2_U019P375_ALPHA_P0875",
+      "exists": true,
+      "observedSha256": "ab3b1827ae69f3ef0d18052314100dbfd561e62071674f107de1e92706f9ea22",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
       "expectedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
-      "role": "v17a_source_package:CASEC_NOMINAL",
+      "role": "v17a_source_acceptedMatlabPackage:CASEC_NOMINAL",
       "exists": true,
       "observedSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
       "passed": true
@@ -1477,15 +1801,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/source_certification.json",
       "expectedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
-      "role": "v17a_source_certificate:CASEC_NOMINAL",
+      "role": "v17a_source_certification:CASEC_NOMINAL",
       "exists": true,
       "observedSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/benchmark-anchor-corridor/fixed-node27-contract/CASEC_NOMINAL/fixed_node27_contract.h5",
+      "expectedSha256": "034b508e5a20e415d8bd4e32b29d40a0ac1707462dc685cb85c47f5709913a4c",
+      "role": "v17a_source_selectedContract:CASEC_NOMINAL",
+      "exists": true,
+      "observedSha256": "034b508e5a20e415d8bd4e32b29d40a0ac1707462dc685cb85c47f5709913a4c",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/p5_trim.mat",
       "expectedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
-      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0675",
+      "role": "v17a_source_acceptedMatlabPackage:MODALGAP_U017P75_ALPHA_P0675",
       "exists": true,
       "observedSha256": "9c1acf9789cfd08b9611602cae3da36e7cfcc324ec7af24a317adee6b6700429",
       "passed": true
@@ -1493,15 +1825,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0675/source_certification.json",
       "expectedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
-      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0675",
+      "role": "v17a_source_certification:MODALGAP_U017P75_ALPHA_P0675",
       "exists": true,
       "observedSha256": "a1d8a002fe6a5f34246eaa27b5ad59c5d5a2e141389bd5467c41ee147aa77a6e",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0675/fixed_node27_contract.h5",
+      "expectedSha256": "65bf94610ebf96a7ba924c2bbc6cf6f7e6eefeb42bec63e5605cb36a22cf43a9",
+      "role": "v17a_source_selectedContract:MODALGAP_U017P75_ALPHA_P0675",
+      "exists": true,
+      "observedSha256": "65bf94610ebf96a7ba924c2bbc6cf6f7e6eefeb42bec63e5605cb36a22cf43a9",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/p5_trim.mat",
       "expectedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
-      "role": "v17a_source_package:MODALGAP_U017P75_ALPHA_P0700",
+      "role": "v17a_source_acceptedMatlabPackage:MODALGAP_U017P75_ALPHA_P0700",
       "exists": true,
       "observedSha256": "d0d241a22466f666b9ef68edae17e7420231aa1b6e1e8d99511f05b91d7053dc",
       "passed": true
@@ -1509,15 +1849,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U017P75_ALPHA_P0700/source_certification.json",
       "expectedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
-      "role": "v17a_source_certificate:MODALGAP_U017P75_ALPHA_P0700",
+      "role": "v17a_source_certification:MODALGAP_U017P75_ALPHA_P0700",
       "exists": true,
       "observedSha256": "fcc9122dd0d8bac2886c8e9aff5bba602413ba4d1f8ec50d499e613fde5065f9",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U017P75_ALPHA_P0700/fixed_node27_contract.h5",
+      "expectedSha256": "8a313251bf6c568ccaf1953384ffbec93bb8ab3f198011d158da56a0b96d1d52",
+      "role": "v17a_source_selectedContract:MODALGAP_U017P75_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "8a313251bf6c568ccaf1953384ffbec93bb8ab3f198011d158da56a0b96d1d52",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/p5_trim.mat",
       "expectedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
-      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0700",
+      "role": "v17a_source_acceptedMatlabPackage:MODALGAP_U018P25_ALPHA_P0700",
       "exists": true,
       "observedSha256": "1a6131155e9ac8e00aba94096e03ace77e96fd119f0e69b36ce45bd96e106836",
       "passed": true
@@ -1525,15 +1873,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0700/source_certification.json",
       "expectedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
-      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0700",
+      "role": "v17a_source_certification:MODALGAP_U018P25_ALPHA_P0700",
       "exists": true,
       "observedSha256": "13c4024b6fee3e992592089f22c428b57da98f88841f38bc195f8788cbe1d3a7",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0700/fixed_node27_contract.h5",
+      "expectedSha256": "0ab7489b614e5716205d3baa4ea8c351c3dfbce3a9de4db816e69665ccdb8204",
+      "role": "v17a_source_selectedContract:MODALGAP_U018P25_ALPHA_P0700",
+      "exists": true,
+      "observedSha256": "0ab7489b614e5716205d3baa4ea8c351c3dfbce3a9de4db816e69665ccdb8204",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/p5_trim.mat",
       "expectedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
-      "role": "v17a_source_package:MODALGAP_U018P25_ALPHA_P0725",
+      "role": "v17a_source_acceptedMatlabPackage:MODALGAP_U018P25_ALPHA_P0725",
       "exists": true,
       "observedSha256": "21deb04a84260f197e090e2d89d4ee5e116a49240400f3d668e8835206f8ad4f",
       "passed": true
@@ -1541,15 +1897,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/MODALGAP_U018P25_ALPHA_P0725/source_certification.json",
       "expectedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
-      "role": "v17a_source_certificate:MODALGAP_U018P25_ALPHA_P0725",
+      "role": "v17a_source_certification:MODALGAP_U018P25_ALPHA_P0725",
       "exists": true,
       "observedSha256": "d795a4e9f1a18be617dd060c6ef55409b44feaa1edb453daa1d01f88bf4ae8a4",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/fixed-node27-contracts/MODALGAP_U018P25_ALPHA_P0725/fixed_node27_contract.h5",
+      "expectedSha256": "3d15ad52dbd1dbda6799b83d8f5b30e0bbbf8ab43ce9f2413c948dfa5bd07bf3",
+      "role": "v17a_source_selectedContract:MODALGAP_U018P25_ALPHA_P0725",
+      "exists": true,
+      "observedSha256": "3d15ad52dbd1dbda6799b83d8f5b30e0bbbf8ab43ce9f2413c948dfa5bd07bf3",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/p5_trim.mat",
       "expectedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
-      "role": "v17a_source_package:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "role": "v17a_source_acceptedMatlabPackage:V10_SUBSPACE_U018P25_ALPHA_P07125",
       "exists": true,
       "observedSha256": "72330655b52602a2685dd67e0788fc9614976abe40a74691f12aacc23a060091",
       "passed": true
@@ -1557,15 +1921,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V10_SUBSPACE_U018P25_ALPHA_P07125/source_certification.json",
       "expectedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
-      "role": "v17a_source_certificate:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "role": "v17a_source_certification:V10_SUBSPACE_U018P25_ALPHA_P07125",
       "exists": true,
       "observedSha256": "1c437411e22bb21d1741bd56aa3029ce9dee42f260fca6aef222ce0bbd0931fe",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/source-view/fixed-node27-contracts/V10_SUBSPACE_U018P25_ALPHA_P07125/fixed_node27_contract.h5",
+      "expectedSha256": "40eab69d5980727ec6d7280afc3028632b74fd6b4c39c42e6d21eaddc89941aa",
+      "role": "v17a_source_selectedContract:V10_SUBSPACE_U018P25_ALPHA_P07125",
+      "exists": true,
+      "observedSha256": "40eab69d5980727ec6d7280afc3028632b74fd6b4c39c42e6d21eaddc89941aa",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/p5_trim.mat",
       "expectedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
-      "role": "v17a_source_package:V11_BRANCH_U018P25_ALPHA_P071875",
+      "role": "v17a_source_acceptedMatlabPackage:V11_BRANCH_U018P25_ALPHA_P071875",
       "exists": true,
       "observedSha256": "c95a4dd08add979a5503dd1184d0c1dfa6d881e1802f2662605cd95b24084f50",
       "passed": true
@@ -1573,15 +1945,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/V11_BRANCH_U018P25_ALPHA_P071875/source_certification.json",
       "expectedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
-      "role": "v17a_source_certificate:V11_BRANCH_U018P25_ALPHA_P071875",
+      "role": "v17a_source_certification:V11_BRANCH_U018P25_ALPHA_P071875",
       "exists": true,
       "observedSha256": "bb1763f320da79b84188be8a79cf29dd9d1365c0aea0550db60f627f884225b9",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/modal-gap-source-placement-v1/coupled-cluster-realization-v10/branch-bisection-v11/source-view/fixed-node27-contracts/V11_BRANCH_U018P25_ALPHA_P071875/fixed_node27_contract.h5",
+      "expectedSha256": "2a816657f75601e8bb2adc719d505707eb15d1167a02526788d12ff472aefbf8",
+      "role": "v17a_source_selectedContract:V11_BRANCH_U018P25_ALPHA_P071875",
+      "exists": true,
+      "observedSha256": "2a816657f75601e8bb2adc719d505707eb15d1167a02526788d12ff472aefbf8",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/p5_trim.mat",
       "expectedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
-      "role": "v17a_source_package:STATICFB_CASEB_AB_MID",
+      "role": "v17a_source_acceptedMatlabPackage:STATICFB_CASEB_AB_MID",
       "exists": true,
       "observedSha256": "2fc189d8a655879a85505de8ecf91cb5eb614c4908454b2b05885e65180eb1fa",
       "passed": true
@@ -1589,15 +1969,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEB_AB_MID/source_certification.json",
       "expectedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
-      "role": "v17a_source_certificate:STATICFB_CASEB_AB_MID",
+      "role": "v17a_source_certification:STATICFB_CASEB_AB_MID",
       "exists": true,
       "observedSha256": "bac592e5fb1c56b934b5c1c5efc2eb65090ebb4f50678e385f0dcc874166a92f",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEB_AB_MID/fixed_node27_contract.h5",
+      "expectedSha256": "2175a023f60124f87f0012674139523e9087f35995f5ae12175e2b4840717547",
+      "role": "v17a_source_selectedContract:STATICFB_CASEB_AB_MID",
+      "exists": true,
+      "observedSha256": "2175a023f60124f87f0012674139523e9087f35995f5ae12175e2b4840717547",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/p5_trim.mat",
       "expectedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
-      "role": "v17a_source_package:STATICFB_CASEC_AB_MID",
+      "role": "v17a_source_acceptedMatlabPackage:STATICFB_CASEC_AB_MID",
       "exists": true,
       "observedSha256": "98c8d6b3a5a6cea09e57a8f73b4b093fde48101b199e6c83f635db6dc21cf247",
       "passed": true
@@ -1605,15 +1993,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_AB_MID/source_certification.json",
       "expectedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
-      "role": "v17a_source_certificate:STATICFB_CASEC_AB_MID",
+      "role": "v17a_source_certification:STATICFB_CASEC_AB_MID",
       "exists": true,
       "observedSha256": "7ad67a765bb3b05d2a2c238a4d87fb15e4850923e001ebf44eacacc84b7aaf28",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_AB_MID/fixed_node27_contract.h5",
+      "expectedSha256": "00a615def9ce7ea151f16ae0478672c1cedab13017d0e5fd305ac82f01b1c614",
+      "role": "v17a_source_selectedContract:STATICFB_CASEC_AB_MID",
+      "exists": true,
+      "observedSha256": "00a615def9ce7ea151f16ae0478672c1cedab13017d0e5fd305ac82f01b1c614",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/p5_trim.mat",
       "expectedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
-      "role": "v17a_source_package:STATICFB_CASEC_BC_MID",
+      "role": "v17a_source_acceptedMatlabPackage:STATICFB_CASEC_BC_MID",
       "exists": true,
       "observedSha256": "feea30b32ca4e0230da108d842ffb0af3efd7fad09aa1961317bbb6e1a4faabe",
       "passed": true
@@ -1621,15 +2017,23 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_BC_MID/source_certification.json",
       "expectedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
-      "role": "v17a_source_certificate:STATICFB_CASEC_BC_MID",
+      "role": "v17a_source_certification:STATICFB_CASEC_BC_MID",
       "exists": true,
       "observedSha256": "a887cb04dbe100c6d749a05637122e60cb2aaf50aa5b999c35922c931701a9ed",
       "passed": true
     },
     {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_BC_MID/fixed_node27_contract.h5",
+      "expectedSha256": "70b8081cdf8a82b29b8d9cfeece9307c618202685edad9b457e6d7b0479fccca",
+      "role": "v17a_source_selectedContract:STATICFB_CASEC_BC_MID",
+      "exists": true,
+      "observedSha256": "70b8081cdf8a82b29b8d9cfeece9307c618202685edad9b457e6d7b0479fccca",
+      "passed": true
+    },
+    {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/p5_trim.mat",
       "expectedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
-      "role": "v17a_source_package:STATICFB_CASEC_CA_MID",
+      "role": "v17a_source_acceptedMatlabPackage:STATICFB_CASEC_CA_MID",
       "exists": true,
       "observedSha256": "5a8ff75d4dd24c3f60dc7b8ce2185f429679c3e32179ad14e766ba5f92e9905b",
       "passed": true
@@ -1637,9 +2041,17 @@
     {
       "path": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/STATICFB_CASEC_CA_MID/source_certification.json",
       "expectedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
-      "role": "v17a_source_certificate:STATICFB_CASEC_CA_MID",
+      "role": "v17a_source_certification:STATICFB_CASEC_CA_MID",
       "exists": true,
       "observedSha256": "a09b6c71f82e14e3ec11e49b17ad356237bf386bce9897eea42e207c7a3fe170",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/fixed-node27-contracts/STATICFB_CASEC_CA_MID/fixed_node27_contract.h5",
+      "expectedSha256": "164f13e35b85e0fb663e1ccd60c7e254dcc994d151cf475c8e42fc2825197627",
+      "role": "v17a_source_selectedContract:STATICFB_CASEC_CA_MID",
+      "exists": true,
+      "observedSha256": "164f13e35b85e0fb663e1ccd60c7e254dcc994d151cf475c8e42fc2825197627",
       "passed": true
     },
     {
@@ -2021,7 +2433,7 @@
   "excludedCategories": [
     "private development context and conversations",
     "campaign audit scripts, checkpoints, logs, and rejected candidates",
-    "ordinary simulation histories and local result directories",
+    "ordinary simulation histories and local result directories; selected reference comparisons remain included",
     "MATLAB MEX binaries, codegen products, and first-call caches",
     "Python bytecode, virtual environments, and test caches",
     "editor, operating-system, credential, and machine-local state",

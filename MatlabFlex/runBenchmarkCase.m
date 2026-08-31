@@ -4,9 +4,9 @@ function [summary,plan] = runBenchmarkCase(caseId,options)
 %   Use Execute=false to inspect the complete resolved plan without changing
 %   files, creating figures, or starting MATLAB simulation work.
 %
-%   Formal Case A members are qualified. Case B retains the complete V90
-%   scheduler and accelerated runtime, but requires AllowUnqualified=true
-%   while its physical active-source gate remains open.
+%   Formal Case A members are qualified. Case B uses the retained production
+%   production scheduler and accelerated runtime. Its qualification state is
+%   reported independently from execution availability.
 
 arguments
     caseId (1,1) string
@@ -21,11 +21,19 @@ arguments
     options.RunId (1,1) string = "auto"
     options.NativeKernelPolicy (1,1) string = "auto"
     options.AllowUnqualified (1,1) logical = false
+    options.InitialFlightCondition (1,1) struct = struct()
+    options.TerminalFlightCondition (1,1) struct = struct()
 end
 
 % Resolve the immutable case intent before any setup or file creation.
 repositoryRoot = string(fileparts(fileparts(mfilename("fullpath"))));
 definition = AeroFlex.benchmark.caseDefinition(caseId);
+definition.initialFlightCondition = localFormalCondition( ...
+    options.InitialFlightCondition,definition.initialFlightCondition, ...
+    "initial");
+definition.terminalFlightCondition = localFormalCondition( ...
+    options.TerminalFlightCondition,definition.terminalFlightCondition, ...
+    "terminal");
 settings = AeroFlex.benchmark.simulationOptions( ...
     Execute=options.Execute, ...
     DurationSeconds=options.DurationSeconds, ...
@@ -46,15 +54,14 @@ if ~settings.execute
     return
 end
 
-% Execution gates remain separate from plan inspection. This keeps a casual
-% Case-B call from starting an unqualified 31-second scheduled simulation.
+% Execution gates remain separate from plan inspection. Case C and unsupported
+% custom configurations continue to fail closed.
 assert(plan.executionAllowed,"AeroFlex:BenchmarkCaseUnavailable", ...
-    "%s To reproduce an explicitly experimental Case-B run, set " + ...
-    "AllowUnqualified=true.",plan.unavailableReason);
+    "%s",plan.unavailableReason);
 assert(plan.controllerMode=="full" || ...
     ~ismember(plan.caseId,["B1","B2"]), ...
     "AeroFlex:BenchmarkControllerMode", ...
-    "The retained V90 Case-B profile requires ControllerMode='full'.");
+    "The retained Case-B profile requires ControllerMode='full'.");
 
 entryTimer = tic;
 projectInfo = setupProject(ValidateEntryPoints=true);
@@ -84,9 +91,9 @@ catch exception
     executionError = exception;
     artifact = AeroFlex.benchmark.internal.recoverExecutionArtifact( ...
         layout.runRoot);
-    if localRecoverableExperimentalFailure(plan,exception,artifact)
+    if localRecoverableValidationFailure(plan,exception,artifact)
         summary = artifact.summary;
-        summary.status = "EXPERIMENTAL_"+string(summary.status);
+        summary.status = "VALIDATION_PENDING_"+string(summary.status);
         summary.executionError = struct("identifier", ...
             string(exception.identifier),"message",string(exception.message));
     else
@@ -97,7 +104,7 @@ catch exception
 end
 wallSeconds = toc(wallTimer);
 
-% Preserve useful experimental evidence even when the runner deliberately
+% Preserve useful validation evidence even when the runner deliberately
 % fails its final qualification assertion. All other errors are rethrown
 % after the failure manifest and any recoverable products are written.
 plan.executed = true;
@@ -126,10 +133,40 @@ clear figureCleanup
 if ~isempty(executionError)
     artifact = AeroFlex.benchmark.internal.recoverExecutionArtifact( ...
         layout.runRoot);
-    if ~localRecoverableExperimentalFailure(plan,executionError,artifact)
+    if ~localRecoverableValidationFailure(plan,executionError,artifact)
         rethrow(executionError)
     end
 end
+end
+
+function condition = localFormalCondition(requested,frozen,label)
+% Named cases accept explicit conditions only when they restate the manifest.
+if isempty(fieldnames(requested))
+    condition = frozen;
+    return
+end
+required = ["airspeedMps","angleOfAttackDeg"];
+assert(all(isfield(requested,required)) && ...
+    all(isfield(frozen,required)), ...
+    "AeroFlex:BenchmarkFlightCondition", ...
+    "The %s flight condition requires airspeedMps and angleOfAttackDeg.", ...
+    label);
+condition = struct("airspeedMps",double(requested.airspeedMps), ...
+    "angleOfAttackDeg",double(requested.angleOfAttackDeg));
+assert(isscalar(condition.airspeedMps) && ...
+    isfinite(condition.airspeedMps) && condition.airspeedMps>0 && ...
+    isscalar(condition.angleOfAttackDeg) && ...
+    isfinite(condition.angleOfAttackDeg), ...
+    "AeroFlex:BenchmarkFlightCondition", ...
+    "The %s flight condition must contain finite scalar values.",label);
+tolerance = 1e-12;
+assert(abs(condition.airspeedMps-frozen.airspeedMps)<=tolerance && ...
+    abs(condition.angleOfAttackDeg- ...
+    frozen.angleOfAttackDeg)<=tolerance, ...
+    "AeroFlex:BenchmarkFrozenFlightCondition", ...
+    "The named case has a frozen %s condition of U_inf=%.12g m/s and " + ...
+    "alpha=%.12g deg. Use a custom case for a different condition.", ...
+    label,frozen.airspeedMps,frozen.angleOfAttackDeg);
 end
 
 function localCheckNativeKernelPolicy(plan,projectInfo)
@@ -160,10 +197,9 @@ else
 end
 end
 
-function recoverable = localRecoverableExperimentalFailure( ...
+function recoverable = localRecoverableValidationFailure( ...
         plan,exception,artifact)
-recoverable = plan.allowUnqualified && ...
-    ismember(plan.caseId,["B1","B2"]) && artifact.available && ...
+recoverable = ismember(plan.caseId,["B1","B2"]) && artifact.available && ...
     string(exception.identifier)=="Phase18C:CaseBProfile";
 end
 

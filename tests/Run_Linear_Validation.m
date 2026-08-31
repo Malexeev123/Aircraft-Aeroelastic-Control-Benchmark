@@ -26,7 +26,7 @@ assert(isfile(validationSettings.artifactPath), ...
 
 fprintf("\nPazy Aeroelastic Control Benchmark\n");
 fprintf("Standalone longitudinal linear validation\n");
-fprintf("  Artifact : %s\n",validationSettings.artifactPath);
+fprintf("  Artifact : accepted production longitudinal model\n");
 
 loaded = load(validationSettings.artifactPath,"bundle");
 assert(isfield(loaded,"bundle") && ...

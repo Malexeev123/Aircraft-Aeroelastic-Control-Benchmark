@@ -1,0 +1,5 @@
+numpy
+scipy
+h5py
+matplotlib
+# Install SHARPy and XBeam from their official upstream distributions.

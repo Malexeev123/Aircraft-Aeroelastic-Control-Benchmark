@@ -20,7 +20,8 @@ results/<case>/<run-id>/
 ```
 
 The manifest records the resolved case plan, qualification state, repository
-revision, MATLAB environment, V17 registry hash, and native-kernel policy.
+revision, MATLAB environment, production-registry hash, and native-kernel
+policy.
 MAT artifacts use MATLAB v7 format.
 
 The standardized overview contains airspeed, pitch, altitude, gust truth and
@@ -46,9 +47,9 @@ estimation, control, allocation, fusion, actuator, and plant work.
 diagnosis, including any runner-side loading or final checks. Neither setup nor
 plot generation is silently charged to the online real-time factor.
 
-If an explicitly unqualified Case-B run reaches its final qualification
+If a Case-B run reaches its final qualification
 assertion, the facade recovers the runner's saved MAT artifact and generates
-the same standardized products while retaining an `EXPERIMENTAL_FAIL...`
+the same standardized products while retaining a `VALIDATION_PENDING_FAIL...`
 status. Other execution errors are recorded and rethrown.
 
 General wing-only and coupled workflows retain their established `sim_run`

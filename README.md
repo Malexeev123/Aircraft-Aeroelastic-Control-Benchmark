@@ -22,19 +22,17 @@ validation, and post-processing are project-owned.
 | `B2` | Matched speed transition under gust |
 | `C` | Longitudinal trajectory tracking under gust |
 
-The Case-B interface retains the complete V90 scheduled runtime, including
+The Case-B interface retains the complete production scheduled runtime, including
 scheduled package/history ownership, current-package forecast context, state transport,
 scheduled guidance, compiled interval and horizon kernels, condensed RTI,
 packet reuse, the accelerated plant interval, rigid-wrench refinement, and
-safe endpoint behavior. B1 and B2 fail closed unless the caller explicitly
-requests an unqualified research reproduction.
+safe endpoint behavior. The runner preserves failed validation evidence and
+never converts an incomplete physical gate into a qualification pass.
 
-The V90 binding deliberately leaves the future scheduled-package sequence,
-online full-fmincon correction, R1 one-correction experiment, and the later
-standalone condensation experiments disabled. Those audits were not part of
-the executed V90 owner. The resolved `plan.protectedRuntime.auditDisposition`
-lists every retained and intentionally disabled owner so later integration
-cannot silently lose a speedup or reactivate a superseded experiment.
+The production binding deliberately leaves unqualified correction and
+condensation alternatives disabled. The resolved plan records every retained
+and intentionally disabled runtime owner so later integration cannot silently
+lose a qualified acceleration or reactivate a superseded candidate.
 
 The clamped wing-only gust-load-alleviation prerequisite remains separate from
 formal free-flight Case A. Wing-only uses rate projection off; coupled cases
@@ -113,7 +111,8 @@ closure instead of excluding files solely from historical names. See
 optional-regeneration, history, cache, and validation-example policy.
 
 Verify the Beam, Aero, Core/Base, plant, scheduling, control, trim, registry,
-and native-tool integration without running a model:
+all manifest-owned dynamic assets, and native-tool integration without
+running a model:
 
 ```matlab
 status = verifyBenchmarkInstallation;
@@ -180,8 +179,8 @@ Compilation uses two compact, hash-locked fixtures under
 accepted code-generation dimensions and parity inputs without depending on a
 private simulation checkpoint. The builders verify the fixture hash, schema,
 and source-checkpoint provenance before compilation. These fixtures are build
-inputs only; benchmark execution continues to use the supplied V17/V17A
-runtime library and the selected case configuration.
+inputs only; benchmark execution continues to use the supplied locked
+production runtime library and the selected case configuration.
 
 SHARPy and XBeam are not built, patched, or copied by these commands.
 
@@ -205,19 +204,18 @@ summary = runBenchmarkCase("A1", ...
     NativeKernelPolicy="required");
 ```
 
-Experimental Case-B reproduction is deliberate and visibly marked:
+Case B uses the production scheduled runtime through the same interface:
 
 ```matlab
-[~,plan] = runBenchmarkCase("B1", ...
-    Execute=false,AllowUnqualified=true);
+[~,plan] = runBenchmarkCase("B1",Execute=false);
 
 summary = runBenchmarkCase("B1", ...
-    AllowUnqualified=true, ...
     NativeKernelPolicy="required");
 ```
 
-This override does not qualify B1 or B2 and does not relax a physical,
-solver, actuator, or source-domain threshold.
+Execution availability and benchmark qualification are recorded separately.
+B1/B2 retain every physical, solver, actuator, thrust, and source-domain
+acceptance threshold until the full-duration validation is complete.
 
 ## Custom commands and combined maneuvers
 
@@ -242,8 +240,7 @@ After reviewing the resolved plan, execute the currently supported scheduled
 speed/pitch scope explicitly:
 
 ```matlab
-summary = runCustomBenchmarkCase(definition, ...
-    Execute=true,AllowUnqualified=true);
+summary = runCustomBenchmarkCase(definition,Execute=true);
 ```
 
 A varying-speed request selects the scheduled runtime for the entire
@@ -266,6 +263,11 @@ The retained general setup/execution layer supports these model families:
 | `coupledFull` | `openloop` | No-control coupled trim/replay verification |
 | `coupledFull` | `nmhe_nmpc` | Full rigid-flexible estimation and control |
 
+A clean release includes the compact, hash-locked model inputs needed by
+these workflows under `TestBenchPazy/`. `verifyBenchmarkInstallation` checks
+all eight files before reporting the general workflow ready. SHARPy/XBeam are
+needed only to regenerate or extend those supplied source products.
+
 Generate a setup from the unchanged SHARPy outputs:
 
 ```matlab
@@ -287,8 +289,13 @@ The same operation is available from the centralized interface:
 
 result = runPazyModelWorkflow( ...
     BodyCase="wingOnly",SimulationMode="nmhe_nmpc", ...
-    GustEnabled=true,Execute=true);
+    GustEnabled=true,DurationSeconds=0.10,Execute=true);
 ```
+
+By default, the general workflow uses the operating point recorded in the
+supplied source package. Set both `TargetSpeedMps` and
+`TargetAngleOfAttackDeg` to request an explicit condition; an unscheduled
+run fails closed when that request does not match the loaded source data.
 
 Then execute the serialized setup:
 
@@ -401,6 +408,13 @@ validation with pole, frequency-response, and step-response plots, plus a
 checkpointed extended source-trim and flexible-linearization suite. These analyses use
 the accepted model products and do not alter the runtime configuration.
 
+An accepted 40 m/s, 1 degree SHARPy/MATLAB wingtip dataset and standalone
+reproduction script are provided under
+[`results/validation/sharpy-wingtip-comparison`](results/validation/sharpy-wingtip-comparison)
+and [`tests/Run_SHARPy_Wingtip_Comparison.m`](tests/Run_SHARPy_Wingtip_Comparison.m).
+The comparison is trim-relative and retains rate projection disabled for the
+wing-only replay.
+
 ## Reproducibility and limitations
 
 Run manifests record the repository revision, MATLAB release, case/profile,
@@ -408,9 +422,10 @@ source registry, resolved plan, selected kernels, hashes, timing, outputs, and
 qualification state. A visually stable trajectory alone is not a validation
 pass.
 
-Case B is distributed as an experimental scheduled workflow with the same
-physical, solver, actuator, thrust, and source-domain acceptance thresholds as
-the qualified cases.
+Case B is distributed with its production scheduled workflow. Execution is
+available from the shared interface, while formal B1/B2 qualification remains
+a separate recorded state governed by the same physical, solver, actuator,
+thrust, and source-domain acceptance thresholds as the qualified cases.
 
 ## License and attribution
 

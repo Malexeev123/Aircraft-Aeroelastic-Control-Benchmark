@@ -341,7 +341,7 @@ end
 %             %             obj.forceMap = buildForceMap(obj.ROM_cts,obj.Na);
 %             %         end
 %             % end
-%             save(obj.cacheFile,'obj','-v7.3');
+%             save(obj.cacheFile,'obj','-v7');
 %         end
 %         function obj = assign(obj,S)
 %             f = fieldnames(S);

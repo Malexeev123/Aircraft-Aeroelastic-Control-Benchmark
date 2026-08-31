@@ -28,7 +28,13 @@ entryPoints = localEntryPoints(root);
 [dependencyFiles,products] = matlab.codetools.requiredFilesAndProducts( ...
     cellstr(entryPoints));
 dependencyFiles = localRepositoryFiles(root,string(dependencyFiles(:)));
-publicFiles = localUniqueFiles([dependencyFiles;localPublicFiles(root)]);
+generalModelAssets = AeroFlex.benchmark.verifyGeneralModelAssets(root);
+assert(generalModelAssets.passed,"AeroFlex:ReleaseGeneralModelAssets", ...
+    "The shared wing/coupled model-data payload is missing or changed.");
+generalModelFiles = fullfile(root,localNativePath( ...
+    string({generalModelAssets.records.path}).'));
+publicFiles = localUniqueFiles([dependencyFiles;localPublicFiles(root); ...
+    generalModelFiles]);
 records = localRecords(root,publicFiles);
 
 assets = prepareBenchmarkReleaseAssets(Action="check", ...
@@ -58,6 +64,7 @@ status = struct( ...
         licensePresent, ...
     "sourceFileCount",numel(records), ...
     "runtimeAssetCount",assets.assetCount, ...
+    "generalModelAssetCount",generalModelAssets.assetCount, ...
     "dependencyProductNames",string({products.Name}).', ...
     "licensePresent",licensePresent, ...
     "licenseFiles",licenseFiles, ...
@@ -71,6 +78,7 @@ if options.PrintSummary
     fprintf("\nPazy public release package\n");
     fprintf("  Required source files : %d\n",status.sourceFileCount);
     fprintf("  Verified runtime data : %d\n",status.runtimeAssetCount);
+    fprintf("  Shared model inputs    : %d\n",status.generalModelAssetCount);
     fprintf("  Repository license    : %s\n",localYesNo(licensePresent));
     fprintf("  Source/data integrity : %s\n",localPassFail(status.passed));
     fprintf("  Publication ready     : %s\n", ...
@@ -146,8 +154,26 @@ exact = [ ...
     "tests/README.md"
     "tests/Run_Linear_Validation.m"
     "tests/Run_Extended_Validation.m"
+    "tests/Run_SHARPy_Wingtip_Comparison.m"
     "tests/test_native_tools.m"
+    "tests/test_general_model_workflows.m"
+    "tests/test_sharpy_wingtip_comparison.m"
+    "results/README.md"
+    "results/validation/sharpy-wingtip-comparison/README.md"
+    "results/validation/sharpy-wingtip-comparison/data/wingtip_comparison.csv"
+    "results/validation/sharpy-wingtip-comparison/wingtip_comparison.png"
+    "results/validation/sharpy-wingtip-comparison/wingtip_comparison_summary.json"
+    "Benchmark.ipynb"
+    "TestBenchPazy/README.md"
+    "TestBenchPazy/sweep_pazy_rom_library.py"
+    "TestBenchPazy/get_settings_krylov.py"
+    "TestBenchPazy/get_settings_udp.py"
+    "TestBenchPazy/get_settings_modal.py"
+    "TestBenchPazy/get_settings_structTest.py"
+    "TestBenchPazy/phase18_premodal_extractor.py"
+    "TestBenchPazy/requirements-generation.txt"
     "MatlabFlex/configs/benchmark/phase18c_v17a_release_asset_manifest_v1.json"
+    "MatlabFlex/configs/benchmark/pazy_general_model_assets_v1.json"
     "MatlabFlex/configs/benchmark/native-build-fixtures/README.md"];
 for path = exact.'
     candidate = fullfile(root,localNativePath(path));
@@ -281,7 +307,7 @@ function values = localExcludedCategories()
 values = [ ...
     "private development context and conversations"
     "campaign audit scripts, checkpoints, logs, and rejected candidates"
-    "ordinary simulation histories and local result directories"
+    "ordinary simulation histories and local result directories; selected reference comparisons remain included"
     "MATLAB MEX binaries, codegen products, and first-call caches"
     "Python bytecode, virtual environments, and test caches"
     "editor, operating-system, credential, and machine-local state"

@@ -9,7 +9,11 @@
       "manifestPath": "context/audits/phase18c-control-validation/plant/V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
       "manifestSha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
       "expectedSourceCount": 29,
-      "pathFields": ["acceptedMatlabPackage", "certification"]
+      "pathFields": [
+        "acceptedMatlabPackage",
+        "certification",
+        "selectedContract"
+      ]
     },
     "fullCoordinateFields": {
       "manifestPath": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/windows-runtime-full-coordinate-fields.json",
