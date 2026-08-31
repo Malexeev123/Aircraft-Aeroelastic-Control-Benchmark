@@ -107,6 +107,9 @@ function params = paramsRigid_PazyUAV()
     lumpNoWing = [fus tail fin];
     mTot    = sum([lumps.m]);
     rCM     = sum( cat(1,lumps.m).*cat(1,lumps.r) , 1)/mTot;
+    mNoWing = sum([lumpNoWing.m]);
+    rCMNoWing = sum(cat(1,lumpNoWing.m).*cat(1,lumpNoWing.r),1) ...
+        /mNoWing;
     
     Ishift  = @(J,r,m) J + m*(dot(r,r)*eye(3) - r(:)*r(:).');     % -- parallel axis
     
@@ -114,18 +117,47 @@ function params = paramsRigid_PazyUAV()
     for L = lumps
         Jtot = Jtot + Ishift(L.J , L.r - rCM , L.m);
     end
+    JNoWing = zeros(3);
+    for L = lumpNoWing
+        JNoWing = JNoWing + ...
+            Ishift(L.J,L.r-rCMNoWing,L.m);
+    end
     
     % ======================================================================
     %  3. Output structure
     % ======================================================================
     params.mass  = mTot;
-    params.mNoWing = sum([lumpNoWing.m]);
+    params.mNoWing = mNoWing;
     params.rCM   = rCM(:);
     params.J     = Jtot;
     
     % keep sub-parts if caller wants them
     params.components = struct('fuselage',fus,'battery',bat,'tail',tail, ...
+                            'fin',fin, ...
                             'tipR',tipR,'tipL',tipL);
+
+    % The retained-rigid SHARPy source already owns the wing and its tip
+    % masses.  Coupled-full V17A runtime therefore uses this non-wing body
+    % ledger, while the historical combined ledger above remains available
+    % for exact legacy reproduction.
+    SNoWing = skew(rCMNoWing(:));
+    JNoWingRoot = JNoWing + mNoWing*( ...
+        dot(rCMNoWing,rCMNoWing)*eye(3)- ...
+        rCMNoWing(:)*rCMNoWing(:).');
+    params.nonwing = struct( ...
+        'mass',mNoWing, ...
+        'rCM',rCMNoWing(:), ...
+        'J',JNoWing, ...
+        'M6Root',[mNoWing*eye(3),-mNoWing*SNoWing; ...
+                  mNoWing*SNoWing,JNoWingRoot], ...
+        'components',struct('fuselage',fus,'tail',tail,'fin',fin), ...
+        'tailArmFromCM',tail.r(:)-rCMNoWing(:), ...
+        'wingRootFromCM',-rCMNoWing(:), ...
+        'owner','nonwing_body_with_source_owned_wing_reaction');
+    params.legacyIncludingProjectTipMass = struct( ...
+        'mass',mTot,'rCM',rCM(:),'J',Jtot, ...
+        'projectTipMass',tipR.m+tipL.m, ...
+        'owner','historical_project_component_ledger');
     
     params.components.fuselage.M6comp_rCM = [ fus.m*eye(3) , -fus.m*skew(rCM);
                fus.m*skew(rCM) , fus.J ]; % Not sure if to use rCM or just r
@@ -135,6 +167,39 @@ function params = paramsRigid_PazyUAV()
     % convenient 6×6 spatial mass
     params.M6 = [ mTot*eye(3) , -mTot*skew(rCM);
                mTot*skew(rCM) , Jtot ];
+
+    % -------------------------------------------------------------------------
+    % Tail aerodynamic reference point, expressed from the rigid-body CG to the
+    % tail aerodynamic center in body axes.
+    %
+    % The tail force model computes moments as M = r x F.  For the convention
+    % used in PlantRunTime and TrimRBwFlex:
+    %   x body axis: forward
+    %   z body axis: down
+    % an aft tail must have a negative x moment arm.  Do not use a positive
+    % scalar tail arm directly in the cross product.
+    % -------------------------------------------------------------------------
+    % if ~isfield(cfg,'tail') || ~isstruct(cfg.tail)
+    cfg.tail = struct();
+    % end
+    
+    if ~isfield(cfg.tail,'arm') || isempty(cfg.tail.arm)
+        cfg.tail.arm = 0.60;       % positive scalar aft distance [m]
+    end
+    
+    if isfield(params,'components') && ...
+            isfield(params.components,'tail') && ...
+            isfield(params.components.tail,'r') && ...
+            isfield(params,'rCM')
+    
+        cfg.tail.r_B = params.components.tail.r(:) - params.rCM(:);
+    
+    else
+        cfg.tail.r_B = [-cfg.tail.arm; 0; 0];
+    end
+    params.tail.addition = cfg.tail;
+    params.tail.additionNonwing = cfg.tail;
+    params.tail.additionNonwing.r_B = params.nonwing.tailArmFromCM;
 end
 % 
 % function prm = paramsRigid_PazyUAV()

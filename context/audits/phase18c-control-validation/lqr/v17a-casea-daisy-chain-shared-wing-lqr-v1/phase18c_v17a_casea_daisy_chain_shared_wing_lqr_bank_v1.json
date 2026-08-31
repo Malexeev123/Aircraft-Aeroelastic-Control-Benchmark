@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "phase18c-v17a-casea-daisy-chain-shared-wing-lqr-bank-v1",
+  "status": "PASS_AUDIT_ONLY_RUNTIME_CENTERED_SHARED_WING_SOURCE",
+  "modelRevision": "V17A",
+  "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+  "sampleTimeSeconds": 0.04,
+  "selectionPolicy": {
+    "exactSourceOnly": true,
+    "noExtrapolation": true,
+    "enabledByDefault": false
+  },
+  "entries": {
+    "sourceId": "CASEA_U040_ALPHA_P01",
+    "coordinate": [
+      40,
+      1
+    ],
+    "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+    "sourcePackageSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+    "sourceCertificateSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+    "artifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casea-daisy-chain-shared-wing-lqr-v1\\phase18c_v17a_casea_daisy_chain_shared_wing_lqr_v1.json",
+    "artifactSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+    "maximumDiscreteClosedLoopPole": 0.97517495572213964,
+    "symmetricWingIncrementLimitRadians": 0.3490658503988659,
+    "status": "PASS_AUDIT_ONLY_RUNTIME_CENTERED_SHARED_WING_SOURCE"
+  },
+  "execution": {
+    "matlabRelease": "2025b",
+    "command": "run_phase18c_v17a_casea_daisy_chain_shared_wing_lqr_derivation_v1",
+    "startedUtc": "2026-08-18T04:51:55.430Z",
+    "endedUtc": "2026-08-18T04:51:56.054Z",
+    "wallSeconds": 0.6241158
+  }
+}

@@ -56,7 +56,10 @@ function [ROM_krylov_SS, forces_aero_beam_dof, mode_shape, ROM_krylov_Disc, forc
     if ~isempty(aeroObj.vproj_h5) && isfile(aeroObj.vproj_h5)
         try
             Vgain = h5read(aeroObj.vproj_h5,'/V/gain');
+            VsizeID = h5read(aeroObj.vproj_h5,'/V/OutputVariable/sizes');
+
             DataMatrix.aero_gamma_state.project_V = struct('r', Vgain);
+            DataMatrix.aero_gamma_state.VsizeID = VsizeID;
         catch ME
             warning('[AeroDiscToCont] Could not read V/gain from %s: %s', aeroObj.vproj_h5, ME.message);
             DataMatrix.aero_gamma_state.project_V = struct('r', []);
@@ -150,31 +153,6 @@ function DM = read_coupling_matrices(data_h5)
 end
 
 
-% function [ROM_krylov_SS, forces_aero_beam_dof, mode_shape, ROM_krylov_Disc, forces_aero, forces_structure, DataMatrix, etas] = AeroDiscToCont(h5_lin, case_name, NetworkPath)
-%     %, KrylovSharpyContSS
-%     % Need to change to actual file path, works for now;
-%     warning("off");
-%     if NetworkPath 
-%         route_directory = "\\malexeev\users\maxal\Documents\JupyterNotebooks\ControlsProj\";
-%     else
-%         route_directory = "/Users/maxal/Documents/JupyterNotebooks/ControlsProj";
-%     end
-%     [ROM_krylov_SS, ROM_krylov_Disc, KrylovSharpyContSS, forces_aero_beam_dof, mode_shape,DataMatrix, etas] = AeroDiscToContF(route_directory, case_name);
-%     delta = ROM_krylov_SS.A-ROM_krylov_Disc.A;
-%     contValidation = ROM_krylov_SS.A - KrylovSharpyContSS.A;
-%     contValidation = contValidation.*(contValidation>1e-10 | contValidation<-1e-10);
-%     if ~NetworkPath
-%         save('AeroSS', "ROM_krylov_SS")
-%         save('KrylovSharpyContSS', "KrylovSharpyContSS")
-%     end
-%     %%
-%     function [ROM_krylov_SS, state_space_system, KrylovSharpyContSS, forces_aero_beam_dof, mode_shape,DataMatrix, etas] = AeroDiscToContF(route_directory, case_name)
-%         addpath(strcat(route_directory,'example_notebooks/UDP_control/matlab_functions/'));
-%         success = false;
-%         %% Define parameters;
-%         % case_name = 'pazy_ROM';
-% 
-%         % fold_name = 'pazy_ROM_krylov';        
 %         fold_name = append(case_name,'_krylov');
 %         output_folder = strcat(route_directory,'/output/',case_name);
 %         output_folder_linear = strcat(output_folder, '/linear_results/');

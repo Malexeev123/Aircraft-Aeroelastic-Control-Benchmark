@@ -1,0 +1,343 @@
+{
+  "schemaVersion": "phase18c-v17a-casebc-scheduled-query-reciprocal-runtime-bank-v2",
+  "status": "PASS_14_OF_14_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_MEMBERS",
+  "auditOnly": true,
+  "defaultActive": false,
+  "runtimeOwner": "scheduled_query",
+  "sourceCount": 14,
+  "records": [
+    {
+      "sourceId": "CASEC_NOMINAL",
+      "coordinates": [
+        18,
+        7
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093284762481941268,
+      "stateHalfStepConvergence": 1.038403026592888E-10,
+      "inputHalfStepConvergence": 1.7989953250692191E-9,
+      "installedStateRecoveryResidual": 1.2995521746313583E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.40573858479395974,
+      "parentToRuntimeInputDifferenceInfinity": 0.016650777225792605,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/CASEC_NOMINAL/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "3b1fcb446768d10a8ff03347045bcfea0f45579ef563d2c2a8caf42f0a4aa406",
+      "wallSeconds": 9.9191452
+    },
+    {
+      "sourceId": "MODALGAP_U017P75_ALPHA_P0700",
+      "coordinates": [
+        17.75,
+        7
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093231447978213465,
+      "stateHalfStepConvergence": 1.1237245094880048E-10,
+      "inputHalfStepConvergence": 1.7852917913460946E-9,
+      "installedStateRecoveryResidual": 2.0877944724850628E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.40454638230832035,
+      "parentToRuntimeInputDifferenceInfinity": 0.017062275739292282,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U017P75_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "02fd6ee5594d121368009bb75bd1b2dede0a8609df4bfcd3025d46114e18af95",
+      "wallSeconds": 9.227305
+    },
+    {
+      "sourceId": "MODALGAP_U018P25_ALPHA_P0700",
+      "coordinates": [
+        18.25,
+        7
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093334822925880473,
+      "stateHalfStepConvergence": 2.2477267065504417E-10,
+      "inputHalfStepConvergence": 3.5596516027230524E-9,
+      "installedStateRecoveryResidual": 1.7435423268544213E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.4069775201488065,
+      "parentToRuntimeInputDifferenceInfinity": 0.01625712542422365,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/MODALGAP_U018P25_ALPHA_P0700/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "d441700472a32db649fa2ce225a7bed703cb70a9c8d8b99929b0b836abaf6fe7",
+      "wallSeconds": 9.0911745
+    },
+    {
+      "sourceId": "OPS_REFINE2_U018P125_ALPHA_P0675",
+      "coordinates": [
+        18.125,
+        6.75
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093282669655504334,
+      "stateHalfStepConvergence": 1.3464403427560836E-10,
+      "inputHalfStepConvergence": 1.7991600165353913E-9,
+      "installedStateRecoveryResidual": 2.4340264267528641E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.40246912453160089,
+      "parentToRuntimeInputDifferenceInfinity": 0.016427280729121242,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U018P125_ALPHA_P0675/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "8616e4c59221575452329492204e2c1f12baa4cccc819b1d551ff8d6a3428681",
+      "wallSeconds": 9.1044723
+    },
+    {
+      "sourceId": "OPS_REFINE2_U019P375_ALPHA_P0625",
+      "coordinates": [
+        19.375,
+        6.25
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093475632726657508,
+      "stateHalfStepConvergence": 4.4229737117421495E-11,
+      "inputHalfStepConvergence": 2.8559301436410225E-10,
+      "installedStateRecoveryResidual": 1.3735603084212273E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.39988331355938977,
+      "parentToRuntimeInputDifferenceInfinity": 0.014591129091527948,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_REFINE2_U019P375_ALPHA_P0625/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "8657e199fbc1837bb25019175eabd4fbfb2720774f84eeded1f08f5ce2761698",
+      "wallSeconds": 8.8951281
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P06",
+      "coordinates": [
+        15,
+        6
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093094852818067359,
+      "stateHalfStepConvergence": 5.4447395631752148E-11,
+      "inputHalfStepConvergence": 1.8401294255653784E-11,
+      "installedStateRecoveryResidual": 7.610994604694905E-12,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.37916712693437754,
+      "parentToRuntimeInputDifferenceInfinity": 0.02305875248636052,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "0d8418868a60de712a668e156c28e6ffd6701b96d40201d3568e637f66b5c8ca",
+      "wallSeconds": 8.9015502
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P08",
+      "coordinates": [
+        15,
+        8
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00092748107117230976,
+      "stateHalfStepConvergence": 7.9140481601345724E-11,
+      "inputHalfStepConvergence": 1.7923966500945067E-9,
+      "installedStateRecoveryResidual": 7.7715313143864218E-12,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.40565748383819555,
+      "parentToRuntimeInputDifferenceInfinity": 0.023150730134053419,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "0e15a3424ced8668e2dc55f4dc0f57b4da526f6cb102e336ad9a9d2b23b23fb0",
+      "wallSeconds": 9.354609
+    },
+    {
+      "sourceId": "OPS_U015_ALPHA_P10",
+      "coordinates": [
+        15,
+        10
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00092080183081501722,
+      "stateHalfStepConvergence": 9.051010288446645E-11,
+      "inputHalfStepConvergence": 9.19953468881139E-10,
+      "installedStateRecoveryResidual": 6.0358762409186815E-12,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.50226571209581672,
+      "parentToRuntimeInputDifferenceInfinity": 0.0092280454789177412,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U015_ALPHA_P10/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "e9e85b9de335995d68f24d07679f08c6513cacb0042e4655c531c318401e77e8",
+      "wallSeconds": 8.9411027
+    },
+    {
+      "sourceId": "OPS_U017P5_ALPHA_P06",
+      "coordinates": [
+        17.5,
+        6
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093194860246667251,
+      "stateHalfStepConvergence": 1.0397849263398813E-10,
+      "inputHalfStepConvergence": 2.0689703679927127E-11,
+      "installedStateRecoveryResidual": 2.3793108979407352E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.38627898686816303,
+      "parentToRuntimeInputDifferenceInfinity": 0.017380702658889458,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P06/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "081eb80871081832c9b98e2e901d91ae70bdd7df58a39ac28540abc32a855f91",
+      "wallSeconds": 8.8922186
+    },
+    {
+      "sourceId": "OPS_U017P5_ALPHA_P08",
+      "coordinates": [
+        17.5,
+        8
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00092449141764660984,
+      "stateHalfStepConvergence": 1.6033786514110738E-10,
+      "inputHalfStepConvergence": 1.799696793135976E-9,
+      "installedStateRecoveryResidual": 1.2470739567303186E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.58564383038535073,
+      "parentToRuntimeInputDifferenceInfinity": 0.005719896209117949,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/OPS_U017P5_ALPHA_P08/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "f2ec6690d3ec00fea849a0e82735bc7948d029bfe3782dc1b522030cc0d84952",
+      "wallSeconds": 8.9586518
+    },
+    {
+      "sourceId": "SGT16",
+      "coordinates": [
+        20,
+        5
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093468863073927291,
+      "stateHalfStepConvergence": 1.1317425674566699E-10,
+      "inputHalfStepConvergence": 1.7832612323764972E-10,
+      "installedStateRecoveryResidual": 1.1524149239261955E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.3717449026620131,
+      "parentToRuntimeInputDifferenceInfinity": 0.0075379226648319975,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/SGT16/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "390ff7995faf0d2011c07824a23b6938005a7165da7f6fd88a0d900881943dc0",
+      "wallSeconds": 9.3978302
+    },
+    {
+      "sourceId": "STATICFB_CASEB_AB_MID",
+      "coordinates": [
+        17.625,
+        7.5
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.000924337699000185,
+      "stateHalfStepConvergence": 1.6319252241993021E-10,
+      "inputHalfStepConvergence": 1.7992361578858318E-9,
+      "installedStateRecoveryResidual": 1.3771849162525827E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.59037805518864417,
+      "parentToRuntimeInputDifferenceInfinity": 0.0055452564240964213,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEB_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "4440d409fce05fc66f54da69fae4742c997f1e1a00cbf9adeea71af300af24fe",
+      "wallSeconds": 8.8827728
+    },
+    {
+      "sourceId": "STATICFB_CASEC_AB_MID",
+      "coordinates": [
+        18,
+        7.125
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00093290668308159135,
+      "stateHalfStepConvergence": 1.139180566525524E-10,
+      "inputHalfStepConvergence": 1.7858201166638634E-9,
+      "installedStateRecoveryResidual": 1.9903342515871219E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.40754641572751493,
+      "parentToRuntimeInputDifferenceInfinity": 0.016661698002615858,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_AB_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "5c7ea96aa26865c9a0783766d3d312789314096735395682e9096dfb5bda6b5f",
+      "wallSeconds": 8.9216813
+    },
+    {
+      "sourceId": "STATICFB_CASEC_CA_MID",
+      "coordinates": [
+        17.9375,
+        7.375
+      ],
+      "runtimeSampleTimeSeconds": 0.00071428571428571429,
+      "fixedPointDepartureInfinity": 0.00092464489592048186,
+      "stateHalfStepConvergence": 1.2280482317166575E-10,
+      "inputHalfStepConvergence": 1.7990837909312448E-9,
+      "installedStateRecoveryResidual": 2.0725180738731009E-11,
+      "trimInstallationDifferenceInfinity": 0,
+      "runtimeOwner": "scheduled_query",
+      "parentToRuntimeStateDifferenceInfinity": 0.59029467637216027,
+      "parentToRuntimeInputDifferenceInfinity": 0.0051950069503676859,
+      "runtimeStateCount": 83,
+      "hiddenStateCount": 39,
+      "runtimePath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/sources/STATICFB_CASEC_CA_MID/SCHEDULED_RECIPROCAL_QUERY_RUNTIME_CANDIDATE_V2.mat",
+      "runtimeSha256": "233d895d19e1e897438e12c318dea281ad1ffa0dbe299c82c3a13e84ce07aa7a",
+      "wallSeconds": 9.2386288
+    }
+  ],
+  "checks": {
+    "sourceCount": true,
+    "constantRuntimeOrder": true,
+    "constantHiddenOrder": true,
+    "runtimeRate": true,
+    "finiteFixedPoint": true,
+    "stateDerivativeConvergence": true,
+    "inputDerivativeConvergence": true,
+    "installedStateRecovery": true,
+    "zeroTrimInstallation": true,
+    "nonnegativeThrust": true,
+    "validationFittingUnused": true
+  },
+  "maximumFixedPointDepartureInfinity": 0.00093475632726657508,
+  "maximumStateHalfStepConvergence": 2.2477267065504417E-10,
+  "maximumInputHalfStepConvergence": 3.5596516027230524E-9,
+  "maximumInstalledStateRecoveryResidual": 2.4340264267528641E-11,
+  "execution": {
+    "matlabRelease": "2025b",
+    "command": "run_phase18c_v17a_casebc_scheduled_reciprocal_runtime_bank_v1",
+    "startedUtc": "2026-08-26T19:51:23.807Z",
+    "endedUtc": "2026-08-26T19:53:54.825Z",
+    "wallSeconds": 151.0172809
+  },
+  "source": {
+    "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+    "sourceBankSha256": "ed708f6be9cfc2a9a6af6dd05199dc4365ea5d0700a10ccf9808f0ac859b1eff"
+  },
+  "invariants": {
+    "sharpyModified": false,
+    "xbeamModified": false,
+    "negativeThrustAttempted": false,
+    "validationFittingUsed": false,
+    "productionModified": false
+  },
+  "artifacts": {
+    "plotPath": "context/audits/phase18c-control-validation/plant/v17a-casebc-scheduled-reciprocal-bank-v1/PHASE18C_V17A_CASEBC_SCHEDULED_QUERY_RECIPROCAL_RUNTIME_BANK_V2.png",
+    "plotSha256": "4c79fd31775f019d660a2b4e59f8da42429c246a7b5634c0d96803e455f33a8e"
+  }
+}

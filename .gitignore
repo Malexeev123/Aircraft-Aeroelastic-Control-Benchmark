@@ -1,4 +1,63 @@
-*.zone.identifier
+# MATLAB and Simulink generated products
+*.asv
+*.autosave
+*.m~
+*.mexw64
+*.mexw32
+*.mexa64
+*.mexmaci64
+*.slxc
+*.slxc.lock
+slprj/
+codegen/
+work/
+cache/
+*_ert_rtw/
+*_grt_rtw/
+*_rapid_rtw/
+
+# Run products
+results/*
+!results/README.md
+generated/*
+!generated/README.md
+logs/*
+!logs/README.md
+*.npy
+*.npz
+
+# Local reference documents and archives
+references/pdf/*.pdf
+references/pdf/*.PDF
+private/
+*.zip
+
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+
+# Editors, credentials, and operating-system metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+*Zone.Identifier*
 *:Zone.Identifier
-Zone.Identifier
-:Zone.Identifier
+.ipynb_checkpoints/

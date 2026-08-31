@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "phase18c-v17a-casebc-manifest-input-audit-v1",
+  "status": "PASS_FROZEN_INPUT_CONTRACT",
+  "generatedUtc": "2026-08-16T00:40:40.546Z",
+  "execution": {
+    "matlabRelease": "2025b",
+    "command": "run_phase18c_v17a_casebc_manifest_input_audit_v1",
+    "sampleSeconds": 0.00071428571428571429,
+    "durationSeconds": 31
+  },
+  "bindings": {
+    "manifestPath": "context\\change-control\\phase18c-v17a-casebc-gusted-executable-manifest-v1.json",
+    "manifestSha256": "7994d5a26caa0926e5a88f355c7c98b2abefa95a0c33140a0aa9d9a682a54393",
+    "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+    "lockSha256": "9ca04b296919186e8d9b7cd7bd658ff71c95ab5e455a26122fb2cd036c584cfd"
+  },
+  "caseB": {
+    "onsetSeconds": 11.000714285714286,
+    "lastPositiveSeconds": 11.567142857142857,
+    "peakMetersPerSecond": 0.99999882811020313,
+    "spatialLengthMeters": 10.000773244388739,
+    "temporalDurationSeconds": 0.56785714285714306,
+    "finite": true,
+    "initialSpeedMetersPerSecond": 15,
+    "finalSpeedMetersPerSecond": 20,
+    "initialAlphaDegrees": 10,
+    "finalAlphaDegrees": 5,
+    "centerlineResidualInfinityNorm": 0
+  },
+  "caseC": {
+    "onsetSeconds": 11.000714285714286,
+    "lastPositiveSeconds": 11.555,
+    "peakMetersPerSecond": 0.9999997985795166,
+    "spatialLengthMeters": 10.00285714284982,
+    "temporalDurationSeconds": 0.555714285714286,
+    "finite": true,
+    "initialAltitudeIncrementMeters": 0,
+    "finalAltitudeIncrementMeters": 5,
+    "speedDeviationInfinityNorm": 0
+  },
+  "gridResolution": {
+    "caseBPeakToleranceMetersPerSecond": 5.0355039973859483E-6,
+    "caseCPeakToleranceMetersPerSecond": 4.0787595386726494E-6,
+    "onsetToleranceSeconds": 0.00071428571432124142,
+    "spatialLengthToleranceMeters": 0.014285714285714285
+  },
+  "checks": {
+    "sourceBindings": true,
+    "caseBReferenceEndpoints": true,
+    "caseCReferenceEndpoints": true,
+    "zeroGustIdentity": true,
+    "caseBWaveform": true,
+    "caseCWaveform": true,
+    "finite": true,
+    "all": true
+  },
+  "numericHashes": {
+    "caseBReference": "c39489c49503502558c6f8d3d1e541fb1fb2848a41f9a62a753610d596dfd215",
+    "caseBGust": "f045af172c9f7e07a56d5380003fce61ec059ed8aaed6ecc5ac4c00cdb28d734",
+    "caseCReference": "5f287d36ebf04a4b24931c8d7089d9221bf4dfba0fd30619e62c03ce7e95164f",
+    "caseCGust": "b7ba5a1657d1b8f85272c5c2eb5a22327f4b44dc42e3a08b837d6b545d7cd6ae"
+  },
+  "artifacts": {
+    "matPath": "context\\audits\\phase18c-control-validation\\cases\\PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.mat",
+    "matSha256": "6b39d91c24a07e6c2c7d2762aa642156d90dcc0652e4a9ac44cf201d814b84cd",
+    "csvPath": "context\\audits\\phase18c-control-validation\\cases\\PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.csv",
+    "csvSha256": "61607e3689a85bf05ad004d0e772ace5c14dcb178c0c945672b49c70f48cbe86",
+    "pngPath": "context\\audits\\phase18c-control-validation\\cases\\PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.png",
+    "pngSha256": "090f45168f2d868de286c5f5bc89fb900f7aea263a6a788b36c56c0cd8d376e9",
+    "pdfPath": "context\\audits\\phase18c-control-validation\\cases\\PHASE18C_V17A_CASEBC_MANIFEST_INPUT_AUDIT_V1.pdf",
+    "pdfSha256": "c0dfac73244073fcfb50f39f548c4c33d513b60f6d4a79a3919ed5bf560938d5"
+  }
+}

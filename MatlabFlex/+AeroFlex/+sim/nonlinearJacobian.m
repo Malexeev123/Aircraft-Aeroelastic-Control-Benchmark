@@ -6,7 +6,7 @@ function [Nq,Nu] = nonlinearJacobian(x_n, idx, ...
 %                               G1,G2,Gg,Gxi, ...
 %                               Bdelta,Bgust, Naero)
 %
-%   q1,q2    : Nm×1          
+%   q1,q2    : Nm×1
 %   qxi      : (Nm+1)×1      rigid‑body ξ coordinates
 %   u        : m×1           control/disturbance  [ δ̇ ; w_g ]
 %
@@ -63,19 +63,19 @@ m    = size(par.Bw,2) + ctrlIdx1 + ctrlIdx2;                             % # inp
 % % termB = pagemtimes(G1 , reshape(q1,[],1,1));   % Σ_j q1(j) Γ^{k}_{ij}
 % termB = squeeze(termB);
 % Nq11  = -( termA + termB );           % Nm × Nm
-% 
+%
 % % ---------- ∂N/∂q2  (Γ₂ block) ---------------------------------------
 % termC = contract(G2 , q2);
 % % termD = pagemtimes(G2 , reshape(q2,1,1,[]));
 % termD = pagemtimes(G2 , reshape(q2,[],1,1));
 % termD = squeeze(termD);
 % Nq12  = -( termC + termD );           % Nm × Nm
-% 
+%
 % % ---------- ∂N/∂qξ (Γ_g block) --------------------------------------
 % termE = contract(permute(Gg,[3 1 2]) , qxi);           % Nm×(Nm+1)
 % termF = contract(permute(Gg,[2 1 3]), qxi);
 % Nq13  =   ( termE + termF );          % Nm × (Nm+1)
-% 
+%
 % % ---------- Γ₂ᵀ block  ∂N/∂q2  in 2nd rows ---------------------------
 % % termG = contract(permute(G2,[3 2 1]), q2);
 % termG = contract(permute(G2,[2 3 1]), q2);
@@ -84,7 +84,7 @@ m    = size(par.Bw,2) + ctrlIdx1 + ctrlIdx2;                             % # inp
 % termH = squeeze(termH);
 % Nq21  = termG ;           % Nm × Nm
 % Nq22 = termH ;                    % Nm × Nm
-% 
+%
 % % ---------- Γ_ξ block  ∂N/∂qξ  in 3rd rows ---------------------------
 % % termI = contract(Gxi , reshape(q1,1,[],1));           % (Nm+1) × (Nm+1)
 % % termI = contract(permute(Gxi,[1 2 3]) , reshape(q1,[],1,1));           % (Nm+1) × (Nm+1)
@@ -92,7 +92,7 @@ m    = size(par.Bw,2) + ctrlIdx1 + ctrlIdx2;                             % # inp
 % % termI = contract(permute(Gxi,[1 3 2]) , reshape(q1,1,[],1));           % (Nm+1) × (Nm+1)
 % termI = permute(pagemtimes(permute(repmat(q1,1,1,size(Gxi,1 )),[2 1 3]), permute(Gxi,[2 1 3])),[2 3 1]);           % (Nm+1) × (Nm+1)
 % % termI = permute(pagemtimes(permute(repmat(q1,1,1,size(Gxi,1 )),[2 1 3]), permute(Gxi,[2 1 3])),[3 2 1]);           % (Nm+1) × (Nm+1)
-% 
+%
 % % termI = contract(Gxi , q1);           % (Nm+1) × (Nm+1)
 % % termJ = contract(permute(Gxi,[1 3 2]), qxi);
 % % termJ = contract(Gxi, qxi);
@@ -130,7 +130,7 @@ Nq11  = -termA - termB;
 %     termD2 = [termD2, mult];
 % end
 
-termD = gammaContract( permute(G2,[1 3 2]), q2 ); 
+termD = gammaContract( permute(G2,[1 3 2]), q2 );
 termC = gammaContract( G2 , q2 ); % Actual
 
 % Nq12  = -(termC + termD);
@@ -192,13 +192,13 @@ Nq33 = termI;
 %     mult = (G2(:,:,i).')* q1;
 %     termH2 = [termH2, mult];
 % end
-G2T2 = permute(G2,[2 3 1]);                    % (k , j , l) → (i , l , k)
-% termG = gammaContract( G2T2 , q2 );            % Nm × Nm   (i rows)
-termG = squeeze(pagemtimes(G2, 'transpose', q2, 'none'));
+termG = zeros(Nm);
+for l = 1:Nm
+    termG = termG + q2(l)*G2(:,:,l).';
+end
 
-% ----- termH :  Σ_j q1(j) Γ₂^{Tj}_{ik}  ---------------------------
-% termH = gammaContract( pagetranspose(G2) , q1 );
-termH = gammaContract( permute(pagetranspose(G2), [1 3 2]) , q1 );
+% Each column l is Gamma2(:,:,l).'*q1.
+termH = squeeze(pagemtimes(G2,'transpose',q1,'none'));
 % termH =  gammaContract( G2T2 , q1 );
 % termH = squeeze(pagemtimes(permute(G2,[1 3 2]), 'transpose', q1, 'none'));
 % termH = squeeze(pagemtimes(permute(pagetranspose(G2),[1 3 2]), 'none', q1, 'none'));
@@ -209,7 +209,7 @@ termH = gammaContract( permute(pagetranspose(G2), [1 3 2]) , q1 );
 Nq21 = termG ;                    % Nm × Nm
 Nq22 = termH ;                    % Nm × Nm
 % Nq21 = termG2 ;                    % Nm × Nm
-% Nq22 = termH2 ; 
+% Nq22 = termH2 ;
 % ---------- Assemble structural Jacobian -----------------------------
 
 %% Editing 5/10/26 New
@@ -217,7 +217,7 @@ Nq22 = termH ;                    % Nm × Nm
 % % % Γ₁  (20×20×20) ---------------------------------------------
 % termA = gammaContract( permute(G1,[1 3 2]), q1 );  % Σ_l q1(l) Γ^l_{ik} Actual
 % termB = gammaContract( G1 , q1 );                  % Σ_j q1(j) Γ^k_{ij}
-% 
+%
 % % Nq11  = -(termA + termB);
 % Nq11  = -termA - termB;
 % % Nq11  = -termA2 - termB2;
@@ -271,7 +271,7 @@ Nu(idx.qGam, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bddel;
 
 % Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.scaleAero*par.Dddel;
 % Nu(idx.q1, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) = (par.t_inf*par.scaleAero)*par.Ddel;
-% 
+%
 % Nu(idx.qGam, nx+2:nx+1 + ctrlIdx1) = (1/par.t_inf)*par.Bddel;
 % Nu(idx.qGam, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bdel;
 
@@ -279,13 +279,13 @@ Nu(idx.qGam, nx+2 + ctrlIdx1:nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bddel;
 % % Nu(idx.q1,nx+ 2:nx+1 + ctrlIdx1) = par.gustSet.a*par.Ddel;
 % Nu(idx.q1,nx+ 2) = par.scaleAero*par.Ddel(:,1);
 % Nu(idx.q1, nx+ 4) = par.scaleAero*par.Ddel(:,2);
-% 
+%
 % Nu(idx.q1, nx+1 + ctrlIdx1) = par.scaleAero*par.Dddel(:,1);
 % Nu(idx.q1, nx+1 + ctrlIdx1 + ctrlIdx2) = par.scaleAero*par.Dddel(:,2);
-% 
+%
 % Nu(idx.qGam, nx+2) = (1/par.t_inf)*par.Bdel(:,1);
 % Nu(idx.qGam, nx+2 + ctrlIdx1) = (1/par.t_inf)*par.Bdel(:,2);
-% 
+%
 % Nu(idx.qGam, nx+1 + ctrlIdx1) =  par.Bddel(:,1);
 % Nu(idx.qGam, nx+1 + ctrlIdx1 + ctrlIdx2) =  par.Bddel(:,2);
 

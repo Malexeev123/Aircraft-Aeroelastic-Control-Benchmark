@@ -114,13 +114,18 @@ classdef AeroROM
             cfg.sim.dt = obj.ROM_dsc.Ts;
             % 5) Gust input 
             if cfg.gust.on
+                if cfg.overwrite.gustOldLength
+                   cfg.sim.t_endOld = 1;
+                else
+                   cfg.sim.t_endOld = cfg.sim.t_end;
+                end
                 gust = AeroFlex.aero.get_1minuscosine_gust_input( ...
                     cfg.gust.gust_length, ...
                     cfg.gust.gust_offset, ...
                     cfg.gust.gust_intensity, ...
                     cfg.sim.dt, ...
                     cfg.flight.U_inf, ...
-                    cfg.sim.t_end);
+                    cfg.sim.t_endOld);
 
                 % obj.gust_input =  gust(:,2);
                 obj.gust_input = cfg.struct.L * gust(:,2); % Multiply by full wing span?

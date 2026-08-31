@@ -272,9 +272,13 @@ try
 catch
     Faero = zeros(Nt, Nm);
 end
-% Ensure Positive notation
+hasPackageOwnedTipHistory = isfield(log,'physicalWingtip') && ...
+    isstruct(log.physicalWingtip) && ...
+    isfield(log.physicalWingtip,'symmetricMeanAbsoluteMeters');
 
-if max(TipA(:,3)) <0
+% Preserve legacy rectification only for legacy-output runs. Package-owned
+% outputs retain their signed A-frame convention.
+if ~hasPackageOwnedTipHistory && max(TipA(:,3)) < 0
     TipA = -TipA;
     TipA_hat = -TipA_hat;
 end
@@ -286,7 +290,7 @@ out.disp     = TipA;        % Nx3 tip displacement (A-frame)
 out.vel      = vel_tip;     % Nx3 tip velocity (A-frame)
 out.TipA_hat = TipA_hat;    % estimator sample track
 out.t_ctr    = t_ctr;
-out.q0 = q0; out.q1 = q1; out.q2 = q2; out.qxi = qxi; 
+out.q0 = q0; out.q1 = q1; out.q2 = q2; out.qxi = qxi;
 % out.chi = chi;
 out.chi = chi+ base.FM.chi_bar;
 out.Faero    = Faero;
@@ -469,11 +473,19 @@ end
 % % existing lines
 % out.t    = t.';               out.disp = TipA;
 % out.q0   = q0;                out.q1  = q1;  out.q2 = q2;
-% out.qxi  = qxi;               out.chi = chi; 
+% out.qxi  = qxi;               out.chi = chi;
 
 % >>> ADD: span-based normalization that matches SHARPy (b_ref in SHARPy is semi-span)
 span_half = cfg.struct.L/2;         % your span is cfg.struct.L (1.1 m for Pazy), half-span = 0.55 m
-out.tip_z = out.disp(:,3);          % A-frame vertical tip [m]
+out.tip_z = out.disp(:,3);          % Legacy fixed-map diagnostic [m]
+if hasPackageOwnedTipHistory
+    signedTip = log.physicalWingtip.symmetricMeanAbsoluteMeters(:);
+    assert(numel(signedTip) == Nt && all(isfinite(signedTip)), ...
+        'postProcess:PhysicalWingtipHistory', ...
+        'The package-owned signed-wingtip history is invalid.');
+    out.tipPhysical = log.physicalWingtip;
+    out.tip_z = signedTip;
+end
 out.tip_z_norm_pct = 100 * (out.tip_z ./ span_half);   % %. of (b/2)
 
 % ------------------------ plots (unchanged content) + saving -------------
@@ -507,43 +519,70 @@ if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'wingTip') && cfg.plotOpts.wi
     fh = figure('Color','w','Position',[100 100 1120 520]);
     % plot(t,  out.disp(:,3)*100/cfg.debug.plt_scale); hold on
     plot(t,  out.tip_z_norm_pct, 'LineWidth', 2); hold on
-    if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
+    if hasPackageOwnedTipHistory && ...
+            isfield(log.physicalWingtip, ...
+                'estimatedSymmetricMeanAbsoluteMeters')
+        estimatedTip = log.physicalWingtip. ...
+            estimatedSymmetricMeanAbsoluteMeters(:);
+        assert(numel(estimatedTip) <= Nt && all(isfinite(estimatedTip)), ...
+            'postProcess:EstimatedPhysicalWingtipHistory', ...
+            'The package-owned estimated-wingtip history is invalid.');
+        stairs(t(1:numel(estimatedTip)), ...
+            100*estimatedTip/span_half,'LineWidth',2);
+        legend({'True','nMHE Estimate'},'Location','best');
+    elseif ~hasPackageOwnedTipHistory && ...
+            ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
         stairs(t_ctr, out.TipA_hat(:,3)*100/cfg.debug.plt_scale, 'LineWidth', 2);
-        % plot(t_ctr, out.TipA_hat(:,3)*100/cfg.debug.plt_scale, 'LineWidth', 2);
         legend({'True','nMHE Estimate'},'Location','best');
     end
     xlabel('t [s]'); ylabel('Tip z [% b/2]'); grid on
     title('Wing-tip heave (A-frame, % span/2)');
     hold off
-    save_plot(fh, 'wingtip_heave');
+    save_plot(fh, 'wingtip_true_vs_estimate');
 end
 
-% Wing-tip heave (against sharpy)
-try
-if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
-    openloop_tip_disp = cfg.sim.normalised_tip_displacement(:); 
-    % fh = figure('Color','w','Position',[100 100 1120 520]);
-    fh = figure;
-    % plot(t,  out.disp(:,3)*100/cfg.debug.plt_scale); hold on
-
-    % Accound for gust offset start to lineup with SHARPY
-    plot_offset = floor(cfg.gust.gust_offset_ratio*numel(t));
-    tip_z_offset = out.tip_z_norm_pct(plot_offset:end);
-    tip_z_offset(end+1: end+plot_offset-1) = tip_z_offset(end);
-    % plot(t(cfg.gust.gust_offset+1:end),  out.tip_z_norm_pct(cfg.gust.gust_offset+1:end), 'LineWidth', 2); hold on
-    plot(t,  tip_z_offset, 'LineWidth', 2); hold on
-
-    t_openL = linspace(0,cfg.sim.t_end,numel(openloop_tip_disp));
-    % openloop_tip_disp = reshape(openloop_tip_disp, size(t));
-    plot(t_openL, openloop_tip_disp, 'LineWidth', 2);
-    
-    xlabel('t [s]'); ylabel('Tip z [% b/2]'); grid on
-    title('Wing-tip Displacement Open Vs Closed Loop (A-frame, % span/2)');
-    legend({'Closed Loop', 'Open Loop'})
+% Matched package-owned wing-tip comparison.  The former legacy panel used
+% cfg.sim.normalised_tip_displacement, which is a SHARPy-comparison input and
+% can be a zero placeholder rather than a matched nonlinear baseline.  Only
+% render this panel when the caller explicitly supplies a same-grid baseline
+% from the same signed physical-output contract.
+if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts, ...
+        'matchedWingtipComparison') && ...
+        logical(cfg.plotOpts.matchedWingtipComparison)
+    assert(hasPackageOwnedTipHistory, ...
+        'postProcess:MatchedWingtipControlledOwner', ...
+        ['A matched wing-tip comparison requires the controlled run to carry ', ...
+         'the package-owned signed physical-wingtip history.']);
+    assert(isfield(cfg,'sim') && isfield(cfg.sim, ...
+        'matchedWingtipBaseline') && isstruct(cfg.sim.matchedWingtipBaseline), ...
+        'postProcess:MatchedWingtipBaselineMissing', ...
+        ['A matched wing-tip comparison requires cfg.sim.matchedWingtipBaseline; ', ...
+         'the legacy normalised_tip_displacement field is not a baseline contract.']);
+    baseline = cfg.sim.matchedWingtipBaseline;
+    assert(isfield(baseline,'timeSeconds') && ...
+        isfield(baseline,'symmetricMeanAbsoluteMeters') && ...
+        isfield(baseline,'ownerPolicy') && ...
+        string(baseline.ownerPolicy) == "package_owned_signed_mirrored_tip", ...
+        'postProcess:MatchedWingtipBaselineOwner', ...
+        'The matched baseline does not carry the signed package-owned tip contract.');
+    baselineTime = double(baseline.timeSeconds(:));
+    baselineTip = double(baseline.symmetricMeanAbsoluteMeters(:));
+    assert(numel(baselineTime) == Nt && numel(baselineTip) == Nt && ...
+        all(isfinite(baselineTime)) && all(isfinite(baselineTip)) && ...
+        norm(baselineTime-t(:),inf) <= 1e-12, ...
+        'postProcess:MatchedWingtipTimeGrid', ...
+        'The controlled and baseline physical-wingtip histories are not on one time grid.');
+    controlledExcursion = out.tip_z_norm_pct-out.tip_z_norm_pct(1);
+    baselineExcursion = 100*(baselineTip-baselineTip(1))/span_half;
+    fh = figure('Color','w','Visible','off');
+    plot(t,controlledExcursion,'LineWidth',2); hold on
+    plot(t,baselineExcursion,'LineWidth',2);
+    xlabel('t [s]'); ylabel('\Delta tip z [% b/2]'); grid on
+    title('Trim-relative Wing-tip Response: Matched Baseline vs Controlled');
+    legend({'Controlled','Matched baseline'},'Location','best');
     hold off
-    save_plot(fh, 'wingtip_heave');
-end
-catch
+    save_plot(fh, 'wingtip_matched_baseline_vs_controlled_trim_relative');
+    close(fh);
 end
 % figure; plot(t, eulTipT); title('Test');
 % ------------------------ energies (legacy math + plots) -----------------
@@ -587,34 +626,34 @@ coords = beam.fem.coordinates;
 % for k = 1:Nnode
 %     idx_xyz = (k -1)*NdofPerNode +(1:NdofPerNode );
 %     node_xyz_hist{k} = x0(idx_xyz,:).';
-% 
+%
 %     idx_xyzQuat = (k -1)*(NdofPerNode+1) +(1:NdofPerNode +1);
 %     node_xyzQuat_hist{k}=x0A(idx_xyzQuat,:).';
-% 
-% 
-% 
-% 
+%
+%
+%
+%
 %     % writematrix(node_xyz_hist{k},               "node_xyz_hist/"+ int2str(k)+".xls");
 %     % writematrix(node_xyzQuat_hist{k},               "node_xyzQuat_hist/"+ int2str(k)+".xls");
-%     % % 
+%     % %
 %     % writematrix(node_xyz_hist{k},               "node_xyz_hist/"+ int2str(k)+".csv");
 %     % writematrix(node_xyzQuat_hist{k},               "node_xyzQuat_hist/"+ int2str(k)+".csv");
-% 
-% 
+%
+%
 % end
 %%
 % if ~isfolder("timeseries"), mkdir("timeseries"), end
-% 
+%
 % node_xyz_H = zeros(size(coords));
 % for l = 1:length(t)
-% 
+%
 %     for k = 1:Nnode
 %     idx_xyz = double((k -1)*NdofPerNode )+(1:3);
 %     node_xyz_H(k+1,:) = x0(idx_xyz,l).';
-% 
+%
 %     % idx_xyzQuat = (k -1)*(NdofPerNode+1) +(1:NdofPerNode +1);
 %     % node_xyzQuat_hist{k}=x0A(idx_xyzQuat,:).';
-% 
+%
 %     end
 %     coords_hist{l} = coords +node_xyz_H;
 %     if l<20
@@ -636,7 +675,7 @@ for k = 1:Nnode
     % idx_xyzQuat = (k -1)*(NdofPerNode+1) +(1:NdofPerNode +1);
     % node_xyzQuat_hist{k}=x0A(idx_xyzQuat,:).';
     % for l = 1:length(t)
-    % 
+    %
     % end
     coords_hist_time{k} = coords(k+1,:)+node_xyz_H;
     % if l<20
@@ -673,9 +712,9 @@ coord_hist1 = coords_hist_time{1};
 
 
 % ------------------------ convenience for sim_run exports ----------------
-b2 = max(eps, cfg.debug.plt_scale);
 out.tip.xyz        = out.disp;                  % alias
-out.tip.z_norm_pct = 100*out.disp(:,3)/b2;      % Nt x 1
+out.tip.xyz(:,3)   = out.tip_z;
+out.tip.z_norm_pct = out.tip_z_norm_pct;
 out.angles.deg     = rad2deg(out.chi.') + rad2deg(ones(size(out.chi.')).*base.chi0.');        % Nt x 3 [roll pitch yaw]
 out.energy.Tkin    = out.Tkin;
 out.energy.Vpot    = out.Vpot;
@@ -709,9 +748,9 @@ if out.hasRigidBody
     legend('p','q','r','Location','best');
 
     nexttile;
-    plot(out.rb.t,out.rb.U, ...
-         out.rb.t,out.rb.alpha_deg, ...
-         out.rb.t,out.rb.beta_deg);
+    plot(out.rb.t(2:end),out.rb.U(2:end), ...
+         out.rb.t(2:end),out.rb.alpha_deg(2:end), ...
+         out.rb.t(2:end),out.rb.beta_deg(2:end));
     grid on; xlabel('t [s]');
     ylabel('Flight condition');
     legend('U [m/s]','\alpha [deg]','\beta [deg]','Location','best');
@@ -775,14 +814,17 @@ if isfield(out,'control') && isfield(out.control,'U') && ~isempty(out.control.U)
     fh = figure;
     % fh = figure('Color','w','Position',[100 100 1120 760]);
 
-    plot_offset = floor(cfg.gust.gust_offset_ratio*numel(t));
+    % Keep the display-only alignment index valid for zero-offset cases.
+    plot_offset = max(1,floor(cfg.gust.gust_offset_ratio*numel(t)));
     delta_deg_offset = out.control.delta_deg(:,plot_offset:end).';
     delta_deg_offset(end+1: end+plot_offset-1,1) = delta_deg_offset(end,1);
-    delta_deg_offset(end-plot_offset+1: end,2) = delta_deg_offset(end-plot_offset,2);
-    
+    delta_deg_offset(end-plot_offset+1:end,2) = ...
+        delta_deg_offset(max(1,end-plot_offset),2);
+
     dd_delta_offset = out.control.rate_cmd_deg_s(:,plot_offset:end).';
     dd_delta_offset(end+1: end+plot_offset-1,1) = dd_delta_offset(end,1);
-    dd_delta_offset(end-plot_offset+1: end,2) = dd_delta_offset(end-plot_offset,2);
+    dd_delta_offset(end-plot_offset+1:end,2) = ...
+        dd_delta_offset(max(1,end-plot_offset),2);
 
 
         nexttile;
@@ -834,25 +876,25 @@ if isfield(out,'loads') && isfield(out.loads,'M_R')
 end
 
 if ~(cfg.sim.body_case == "wingOnly")
-    if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop')) 
+    if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
         if isfield(out,'loads') && isfield(out.loads,'Ftot_B') && isfield(out.loads,'Mtot_B')
             tLoad = linspace(t(1),t(end),size(out.loads.Ftot_B,2));
-        
+
             fh = figure('Color','w','Position',[100 100 1120 760]);
             tiledlayout(2,1,'TileSpacing','tight');
-        
+
             nexttile;
             plot(tLoad,out.loads.Ftot_B.');
             grid on; ylabel('F_B [N]');
             legend('F_x','F_y','F_z','Location','best');
             title('Total rigid-body force');
-        
+
             nexttile;
             plot(tLoad,out.loads.Mtot_B.');
             grid on; xlabel('t [s]'); ylabel('M_B [N m]');
             legend('M_x','M_y','M_z','Location','best');
             title('Total rigid-body moment');
-        
+
             save_plot(fh,'total_forces_moments');
         end
     end
@@ -909,7 +951,7 @@ metrics.tip_z_rms      = sqrt(mean(out.tip_z.^2,'omitnan'));
 metrics.tip_z_norm_pct_peak_abs = max(abs(out.tip_z_norm_pct),[],'omitnan');
 metrics.tip_z_norm_pct_rms      = sqrt(mean(out.tip_z_norm_pct.^2,'omitnan'));
 
-zTipPct = out.tip_z(:);
+zTipPct = out.tip_z_norm_pct(:);
 zTipDyn = zTipPct - zTipPct(1);
 
 out.metrics.tipDynPeak = max(abs(zTipDyn));
@@ -1004,8 +1046,16 @@ end
 % -------------------- solver metrics ----------------------------------
 if isfield(out,'solver') && isfield(out.solver,'mheTime')
     valid = isfinite(out.solver.mheTime);
-    metrics.mhe_solve_mean_ms = 1e3*mean(out.solver.mheTime(valid),'omitnan');
-    metrics.mhe_solve_max_ms  = 1e3*max(out.solver.mheTime(valid),[],'omitnan');
+    if isfield(out.solver,'mheAttempted')
+        valid = valid & logical(out.solver.mheAttempted);
+    end
+    if any(valid)
+        metrics.mhe_solve_mean_ms = 1e3*mean(out.solver.mheTime(valid),'omitnan');
+        metrics.mhe_solve_max_ms  = 1e3*max(out.solver.mheTime(valid),[],'omitnan');
+    else
+        metrics.mhe_solve_mean_ms = nan;
+        metrics.mhe_solve_max_ms = nan;
+    end
 else
     metrics.mhe_solve_mean_ms = nan;
     metrics.mhe_solve_max_ms = nan;
@@ -1013,8 +1063,16 @@ end
 
 if isfield(out,'solver') && isfield(out.solver,'mpcTime')
     valid = isfinite(out.solver.mpcTime);
-    metrics.mpc_solve_mean_ms = 1e3*mean(out.solver.mpcTime(valid),'omitnan');
-    metrics.mpc_solve_max_ms  = 1e3*max(out.solver.mpcTime(valid),[],'omitnan');
+    if isfield(out.solver,'mpcAttempted')
+        valid = valid & logical(out.solver.mpcAttempted);
+    end
+    if any(valid)
+        metrics.mpc_solve_mean_ms = 1e3*mean(out.solver.mpcTime(valid),'omitnan');
+        metrics.mpc_solve_max_ms  = 1e3*max(out.solver.mpcTime(valid),[],'omitnan');
+    else
+        metrics.mpc_solve_mean_ms = nan;
+        metrics.mpc_solve_max_ms = nan;
+    end
 else
     metrics.mpc_solve_mean_ms = nan;
     metrics.mpc_solve_max_ms = nan;
@@ -1022,6 +1080,9 @@ end
 
 if isfield(out,'solver') && isfield(out.solver,'mheFlag')
     valid = isfinite(out.solver.mheFlag);
+    if isfield(out.solver,'mheAttempted')
+        valid = valid & logical(out.solver.mheAttempted);
+    end
     metrics.mhe_success_pct = 100*mean(out.solver.mheFlag(valid) > 0,'omitnan');
 else
     metrics.mhe_success_pct = nan;
@@ -1029,6 +1090,9 @@ end
 
 if isfield(out,'solver') && isfield(out.solver,'mpcFlag')
     valid = isfinite(out.solver.mpcFlag);
+    if isfield(out.solver,'mpcAttempted')
+        valid = valid & logical(out.solver.mpcAttempted);
+    end
     metrics.mpc_success_pct = 100*mean(out.solver.mpcFlag(valid) > 0,'omitnan');
 else
     metrics.mpc_success_pct = nan;
@@ -1170,7 +1234,7 @@ end
 %     base                     % struct  (phi_xi_modes, etc.)
 %     log                      % struct (may omit fields; robust defaults)
 % end
-% 
+%
 % % -------------------- sampler step for estimator alignment ---------------
 % if isfield(cfg,'case') && strcmpi(cfg.case,'openLoop')
 %     % mimic legacy behavior: no estimator overlay in openLoop
@@ -1183,16 +1247,16 @@ end
 %         Ts = cfg.sim.dt; % safe fallback
 %     end
 % end
-% 
+%
 % % -------------------- visual defaults ------------------------------------
 % set(0,'DefaultAxesFontSize',14,...
 %       'DefaultLegendFontSize',14,...
 %       'DefaultLineLineWidth',2,...
 %       'DefaultAxesLineWidth',1.2)
-% 
+%
 % Nt = numel(t);
 % Nm = beam.Nm;
-% 
+%
 % % Robust Na inference if cfg.Na not present
 % if isfield(cfg,'Na') && ~isempty(cfg.Na)
 %     Na2 = cfg.Na;
@@ -1203,7 +1267,7 @@ end
 %         error('postProcess: cannot infer Na from X size. Provide cfg.Na.');
 %     end
 % end
-% 
+%
 % % Keep legacy cache override for non-openLoop (unchanged behavior)
 % if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
 %     try
@@ -1216,14 +1280,14 @@ end
 %         % ignore if not present
 %     end
 % end
-% 
+%
 % % -------------------- modal partitions (legacy indexing) ------------------
 % q1   =  X( 1:Nm              , :);
 % q2   =  X( Nm+(1:Nm)         , :);
 % qxi  =  X( 2*Nm+(1:Nm+1)     , :);
 % qGam =  X( 3*Nm+1+(1:Na2)    , :);
 % chi  =  X( end-2:end         , :);    % roll,pitch,yaw (rad), legacy
-% 
+%
 % % Estimator overlays (robust if absent)
 % if ~isfield(log,'xhat') || isempty(log.xhat)
 %     log.xhat = zeros(size(X));
@@ -1233,46 +1297,46 @@ end
 % qxi_hat  =  log.xhat( 2*Nm+(1:Nm+1)     , :);
 % qGam_hat =  log.xhat( 3*Nm+1+(1:Na2)    , :);
 % chi_hat  =  log.xhat( end-2:end         , :);
-% 
+%
 % % -------------------- displacement/velocity reconstruction ----------------
 % % q0 via Artola identity (mass-normalised modal basis => Ω diagonal)
 % q0      = -beam.Omega \ q2;
 % q0_hat  = -beam.Omega \ q2_hat;
-% 
+%
 % x0      = beam.phi0 * q0;     % [6N x Nt]
 % x1      = beam.phi1 * q1;
 % x2      = beam.phi2 * q2;
-% 
+%
 % x0_hat  = beam.phi0 * q0_hat;
 % x1_hat  = beam.phi1 * q1_hat;
 % x2_hat  = beam.phi2 * q2_hat;
-% 
+%
 % % -------------------- ξ-field (quaternions) and A-frame rotation ----------
 % Xi_full      = base.phi_xi_modes * qxi;      % (4*Nnode) x Nt
 % Xi_hat_full  = base.phi_xi_modes * qxi_hat;
-% 
+%
 % % Legacy node/tip selection (unchanged)
 % Nnode       = beam.fem.num_node - 1;         % last is tip (legacy convention)
 % NdofPerNode = beam.nFlex / Nnode;            % should be 6
-% 
+%
 % % Legacy "selTip" (unchanged: uses mid-span style from your old script)
 % % Note: The commented "true tip" kept for reference; we keep current one.
 % % selTip = double((Nnode-1)*NdofPerNode) + (1:3);              % true tip
 % selTip = double((Nnode/2-1)*(NdofPerNode+1)) + (1:3);          % legacy selection
-% 
+%
 % % Block-diagonal T(q) shape: each block is 7x6 => total 7N x 6N
 % cellT   = repmat({eye(7,6)},1,Nnode);
 % Tcache  = blkdiag(cellT{:});                  % 7N x 6N
 % T_hat   = Tcache;                             % preallocate for overlay
-% 
+%
 % TipA         = zeros(Nt,3);
 % out.vel      = zeros(Nt,3);
-% 
+%
 % ctrN = max(1, round(Ts/max(eps,cfg.sim.dt)));
 % nHat = max(1, floor(Nt/ctrN));
 % TipA_hat      = zeros(nHat,3);
 % out.vel_hat   = zeros(nHat,3);
-% 
+%
 % kSam = 0;
 % for k = 1:Nt
 %     % Current quaternions (Nnode x 4)
@@ -1288,10 +1352,10 @@ end
 %     % Rotate displacements/velocities to A-frame
 %     x0A = Tcache * x0(:,k);
 %     x1A = Tcache * x1(:,k);
-% 
+%
 %     TipA(k,:)   = x0A(selTip).';
 %     out.vel(k,:)= x1A(selTip).';
-% 
+%
 %     % Estimator sampling (only every ctrN steps)
 %     if mod(k, ctrN) == 0
 %         kSam = kSam + 1;
@@ -1312,26 +1376,26 @@ end
 %         end
 %     end
 % end
-% 
+%
 % t_ctr = linspace(0, cfg.sim.t_end, size(TipA_hat, 1));
-% 
+%
 % % -------------------- aero force proxy (legacy) ---------------------------
 % try
 %     out.Faero = (aero.forceMap.C_Gamma * qGam).';  % Nt x Nm (rough)
 % catch
 %     out.Faero = zeros(Nt, Nm); % keep field present
 % end
-% 
+%
 % % -------------------- legacy package + plots (UNCHANGED) ------------------
 % out.t      = t.';                 % legacy row vector
 % out.t_col  = t(:);                % extra column vector (for sim_run convenience)
-% 
+%
 % out.disp   = TipA;                % legacy name (A-frame translations at selTip)
 % out.q0     = q0;   out.q1 = q1;   out.q2 = q2;
 % out.qxi    = qxi;  out.chi = chi;
-% out.TipA_hat = TipA_hat; 
+% out.TipA_hat = TipA_hat;
 % out.t_ctr    = t_ctr;
-% 
+%
 % % ---- Legacy debug plots (exactly as before) ------------------------------
 % if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
 %     figure; plot(t_ctr,TipA_hat(:,1)*100/cfg.debug.plt_scale);
@@ -1343,14 +1407,14 @@ end
 %     title('Wing-tip estimation (A-frame, % span/2)');
 %     hold off
 % end
-% 
+%
 % if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'debugPlots') && cfg.plotOpts.debugPlots
 %     figure; tiledlayout(3,1,'TileSpacing','tight');
 %     nexttile; plot(t,q0'); title('q_0'); grid on
 %     nexttile; plot(t,q1'); title('q_1'); grid on
 %     nexttile; plot(t,q2'); title('q_2'); grid on
 % end
-% 
+%
 % if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'wingTip') && cfg.plotOpts.wingTip
 %     figure; plot(t,TipA(:,3)*100/cfg.debug.plt_scale);
 %     if ~(isfield(cfg,'case') && strcmpi(cfg.case,'openLoop'))
@@ -1360,15 +1424,15 @@ end
 %     xlabel('t [s]'); ylabel('Tip z [% b/2]'); grid on
 %     title('Wing-tip heave (A-frame, % span/2)');
 % end
-% 
+%
 % % -------------------- energies (legacy math kept) -------------------------
 % Tkin = 0.5*sum(q1.^2, 1);           % 1 x Nt
 % Vpot = 0.5*sum(q2.^2, 1);           % 1 x Nt
 % Edot = sum((q1.') * (diag(beam.Sigma)*q1 + cfg.flight.a*cfg.flight.t_inf*out.Faero.'), 1);
 % Etot = Tkin + Vpot;
-% 
+%
 % out.Tkin = Tkin.';   out.Vpot = Vpot.';   out.Etot = Etot.';  % Nt x 1
-% 
+%
 % if isfield(cfg,'plotOpts') && isfield(cfg.plotOpts,'debugPlots') && cfg.plotOpts.debugPlots
 %     figure('Name','Energy check');
 %     plot(t, Tkin, 'b-', t, Vpot, 'r--', t, Etot, 'k');
@@ -1376,14 +1440,14 @@ end
 %     ylabel('Energy  [J]');
 %     legend('Kinetic','Potential','Total','Location','best');
 %     title('Structural modal energy (flexible part)');
-% 
+%
 %     figure('Name','Energy Rate check');
 %     plot(t, Edot, 'b-');
 %     grid on; xlabel('t  [s]');
 %     ylabel('Energy rate  [J/s]');
 %     title('Structural modal energy rate');
 % end
-% 
+%
 % % ====================== EXTRA FIELDS FOR sim_run EXPORTS ==================
 % % (These do not change any legacy behavior; they just add convenience.)
 % b2 = max(eps, cfg.debug.plt_scale);        % span/2 scaling you use
@@ -1394,5 +1458,5 @@ end
 % out.energy.Vpot    = out.Vpot;
 % out.energy.Etot    = out.Etot;
 % out.q.q0 = out.q0; out.q.q1 = out.q1; out.q.q2 = out.q2;  % nested copy
-% 
+%
 % end

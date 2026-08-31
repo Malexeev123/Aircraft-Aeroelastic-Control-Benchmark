@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "phase18c-v17a-casebc-source-lqr-bank-v1",
+  "status": "PASS_AUDIT_ONLY_DISABLED_BY_DEFAULT",
+  "modelRevision": "V17A",
+  "registryPath": "context\\audits\\phase18c-control-validation\\plant\\V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
+  "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+  "controlReadyLockPath": "context\\audits\\phase18c-control-validation\\plant\\PHASE18C_V17A_CONTROL_READY_MODEL_LOCK_V1.json",
+  "controlReadyLockSha256": "9ca04b296919186e8d9b7cd7bd658ff71c95ab5e455a26122fb2cd036c584cfd",
+  "baselineMethodArtifactPath": "MatlabFlex\\configs\\control\\phase18c_v17_longitudinal_lqr_v1.json",
+  "baselineMethodArtifactSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
+  "sampleTimeSeconds": 0.04,
+  "selectionPolicy": {
+    "exactSourceOnly": true,
+    "noExtrapolation": true,
+    "rawGainInterpolationAllowed": false,
+    "absoluteTrimInterpolationAllowed": false,
+    "enabledByDefault": false
+  },
+  "entries": [
+    {
+      "sourceId": "OPS_U015_ALPHA_P10",
+      "coordinate": [
+        15,
+        10
+      ],
+      "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/OPS_U015_ALPHA_P10/p5_trim.mat",
+      "sourcePackageSha256": "398308ded7456c7b4e50eecf520952024ab00c3ef68ec846534eac43b19e36a2",
+      "sourceCertificateSha256": "2597cd6a53e1e6365a8c05c072c397ed4f156cd2ebed2b5f12633c070ffca134",
+      "artifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casebc-source-bank-v1\\phase18c_v17a_longitudinal_lqr_ops_u015_alpha_p10_v1.json",
+      "artifactSha256": "2fffe7c1663d97cddcf465832dba5290ed427f27b2485261e211d6adcf2c72e4",
+      "trimElevatorRadians": -0.17114477145801754,
+      "trimThrustNewtons": 2.4445585951292075,
+      "controlCoordinateTrimResidualTwoNorm": 0.00010158656975212971,
+      "fourStateControllabilityRank": 4,
+      "riccatiRelativeResidual": 3.5328271169434219E-15,
+      "maximumDiscreteClosedLoopPole": 0.99822082167258619,
+      "fullClosureSignificantUnstableCount": 0,
+      "fullClosureMaximumGrowthPerSecond": 9.7494583103333585E-6,
+      "status": "PASS_AUDIT_ONLY_EXACT_V17A_SOURCE"
+    },
+    {
+      "sourceId": "SGT16",
+      "coordinate": [
+        20,
+        5
+      ],
+      "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/SGT16/p5_trim.mat",
+      "sourcePackageSha256": "37d1d6da7c1f50bdd034810494c25ae7446be8256935e8787f8835fb533571ea",
+      "sourceCertificateSha256": "b8ee39cb5125740294476af1277f282e173abd70b22a0706d41b7cc9c940b470",
+      "artifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casebc-source-bank-v1\\phase18c_v17a_longitudinal_lqr_sgt16_v1.json",
+      "artifactSha256": "514e022339804622ff05bebe384834ae9d871ee61e76b6fef8852a9ecd835ece",
+      "trimElevatorRadians": -0.10945737232321895,
+      "trimThrustNewtons": 1.3748261454568671,
+      "controlCoordinateTrimResidualTwoNorm": 0.00041292597801469253,
+      "fourStateControllabilityRank": 4,
+      "riccatiRelativeResidual": 2.237079692730497E-15,
+      "maximumDiscreteClosedLoopPole": 0.99939529531586624,
+      "fullClosureSignificantUnstableCount": 0,
+      "fullClosureMaximumGrowthPerSecond": 2.0132657689111075E-5,
+      "status": "PASS_AUDIT_ONLY_EXACT_V17A_SOURCE"
+    },
+    {
+      "sourceId": "CASEC_NOMINAL",
+      "coordinate": [
+        18,
+        7
+      ],
+      "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEC_NOMINAL/p5_trim.mat",
+      "sourcePackageSha256": "bf7706fa5b0481c4375ae91ce432d4893c5b62ca24879f7f9ace873eb0806b73",
+      "sourceCertificateSha256": "df19915fe55fe49ff2617397b819f99e4706b0763078d714068be4bff695d78e",
+      "artifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casebc-source-bank-v1\\phase18c_v17a_longitudinal_lqr_casec_nominal_v1.json",
+      "artifactSha256": "9831f2293270193078228717cee6ea9c296772246ae8672321e651331fef0baa",
+      "trimElevatorRadians": -0.11963082752468034,
+      "trimThrustNewtons": 1.7022537582384896,
+      "controlCoordinateTrimResidualTwoNorm": 0.00011272326062111948,
+      "fourStateControllabilityRank": 4,
+      "riccatiRelativeResidual": 2.8252842831447471E-15,
+      "maximumDiscreteClosedLoopPole": 0.99901132142664317,
+      "fullClosureSignificantUnstableCount": 0,
+      "fullClosureMaximumGrowthPerSecond": 4.6798233460334504E-6,
+      "status": "PASS_AUDIT_ONLY_EXACT_V17A_SOURCE"
+    }
+  ],
+  "validationTruthUsedForSelection": false,
+  "plantModified": false,
+  "controllerDefaultModified": false
+}

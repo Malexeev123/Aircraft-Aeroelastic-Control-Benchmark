@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite the benchmark paper and the archived software release."
+title: "Pazy-Winged Aircraft Aeroelastic Control Benchmark"
+type: software
+license: BSD-3-Clause
+authors:
+  - family-names: "Alexeev"
+    given-names: "Maxim"
+  - family-names: "López Muro"
+    given-names: "Juan"
+  - family-names: "Burlion"
+    given-names: "Laurent"
+abstract: >-
+  A coupled nonlinear aeroelastic estimation and control benchmark for a
+  Pazy-wing aircraft, with scheduled reduced-order models, rigid-flexible
+  coupling, moving-horizon estimation, nonlinear model predictive control,
+  command fusion, and actuator realization.

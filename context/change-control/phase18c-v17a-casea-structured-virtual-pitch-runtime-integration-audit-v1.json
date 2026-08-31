@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1",
+  "status": "APPROVED_FOR_AUDIT_EXECUTION",
+  "userApproval": true,
+  "approvalUtcDate": "2026-08-22",
+  "promotionApproved": false,
+  "auditOnly": true,
+  "defaultActive": false,
+  "linearArtifactPath": "context/audits/phase18c-control-validation/lqr/v17a-casea-joint-crossover-structured-virtual-pitch-v2/PHASE18C_V17A_CASEA_JOINT_CROSSOVER_STRUCTURED_VIRTUAL_PITCH_AUDIT_V2.mat",
+  "linearArtifactSha256": "a8a62135e9cbb1f741ed1a896983668f07669c84ef2f75026f0ddd81b1920845",
+  "linearJsonSha256": "333a998e88b559daf524fa8b1ed5d39a4e8991b79e8a0df7298aa8ffff3d6383",
+  "nonlinearEntryJsonSha256": "c52d9a3c1f91e0a29298172ffa7317957b2c3157378591111eef55cd838880e5",
+  "seedArtifactSha256": "abc17545fa28a5ef189d2f142911b1feffe4f9457a7ba2891c949f50b985cbd5",
+  "outerControllerOutput": "finite_horizon_pitch_rate_change_demand",
+  "outerControllerOutputUnit": "rad_per_second",
+  "allocatorPhysicalOutputs": ["symmetric_wing_increment", "elevator_increment"],
+  "thrustChannel": "held_at_trim_for_attitude_only_discriminator",
+  "currentFlexibleStateOwner": "accepted_current_nmhe_estimate",
+  "currentRigidStateOwner": "measured_runtime_rigid_state",
+  "fallback": "hold_preceding_accepted_structured_outer_endpoint",
+  "legacyGainFallbackAllowed": false,
+  "productionFilesModifiedDuringAudit": [
+    "MatlabFlex/sim_run.m"
+  ],
+  "auditRunnerFilesModifiedDuringAudit": [
+    "context/audits/phase18c-control-validation/cases/run_phase18c_v17a_formal_casea_freeflight_attitude_hold_v1.m"
+  ],
+  "prohibited": [
+    "SHARPy_or_XBeam_modification",
+    "negative_thrust",
+    "scaleAero1_change",
+    "R2_in_rigid_equilibrium",
+    "validation_fitting",
+    "acceptance_threshold_relaxation",
+    "nMHE_equation_or_weight_change",
+    "nMPC_equation_or_weight_change",
+    "fusion_or_actuator_equation_change",
+    "legacy_gain_or_undeclared_audit_fallback",
+    "production_promotion_without_separate_approval"
+  ],
+  "rollback": "Omit the default-inactive request and remove its guarded integration branch; all current production defaults and locked artifacts remain unchanged."
+}

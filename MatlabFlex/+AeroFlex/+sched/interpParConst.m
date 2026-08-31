@@ -7,7 +7,7 @@ function par = interpParConst(points, w)
 
 names = {'Gamma1','Gamma2','Gamma_g','Gamma_xi','forces_0', ...
          'scaleAero','t_inf','Fscale','scaleA','Bw','Dw','Bdel','Ddel', ...
-         'Bddel','Dddel','dt','Na','SwTest','N_Thrust'};
+         'Bddel','Dddel','SwTest','N_Thrust','affineOffset'};
 
 par = struct();
 for n = 1:numel(names)
@@ -25,10 +25,20 @@ for n = 1:numel(names)
     end
 end
 
+% Na is a model dimension, not a continuous scheduling quantity.
+if isfield(points(1).parConst,'Na')
+    sourceNa = arrayfun(@(point) double(point.parConst.Na),points);
+    integerNa = round(sourceNa);
+    tolerance = 10*eps(max(1,max(abs(sourceNa))));
+    assert(all(isfinite(sourceNa)) && all(integerNa==integerNa(1)) && ...
+        integerNa(1)>=0 && all(abs(sourceNa-integerNa)<=tolerance), ...
+        'AeroFlex:sched:ParConstNaInvariant', ...
+        'All active sources must have the same nonnegative integer Na.');
+    par.Na = integerNa(1);
+end
+
 % Non-numeric bookkeeping should be copied from the closest/nonzero point.
 par.gustSet = points(1).parConst.gustSet;
 par.gust_input = points(1).parConst.gust_input;
-if isfield(points(1).parConst,'RateProject')
-    par.RateProject = points(1).parConst.RateProject;
-end
+par.RateProject = struct('projSet',false,'Pz',[]);
 end
