@@ -13,6 +13,9 @@ end
 
 
 function setupOnce(testCase)
+repositoryRoot = fileparts(fileparts(mfilename("fullpath")));
+addpath(repositoryRoot);
+
 project = setupProject(ValidateEntryPoints=true, ...
     ChangeCurrentFolder=false);
 
@@ -61,7 +64,8 @@ end
 
 
 function testCacheManifestsRemainActive(testCase)
-project = testCase.TestData.project;
+project = setupProject(ValidateEntryPoints=true, ...
+    ChangeCurrentFolder=false);
 check = buildBenchmarkTools(Action="check",ProjectInfo=project);
 
 verifyTrue(testCase,check.passed);
@@ -74,8 +78,10 @@ end
 
 
 function testNativeRequiredInstallationPasses(testCase)
+project = setupProject(ValidateEntryPoints=true, ...
+    ChangeCurrentFolder=false);
 status = verifyBenchmarkInstallation(RequireNativeKernels=true, ...
-    PrintSummary=false,ProjectInfo=testCase.TestData.project);
+    PrintSummary=false,ProjectInfo=project);
 
 verifyTrue(testCase,status.passed);
 verifyTrue(testCase,status.nativeRequired);

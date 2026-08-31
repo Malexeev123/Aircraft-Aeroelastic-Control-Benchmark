@@ -39,6 +39,7 @@ TestBenchPazy/sim_setup/
 TestBenchPazy/sim_run/
 TestBenchPazy/plots/
 TestBenchPazy/timeseries/
+TestBenchPazy/generated/
 
 # Local reference documents and archives
 references/pdf/*.pdf

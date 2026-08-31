@@ -64,7 +64,12 @@ The driver performs the following operations for each point:
 3. optionally exports the project-owned premodal physical-coordinate contract;
 4. writes MATLAB operating-point metadata; and
 5. snapshots the complete point beneath
-   `library_source/pazy_krylov_ROM/pt_U...`.
+   `generated/library_source/pazy_krylov_ROM/pt_U...`.
+
+The generated workspace is deliberately separate from the tracked `cases/`
+and `output/` runtime payload. Use `--root <folder>` to select another
+untracked workspace; do not point regeneration at the repository's tracked
+`TestBenchPazy` root.
 
 The four `get_settings_*.py` modules retain the Krylov, open-loop/UDP, modal,
 and structural SHARPy configurations. `phase18_premodal_extractor.py` is a
@@ -76,7 +81,7 @@ is requested.
 For every generated point, create a MATLAB setup from that point's own root:
 
 ```matlab
-pointRoot = fullfile(pwd,"TestBenchPazy","library_source", ...
+pointRoot = fullfile(pwd,"TestBenchPazy","generated","library_source", ...
     "pazy_krylov_ROM","pt_U040_alpha_p01");
 [setup,ok] = sim_init(pointRoot, ...
     "case_name","pazy_krylov_ROM", ...
@@ -92,7 +97,7 @@ Collect the resulting setup directories and assemble the library:
 
 ```matlab
 setupDirectories = [string(setup.paths.run_dir)]; % add every source point
-libraryPath = fullfile(pwd,"TestBenchPazy","rom_library", ...
+libraryPath = fullfile(pwd,"TestBenchPazy","generated","rom_library", ...
     "custom_pazy_library.mat");
 ROMlib = AeroFlex.sched.buildLibraryFromSetups(setupDirectories, ...
     "library_name","custom_pazy_library", ...

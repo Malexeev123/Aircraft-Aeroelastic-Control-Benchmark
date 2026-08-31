@@ -268,9 +268,15 @@ def build_parser() -> argparse.ArgumentParser:
                         help="Optional common positive source timestep in seconds.")
     parser.add_argument("--overwrite", action="store_true",
                         help="Replace an existing point snapshot.")
-    parser.add_argument("--root", type=Path,
-                        default=Path(__file__).resolve().parent,
-                        help="TestBenchPazy data root (default: script directory).")
+    parser.add_argument(
+        "--root",
+        type=Path,
+        default=Path(__file__).resolve().parent / "generated",
+        help=(
+            "Generated-data workspace (default: TestBenchPazy/generated). "
+            "Keep this separate from the tracked runtime payload."
+        ),
+    )
     return parser
 
 
@@ -292,6 +298,7 @@ def main() -> int:
         print("Plan only. Re-run with --execute to call SHARPy.")
         return 0
 
+    root.mkdir(parents=True, exist_ok=True)
     settings = GenerationSettings()
     for speed, alpha in points:
         reference = None

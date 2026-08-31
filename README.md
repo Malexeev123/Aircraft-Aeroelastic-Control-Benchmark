@@ -13,14 +13,14 @@ validation, and post-processing are project-owned.
 
 ## Current benchmark status
 
-| Scenario | Description |
-| --- | --- |
-| `A1` | Commanded attitude, no gust |
-| `A2` | Attitude hold under gust |
-| `A3` | Commanded attitude under gust |
-| `B1` | Thrust-led speed transition, no gust |
-| `B2` | Matched speed transition under gust |
-| `C` | Longitudinal trajectory tracking under gust |
+| Scenario | Description | Status |
+| --- | --- | --- |
+| `A1` | Commanded attitude, no gust | Qualified |
+| `A2` | Attitude hold under gust | Qualified |
+| `A3` | Commanded attitude under gust | Qualified |
+| `B1` | Thrust-led speed transition, no gust | Production runtime; qualification pending |
+| `B2` | Matched speed transition under gust | Production runtime; qualification pending |
+| `C` | Longitudinal trajectory tracking under gust | Deferred; maneuver not frozen |
 
 The Case-B interface retains the complete production scheduled runtime, including
 scheduled package/history ownership, current-package forecast context, state transport,
@@ -425,7 +425,8 @@ pass.
 Case B is distributed with its production scheduled workflow. Execution is
 available from the shared interface, while formal B1/B2 qualification remains
 a separate recorded state governed by the same physical, solver, actuator,
-thrust, and source-domain acceptance thresholds as the qualified cases.
+thrust, and source-domain acceptance thresholds as the qualified cases. Case C
+remains deferred until its maneuver definition is frozen.
 
 ## License and attribution
 

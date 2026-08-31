@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pazy-public-release-inventory-v1",
-  "generatedUtc": "2026-08-31T10:53:14.640Z",
+  "generatedUtc": "2026-08-31T18:58:33.465Z",
   "sourceFiles": [
     {
       "path": ".gitattributes",
@@ -10,8 +10,8 @@
     },
     {
       "path": ".gitignore",
-      "sha256": "c7d691fbb01740d1e0fdf12844014d3c2d9bdcef0c763e294ad0c73346d686a4",
-      "bytes": 1348,
+      "sha256": "f229c38e88b5d88fb99ca2b4a7731c51e7780a546aca08bfe9f9f669a467765a",
+      "bytes": 1373,
       "passed": true
     },
     {
@@ -561,6 +561,12 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildCompatBasis.m",
+      "sha256": "551a802bb1781fcec5d7bf12b8355a1ad4517fc27ee57c96d008b2770a43a2b5",
+      "bytes": 2648,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/buildEquilibriumCenteredPackage.m",
       "sha256": "89658e7b3263835565d22b4577a2445069955caaceedac1c045be0d9c0d5684a",
       "bytes": 4727,
@@ -591,6 +597,12 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildLibraryFromSetups.m",
+      "sha256": "70b237f2b260b3244c60a5bb89f1b2dcb1e4b2cd3f9cef3a1d341409230b0e6d",
+      "bytes": 3129,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/buildParConst.m",
       "sha256": "9e5af72507bca41b67ea89f8727ac51489bea2c405522bbf9cfcd1bebbcae265",
       "bytes": 1860,
@@ -609,9 +621,27 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/buildPointTransform.m",
+      "sha256": "cb49c798c14f73fcc42aeb047a7a3e0d2f66e12b4cb51b4719fcc17ac29f7c88",
+      "bytes": 2930,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/buildScheduledReciprocalPacket.m",
       "sha256": "57a6f484120aad94d0480d91f811b5fb2856832a7b6ee7a7700dcad9a53ae670",
       "bytes": 50270,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/collectCompatBasis.m",
+      "sha256": "f4de4a874c48da191eee6ca5a0163a5a97a7f801ac25991f4b7c78499c6130e3",
+      "bytes": 12501,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/constraintAlignedOrthogonalMap.m",
+      "sha256": "5ad991c1a5c622b6969444397d97f34c969d40ee583e4dedcd3152aca5f982b9",
+      "bytes": 1169,
       "passed": true
     },
     {
@@ -645,6 +675,18 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/extractPoint.m",
+      "sha256": "1fe36708b15d2f8115c0417ab9eafa3a98743d84255fcaf0d888b25a4d8c6f0e",
+      "bytes": 3292,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/finalizeCompatibleLibrary.m",
+      "sha256": "5df46cb39cc1d67a02d7963ffdd9e5dadd18761c9405ecde08f3f01d844cd288",
+      "bytes": 4469,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/installP5R2T2Anchor.m",
       "sha256": "aa14710dafa19bb2c535c5864fea0f93e708e4eb7ced1f614bde87265971e1a7",
       "bytes": 4701,
@@ -675,6 +717,12 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/pointName.m",
+      "sha256": "29bf093f398fe181e6592c616c492c6c0045c65fbb7af42c729ac27bc1ec49b5",
+      "bytes": 1570,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/procrustesLocalToRef.m",
       "sha256": "4e6f4aef5f35427a4ed12641dcd71c497a2149e0ef3ed15ba16c9ca057004329",
       "bytes": 1321,
@@ -693,6 +741,12 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/resolveSetupDir.m",
+      "sha256": "00b26ee8269de36e6c31f4b94187b171c46625a9aba1ae7ae03e40486132a377",
+      "bytes": 4743,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/resolveSourceContractRegistry.m",
       "sha256": "d70b49246eea4d9bdfbca430415c303a349aa4c411e349c5548e2b01a47851c1",
       "bytes": 6138,
@@ -702,6 +756,24 @@
       "path": "MatlabFlex/+AeroFlex/+sched/runtimeRateProjectionPolicy.m",
       "sha256": "382944bcde3a981c90739b670be47166a0222df1989862c24923b85df3d69234",
       "bytes": 866,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformAeroToReference.m",
+      "sha256": "804292be628a419aa0803060e9ed17936068c6e8962b546bfd1231a3b4bceefd",
+      "bytes": 966,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformBaseToReference.m",
+      "sha256": "6ad707fb22b470b51ef385059c85b2d26af1afcbe512c62dab6360f1cd1b5567",
+      "bytes": 874,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformBeamToReference.m",
+      "sha256": "b9dc8a52083d4b5216fdf8ac0e0f52f671f8bf59f2b7abe2939e5c7982a2fe3e",
+      "bytes": 1196,
       "passed": true
     },
     {
@@ -717,9 +789,21 @@
       "passed": true
     },
     {
+      "path": "MatlabFlex/+AeroFlex/+sched/transformPointToReference.m",
+      "sha256": "8107976fc619e80deb1f654a93777ae02d7e4758aec1e039d77df21c9b675421",
+      "bytes": 867,
+      "passed": true
+    },
+    {
       "path": "MatlabFlex/+AeroFlex/+sched/transformTensor3.m",
       "sha256": "8859efb9d63af624eda40c136553be2da0f75c9071b299207a1e1fad3798e6f9",
       "bytes": 2004,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/+AeroFlex/+sched/validateCompatibleCoordinates.m",
+      "sha256": "1914bc59302de1a1e117d93130168ea6916267af31e2194c5fdb574815ee7b0c",
+      "bytes": 2468,
       "passed": true
     },
     {
@@ -916,8 +1000,8 @@
     },
     {
       "path": "MatlabFlex/verifyBenchmarkInstallation.m",
-      "sha256": "e461416e172c40e68c2b3697235ca92bc2249b51f5d831046e997c389cb8af9c",
-      "bytes": 7851,
+      "sha256": "44fa4f9b3a232f435e1f79af436056b3eb8bc1376264c93b14cd66e9b13654c1",
+      "bytes": 8015,
       "passed": true
     },
     {
@@ -1078,8 +1162,8 @@
     },
     {
       "path": "TestBenchPazy/README.md",
-      "sha256": "4eca1f2e199ad6cfaad25890f1d3d288133120e6dd3ff8535d0c82e678d4a02f",
-      "bytes": 5272,
+      "sha256": "0ea665465ba84489a3b22f8b823dad379171406db2e1cc7d3279f1ca1f5fef3b",
+      "bytes": 5550,
       "passed": true
     },
     {
@@ -1090,8 +1174,8 @@
     },
     {
       "path": "TestBenchPazy/sweep_pazy_rom_library.py",
-      "sha256": "955ae2a966eb954b73a8cdc65ef22b81ad281c21c32297834635b6496f51e548",
-      "bytes": 11906,
+      "sha256": "412ae0f77928d0e13c16116c57ebcef214e6f201ec3f3fab0c3db35f2926166b",
+      "bytes": 12055,
       "passed": true
     },
     {
@@ -1126,8 +1210,8 @@
     },
     {
       "path": "tests/test_native_tools.m",
-      "sha256": "8860cf5e3c72f31e9ae7c81b2c92d026cf476f69c7fed500f9207c18b6c6041b",
-      "bytes": 2851,
+      "sha256": "39debc47c58d32171d4b12dfed6a28016d3b64ee080d2f8fb26832a921a01e2c",
+      "bytes": 3054,
       "passed": true
     },
     {
@@ -1192,8 +1276,8 @@
     },
     {
       "path": "tools/matlab/prepareBenchmarkReleasePackage.m",
-      "sha256": "f03c12b8af655682739d112e41a3445cfe09ed9e3a145624e6c83ab4790478b0",
-      "bytes": 14489,
+      "sha256": "de7ee2dc5dc67700b3635777e807a61eac4ae10656d6fb01c6e86c8aaed940ea",
+      "bytes": 14582,
       "passed": true
     }
   ],
