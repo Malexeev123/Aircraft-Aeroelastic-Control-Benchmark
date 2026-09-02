@@ -13,14 +13,14 @@ validation, and post-processing are project-owned.
 
 ## Current benchmark status
 
-| Scenario | Description | Status |
-| --- | --- | --- |
-| `A1` | Commanded attitude, no gust | Qualified |
-| `A2` | Attitude hold under gust | Qualified |
-| `A3` | Commanded attitude under gust | Qualified |
-| `B1` | Thrust-led speed transition, no gust | Production runtime; qualification pending |
-| `B2` | Matched speed transition under gust | Production runtime; qualification pending |
-| `C` | Longitudinal trajectory tracking under gust | Deferred; maneuver not frozen |
+| Scenario | Description |
+| --- | --- |
+| `A1` | Commanded attitude, no gust |
+| `A2` | Attitude hold under gust |
+| `A3` | Commanded attitude under gust |
+| `B1` | Thrust-led speed transition, no gust |
+| `B2` | Matched speed transition under gust |
+| `C` | Longitudinal trajectory tracking under gust |
 
 The Case-B interface retains the complete production scheduled runtime, including
 scheduled package/history ownership, current-package forecast context, state transport,
@@ -52,7 +52,7 @@ use their qualified coupled projection policy.
 | HDF5 support | Exchange unchanged SHARPy model products and physical-output fields | MATLAB HDF5 functions and SHARPy's established Python environment |
 
 SHARPy/XBeam are required when generating model sources, but a packaged
-benchmark release can run from its supplied hash-locked MATLAB/HDF5 assets.
+benchmark release can run from its supplied MATLAB/HDF5 assets.
 MATLAB Coder and a supported C/C++ compiler are required to build the native
 tools. Exact MATLAB implementations remain available when compatible binaries
 are absent, although scheduled controlled cases can be substantially slower.
