@@ -13,7 +13,7 @@ switch plan.runnerKind
             run_phase18c_v17a_reciprocal_formal_casea_member_v1( ...
                 arguments{:});
 
-    case {"scheduled_case_b_v90","custom_scheduled_v17a"}
+    case {"scheduled_case_b","custom_scheduled"}
         arguments = AeroFlex.benchmark.internal.runnerArguments(plan,runRoot);
         summary = AeroFlex.benchmark.runtime. ...
             run_phase18c_v17a_caseb_integrated_profile_v1(arguments{:});

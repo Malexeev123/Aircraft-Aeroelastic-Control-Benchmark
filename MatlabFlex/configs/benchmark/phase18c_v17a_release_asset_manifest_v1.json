@@ -35,6 +35,11 @@
       "sha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f"
     },
     {
+      "role": "casea_locked_longitudinal_lqr",
+      "path": "MatlabFlex/configs/control/phase18c_v17_longitudinal_lqr_v1.json",
+      "sha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e"
+    },
+    {
       "role": "casea_corrected_nonwing_bundle",
       "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-corrected-nonwing-trim-lqr-owner-v1/PHASE18C_V17A_CASEA_CORRECTED_NONWING_LQR_BUNDLE_V1.mat",
       "sha256": "29f7bb6434bd34afd42ed18059b456223c0cd813c3c445ae9f8925f69b75d8ec"
@@ -48,6 +53,16 @@
       "role": "casea_shared_wing_gain",
       "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-daisy-chain-shared-wing-lqr-v1/phase18c_v17a_casea_daisy_chain_shared_wing_lqr_v1.json",
       "sha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db"
+    },
+    {
+      "role": "casea_runtime_centered_gain_bank",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_gain_bank_v1.json",
+      "sha256": "24ac30dd3d54b5c89324688e2f0991261d100980ea2b9439adb2d0d132b52ec0"
+    },
+    {
+      "role": "casea_runtime_centered_gain",
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_v1.json",
+      "sha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63"
     },
     {
       "role": "casebc_gain_bank",
@@ -93,26 +108,6 @@
       "role": "casea_reciprocal_runtime_candidate",
       "path": "context/audits/phase18c-control-validation/plant/v17a-casea-reciprocal-gust-path-discriminator-v1/PHASE18C_V17A_CASEA_RECIPROCAL_REACTION_REPLACEMENT_CANDIDATE_V1.mat",
       "sha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a"
-    },
-    {
-      "role": "casea_nonwing_approval",
-      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
-      "sha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389"
-    },
-    {
-      "role": "casea_structured_pitch_approval",
-      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
-      "sha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d"
-    },
-    {
-      "role": "casea_reciprocal_reaction_approval",
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
-      "sha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e"
-    },
-    {
-      "role": "casea_reciprocal_provider_approval",
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
-      "sha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128"
     },
     {
       "role": "native_fixed_interval_build_fixture",

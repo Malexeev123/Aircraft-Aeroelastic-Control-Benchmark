@@ -44,11 +44,11 @@ use their qualified coupled projection policy.
 | --- | --- | --- |
 | Git and WSL Ubuntu | Clone, source generation, and the Linux-side model workspace | Repository stored in WSL and opened from MATLAB through `\\wsl.localhost` |
 | SHARPy with XBeam | Generate or regenerate structural/aerodynamic source models | Existing project SHARPy environment in WSL; upstream sources remain unchanged |
-| Windows MATLAB | Setup, simulation, control, post-processing, and tests | R2025b Update 5, 64-bit Windows |
+| Windows MATLAB | Setup, simulation, control, post-processing, and tests | R2025b Update 5, 64-bit Windows; native-tool rebuild supported on R2023b--R2025b after local parity |
 | Control System Toolbox | State-space conversion, LQR design/application, and response analysis | Matching the MATLAB release |
 | Optimization Toolbox | `fmincon`, `quadprog`, `lsqnonlin`, and constrained trim/control references | Matching the MATLAB release |
 | MATLAB Coder | Build the project-owned native interval and horizon kernels | Matching the MATLAB release |
-| Supported C/C++ compiler | Compile MEX acceleration binaries | Microsoft Visual C++ 2022 is the qualified compiler |
+| Supported C/C++ compiler | Compile MEX acceleration binaries | A compiler supported by the installed MATLAB release; every local build must pass parity |
 | HDF5 support | Exchange unchanged SHARPy model products and physical-output fields | MATLAB HDF5 functions and SHARPy's established Python environment |
 
 SHARPy/XBeam are required when generating model sources, but a packaged
@@ -70,6 +70,35 @@ supported by the installed MATLAB release.
 Native kernels are strongly recommended for controlled scheduled cases. Exact
 MATLAB implementations remain available when a compatible binary is absent,
 but runtime can be substantially longer.
+
+### First-time MATLAB and native-tool setup
+
+From the repository root in MATLAB, use this sequence on a new machine. Run
+the project setup before any build command; it adds the project build tools
+and package paths without using a recursive `genpath`.
+
+```matlab
+project = setupProject(ChangeCurrentFolder=true);
+assets = prepareBenchmarkReleaseAssets(Action="check");
+assert(assets.passed)
+
+mex -setup C++                         % once per MATLAB installation
+report = buildBenchmarkTools(Force=true,RunParity=true);
+assert(report.passed)
+
+installation = verifyBenchmarkInstallation( ...
+    RequireNativeKernels=true,ProjectInfo=project);
+assert(installation.passed)
+```
+
+`buildBenchmarkTools` is the supported build entry point: it supplies the
+physical MATLAB source files required by MATLAB Coder, builds all five native
+families, and checks each binary against its MATLAB reference before accepting
+it. Do not call the individual builders directly. If no compatible compiler or
+MATLAB Coder is available, omit the build steps and use
+`NativeKernelPolicy="auto"`; the exact MATLAB implementation remains the
+correctness fallback. `NativeKernelPolicy="required"` deliberately fails
+before a controlled run when the verified local cache is unavailable.
 
 ## Clone and configure MATLAB
 

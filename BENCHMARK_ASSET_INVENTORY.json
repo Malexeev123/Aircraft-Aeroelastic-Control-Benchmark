@@ -1,8 +1,8 @@
 {
   "schemaVersion": "pazy-benchmark-asset-inventory-v1",
-  "generatedUtc": "2026-08-31T18:58:33.190Z",
-  "selectionManifestSha256": "3f511765470f75c30d227c1d08fdb4fcb6721094e75c758a97f0fbab59aa301f",
-  "assetCount": 152,
+  "generatedUtc": "2026-09-02T07:56:48.385Z",
+  "selectionManifestSha256": "108595bd5fa102c846a243590103032ae45e538e36080648e1fa9d4687e399ab",
+  "assetCount": 151,
   "records": [
     {
       "path": "context/audits/phase18b-kkt-path-closure/static-feedback-source-placement-v1/V17_PRODUCTION_SOURCE_REGISTRY_V1.json",
@@ -10,6 +10,14 @@
       "role": "v17_registry",
       "exists": true,
       "observedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17_longitudinal_lqr_v1.json",
+      "expectedSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
+      "role": "casea_locked_longitudinal_lqr",
+      "exists": true,
+      "observedSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
       "passed": true
     },
     {
@@ -34,6 +42,22 @@
       "role": "casea_shared_wing_gain",
       "exists": true,
       "observedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_gain_bank_v1.json",
+      "expectedSha256": "24ac30dd3d54b5c89324688e2f0991261d100980ea2b9439adb2d0d132b52ec0",
+      "role": "casea_runtime_centered_gain_bank",
+      "exists": true,
+      "observedSha256": "24ac30dd3d54b5c89324688e2f0991261d100980ea2b9439adb2d0d132b52ec0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_v1.json",
+      "expectedSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
+      "role": "casea_runtime_centered_gain",
+      "exists": true,
+      "observedSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
       "passed": true
     },
     {
@@ -106,38 +130,6 @@
       "role": "casea_reciprocal_runtime_candidate",
       "exists": true,
       "observedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
-      "expectedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
-      "role": "casea_nonwing_approval",
-      "exists": true,
-      "observedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
-      "expectedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
-      "role": "casea_structured_pitch_approval",
-      "exists": true,
-      "observedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
-      "expectedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
-      "role": "casea_reciprocal_reaction_approval",
-      "exists": true,
-      "observedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
-      "expectedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
-      "role": "casea_reciprocal_provider_approval",
-      "exists": true,
-      "observedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
       "passed": true
     },
     {

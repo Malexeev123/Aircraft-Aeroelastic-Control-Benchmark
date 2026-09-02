@@ -35,7 +35,9 @@ if ismember(caseId,["B1","B2"])
         "finiteHorizonSeconds",1,"effectivenessSource", ...
         "caseb_runtime_tangent_one_second_held_thrust"));
     profile.runner = "case_b_scheduled_production";
-    profile.runnerKind = "scheduled_case_b_v90";
+    % Public plan metadata identifies the benchmark function, not the
+    % historical qualification snapshot used to establish this owner.
+    profile.runnerKind = "scheduled_case_b";
 
     % Keep the disposition next to the executable flags. It is deliberately
     % redundant with the audit report so a later rebase cannot silently

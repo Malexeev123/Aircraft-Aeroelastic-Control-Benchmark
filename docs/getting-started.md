@@ -2,16 +2,24 @@
 
 ## MATLAB environment
 
-Use Windows MATLAB R2025b Update 5 against the repository's WSL network
-path. The established SHARPy environment remains in WSL and is not replaced
-by a Windows Python installation.
+The formal benchmark evidence was generated with Windows MATLAB R2025b
+Update 5 against the repository's WSL network path. The project-owned native
+tool builders support Windows MATLAB R2023b--R2025b when MATLAB Coder and a
+compiler supported by that MATLAB release are installed; each build performs
+its own numerical parity check before its cache is accepted. The established
+SHARPy environment remains in WSL and is not replaced by a Windows Python
+installation.
 
 Required MATLAB products are Control System Toolbox and Optimization Toolbox.
 Building the strongly recommended native kernels additionally requires MATLAB
-Coder and a supported C/C++ compiler; Microsoft Visual C++ 2022 is the
-qualified Windows compiler. SHARPy/XBeam and their established WSL Python
+Coder and a supported C/C++ compiler. SHARPy/XBeam and their established WSL Python
 environment are required for source-model generation, but not for replaying a
 release that already contains the verified runtime assets.
+
+On a new machine, always run `setupProject` before `buildBenchmarkTools`; the
+top-level build command is the supported route because it supplies MATLAB
+Coder with physical source-file entry points and performs parity checks for all
+five kernels. Do not invoke individual builders directly.
 
 ```matlab
 cd('\\wsl.localhost\Ubuntu\home\<user>\Aircraft-Aeroelastic-Control-Benchmark')

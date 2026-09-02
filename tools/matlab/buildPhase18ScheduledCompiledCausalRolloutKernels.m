@@ -126,7 +126,9 @@ if ~cached
     previousFolder = pwd;
     folderCleanup = onCleanup(@() cd(previousFolder));
     cd(buildRoot);
-    codegen(char(entry.entryName),'-config',configuration, ...
+    entryPath = resolveBenchmarkCodegenEntry(entry.entryName, ...
+        struct("repositoryRoot",string(repoRoot)));
+    codegen(char(entryPath),'-config',configuration, ...
         '-args',entry.inputs,'-o',mexName,'-d',buildRoot);
     clear folderCleanup
     cd(previousFolder);

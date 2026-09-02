@@ -50,8 +50,20 @@ for index = 1:numel(records)
     end
 end
 
-assert(all([records.passed]),"AeroFlex:ReleaseAssetsVerification", ...
-    "One or more selected release assets are missing or changed.");
+if ~all([records.passed])
+    failed = records(~[records.passed]);
+    details = strings(numel(failed),1);
+    for index = 1:numel(failed)
+        if failed(index).exists
+            details(index) = failed(index).path + " (hash mismatch)";
+        else
+            details(index) = failed(index).path + " (missing)";
+        end
+    end
+    error("AeroFlex:ReleaseAssetsVerification", ...
+        "Selected release assets did not verify:\n%s", ...
+        strjoin(details,newline));
+end
 
 stagedCount = 0;
 reusedCount = 0;

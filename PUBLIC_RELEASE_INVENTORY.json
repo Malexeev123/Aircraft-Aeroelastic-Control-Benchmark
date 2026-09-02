@@ -1,19 +1,7 @@
 {
   "schemaVersion": "pazy-public-release-inventory-v1",
-  "generatedUtc": "2026-08-31T18:58:33.465Z",
+  "generatedUtc": "2026-09-02T07:56:48.774Z",
   "sourceFiles": [
-    {
-      "path": ".gitattributes",
-      "sha256": "0800815ada466e3b2cffc28e5acec6aa6c7554c42a202b80028fe49392aeaee2",
-      "bytes": 699,
-      "passed": true
-    },
-    {
-      "path": ".gitignore",
-      "sha256": "f229c38e88b5d88fb99ca2b4a7731c51e7780a546aca08bfe9f9f669a467765a",
-      "bytes": 1373,
-      "passed": true
-    },
     {
       "path": "AUTHORS.md",
       "sha256": "ebdc9185828d2e40b1432ba62b96daa1b2835bc9d600b8a1ebc4af9d07d9e1d6",
@@ -40,8 +28,8 @@
     },
     {
       "path": "docs/getting-started.md",
-      "sha256": "ced76199f057e83b2c4487008e5253d301f18e696a93a057f4f3f4bf1124041f",
-      "bytes": 3879,
+      "sha256": "cf9394e175f50827a3468b2725c1e77d3059b25cc7e975a6958fc58939fa5201",
+      "bytes": 4393,
       "passed": true
     },
     {
@@ -148,8 +136,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/executePlan.m",
-      "sha256": "f52fb13df05ff8b984e84f235a503142692ddef74fde0d729a326571e368071e",
-      "bytes": 881,
+      "sha256": "66cc17263673209a706aefdde9ce44d4e7ef4b81ef355ea99492d5e0197c9a8e",
+      "bytes": 872,
       "passed": true
     },
     {
@@ -166,8 +154,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runtimeProfile.m",
-      "sha256": "171787a524cd20f7fe4b9fa46f7aaaf7af0105a54c6375072dccb33970f7cbb6",
-      "bytes": 5268,
+      "sha256": "488f87ad0f0978bb1ea9a77101a7979ec5659d0c8066eb0c4bcf47ee00239890",
+      "bytes": 5404,
       "passed": true
     },
     {
@@ -934,8 +922,26 @@
     },
     {
       "path": "MatlabFlex/configs/benchmark/phase18c_v17a_release_asset_manifest_v1.json",
-      "sha256": "3f511765470f75c30d227c1d08fdb4fcb6721094e75c758a97f0fbab59aa301f",
-      "bytes": 6711,
+      "sha256": "108595bd5fa102c846a243590103032ae45e538e36080648e1fa9d4687e399ab",
+      "bytes": 6536,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17a_casea_integrated_control_v1.m",
+      "sha256": "ff8fcff8812d87a4c02d1cebcc30fa29086ec0d6def149a7e734601e958e5c76",
+      "bytes": 9766,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17a_caseb_integrated_control_v1.m",
+      "sha256": "2094b0478b867b1bc422c8625be45ac9a4a230cdb67315277d05ee6f0bf2c860",
+      "bytes": 19213,
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17a_formal_casea_freeflight_attitude_hold_v1.m",
+      "sha256": "9aa47ba050682e708b0fd087e63bd33f189f5f93137610d84fde5dd680da8b42",
+      "bytes": 10601,
       "passed": true
     },
     {
@@ -976,8 +982,8 @@
     },
     {
       "path": "MatlabFlex/runCustomBenchmarkCase.m",
-      "sha256": "ce7725e775e2ceacec77fdde4e8bac503517612e1be7e902c27b7162cac830c0",
-      "bytes": 8492,
+      "sha256": "4d1575e713edf529aafd431f41b0b400643a4b8074abe6fbcdfe4fa3270e4e9f",
+      "bytes": 8487,
       "passed": true
     },
     {
@@ -994,8 +1000,8 @@
     },
     {
       "path": "MatlabFlex/sim_run.m",
-      "sha256": "8402bd222ca2026c4e28bb515d9083a955e7d0a2e0561431a1f3b9d6b015231f",
-      "bytes": 562079,
+      "sha256": "f299ab467eb884e8902a70b575402a5c5243746a2b3faef1a24594e891df74c3",
+      "bytes": 558687,
       "passed": true
     },
     {
@@ -1006,8 +1012,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "da7f08559e7b62ec688ad48868815393ee2dc4385f25d7c7a35f08eb86b06795",
-      "bytes": 18016,
+      "sha256": "20e30d18cedbae22b5abfae2b054b1262d13e1abd1bebbfd8a8b9641ad44da7e",
+      "bytes": 19379,
       "passed": true
     },
     {
@@ -1228,38 +1234,38 @@
     },
     {
       "path": "tools/matlab/buildBenchmarkTools.m",
-      "sha256": "11c90f4c7e5168e59ba5dffa8150cc0ed738c1f503eae21c51d0b7a0dabb50a8",
-      "bytes": 11378,
+      "sha256": "47f38085f07d95eae19a65884e2cf8c5fcdb27985b7f22acf96772a91e3212a2",
+      "bytes": 11661,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18CompiledControlKernels.m",
-      "sha256": "d2f32376e882dab7ee91ac36214c434bb52e85caaa6eb7da0af5aa416cb0bebc",
-      "bytes": 8768,
+      "sha256": "b03d65d7e30b35de9f8647267937745ceb2899c7d96792752c4f35f3bc60ccba",
+      "bytes": 8844,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledCausalRolloutKernels.m",
-      "sha256": "f2e653e678ae4635337d127fbdeebdaf339f030ade4358bed1b50bc10dad3a2d",
-      "bytes": 11518,
+      "sha256": "65f229a0a4b0588921d5ec81f03485caf4185941a5ef86deb499677e8e3a3ee2",
+      "bytes": 11630,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledControlKernel.m",
-      "sha256": "b18790e64548f9c5cb56056f844f62c2adbfb3d516835c6442f7b4e8dbf8a7bd",
-      "bytes": 9844,
+      "sha256": "88b78642f70cf2aeda5e040075e32236981717d643cfa2e9b2e00a1dc903f462",
+      "bytes": 9920,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledHorizonKernels.m",
-      "sha256": "4136a93fa059bfcd356c1dc8dbd7bd576da335283997c7dc7caa9ef918791649",
-      "bytes": 18950,
+      "sha256": "d2aaac8f763b7a052a389405201112ca5458306e124609e9fb3eb1934226ab4d",
+      "bytes": 19062,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledValueHorizonKernels.m",
-      "sha256": "8b262fe1d9c6065698caa89d7682a5bebade4b78660cfdaa543e49301ec0215b",
-      "bytes": 11690,
+      "sha256": "c82a7bfc00f7bd068f6670ad6e438c5b77f5d9055ef3f785c24554c7ea79741d",
+      "bytes": 11802,
       "passed": true
     },
     {
@@ -1270,14 +1276,20 @@
     },
     {
       "path": "tools/matlab/prepareBenchmarkReleaseAssets.m",
-      "sha256": "100afda53e7d751576548ee2c3e936e90afd7d2d4c461a2ab83112ca7b90e21f",
-      "bytes": 10179,
+      "sha256": "7c33a96c62bad98ca81f007feb752effc9bdff14c1a6ffaeef9115a9b7d438e6",
+      "bytes": 10528,
       "passed": true
     },
     {
       "path": "tools/matlab/prepareBenchmarkReleasePackage.m",
-      "sha256": "de7ee2dc5dc67700b3635777e807a61eac4ae10656d6fb01c6e86c8aaed940ea",
-      "bytes": 14582,
+      "sha256": "7b98076383008eafebca84651aad6d2a2c7734669073ac93bee4a04e11adc240",
+      "bytes": 14693,
+      "passed": true
+    },
+    {
+      "path": "tools/matlab/resolveBenchmarkCodegenEntry.m",
+      "sha256": "26f7d733fb671a051d53758b8f8776531fdd60ccaa774c5debc404e33f3c0a7a",
+      "bytes": 1231,
       "passed": true
     }
   ],
@@ -1288,6 +1300,14 @@
       "role": "v17_registry",
       "exists": true,
       "observedSha256": "2702cd0dcdae15c13f6bcbc2c59d8b4f899054c63a5df607dcacd0d282ac473f",
+      "passed": true
+    },
+    {
+      "path": "MatlabFlex/configs/control/phase18c_v17_longitudinal_lqr_v1.json",
+      "expectedSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
+      "role": "casea_locked_longitudinal_lqr",
+      "exists": true,
+      "observedSha256": "caae4315d78829f9b366fd10f7022b19c7663256a5e75f17a945b57dd1f2d96e",
       "passed": true
     },
     {
@@ -1312,6 +1332,22 @@
       "role": "casea_shared_wing_gain",
       "exists": true,
       "observedSha256": "b57e191dd4e524ed74f081ad236f2f8f7477bb709d97c630e42cff542a01d9db",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_gain_bank_v1.json",
+      "expectedSha256": "24ac30dd3d54b5c89324688e2f0991261d100980ea2b9439adb2d0d132b52ec0",
+      "role": "casea_runtime_centered_gain_bank",
+      "exists": true,
+      "observedSha256": "24ac30dd3d54b5c89324688e2f0991261d100980ea2b9439adb2d0d132b52ec0",
+      "passed": true
+    },
+    {
+      "path": "context/audits/phase18c-control-validation/lqr/v17a-casea-runtime-centered-source-bank-v1/phase18c_v17a_casea_runtime_centered_longitudinal_lqr_v1.json",
+      "expectedSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
+      "role": "casea_runtime_centered_gain",
+      "exists": true,
+      "observedSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
       "passed": true
     },
     {
@@ -1384,38 +1420,6 @@
       "role": "casea_reciprocal_runtime_candidate",
       "exists": true,
       "observedSha256": "1911b6f2ea775a9bb6ecb6461aff37fe69524acea49d910991968d4445fff96a",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-corrected-nonwing-trim-lqr-owner-integration-v1.json",
-      "expectedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
-      "role": "casea_nonwing_approval",
-      "exists": true,
-      "observedSha256": "10bbc6fe8d90f3e71256564e3454db92bdbddd5a40a3ce3f31947de5099c6389",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-structured-virtual-pitch-runtime-integration-audit-v1.json",
-      "expectedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
-      "role": "casea_structured_pitch_approval",
-      "exists": true,
-      "observedSha256": "cbcdb7b2cb0131e518aa2b052a567c2ae033c48bc9e7b9607e3ea1ba7072c18d",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-reaction-replacement-production-promotion-v1.json",
-      "expectedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
-      "role": "casea_reciprocal_reaction_approval",
-      "exists": true,
-      "observedSha256": "a77ee646d92ccf4d26eaccb46548e202b7cd81c29adbef3c5be6c9836e7a9b4e",
-      "passed": true
-    },
-    {
-      "path": "context/change-control/phase18c-v17a-casea-reciprocal-controller-model-provider-audit-v1.json",
-      "expectedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
-      "role": "casea_reciprocal_provider_approval",
-      "exists": true,
-      "observedSha256": "c70567c07949e5119f1866dd3379cb5f483304e1d25fe84bd0218db24a50b128",
       "passed": true
     },
     {

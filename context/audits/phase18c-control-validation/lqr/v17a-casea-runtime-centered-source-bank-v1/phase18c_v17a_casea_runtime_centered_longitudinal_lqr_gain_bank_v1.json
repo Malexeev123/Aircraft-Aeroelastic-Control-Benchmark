@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "phase18c-v17a-casea-runtime-centered-source-lqr-bank-v1",
+  "status": "PASS_AUDIT_ONLY_RUNTIME_CENTERED_EXACT_V17A_SOURCE",
+  "modelRevision": "V17A",
+  "registryPath": "context\\audits\\phase18c-control-validation\\plant\\V17A_DIMENSIONAL_STEADY_FORCE_PRODUCTION_SOURCE_REGISTRY_V1.json",
+  "registrySha256": "c3dcb391b61caf163bcc6781e239be94992e9ef651a56040c17a2aec86c62c2c",
+  "sampleTimeSeconds": 0.04,
+  "selectionPolicy": {
+    "exactSourceOnly": true,
+    "noExtrapolation": true,
+    "rawGainInterpolationAllowed": false,
+    "absoluteTrimInterpolationAllowed": false,
+    "enabledByDefault": false
+  },
+  "entries": {
+    "sourceId": "CASEA_U040_ALPHA_P01",
+    "coordinate": [
+      40,
+      1
+    ],
+    "sourcePackagePath": "context/audits/phase18c-control-validation/plant/attempts/v17-dimensional-steady-force-source-sweep-v1/CASEA_U040_ALPHA_P01/p5_trim.mat",
+    "sourcePackageSha256": "7c501bb9782332395b7be7d9f14aa310c17398b7640f565fcf51ce256f9dec02",
+    "sourceCertificateSha256": "bf2405a2560efaa7226b48a70c901340cd8e63f4b830441828487a80970c6934",
+    "artifactPath": "context\\audits\\phase18c-control-validation\\lqr\\v17a-casea-runtime-centered-source-bank-v1\\phase18c_v17a_casea_runtime_centered_longitudinal_lqr_v1.json",
+    "artifactSha256": "9ba6fabee68410c9db00320bb3c5d635f5eb00751d4c1f1d99ca5f031f00fb63",
+    "trimElevatorRadians": -0.031898630830668968,
+    "trimThrustNewtons": 0.434369242991249,
+    "fourStateControllabilityRank": 4,
+    "maximumDiscreteClosedLoopPole": 0.99992161356855713,
+    "fullClosureSignificantUnstableCount": 0,
+    "fullClosureMaximumGrowthPerSecond": 7.3103120639980286E-5,
+    "status": "PASS_AUDIT_ONLY_RUNTIME_CENTERED_EXACT_V17A_SOURCE"
+  },
+  "validationTruthUsedForSelection": false,
+  "plantModified": false,
+  "controllerDefaultModified": false,
+  "execution": {
+    "matlabRelease": "2025b",
+    "command": "run_phase18c_v17a_casea_runtime_centered_lqr_rederivation_v1",
+    "startedUtc": "2026-08-18T03:35:33.599Z",
+    "endedUtc": "2026-08-18T03:36:38.244Z",
+    "wallSeconds": 64.6456696
+  }
+}
