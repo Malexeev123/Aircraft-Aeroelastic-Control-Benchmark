@@ -1424,8 +1424,7 @@ end  % public methods
                 "unsupported estimator architecture; exact RTI retained";
             return
         end
-        functionName = ...
-            'AeroFlex_ctrl_scheduledReciprocalEstimatorReducedTangentHorizonAudit_mex';
+        functionName = 'pazy_est_redtan_horizon_mex';
         kernelPath = string(which(functionName));
         expectedHash = lower(string(request.estimatorBinarySha256));
         if kernelPath=="" || strlength(expectedHash)~=64 || ...
@@ -1481,8 +1480,7 @@ end  % public methods
                 "unsupported estimator architecture; H2 replay retained";
             return
         end
-        functionName = ...
-            'AeroFlex_ctrl_scheduledReciprocalEstimatorValueHorizonAudit_mex';
+        functionName = 'pazy_est_value_horizon_mex';
         kernelPath = string(which(functionName));
         expectedHash = lower(string(request.estimatorValueBinarySha256));
         if kernelPath=="" || strlength(expectedHash)~=64 || ...
@@ -1501,8 +1499,7 @@ end  % public methods
                 'nMHEv2:NativeCausalRolloutRequest', ...
                 'The estimator causal-rollout binary hash is required.');
             obj.nativeCausalRolloutRequested = true;
-            causalFunctionName = ...
-                'AeroFlex_ctrl_scheduledReciprocalEstimatorCausalRolloutAudit_mex';
+            causalFunctionName = 'pazy_est_causal_rollout_mex';
             causalKernelPath = string(which(causalFunctionName));
             causalExpectedHash = lower(string( ...
                 request.estimatorCausalRolloutBinarySha256));

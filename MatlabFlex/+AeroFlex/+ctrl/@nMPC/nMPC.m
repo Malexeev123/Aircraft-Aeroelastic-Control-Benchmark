@@ -1399,8 +1399,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
                 "unsupported controller architecture; exact RTI retained";
             return
         end
-        functionName = ...
-            'AeroFlex_ctrl_scheduledReciprocalControllerReducedTangentHorizonAudit_mex';
+        functionName = 'pazy_ctl_redtan_horizon_mex';
         kernelPath = string(which(functionName));
         expectedHash = lower(string(request.controllerBinarySha256));
         if kernelPath=="" || strlength(expectedHash)~=64 || ...
@@ -1455,8 +1454,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
                 "unsupported controller architecture; H2 replay retained";
             return
         end
-        functionName = ...
-            'AeroFlex_ctrl_scheduledReciprocalControllerValueHorizonAudit_mex';
+        functionName = 'pazy_ctl_value_horizon_mex';
         kernelPath = string(which(functionName));
         expectedHash = lower(string(request.controllerValueBinarySha256));
         if kernelPath=="" || strlength(expectedHash)~=64 || ...
@@ -1475,8 +1473,7 @@ classdef nMPC < AeroFlex.ctrl.ControllerBase
                 'nMPC:NativeCausalRolloutRequest', ...
                 'The controller causal-rollout binary hash is required.');
             obj.nativeCausalRolloutRequested = true;
-            causalFunctionName = ...
-                'AeroFlex_ctrl_scheduledReciprocalControllerCausalRolloutAudit_mex';
+            causalFunctionName = 'pazy_ctl_causal_rollout_mex';
             causalKernelPath = string(which(causalFunctionName));
             causalExpectedHash = lower(string( ...
                 request.controllerCausalRolloutBinarySha256));
