@@ -427,6 +427,19 @@ if reciprocalProductionActive
         "trimOwner","saved_corrected_nonwing_exact_casea_checkpoint");
 end
 
+% The immutable checkpoint retains its generating workstation path. Rebind
+% only the in-memory locator to the registry-locked contract in this clone.
+contractPath = fullfile(repositoryRoot,entry.selectedContract.path);
+assert(isfile(contractPath) && localFileHash(contractPath)== ...
+    string(entry.selectedContract.sha256), ...
+    "Phase18C:FormalCaseASelectedContract", ...
+    "The Case-A selected physical-coordinate contract is unavailable or changed.");
+assert(isfield(data.p5,"p5") && isstruct(data.p5.p5) && ...
+    isfield(data.p5.p5,"artifactPath"), ...
+    "Phase18C:FormalCaseASelectedContract", ...
+    "The Case-A runtime package does not expose its selected-contract path.");
+data.p5.p5.artifactPath = char(contractPath);
+
 cfg = data.cfg;
 run(fullfile(repositoryRoot,"MatlabFlex","configs","GLAConfig.m"));
 run(fullfile(repositoryRoot,"MatlabFlex","configs","SQPconfig.m"));
