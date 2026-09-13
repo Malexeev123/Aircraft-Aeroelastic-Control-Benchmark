@@ -1,7 +1,13 @@
 {
   "schemaVersion": "pazy-public-release-inventory-v1",
-  "generatedUtc": "2026-09-13T01:14:52.504Z",
+  "generatedUtc": "2026-09-13T02:12:50Z",
   "sourceFiles": [
+    {
+      "path": "tests/test_benchmark_runner_dispatch.m",
+      "sha256": "177d378e451dfbac8f2ec49b9e21f32c1af22c064190dc385e0a44987ae15ff2",
+      "bytes": 3485,
+      "passed": true
+    },
     {
       "path": "TestBenchPazy/output/pazy_krylov_ROM/save_pmor_data/pazy_krylov_ROM_krylov_aerorob.h5",
       "sha256": "395d980e81cc5f7cb5a94647b5a70c8508dfc95fc5f6ea34e8c0740587063733",
@@ -28,14 +34,14 @@
     },
     {
       "path": "docs/cases.md",
-      "sha256": "6af8b643625c76b18461eccd228cef4072cd3add8d770fd2f2e19889e17aff2a",
-      "bytes": 3212,
+      "sha256": "a8e86fe928d30079cfdb401ecfc591900ef1b034c25c90af00bec570ec927b7e",
+      "bytes": 3258,
       "passed": true
     },
     {
       "path": "docs/getting-started.md",
-      "sha256": "6a0ddf4c7ea295b255df0f846bbf73ea8a7256b61d73147cf711fc7c7836ecb9",
-      "bytes": 444,
+      "sha256": "e78e8f73e249a824a890d0ff87750e681b6cdbb8951ee96c34e3e8864e3e434f",
+      "bytes": 463,
       "passed": true
     },
     {
@@ -46,14 +52,14 @@
     },
     {
       "path": "docs/release-package.md",
-      "sha256": "a1646257dda1cdb7857f8328f2c4f920e6a78b4b829b91728412020d452d7c7e",
-      "bytes": 4787,
+      "sha256": "adbc2b9a82066053bda10fa866952497c977937a9ee790e619c1843bada0b0ba",
+      "bytes": 4909,
       "passed": true
     },
     {
       "path": "docs/troubleshooting.md",
-      "sha256": "d5adc6cffa8fb3093724096d3ba190d8960b1c265deab6bb357a711b7879c61a",
-      "bytes": 1636,
+      "sha256": "2ce7a089213263ff87a369edb156a362186c280344516fdab457c75992ba4a75",
+      "bytes": 1660,
       "passed": true
     },
     {
@@ -154,8 +160,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+internal/runnerArguments.m",
-      "sha256": "2698fa4e2a605ed9d5ee2892de3d323a1247c07ab99f8710b77b0fbbc1eea894",
-      "bytes": 3173,
+      "sha256": "950006e29ee3e12655db3dae5d40b7121d0c603294fe43f8345c7efab051736e",
+      "bytes": 3159,
       "passed": true
     },
     {
@@ -1018,8 +1024,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "89d81f7bd1b176f136f427a9662ee5560758c11b5c5d562322cfb1ceec6982c7",
-      "bytes": 17926,
+      "sha256": "2d5bdf944d893f54ceee612d124289819dd570bcecc9b0ba4f7e590a18451fb8",
+      "bytes": 17855,
       "passed": true
     },
     {
@@ -1084,8 +1090,8 @@
     },
     {
       "path": "Run_Pazy_Benchmark.m",
-      "sha256": "3167a74a64b2ac4a968174e10190dfa699653346b938a3ea9d1b2a56ead32f7e",
-      "bytes": 5933,
+      "sha256": "5c0e4764e50951b1be12fc031bcfdfa0ccb2a3b883219814977b52ae28e5ddf3",
+      "bytes": 5957,
       "passed": true
     },
     {
@@ -1192,8 +1198,8 @@
     },
     {
       "path": "tests/README.md",
-      "sha256": "52194efdd2cd44ca35c58f0615e2c1c69622a04fd336de8aef3b9ae26a75dfc0",
-      "bytes": 2394,
+      "sha256": "d572151aada675f77e2eddecfbc2114376d5fbc6d3617d14f07154e701442fbc",
+      "bytes": 2697,
       "passed": true
     },
     {

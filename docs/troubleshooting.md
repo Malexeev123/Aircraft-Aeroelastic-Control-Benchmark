@@ -34,7 +34,8 @@ Run:
 assets = prepareBenchmarkReleaseAssets(Action="check");
 ```
 
-Inspect the first record whose `passed` field is false. Restore the exact
+The error lists each missing or changed file; no status is returned on failure.
+Restore the exact
 release asset whose expected SHA-256 is recorded in the manifest; do not use a
 nearby operating point, regenerate a single member with different settings,
 or disable its source check.

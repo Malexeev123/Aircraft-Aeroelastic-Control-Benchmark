@@ -19,9 +19,7 @@ a C++ compiler supported by your MATLAB release.
 
 The build accepts 64-bit Windows, Linux, and macOS (Intel or Apple silicon).
 Each machine builds its own binaries and compares them with MATLAB results.
-Full benchmark validation was performed on Windows MATLAB R2025b Update 5;
-native Linux still needs full-case validation. macOS is currently untested
-and remains a release limitation.
+macOS is currently untested and remains a release limitation.
 
 Clone the repository from a terminal:
 
@@ -191,7 +189,7 @@ definition = AeroFlex.benchmark.customCaseDefinition( ...
 ```
 
 After reviewing the resolved plan, execute the currently supported scheduled
-speed/pitch scope explicitly:
+speed/pitch scope explicitly (custom trajectories require their own validation):
 
 ```matlab
 summary = runCustomBenchmarkCase(definition,Execute=true);

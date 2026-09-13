@@ -51,13 +51,14 @@ The formal Case-A and Case-B initial conditions are not interchangeable. If a
 requested phase boundary cannot be reached continuously inside the scheduled
 domain, it must be represented as two separately manifested runs or supplied
 with a separately qualified transition. The scheduled coupled-full speed/pitch
-adapter executes directly; altitude/lateral guidance and nonzero initial
+adapter is available, but custom trajectories require their own validation;
+altitude/lateral guidance and nonzero initial
 perturbations remain fail-closed.
 
 ## Qualification rule
 
 A trajectory that appears useful or stable is not automatically a benchmark
 pass. Qualification also requires the declared estimator/controller success,
-constraint, actuator, thrust, loads, source-domain, and fallback gates. An
+constraint, actuator, thrust, loads, source-domain, and fallback gates.
 A Case-B run preserves and plots failed qualification evidence instead of
 discarding it or relabeling it.

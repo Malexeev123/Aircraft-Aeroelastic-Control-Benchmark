@@ -1,7 +1,7 @@
 # Release package boundary
 
 The public benchmark includes verified ROM
-and controller products are supplied so the predefined cases can be run
+and controller products so the predefined cases can be run
 without rebuilding the aerodynamic library. The unchanged SHARPy/XBeam
 generation path and project-owned MATLAB wrappers remain documented for users
 who want to add flight conditions, modes, or scheduled source points.
@@ -94,8 +94,10 @@ configuration, and publisher PDFs without verified redistribution rights.
 The selected standalone linear-response and extended-source validation
 scripts remain included because they document the pole, frequency-response,
 step-response, source identity, and physical-linearization checks used by the
-benchmark. Long validation runs write their results to versioned output
-directories rather than the source tree.
+benchmark. Linear-validation runs use timestamped output directories. Extended
+validation replaces its checkpoint and summary under
+`results/validation/extended-source-linearization/`; copy these outputs before
+rerunning if they must be preserved.
 
 The release also retains the plan-safe SHARPy sweep, its four settings
 modules, the optional premodal extractor, and the notebook walkthrough.

@@ -5,8 +5,8 @@
 %
 % Quick start:
 %   1. Edit the settings below.
-%   2. Leave EXECUTE_CASE=false to inspect the resolved plan.
-%   3. Set EXECUTE_CASE=true when the plan and expected runtime are correct.
+%   2. Leave settings.executeCase=false to inspect the resolved plan.
+%   3. Set settings.executeCase=true when the plan and expected runtime are correct.
 
 %% User settings
 settings = struct();
@@ -113,7 +113,7 @@ if ~settings.executeCase
             plan.bodyCase,plan.simulationMode,string(plan.gustEnabled));
     end
     fprintf("Plan only: no simulation or result directory was created.\n");
-    fprintf("Set EXECUTE_CASE=true after reviewing variable 'plan'.\n\n");
+    fprintf("Set settings.executeCase=true after reviewing variable 'plan'.\n\n");
 else
     switch settings.entryMode
         case "benchmark"

@@ -8,13 +8,17 @@ benchmark independently of the formal case runners.
 Run:
 
 ```matlab
+setupProject;
 results = runtests("tests/test_general_model_workflows.m");
 assertSuccess(results)
+assertSuccess(runtests("tests/test_benchmark_runner_dispatch.m"))
 ```
 
 The test verifies the nine supplied model files against their SHA-256 manifest,
 proves that a missing payload is rejected, and resolves the shared
 `wingOnly/openloop`, `wingOnly/nmhe_nmpc`, and `coupledFull/openloop` plans.
+The dispatch tests also cover `coupledFull/nmhe_nmpc`, A1–A3, B1/B2,
+and the README custom maneuver without starting a full simulation.
 
 ## Quick linear validation
 
@@ -46,13 +50,20 @@ separate PNG, JSON summary, and MATLAB v7 data file. Set
 Run the preflight first:
 
 ```matlab
+validationSettings.mode = "preflight";
 run("tests/Run_Extended_Validation.m")
 ```
 
-Then select `validationSettings.mode = "full"` in the user-settings section
-to verify the locked source hashes, trim ownership, nonlinear residuals, and
-flexible/aerodynamic poles. The extended suite writes a checkpoint after each
-source so an interrupted run retains its completed evidence.
+Then run:
+
+```matlab
+validationSettings.mode = "full";
+run("tests/Run_Extended_Validation.m")
+```
+
+This verifies the locked source hashes, trim ownership, nonlinear residuals,
+and flexible/aerodynamic poles. The extended suite writes a checkpoint after
+each source; rerunning it replaces that checkpoint and repeats the selected sources.
 
 Neither script changes the benchmark configuration or production source.
 Figures are created after the numerical work, saved under `results/validation`,

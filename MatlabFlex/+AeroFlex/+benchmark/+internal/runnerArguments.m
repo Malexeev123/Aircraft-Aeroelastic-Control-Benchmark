@@ -15,11 +15,11 @@ switch plan.runnerKind
             "fmincon","fmincon",0,true,plan.holdNmpcAtTrim, ...
             true,struct(),struct(),plan.runtimeAcceleration};
 
-    case {"scheduled_case_b_v90","custom_scheduled_v17a"}
+    case {"scheduled_case_b","custom_scheduled"}
         owner = plan.protectedRuntime.caseB;
         tracePath = string(fullfile(runRoot,"logs","caseb_trace.jsonl"));
         customScenario = struct();
-        if plan.runnerKind=="custom_scheduled_v17a"
+        if plan.runnerKind=="custom_scheduled"
             assert(isfield(plan,"customScenario") && ...
                 isstruct(plan.customScenario) && ...
                 isscalar(plan.customScenario), ...
