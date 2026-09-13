@@ -6,7 +6,7 @@ arguments
     options.TimingRepetitions (1,1) double {mustBeInteger,mustBePositive} = 5
 end
 
-project = setupProject();
+project = setupProject(PrintSummary=false);
 repoRoot = char(project.repositoryRoot);
 changeId = "phase18c-v17a-casebc-high-leverage-runtime-audit-v1";
 assert(~isempty(which('coder.config')), ...

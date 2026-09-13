@@ -1,7 +1,13 @@
 {
   "schemaVersion": "pazy-public-release-inventory-v1",
-  "generatedUtc": "2026-09-02T07:56:48.774Z",
+  "generatedUtc": "2026-09-13T01:14:52.504Z",
   "sourceFiles": [
+    {
+      "path": "TestBenchPazy/output/pazy_krylov_ROM/save_pmor_data/pazy_krylov_ROM_krylov_aerorob.h5",
+      "sha256": "395d980e81cc5f7cb5a94647b5a70c8508dfc95fc5f6ea34e8c0740587063733",
+      "bytes": 547776,
+      "passed": true
+    },
     {
       "path": "AUTHORS.md",
       "sha256": "ebdc9185828d2e40b1432ba62b96daa1b2835bc9d600b8a1ebc4af9d07d9e1d6",
@@ -28,8 +34,8 @@
     },
     {
       "path": "docs/getting-started.md",
-      "sha256": "cf9394e175f50827a3468b2725c1e77d3059b25cc7e975a6958fc58939fa5201",
-      "bytes": 4393,
+      "sha256": "6a0ddf4c7ea295b255df0f846bbf73ea8a7256b61d73147cf711fc7c7836ecb9",
+      "bytes": 444,
       "passed": true
     },
     {
@@ -40,8 +46,8 @@
     },
     {
       "path": "docs/release-package.md",
-      "sha256": "7af3a4051c9a344432bb9e3844ed1c4ec9e1f336268732e44fbb8baf73e2cdf9",
-      "bytes": 4827,
+      "sha256": "a1646257dda1cdb7857f8328f2c4f920e6a78b4b829b91728412020d452d7c7e",
+      "bytes": 4787,
       "passed": true
     },
     {
@@ -166,14 +172,14 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/run_phase18c_v17a_caseb_integrated_profile_v1.m",
-      "sha256": "1c981c5fea5ae79c6b96a8c2b642e0a9b3c0c6200ebc4ea122bbcdd4048ca4b4",
-      "bytes": 109037,
+      "sha256": "7c14c35a692cfa3e70ac5a5fb375254d997411d0dcb1b65a0ac055fed146e96e",
+      "bytes": 109717,
       "passed": true
     },
     {
       "path": "MatlabFlex/+AeroFlex/+benchmark/+runtime/run_phase18c_v17a_formal_casea_freeflight_attitude_hold_v1.m",
-      "sha256": "9e2dbf2677761728328ea26333b1c6054e511dce8ec840d405360d80ccdd061a",
-      "bytes": 91940,
+      "sha256": "b07f57648ea36f9c00149d8627dd1752190c6844b90aa80dde5cc4611c2fdc7a",
+      "bytes": 92682,
       "passed": true
     },
     {
@@ -316,8 +322,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+ctrl/@nMHEv2/nMHEv2.m",
-      "sha256": "e62995506f40f4afdfbb791263ef6df2c21eb12fead3b427c34d31f4e38aaa42",
-      "bytes": 191114,
+      "sha256": "ce71804bb6c3f43a83bd6eff6eeaf8456c43b54e51f1f16240182b4c8304113c",
+      "bytes": 190943,
       "passed": true
     },
     {
@@ -328,8 +334,8 @@
     },
     {
       "path": "MatlabFlex/+AeroFlex/+ctrl/@nMPC/nMPC.m",
-      "sha256": "bb39e155183951125699051a845279e72fab34891a541aa17f1fc684aceef1c6",
-      "bytes": 172131,
+      "sha256": "160e0890d65b2c8f51e3f9bcbb9e5077883c30c8f69ed1eed426b4a8e5e3044d",
+      "bytes": 171957,
       "passed": true
     },
     {
@@ -916,8 +922,8 @@
     },
     {
       "path": "MatlabFlex/configs/benchmark/pazy_general_model_assets_v1.json",
-      "sha256": "18f7147c71b6c1bcda0743115bf7f062fc34b3ac819e988dea724e64e8fb592f",
-      "bytes": 1770,
+      "sha256": "7bccdd8cc3a4ff363c202f1c34158385ac330dcf252a2fe572dec9d4c23a7aa1",
+      "bytes": 1969,
       "passed": true
     },
     {
@@ -958,8 +964,8 @@
     },
     {
       "path": "MatlabFlex/configs/LQRConfig.m",
-      "sha256": "8291ad7a79b010889b2e1046d0625d40402b1633ba742c00e7735f244cdea396",
-      "bytes": 32252,
+      "sha256": "d10448f0658761c7c575d660a8a13315363e3314ab8baec2e175abd4cd576c73",
+      "bytes": 32394,
       "passed": true
     },
     {
@@ -1000,20 +1006,20 @@
     },
     {
       "path": "MatlabFlex/sim_run.m",
-      "sha256": "f299ab467eb884e8902a70b575402a5c5243746a2b3faef1a24594e891df74c3",
-      "bytes": 558687,
+      "sha256": "2e6aedb2acf4c8224a6eb4a81138ecd7212fa8871c52b41f2218c0b9c45d3576",
+      "bytes": 559286,
       "passed": true
     },
     {
       "path": "MatlabFlex/verifyBenchmarkInstallation.m",
-      "sha256": "44fa4f9b3a232f435e1f79af436056b3eb8bc1376264c93b14cd66e9b13654c1",
-      "bytes": 8015,
+      "sha256": "e87e1bc590e7bfe44552adbecdb3b8972922531607c3e647776063a5159abd6f",
+      "bytes": 8126,
       "passed": true
     },
     {
       "path": "README.md",
-      "sha256": "20e30d18cedbae22b5abfae2b054b1262d13e1abd1bebbfd8a8b9641ad44da7e",
-      "bytes": 19379,
+      "sha256": "89d81f7bd1b176f136f427a9662ee5560758c11b5c5d562322cfb1ceec6982c7",
+      "bytes": 17926,
       "passed": true
     },
     {
@@ -1084,8 +1090,8 @@
     },
     {
       "path": "setupProject.m",
-      "sha256": "d520ce2f47cd4d53c3b8cf4ba5c403e058551afa82a5994d5c3920e493ab04b7",
-      "bytes": 22593,
+      "sha256": "5cc2cc549f38e635d4bc27c3d2cb88f0489a044d0e8fc6797cd730c90c94cc27",
+      "bytes": 21755,
       "passed": true
     },
     {
@@ -1168,8 +1174,8 @@
     },
     {
       "path": "TestBenchPazy/README.md",
-      "sha256": "0ea665465ba84489a3b22f8b823dad379171406db2e1cc7d3279f1ca1f5fef3b",
-      "bytes": 5550,
+      "sha256": "3edb7cc141a1498336f022b75fe225e1395a7f264d585bbf6066e2485eec1da3",
+      "bytes": 5536,
       "passed": true
     },
     {
@@ -1186,8 +1192,8 @@
     },
     {
       "path": "tests/README.md",
-      "sha256": "fdd21eef5678288d1ef4fc9efe41e7ab7bf24ca1b00044a2807e3106fd187676",
-      "bytes": 2407,
+      "sha256": "52194efdd2cd44ca35c58f0615e2c1c69622a04fd336de8aef3b9ae26a75dfc0",
+      "bytes": 2394,
       "passed": true
     },
     {
@@ -1210,14 +1216,14 @@
     },
     {
       "path": "tests/test_general_model_workflows.m",
-      "sha256": "235388b79de2fc3e79c79c091ebadb31ed9985645f0e7a37c43f3fbef42da1c4",
-      "bytes": 7161,
+      "sha256": "6e76b3e56543ff3c8e5029d68b45bb31e350350e65aadf7e996f30881893c728",
+      "bytes": 7515,
       "passed": true
     },
     {
       "path": "tests/test_native_tools.m",
-      "sha256": "39debc47c58d32171d4b12dfed6a28016d3b64ee080d2f8fb26832a921a01e2c",
-      "bytes": 3054,
+      "sha256": "31376cba239a803b49813fbdf0a754a107f7bed02d71b7175e5a14983134d168",
+      "bytes": 3055,
       "passed": true
     },
     {
@@ -1234,38 +1240,38 @@
     },
     {
       "path": "tools/matlab/buildBenchmarkTools.m",
-      "sha256": "47f38085f07d95eae19a65884e2cf8c5fcdb27985b7f22acf96772a91e3212a2",
-      "bytes": 11661,
+      "sha256": "381fb501950cd32458dcc44fb44fc67def9cb0bc680b1806f8e611998462a779",
+      "bytes": 11620,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18CompiledControlKernels.m",
-      "sha256": "b03d65d7e30b35de9f8647267937745ceb2899c7d96792752c4f35f3bc60ccba",
-      "bytes": 8844,
+      "sha256": "e9b387d09a3b3453b5b70ad9a8dbc8d752cc2c156574f1687ab4c476b41b7109",
+      "bytes": 8862,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledCausalRolloutKernels.m",
-      "sha256": "65f229a0a4b0588921d5ec81f03485caf4185941a5ef86deb499677e8e3a3ee2",
-      "bytes": 11630,
+      "sha256": "a7f92ec545d54aa6b134a862fc2e088d4c9b6ce98934b1258dd8b77c4b16e29f",
+      "bytes": 11533,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledControlKernel.m",
-      "sha256": "88b78642f70cf2aeda5e040075e32236981717d643cfa2e9b2e00a1dc903f462",
-      "bytes": 9920,
+      "sha256": "d3c0cae9e735bf823421f3215f3f361b411058d06f35ed96ff2a45c0a4b467cf",
+      "bytes": 9938,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledHorizonKernels.m",
-      "sha256": "d2aaac8f763b7a052a389405201112ca5458306e124609e9fb3eb1934226ab4d",
-      "bytes": 19062,
+      "sha256": "87982fd85008331a629d5a35f7cac5498ba6e2318915f56b0f3199e7c23819f0",
+      "bytes": 18970,
       "passed": true
     },
     {
       "path": "tools/matlab/buildPhase18ScheduledCompiledValueHorizonKernels.m",
-      "sha256": "c82a7bfc00f7bd068f6670ad6e438c5b77f5d9055ef3f785c24554c7ea79741d",
-      "bytes": 11802,
+      "sha256": "b7185fdc40b43e3b6d6a3f650a45a3f13690556e6e2e67a0c12ece806b11d49c",
+      "bytes": 11705,
       "passed": true
     },
     {

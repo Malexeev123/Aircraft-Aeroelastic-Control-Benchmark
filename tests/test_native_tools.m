@@ -4,7 +4,7 @@ function tests = test_native_tools
 %       results = runtests("tests/test_native_tools.m");
 %       assertSuccess(results)
 %
-%   Missing kernels are built from the public, hash-locked fixtures. Existing
+%   Missing kernels are built from the supplied fixtures. Existing
 %   compatible caches are reused. Every builder compares its C++ MEX output
 %   with the corresponding MATLAB implementation before reporting success.
 
@@ -31,9 +31,9 @@ function testSupportedNativeEnvironment(testCase)
 environment = testCase.TestData.report.environment;
 
 verifyTrue(testCase,environment.releaseSupported, ...
-    "Native kernels are qualified for MATLAB R2025b.");
+    "Native-kernel builds require MATLAB R2023b or newer.");
 verifyTrue(testCase,environment.architectureSupported, ...
-    "Native kernels are qualified for 64-bit Windows MATLAB.");
+    "Native kernels require 64-bit Windows, Linux, or macOS MATLAB.");
 verifyTrue(testCase,environment.matlabCoderAvailable, ...
     "MATLAB Coder is required to build the native kernels.");
 verifyTrue(testCase,environment.cppCompilerSelected, ...

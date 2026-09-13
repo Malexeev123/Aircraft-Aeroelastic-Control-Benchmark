@@ -1,15 +1,14 @@
 function report = buildBenchmarkTools(options)
 %BUILDBENCHMARKTOOLS Build and verify all project-owned native kernels.
 %   REPORT = BUILDBENCHMARKTOOLS() builds the fixed-source and scheduled
-%   C++ MEX kernels in dependency order. Every builder verifies source and
-%   binary hashes and runs its numerical parity gate before promotion.
+%   C++ MEX kernels in dependency order and compares them with MATLAB.
 %
 %   REPORT = BUILDBENCHMARKTOOLS(Action="check") performs a read-only
 %   environment and active-cache check without compiling code.
 %
-%   Generated files are placed in release-, architecture-, and source-hash
-%   specific cache folders. SHARPy and XBeam are external dependencies and
-%   are never modified by this function.
+%   Each MATLAB release and architecture has its own cache. SHARPy and
+%   XBeam are built separately. A failed build returns REPORT.passed=false;
+%   when called without an output, it also raises an error.
 
 arguments
     options.Action (1,1) string ...
@@ -25,7 +24,7 @@ end
 % ProjectInfo snapshot. Re-resolve the project in that mode rather than
 % reporting the stale pre-build availability flags.
 if options.Action=="check" || isempty(fieldnames(options.ProjectInfo))
-    project = setupProject(ValidateEntryPoints=true);
+    project = setupProject(ValidateEntryPoints=true,PrintSummary=false);
 else
     project = options.ProjectInfo;
 end
@@ -84,7 +83,7 @@ componentCells = cell(numel(builders),1);
 % report instead of fixing one missing binary per invocation.
 for index = 1:numel(builders)
     entry = builders(index);
-    fprintf("Building %-28s with %s ...\n",entry.name,entry.function);
+    fprintf("Building %s ...\n",entry.name);
     timer = tic;
     try
         switch entry.name
@@ -119,7 +118,7 @@ report.components = vertcat(componentCells{:});
 report.passed = all([report.components.passed]);
 report.endedUtc = localUtcNow();
 localPrintSummary(report);
-if ~report.passed
+if ~report.passed && nargout==0
     error('AeroFlex:BuildToolsFailed', ...
         ['One or more native components failed to build or pass parity. ', ...
          'Inspect report.components; exact MATLAB fallbacks remain available.']);
@@ -135,9 +134,9 @@ environment = struct( ...
     "matlabVersion",string(version), ...
     "architecture",architecture, ...
     "mexExtension",string(mexext), ...
-    "releaseSupported",ismember(releaseName, ...
-        ["2023b","2024a","2024b","2025a","2025b"]), ...
-    "architectureSupported",architecture=="win64", ...
+    "releaseSupported",~isMATLABReleaseOlderThan("R2023b"), ...
+    "architectureSupported",ismember(architecture, ...
+        ["win64","glnxa64","maci64","maca64"]), ...
     "matlabCoderAvailable",~isempty(which("coder.config")), ...
     "cppCompilerSelected",~isempty(compiler), ...
     "compiler",struct("name","","version","","location",""), ...

@@ -13,9 +13,18 @@ function testCuratedModelAssetsMatchManifest(testCase)
 status = AeroFlex.benchmark.verifyGeneralModelAssets( ...
     testCase.TestData.root);
 verifyTrue(testCase,status.passed);
-verifyEqual(testCase,status.assetCount,8);
+verifyEqual(testCase,status.assetCount,9);
 verifyTrue(testCase,all([status.records.exists]));
 verifyTrue(testCase,all([status.records.passed]));
+projectorPath = fullfile(testCase.TestData.root,"TestBenchPazy", ...
+    "output","pazy_krylov_ROM","save_pmor_data", ...
+    "pazy_krylov_ROM_krylov_aerorob.h5");
+projector = h5read(projectorPath,"/V/gain");
+if isstruct(projector)
+    projector = projector.r;
+end
+verifyNotEmpty(testCase,projector);
+verifyTrue(testCase,all(isfinite(projector),"all"));
 end
 
 function testMissingAssetIsDetected(testCase)

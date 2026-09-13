@@ -6,6 +6,7 @@
 *.mexw32
 *.mexa64
 *.mexmaci64
+*.mexmaca64
 *.slxc
 *.slxc.lock
 slprj/

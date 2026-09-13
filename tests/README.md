@@ -12,7 +12,7 @@ results = runtests("tests/test_general_model_workflows.m");
 assertSuccess(results)
 ```
 
-The test verifies the eight supplied model files against their SHA-256 manifest,
+The test verifies the nine supplied model files against their SHA-256 manifest,
 proves that a missing payload is rejected, and resolves the shared
 `wingOnly/openloop`, `wingOnly/nmhe_nmpc`, and `coupledFull/openloop` plans.
 
@@ -68,7 +68,7 @@ results = runtests("tests/test_native_tools.m");
 assertSuccess(results)
 ```
 
-The suite builds any missing native families from the supplied hash-locked
+The suite builds any missing native families from the supplied
 fixtures, reuses compatible caches, checks MATLAB release and ABI ownership,
 compares every C++ MEX family with its MATLAB implementation, verifies cache
 manifests and binary hashes, and finishes with a native-required installation

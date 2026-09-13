@@ -1,6 +1,6 @@
 # Release package boundary
 
-The public benchmark uses a hybrid distribution. Verified, hash-locked ROM
+The public benchmark includes verified ROM
 and controller products are supplied so the predefined cases can be run
 without rebuilding the aerodynamic library. The unchanged SHARPy/XBeam
 generation path and project-owned MATLAB wrappers remain documented for users
@@ -26,7 +26,7 @@ status = prepareBenchmarkReleasePackage(Action="check");
 ```
 
 The command computes the MATLAB dependency closure of the documented entry
-points and combines it with the locked runtime-asset manifest and the eight
+points and combines it with the runtime-asset manifest and the nine
 explicitly declared general-workflow model files. This is
 important because a small number of production numerical owners retain
 historical filenames; they are included when the executable call graph

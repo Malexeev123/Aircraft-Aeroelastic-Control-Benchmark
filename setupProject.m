@@ -30,6 +30,7 @@ function projectInfo = setupProject(options)
     arguments
         options.ValidateEntryPoints (1,1) logical = true
         options.ChangeCurrentFolder (1,1) logical = false
+        options.PrintSummary (1,1) logical = true
     end
 
     %% Determine repository root from this file
@@ -216,45 +217,16 @@ function projectInfo = setupProject(options)
     projectInfo.compiledControl = compiledControl;
     projectInfo.scheduledCompiledControl = scheduledCompiledControl;
 
-    %% Console summary
-
-    fprintf("\n");
-    fprintf("AeroFlex repository environment configured.\n");
-    fprintf("  Repository root : %s\n", repositoryRoot);
-    fprintf("  MATLAB root     : %s\n", matlabRoot);
-    fprintf("  MATLAB release  : %s\n", projectInfo.matlabRelease);
-    fprintf("  Git revision    : %s\n", gitRevision);
-    fprintf("  Project required: no\n");
-    fprintf("  Compiled control: %s\n",compiledControl.message);
-    fprintf("  Scheduled compiled control: %s\n", ...
-        scheduledCompiledControl.message);
-
-    fprintf("\nEntry-point resolution:\n");
-
-    for entryIndex = 1:numel(resolvableEntryPoints)
-        if strlength(resolvedEntryPoints(entryIndex)) == 0
-            fprintf("  %-45s : NOT FOUND\n", ...
-                resolvableEntryPoints(entryIndex));
-        else
-            fprintf("  %-45s : %s\n", ...
-                resolvableEntryPoints(entryIndex), ...
-                resolvedEntryPoints(entryIndex));
+    if options.PrintSummary
+        fprintf("\nPazy benchmark setup: MATLAB %s (%s)\n", ...
+            projectInfo.matlabRelease,computer("arch"));
+        fprintf("  Repository : %s\n",repositoryRoot);
+        fprintf("  Revision   : %s\n",gitRevision);
+        fprintf("  Fixed MEX  : %s\n",compiledControl.message);
+        fprintf("  Scheduled  : %s\n",scheduledCompiledControl.message);
+        if ~isempty(missingEntryPoints)
+            fprintf(2,"  Unresolved : %s\n",strjoin(missingEntryPoints,", "));
         end
-    end
-
-    fprintf("\nTrimRBwFlex source files found: %d\n", numel(trimFiles));
-
-    for trimIndex = 1:numel(trimFiles)
-        fprintf("  %s\n", trimFiles(trimIndex));
-    end
-
-    if ~isempty(missingEntryPoints)
-        fprintf(2, ...
-            "\nWarning: %d optional entry points are currently unresolved.\n", ...
-            numel(missingEntryPoints));
-
-        fprintf(2, ...
-            "Context generation can still proceed.\n");
     end
 end
 

@@ -11,7 +11,139 @@ SHARPy and XBeam are external source-generation dependencies. The benchmark
 uses their published interfaces unchanged; conversion, scheduling, control,
 validation, and post-processing are project-owned.
 
-## Current benchmark status
+## Installation and setup
+
+Use MATLAB R2023b or newer with Control System Toolbox and Optimization
+Toolbox. Building C++ MEX acceleration additionally requires MATLAB Coder and
+a C++ compiler supported by your MATLAB release.
+
+The build accepts 64-bit Windows, Linux, and macOS (Intel or Apple silicon).
+Each machine builds its own binaries and compares them with MATLAB results.
+Full benchmark validation was performed on Windows MATLAB R2025b Update 5;
+native Linux still needs full-case validation. macOS is currently untested
+and remains a release limitation.
+
+Clone the repository from a terminal:
+
+```sh
+git clone https://github.com/Malexeev123/Aircraft-Aeroelastic-Control-Benchmark.git
+cd Aircraft-Aeroelastic-Control-Benchmark
+```
+
+In MATLAB, open that directory as the Current Folder. It must contain
+`setupProject.m` and `Run_Pazy_Benchmark.m`. Then run:
+
+```matlab
+project = setupProject(ChangeCurrentFolder=true);
+assets = prepareBenchmarkReleaseAssets(Action="check");
+mex -setup C++
+report = buildBenchmarkTools;
+installation = verifyBenchmarkInstallation(RequireNativeKernels=true);
+```
+
+Both build and installation summaries should say `PASS` before running
+a controlled case. If a build fails, `report.components` contains its errors.
+Run `setupProject` after restarting MATLAB. It adds the package and tool
+paths; do not use `genpath` on package folders.
+
+The supplied model data let you run MATLAB without installing SHARPy.
+Without MATLAB Coder or a compiler, omit the build and call
+`verifyBenchmarkInstallation` without requiring native kernels.
+`NativeKernelPolicy="auto"` uses the MATLAB implementations when needed,
+although controlled scheduled cases can take substantially longer.
+
+### Operating systems and compilers
+
+| System | MATLAB native build | SHARPy regeneration |
+| --- | --- | --- |
+| Windows | Supported MinGW or Microsoft Visual C++; prefer a local-drive checkout | Linux through WSL or the upstream container |
+| Linux | Supported GCC/G++; WSL is unnecessary | Native Linux installation |
+| macOS | Supported Xcode/Clang, matching MATLAB's architecture | Upstream macOS environment, including Fortran and numerical libraries |
+
+Choose a compiler from the [MathWorks requirements for your MATLAB release](https://www.mathworks.com/support/requirements/previous-releases.html).
+Inspect the selection with `mex.getCompilerConfigurations("C++","Selected")`.
+
+Windows MATLAB can also open a WSL checkout through its network path.
+A local-drive checkout avoids WSL file-notification warnings and network-file
+access problems for MATLAB-only runs. Linux and macOS use ordinary local
+paths; do not copy a Windows or WSL path from another machine.
+
+### Native tools
+
+`buildBenchmarkTools` builds fixed and scheduled interval kernels, full
+and reduced-tangent horizons, value-only horizons, and causal rollouts.
+The two fixtures in `MatlabFlex/configs/benchmark/native-build-fixtures`
+supply the code-generation dimensions and comparison inputs. Generated C++
+and MEX files are local build products.
+
+```matlab
+report = buildBenchmarkTools(Action="check"); % inspect existing binaries
+report = buildBenchmarkTools(Force=true);     % rebuild and compare with MATLAB
+```
+
+Caches are separated by MATLAB release, architecture, and source content.
+Rebuild after changing kernel code or moving to another platform.
+The builders use MATLAB Coder's compiler setup; a separate project CMake
+build is unnecessary. Numerical comparisons remain required before new
+binaries are accepted.
+
+## SHARPy setup and library regeneration
+
+This is needed only to regenerate or extend model data. Keep an existing
+working SHARPy environment. For a new installation, follow the
+[upstream installation guide](https://ic-sharpy.readthedocs.io/en/latest/content/installation.html)
+for Linux, macOS, Apple silicon, WSL, or a container. SHARPy builds XBeam
+and UVLM with CMake and needs C++, Fortran, Eigen, BLAS, and LAPACK.
+
+On Debian/Ubuntu, the system dependencies can be installed with:
+
+```sh
+sudo apt install cmake g++ gfortran libblas-dev liblapack-dev libeigen3-dev
+```
+
+Follow the upstream environment and installation steps to build those
+libraries. Record the upstream revision and settings with a new source
+library; different source versions or settings need fresh validation.
+
+From the benchmark root, in the Python environment containing SHARPy:
+
+```sh
+python TestBenchPazy/sweep_pazy_rom_library.py --speed 40 --alpha 1
+python TestBenchPazy/sweep_pazy_rom_library.py --speed 40 --alpha 1 --execute --open-loop-reference
+```
+
+The first command previews the grid; the second generates it and its
+open-loop reference. Repeat `--speed` and `--alpha` for a grid (all combinations).
+Outputs go to `TestBenchPazy/generated`, with each source preserved under
+`library_source/pazy_krylov_ROM/`. Use `--root` for another output directory.
+Keep these files separate from the supplied benchmark models.
+
+Convert each source to a MATLAB setup, then assemble the library:
+
+```matlab
+sourceRoot = fullfile(pwd,"TestBenchPazy","generated","library_source", ...
+    "pazy_krylov_ROM","pt_U040_alpha_p01");
+[setup,ok] = sim_init(sourceRoot, ...
+    'case_name',"pazy_krylov_ROM",'body_case',"wingOnly", ...
+    'sim_case',"openloop",'runner',"PlantROM",'debug',false);
+% Continue only when ok=true. Add other successful setup folders here.
+setupDirs = {setup.paths.run_dir};
+library = AeroFlex.sched.buildLibraryFromSetups(setupDirs, ...
+    'library_name',"my_library", ...
+    'save_path',fullfile(pwd,"TestBenchPazy","generated","my_library.mat"));
+```
+
+A one-point library permits only that condition. A scheduled library also
+needs coordinate compatibility, source-node checks, trim replay, and tests
+at intermediate conditions. Assembling files does not qualify interpolation.
+Do not overwrite individual production members or edit their checksums to
+insert a new model. Rebuilding source data and rebuilding MEX acceleration
+are separate steps.
+
+The [notebook](Benchmark.ipynb) and [packaging notes](docs/release-package.md)
+describe the retained generation tools and inputs.
+
+## Benchmark cases
 
 | Scenario | Description |
 | --- | --- |
@@ -22,229 +154,22 @@ validation, and post-processing are project-owned.
 | `B2` | Matched speed transition under gust |
 | `C` | Longitudinal trajectory tracking under gust |
 
-The Case-B interface retains the complete production scheduled runtime, including
-scheduled package/history ownership, current-package forecast context, state transport,
-scheduled guidance, compiled interval and horizon kernels, condensed RTI,
-packet reuse, the accelerated plant interval, rigid-wrench refinement, and
-safe endpoint behavior. The runner preserves failed validation evidence and
-never converts an incomplete physical gate into a qualification pass.
 
-The production binding deliberately leaves unqualified correction and
-condensation alternatives disabled. The resolved plan records every retained
-and intentionally disabled runtime owner so later integration cannot silently
-lose a qualified acceleration or reactivate a superseded candidate.
-
-The clamped wing-only gust-load-alleviation prerequisite remains separate from
-formal free-flight Case A. Wing-only uses rate projection off; coupled cases
-use their qualified coupled projection policy.
-
-## Dependencies and qualified environment
-
-| Dependency | Needed for | Qualified configuration |
-| --- | --- | --- |
-| Git and WSL Ubuntu | Clone, source generation, and the Linux-side model workspace | Repository stored in WSL and opened from MATLAB through `\\wsl.localhost` |
-| SHARPy with XBeam | Generate or regenerate structural/aerodynamic source models | Existing project SHARPy environment in WSL; upstream sources remain unchanged |
-| Windows MATLAB | Setup, simulation, control, post-processing, and tests | R2025b Update 5, 64-bit Windows; native-tool rebuild supported on R2023b--R2025b after local parity |
-| Control System Toolbox | State-space conversion, LQR design/application, and response analysis | Matching the MATLAB release |
-| Optimization Toolbox | `fmincon`, `quadprog`, `lsqnonlin`, and constrained trim/control references | Matching the MATLAB release |
-| MATLAB Coder | Build the project-owned native interval and horizon kernels | Matching the MATLAB release |
-| Supported C/C++ compiler | Compile MEX acceleration binaries | A compiler supported by the installed MATLAB release; every local build must pass parity |
-| HDF5 support | Exchange unchanged SHARPy model products and physical-output fields | MATLAB HDF5 functions and SHARPy's established Python environment |
-
-SHARPy/XBeam are required when generating model sources, but a packaged
-benchmark release can run from its supplied MATLAB/HDF5 assets.
-MATLAB Coder and a supported C/C++ compiler are required to build the native
-tools. Exact MATLAB implementations remain available when compatible binaries
-are absent, although scheduled controlled cases can be substantially slower.
-
-Confirm MATLAB toolbox and compiler availability with:
+Open [Run_Pazy_Benchmark.m](Run_Pazy_Benchmark.m) and edit its user settings.
+It starts in plan-only mode. Select `settings.entryMode="benchmark"`
+for formal cases, `"custom"` for custom maneuvers, or `"model_workflow"`
+for wing-only and general coupled runs. Enable execution after checking the plan.
 
 ```matlab
-ver
-mex.getCompilerConfigurations("C++","Selected")
-```
-
-If no compiler is selected, run `mex -setup C++` after installing a compiler
-supported by the installed MATLAB release.
-
-Native kernels are strongly recommended for controlled scheduled cases. Exact
-MATLAB implementations remain available when a compatible binary is absent,
-but runtime can be substantially longer.
-
-### First-time MATLAB and native-tool setup
-
-From the repository root in MATLAB, use this sequence on a new machine. Run
-the project setup before any build command; it adds the project build tools
-and package paths without using a recursive `genpath`.
-
-```matlab
-project = setupProject(ChangeCurrentFolder=true);
-assets = prepareBenchmarkReleaseAssets(Action="check");
-assert(assets.passed)
-
-mex -setup C++                         % once per MATLAB installation
-report = buildBenchmarkTools(Force=true,RunParity=true);
-assert(report.passed)
-
-installation = verifyBenchmarkInstallation( ...
-    RequireNativeKernels=true,ProjectInfo=project);
-assert(installation.passed)
-```
-
-`buildBenchmarkTools` is the supported build entry point: it supplies the
-physical MATLAB source files required by MATLAB Coder, builds all five native
-families, and checks each binary against its MATLAB reference before accepting
-it. Do not call the individual builders directly. If no compatible compiler or
-MATLAB Coder is available, omit the build steps and use
-`NativeKernelPolicy="auto"`; the exact MATLAB implementation remains the
-correctness fallback. `NativeKernelPolicy="required"` deliberately fails
-before a controlled run when the verified local cache is unavailable.
-
-## Clone and configure MATLAB
-
-Clone the repository in WSL, then open the same directory from Windows MATLAB
-through its WSL network path:
-
-```matlab
-cd('\\wsl.localhost\Ubuntu\home\<user>\Aircraft-Aeroelastic-Control-Benchmark')
-project = setupProject(ChangeCurrentFolder=true);
-```
-
-`setupProject` adds only the correct MATLAB package roots. Do not use `genpath`
-on `+AeroFlex` or `+RigidBody` directories.
-
-Verify the locked runtime-model payload supplied with a benchmark release:
-
-```matlab
-assets = prepareBenchmarkReleaseAssets(Action="check");
-assert(assets.passed)
-```
-
-Release maintainers can materialize the same hash-locked payload from a
-qualified source workspace into a clean packaging root:
-
-```matlab
-assets = prepareBenchmarkReleaseAssets( ...
-    Action="stage",DestinationRoot="C:\pazy-release-stage");
-assert(assets.passed)
-```
-
-Staging preserves the runtime-relative layout expected by the qualified
-owners, copies only the selected numerical and provenance files, reuses an
-existing byte-identical target, and refuses to overwrite a mismatch.
-
-To inspect or stage the complete curated source-and-data package, use
-`prepareBenchmarkReleasePackage`. It derives the live MATLAB dependency
-closure instead of excluding files solely from historical names. See
-[docs/release-package.md](docs/release-package.md) for the supplied-library,
-optional-regeneration, history, cache, and validation-example policy.
-
-Verify the Beam, Aero, Core/Base, plant, scheduling, control, trim, registry,
-all manifest-owned dynamic assets, and native-tool integration without
-running a model:
-
-```matlab
-status = verifyBenchmarkInstallation;
-assert(status.passed)
-```
-
-To require all accelerated components:
-
-```matlab
-status = verifyBenchmarkInstallation(RequireNativeKernels=true);
-```
-
-## Build the C/C++ MEX components
-
-Select a supported compiler once:
-
-```matlab
-mex -setup C++
-```
-
-Build every project-owned native component in dependency order:
-
-```matlab
-report = buildBenchmarkTools;
-assert(report.passed)
-```
-
-The build covers:
-
-1. fixed-source reciprocal interval propagation;
-2. scheduled reciprocal interval propagation;
-3. scheduled estimator/controller horizon and reduced-tangent kernels;
-4. scheduled estimator/controller value-horizon kernels;
-5. scheduled estimator/controller causal-rollout kernels.
-
-Each builder records the MATLAB release, architecture, compiler, source
-signature, binary hash, build time, numerical parity, and timing result.
-Caches are separated by MATLAB release, architecture, and source hash. Stale
-or incompatible binaries are rejected. A forced clean-source rebuild is:
-
-```matlab
-report = buildBenchmarkTools(Force=true,RunParity=true);
-```
-
-A read-only cache and toolchain check is:
-
-```matlab
-report = buildBenchmarkTools(Action="check");
-```
-
-Run the standalone native-tool unit and integration checks with:
-
-```matlab
-results = runtests("tests/test_native_tools.m");
-assertSuccess(results)
-```
-
-This suite builds missing kernels, reuses compatible caches, repeats numerical
-parity for all five native families, verifies cache manifests and binary
-hashes, and requires the complete accelerated installation to resolve.
-
-Compilation uses two compact, hash-locked fixtures under
-`MatlabFlex/configs/benchmark/native-build-fixtures`. They preserve the
-accepted code-generation dimensions and parity inputs without depending on a
-private simulation checkpoint. The builders verify the fixture hash, schema,
-and source-checkpoint provenance before compilation. These fixtures are build
-inputs only; benchmark execution continues to use the supplied locked
-production runtime library and the selected case configuration.
-
-SHARPy and XBeam are not built, patched, or copied by these commands.
-
-## Run from the polished script
-
-Open [Run_Pazy_Benchmark.m](Run_Pazy_Benchmark.m), edit the short user-settings
-section, and run the script. It defaults to plan-only mode so a long simulation
-cannot start accidentally. Set `settings.entryMode="benchmark"` for formal
-A/B cases or `settings.entryMode="model_workflow"` for wing-only and general
-coupled setup/execution.
-
-The programmatic equivalent is:
-
-```matlab
-[summary,plan] = runBenchmarkCase("A1",Execute=false);
-disp(plan)
-
+[~,plan] = runBenchmarkCase("A1",Execute=false);
 summary = runBenchmarkCase("A1", ...
-    FiguresVisible=true, ...
-    SavePlots=true, ...
-    NativeKernelPolicy="required");
+    FiguresVisible=true,SavePlots=true,NativeKernelPolicy="required");
 ```
 
-Case B uses the production scheduled runtime through the same interface:
-
-```matlab
-[~,plan] = runBenchmarkCase("B1",Execute=false);
-
-summary = runBenchmarkCase("B1", ...
-    NativeKernelPolicy="required");
-```
-
-Execution availability and benchmark qualification are recorded separately.
-B1/B2 retain every physical, solver, actuator, thrust, and source-domain
-acceptance threshold until the full-duration validation is complete.
+Use A2, A3, B1, or B2 in the same call. Case B retains scheduling, state
+transport, guidance, and compiled acceleration. Its full-duration validation
+is pending; a successful installation does not close that work. See the
+[case definitions](docs/cases.md) for commands and flight conditions.
 
 ## Custom commands and combined maneuvers
 
@@ -278,8 +203,8 @@ plant, estimator, controller, scheduler, fusion, or actuator state. When two
 operating points cannot be joined continuously inside the supported domain,
 they remain separate manifested runs until a transition is qualified. Formal
 A1--A3 and B1/B2 definitions remain unchanged by custom configurations.
-Altitude/lateral guidance and nonzero initial perturbations remain fail-closed
-until their dedicated runtime owners are qualified.
+Altitude/lateral guidance and nonzero initial perturbations are not yet
+supported by this custom interface.
 
 ## Wing-only and coupled open-loop workflows
 
@@ -292,9 +217,9 @@ The retained general setup/execution layer supports these model families:
 | `coupledFull` | `openloop` | No-control coupled trim/replay verification |
 | `coupledFull` | `nmhe_nmpc` | Full rigid-flexible estimation and control |
 
-A clean release includes the compact, hash-locked model inputs needed by
+A clean release includes the compact, model inputs needed by
 these workflows under `TestBenchPazy/`. `verifyBenchmarkInstallation` checks
-all eight files before reporting the general workflow ready. SHARPy/XBeam are
+all nine files before reporting the general workflow ready. SHARPy/XBeam are
 needed only to regenerate or extend those supplied source products.
 
 Generate a setup from the unchanged SHARPy outputs:
@@ -305,8 +230,7 @@ Generate a setup from the unchanged SHARPy outputs:
     'body_case',"wingOnly", ...
     'sim_case',"openloop", ...
     'runner',"PlantROM", ...
-    'gustOn',true);
-assert(ok)
+    'gustOn',true,'debug',false);
 ```
 
 The same operation is available from the centralized interface:
@@ -331,7 +255,6 @@ Then execute the serialized setup:
 ```matlab
 [ok,history] = sim_run("pazy_krylov_ROM","wingOnly", ...
     'setup_dir',setup.paths.run_dir);
-assert(ok)
 ```
 
 Use `sim_case="nmhe_nmpc"` for the closed wing-only path. For a coupled
@@ -340,27 +263,9 @@ no-gust open-loop verification use `body_case="coupledFull"`,
 ROM loading, trim, hashes, and native initialization are not charged to online
 per-step timing.
 
-## SHARPy-to-MATLAB model workflow
-
-The reproducible source workflow is:
-
-1. generate declared source points through project wrappers in the established
-   WSL SHARPy environment;
-2. retain unchanged SHARPy/XBeam source trees;
-3. export structural, aerodynamic, and premodal HDF5 products;
-4. assemble fixed-coordinate and physical-output sidecars in MATLAB;
-5. validate each source node and the production registry hashes;
-6. construct the wing-only or coupled runtime package;
-7. build or verify compatible native kernels;
-8. resolve a case plan and execute it.
-
-Source generation is explicit. MATLAB setup never downloads, regenerates, or
-silently substitutes a model. Extrapolation is rejected unless a separate
-validated study enables it.
-
 ## Results, metrics, and plots
 
-Formal facade runs use versioned result directories:
+Formal runs use a separate directory for each execution:
 
 ```text
 results/<case>/<run-id>/
@@ -407,7 +312,7 @@ and saves each standalone figure as both a 300-dpi PNG and a vector PDF under
 legends remain present so the exported figure is interpretable in a captioned
 paper layout.
 
-## Repository organization
+## Repository organization and further reading
 
 - `MatlabFlex/+AeroFlex/+beam`: structural model and recovery operators;
 - `MatlabFlex/+AeroFlex/+aero`: aerodynamic ROM and force maps;
@@ -421,14 +326,35 @@ paper layout.
 - `tools/matlab`: reproducible native builds and MATLAB utilities;
 - `TestBenchPazy`: local SHARPy/MATLAB exchange and generated run products.
 
+
+The main installation sequence is above. Detailed references remain in
+[case definitions](docs/cases.md), [outputs and plots](docs/outputs-and-plots.md),
+[standalone tests](tests/README.md), and [release packaging](docs/release-package.md).
+
 ## Troubleshooting
 
-If MATLAB cannot resolve a package, rerun `setupProject` and `rehash path`.
-If native verification fails, run `buildBenchmarkTools(Force=true)` and inspect
-the component report. If a scheduled source or package is missing, inspect the
-release-asset check, registry, and resolved plan; do not substitute a nearby
-source or enable extrapolation. Resume long cases only from a hash-matched
-checkpoint.
+| Symptom | What to check |
+| --- | --- |
+| `setupProject` unrecognized | Open the checkout containing that file, not its parent or an older checkout. |
+| Build tools or packages unrecognized | Rerun `setupProject`; check `which setupProject -all` for another checkout. |
+| All native families pass but Linux/macOS overall fails | Older releases had a Windows-only reporting check. Update the build and installation code. |
+| No C++ compiler selected | Install a compiler supported by your MATLAB release, then run `mex -setup C++`. |
+| Native cache stale or incompatible | Run `buildBenchmarkTools(Force=true)` and inspect `report.components`. |
+| Gain path contains backslashes on Linux | Update the path-handling fix and verify the release assets; do not rename data directories. |
+| `project_V.r` empty in wing-only setup | Retain `save_pmor_data/pazy_krylov_ROM_krylov_aerorob.h5` alongside `savedata` under the source output. |
+| WSL change-notification warning | Use a local-drive checkout if Windows MATLAB access to the WSL share is unreliable. |
+| No figure window | Use `FiguresVisible=true` for formal runs, or inspect saved plots when figures are hidden. |
+| Error after structural-test figures | These are setup diagnostics, not a completed run. Inspect the following error; 'debug',false omits the diagnostic. |
+| Source-domain rejection | Check flight conditions and run diagnostics. Disabling the check does not repair a model inconsistency. |
+
+`prepareBenchmarkReleaseAssets(Action="check")` checks runtime data.
+`AeroFlex.benchmark.verifyGeneralModelAssets(pwd,PrintSummary=true)`
+checks the nine shared inputs and returns individual file records.
+For a machine without a display, use hidden figures and MATLAB `-batch`.
+Avoid `-nojvm`: verification uses Java and figure generation needs graphics.
+
+See [troubleshooting details](docs/troubleshooting.md) for cache,
+data, and interrupted-run checks.
 
 ## Standalone validation examples
 

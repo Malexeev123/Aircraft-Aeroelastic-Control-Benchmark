@@ -10,7 +10,7 @@ arguments
     options.RunParity (1,1) logical = true
 end
 
-project = setupProject();
+project = setupProject(PrintSummary=false);
 repoRoot = char(project.repositoryRoot);
 entryPath = resolveBenchmarkCodegenEntry( ...
     "AeroFlex.ctrl.fixedReciprocalIntervalKernelAudit",project);

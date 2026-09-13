@@ -7,7 +7,7 @@ arguments
     options.TimingRepetitions (1,1) double {mustBeInteger,mustBePositive} = 3
 end
 
-project = setupProject();
+project = setupProject(PrintSummary=false);
 repoRoot = char(project.repositoryRoot);
 changeId = "phase18c-v17a-casebc-native-reduced-horizon-rti-audit-v1";
 assert(~isempty(which('coder.config')), ...
@@ -118,6 +118,9 @@ end
 function record = localBuildEntry(entry,cacheRoot,buildRoot,manifestPath, ...
         sourceSignature,releaseName,architecture,options,repoRoot)
 mexName = char(entry.mexName);
+% Keep generated support files separate for each entry point.
+buildRoot = fullfile(buildRoot,mexName);
+if ~isfolder(buildRoot), mkdir(buildRoot); end
 mexPath = fullfile(cacheRoot,[mexName,'.',mexext]);
 buildMexPath = fullfile(buildRoot,[mexName,'.',mexext]);
 cached = false;

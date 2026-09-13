@@ -4,7 +4,7 @@
 generation environment and the MATLAB benchmark. A release contains two
 deliberately separate parts:
 
-- a compact, hash-locked runtime payload under `cases/` and `output/`; and
+- model data under `cases/` and `output/`; and
 - the project-owned scripts needed to regenerate or extend raw SHARPy ROM
   source points.
 
@@ -13,8 +13,8 @@ Python and does not require SHARPy to be run first.
 
 ## Runtime payload
 
-The required FEM, aerodynamic, saved-state, Krylov ROM, operating-point, and
-modal matrix files are declared with SHA-256 hashes in
+The required FEM, aerodynamic, saved-state, Krylov ROM and projector,
+operating-point, and modal matrix files are declared with SHA-256 hashes in
 `MatlabFlex/configs/benchmark/pazy_general_model_assets_v1.json`. Verify them
 before a run:
 
@@ -31,7 +31,7 @@ dependencies.
 
 ## Generate a SHARPy source point
 
-Source generation runs in WSL using the established SHARPy environment. It
+Source generation runs in a SHARPy environment on Linux, macOS, or WSL. It
 requires Python, NumPy, SciPy, h5py, Matplotlib, SHARPy, and XBeam. Install
 SHARPy/XBeam using their official upstream instructions; this repository does
 not patch or vendor either dependency.
